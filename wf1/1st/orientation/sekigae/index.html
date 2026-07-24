@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>席替えツール</title>
+    <style>
+      body {
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        background-color: #f8f9fa;
+        text-align: center;
+        padding: 20px;
+      }
+      .controls {
+        background: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        display: inline-block;
+      }
+      select,
+      button {
+        font-size: 15px;
+        padding: 10px 15px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        margin: 5px;
+      }
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .teacher-desk {
+        background: #343a40;
+        color: #fff;
+        width: 450px;
+        margin: 0 auto 30px auto;
+        padding: 15px;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+
+      .classroom {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .desk-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .desk {
+        background: #fff;
+        border: 2px solid #dee2e6;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      .seat {
+        width: 47%;
+        height: 80px;
+        background: #fff;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+
+      .seat.empty {
+        background: #f1f3f5;
+        border: 1px dashed #ced4da;
+        color: #adb5bd;
+      }
+
+      .team-badge {
+        color: #fff;
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 10px;
+        margin-bottom: 4px;
+        font-weight: bold;
+      }
+
+      /* チームカラー設定 (A-K) */
+      .team-A {
+        background-color: #e63946;
+      }
+      .team-B {
+        background-color: #457b9d;
+      }
+      .team-C {
+        background-color: #2a9d8f;
+      }
+      .team-D {
+        background-color: #f4a261;
+      }
+      .team-E {
+        background-color: #8338ec;
+      }
+      .team-F {
+        background-color: #fb5607;
+      }
+      .team-G {
+        background-color: #3a86ff;
+      }
+      .team-H {
+        background-color: #70e000;
+      }
+      .team-I {
+        background-color: #ff006e;
+      }
+      .team-J {
+        background-color: #ffbe0b;
+      }
+      .team-K {
+        background-color: #3d348b;
+      }
+
+      .student-name {
+        font-size: 13px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <strong>モード選択：</strong>
+      <select id="modeSelect">
+        <option value="default">デフォルト</option>
+        <option value="random">ランダム</option>
+        <option value="pair">ペア</option>
+        <option value="2teams">2チーム</option>
+        <option value="3teams">3チーム</option>
+        <option value="4teams">4チーム</option>
+        <option value="6teams">6チーム</option>
+        <option value="7teams">7チーム</option>
+      </select>
+      <button onclick="executeSeating()">席替えを実行</button>
+    </div>
+
+    <div class="teacher-desk">ホワイトボード</div>
+    <div class="classroom" id="classroom"></div>
+
+    <script>
+      let students = [];
+
+      async function init() {
+        try {
+          const response = await fetch('students.json');
+          students = await response.json();
+        } catch (error) {
+          students = Array.from({ length: 22 }, (_, i) => `学生${i + 1}`);
+        }
+        renderEmptyClassroom();
+      }
+
+      function shuffle(array) {
+        const arr = [...array];
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      function executeSeating() {
+        const mode = document.getElementById('modeSelect').value;
+        let arrangedStudents = [...students];
+        if (mode !== 'default') arrangedStudents = shuffle(students);
+
+        // 30席分のデータ配列 (10席×3列)
+        let finalSeats = new Array(30).fill(null);
+        let studentIdx = 0;
+
+        if (mode === 'default' || mode === 'random' || mode === 'pair') {
+          // 前から4行目までに納める (島を跨ぐ場合は自然な流れで)
+          arrangedStudents.forEach((name, i) => {
+            // 4行制限の場合、1列あたり8席
+            const col = Math.floor(i / 8);
+            const posInCol = i % 8;
+            const targetPos = col * 10 + posInCol;
+
+            const teamChar =
+              mode === 'pair'
+                ? String.fromCharCode(65 + Math.floor(i / 2))
+                : null;
+            finalSeats[targetPos] = { name, team: teamChar };
+          });
+        } else if (mode === '2teams') {
+          // 左列全8席 + 中列の上3席 = 11名 (Team A)
+          // 中列の下5席 + 右列の上6席 = 11名 (Team B)
+          // ※4行制限 (計24席) で運用
+          arrangedStudents.forEach((name, i) => {
+            const teamChar = i < 11 ? 'A' : 'B';
+            const col = Math.floor(i / 8);
+            const posInCol = i % 8;
+            const targetPos = col * 10 + posInCol;
+            finalSeats[targetPos] = { name, team: teamChar };
+          });
+        } else if (mode === '3teams') {
+          const assignments = [
+            { count: 8, team: 'A', col: 0 },
+            { count: 7, team: 'B', col: 1 },
+            { count: 7, team: 'C', col: 2 },
+          ];
+          assignments.forEach((conf) => {
+            for (let i = 0; i < conf.count; i++) {
+              finalSeats[conf.col * 10 + i] = {
+                name: arrangedStudents[studentIdx++],
+                team: conf.team,
+              };
+            }
+          });
+        } else if (mode === '6teams') {
+          // 左(A:3, B:3)、中(C:4, D:4)、右(E:4, F:4)
+          const layout = [
+            {
+              island: 0,
+              teams: [
+                { id: 'A', size: 3 },
+                { id: 'B', size: 3 },
+              ],
+            },
+            {
+              island: 1,
+              teams: [
+                { id: 'C', size: 4 },
+                { id: 'D', size: 4 },
+              ],
+            },
+            {
+              island: 2,
+              teams: [
+                { id: 'E', size: 4 },
+                { id: 'F', size: 4 },
+              ],
+            },
+          ];
+          layout.forEach((islandConf) => {
+            let currentPos = 0;
+            islandConf.teams.forEach((team) => {
+              for (let s = 0; s < team.size; s++) {
+                finalSeats[islandConf.island * 10 + currentPos++] = {
+                  name: arrangedStudents[studentIdx++],
+                  team: team.id,
+                };
+              }
+            });
+          });
+        } else {
+          // 4, 7 チーム（5行使用・島を跨がないロジック）
+          let teamSizes =
+            mode === '4teams' ? [5, 5, 6, 6] : [3, 3, 4, 3, 3, 3, 3];
+          let currentIsland = 0;
+          let islandFilled = 0;
+
+          teamSizes.forEach((size, tIdx) => {
+            if (islandFilled + size > 10) {
+              currentIsland++;
+              islandFilled = 0;
+            }
+            const teamChar = String.fromCharCode(65 + tIdx);
+            for (let s = 0; s < size; s++) {
+              if (studentIdx < arrangedStudents.length) {
+                finalSeats[currentIsland * 10 + islandFilled++] = {
+                  name: arrangedStudents[studentIdx++],
+                  team: teamChar,
+                };
+              }
+            }
+          });
+        }
+
+        renderClassroom(finalSeats);
+      }
+
+      function renderClassroom(seats) {
+        const classroom = document.getElementById('classroom');
+        classroom.innerHTML = '';
+        for (let col = 0; col < 3; col++) {
+          const colDiv = document.createElement('div');
+          colDiv.className = 'desk-group';
+          for (let row = 0; row < 5; row++) {
+            const deskIdx = col * 5 + row;
+            const desk = document.createElement('div');
+            desk.className = 'desk';
+            desk.appendChild(createSeatElement(seats[deskIdx * 2]));
+            desk.appendChild(createSeatElement(seats[deskIdx * 2 + 1]));
+            colDiv.appendChild(desk);
+          }
+          classroom.appendChild(colDiv);
+        }
+      }
+
+      function renderEmptyClassroom() {
+        renderClassroom(new Array(30).fill(null));
+      }
+
+      function createSeatElement(data) {
+        const seat = document.createElement('div');
+        seat.className = 'seat';
+        if (data) {
+          const teamClass = data.team ? `team-${data.team}` : '';
+          const badge = data.team
+            ? `<div class="team-badge ${teamClass}">Team ${data.team}</div>`
+            : '';
+          seat.innerHTML = `${badge}<div class="student-name">${data.name}</div>`;
+        } else {
+          seat.classList.add('empty');
+          seat.innerHTML = `<div class="student-name">-</div>`;
+        }
+        return seat;
+      }
+
+      window.onload = init;
+    </script>
+  </body>
+</html>

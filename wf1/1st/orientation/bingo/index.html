@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>共通点ビンゴ5×5 - オリエンテーション用</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+
+      body {
+        font-family:
+          'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans',
+          Meiryo, sans-serif;
+        text-align: center;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 190mm;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 22pt;
+        margin: 5mm 0;
+        border-bottom: 2px solid #333;
+        display: inline-block;
+      }
+
+      p.description {
+        font-size: 10pt;
+        margin-bottom: 5mm;
+        line-height: 1.4;
+      }
+
+      /* 5x5のグリッド設定 */
+      .bingo-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 1.5mm;
+        width: 190mm;
+        height: 230mm; /* A4の縦に合わせたサイズ */
+      }
+
+      .cell {
+        border: 1pt solid #333;
+        padding: 1.5mm;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #fff;
+        box-sizing: border-box;
+      }
+
+      .item-name {
+        font-weight: bold;
+        font-size: 10.5pt;
+        height: 2.2em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 0.5pt dashed #ccc;
+        margin-bottom: 1.5mm;
+      }
+
+      /* FREEマスのスタイル */
+      .cell.free {
+        background-color: #f0f0f0;
+      }
+      .cell.free .item-name {
+        font-size: 18pt;
+        color: #d9534f;
+        border: none;
+      }
+
+      .answer-field {
+        text-align: left;
+        font-size: 8pt;
+      }
+
+      .answer-line {
+        margin-bottom: 2mm;
+      }
+
+      .answer-line span {
+        display: inline-block;
+        width: 100%;
+        border-bottom: 1px solid #999;
+        margin-top: 1mm;
+        height: 1.1em;
+      }
+
+      .controls {
+        margin: 20px;
+        padding: 15px;
+        background: #e9ecef;
+        border-radius: 8px;
+      }
+
+      @media print {
+        .controls {
+          display: none;
+        }
+      }
+
+      button {
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        margin: 0 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="controls">
+      <button onclick="location.reload()">配置をシャッフル</button>
+      <button onclick="window.print()">印刷する</button>
+    </div>
+
+    <div class="container">
+      <h1>共通点ビンゴ！</h1>
+      <p class="description">
+        全員同じ項目が入っていますが、配置はバラバラです。<br />
+        自分と同じ回答の人を探して名前を記入し、縦・横・斜めのいずれかを揃えましょう！
+      </p>
+
+      <div id="bingoGrid" class="bingo-grid"></div>
+    </div>
+
+    <script>
+      const baseItems = [
+        '出身地（都道府県）',
+        '血液型',
+        '誕生日の月',
+        '誕生日の日',
+        '星座',
+        '何人兄弟',
+        '身長',
+        '足のサイズ',
+        '趣味',
+        '中学時の部活',
+        '高校時の部活',
+        '好きな食べ物',
+        '嫌いな食べ物',
+        '得意な科目',
+        '苦手な科目',
+        '好きな色',
+        '好きなアーティスト',
+        '好きな漫画・アニメ',
+        '好きなTV番組',
+        '好きな場所',
+        '好きな季節',
+        '将来の夢',
+        '飼っているペット',
+        '最近ハマっていること',
+      ];
+
+      function generateBingo() {
+        const grid = document.getElementById('bingoGrid');
+        // 24個の項目をシャッフル
+        const shuffled = baseItems.sort(() => 0.5 - Math.random());
+
+        // 25マスの配列を作る（12番目が中央）
+        let finalItems = [];
+        for (let i = 0; i < 25; i++) {
+          if (i === 12) {
+            finalItems.push('FREE');
+          } else {
+            finalItems.push(shuffled.pop());
+          }
+        }
+
+        finalItems.forEach((item, index) => {
+          const cell = document.createElement('div');
+          cell.className = 'cell' + (item === 'FREE' ? ' free' : '');
+
+          let content = '';
+          if (item === 'FREE') {
+            content = `
+                        <div class="item-name">FREE</div>
+                        <div style="font-size:8pt; color:#666;">（最初から空いてるよ！）</div>
+                    `;
+          } else {
+            content = `
+                        <div class="item-name">${item}</div>
+                        <div class="answer-field">
+                            <div class="answer-line">自分: <span></span></div>
+                            <div class="answer-line">相手: <span></span></div>
+                        </div>
+                    `;
+          }
+          cell.innerHTML = content;
+          grid.appendChild(cell);
+        });
+      }
+
+      window.onload = generateBingo;
+    </script>
+  </body>
+</html>
