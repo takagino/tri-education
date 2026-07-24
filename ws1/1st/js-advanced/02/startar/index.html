@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>配列の復習</title>
+</head>
+
+<body>
+    <ul></ul>
+    <script>
+        const scores = [10, 20, 30];
+        console.log(scores.length);
+
+        scores[1] = 100;
+        console.log(scores);
+
+        for (let i = 0; i < scores.length; i++) {
+            console.log(scores[i]);
+        }
+
+        scores.forEach((score, index) => {
+            console.log(`${index}: ${score}`);
+        });
+
+        scores.push(40, 50);
+        scores.unshift(-10, 0);
+        scores.pop();
+        scores.shift();
+        scores.splice(1, 1, 60, 70);
+        console.log(scores.join(' / '));
+        console.log(scores);
+        console.log(scores.indexOf(100));
+        console.log(scores.includes(10));
+
+        const scores2 = [10, 20, 30];
+        scores2.splice(1, 0, 40, 50);
+        scores2.push(60);
+        console.log(scores2);
+
+        const prices = [180, 190, 200];
+        const updatePrices = prices.map((price, index) => price + index);
+
+        console.log(updatePrices);
+
+        const numbers = [1, 4, 7, 8, 10];
+        const evenNumbers = numbers.filter(number => number % 2 == 0);
+
+        console.log(evenNumbers);
+
+        const numbers2 = [];
+
+        // 1.1から100までの連番が入った配列を生成する。
+        for (let i = 1; i <= 100; i++) {
+            numbers2.push(i);
+        }
+        console.log(numbers2);
+
+        // 2. 上記の配列から3の倍数の値だけを取り出した配列を生成する。
+        const threeNumbers = numbers2.filter(number => number % 3 == 0);
+        console.log(threeNumbers);
+
+        // 3. 上記の配列の値を2乗した値が入った配列を生成する。
+        const powerNumbres = threeNumbers.map(number => Math.pow(number, 2));
+        console.log(powerNumbres);
+
+        const otherScores = [40, 50];
+        const scores3 = [10, 20, 30, ...otherScores];
+        console.log(scores3);
+
+        const text = 'Hello World';
+        const textArray = [...text].filter(text => text != " ");
+
+        const ul = document.querySelector('ul');
+        textArray.forEach(text => {
+            const li = document.createElement('li');
+            li.textContent = text;
+            ul.append(li);
+            console.log(li);
+        });
+
+
+
+        const scores4 = [10, 20];
+
+        const sum = (a, b) => {
+            return a + b;
+        };
+
+        const result = sum(...scores4); //scores4[0], scores4[1]
+        console.log(result);
+
+        const scores5 = [10, 20, 30];
+        const otherScores5 = [...scores5];
+        scores5[0] = 0;
+        console.log(otherScores5);
+
+        const scores6 = [10, 20, 30, 40, 50];
+        const [a, b, ...others] = scores6;
+        console.log(a, b, others);
+    </script>
+</body>
+
+</html>

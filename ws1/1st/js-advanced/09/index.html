@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supabase</title>
+  </head>
+  <body>
+    <!-- Supabase本体のスクリプト -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <script>
+      // SupabaseのURLと公開キーを設定
+      const supabaseUrl = 'https://xxxxxxxx.supabase.co'; // 自分のURL
+      const supabaseKey = 'public-anon-key'; // 自分の公開キー
+      const client = supabase.createClient(supabaseUrl, supabaseKey);
+      console.log(client);
+    </script>
+  </body>
+</html>

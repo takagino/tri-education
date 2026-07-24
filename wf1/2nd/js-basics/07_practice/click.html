@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <img id="monster" src="https://trident.takagino.net/doc2022/javascript/assets/03/monster.png" />
+    <p id="hp"></p>
+
+    <script>
+      const monster = document.getElementById("monster");
+      const hp = document.getElementById("hp");
+
+      let count = 10;
+      hp.innerHTML = `HP:${count}`;
+
+      monster.addEventListener("click", function () {
+        if (count > 0) {
+          hp.innerHTML = `HP:${(count -= 1)}`;
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>繰り返し処理</title>
+</head>
+<body>
+  <script>
+    /* Q1 */
+    for (let i = 0; i <= 20; i += 1) {
+      if (i % 2 === 0) {
+        console.log(i);
+      }
+    }
+
+    /* Q2 */
+    for (let i = 0; i <= 20; i += 1) {
+      if (i % 2 === 1) {
+        console.log(i);
+      }
+    }
+
+    /* Q3 */
+    for (let i = 0; i < 10; i += 1) {
+      console.log('ばなな');
+    }
+
+    /* Q4 */
+    let sum = 0;
+    for (let i = 0; i <= 1000; i++) {
+      sum += i;
+    }
+    console.log(sum);
+  </script>
+</body>
+</html>

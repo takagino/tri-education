@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クリックゲーム</title>
+    <style>
+      h1 {
+        font-size: 24px;
+        text-align: center;
+      }
+      .monster-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .monster {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 3;
+        text-align: center;
+      }
+
+      .monster img {
+        width: 200px;
+        justify-self: center;
+        align-self: center;
+        cursor: pointer;
+      }
+
+      .monster.deth img {
+        opacity: 0.2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>全てのモンスターをクリックで倒せ！</h1>
+    <div class="monster-container"></div>
+
+    <script>
+      const monsters = [
+        {
+          name: 'カマキリ',
+          pic: 'https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png',
+          hp: 4,
+        },
+        {
+          name: 'ピンクカバ',
+          pic: 'https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png',
+          hp: 6,
+        },
+        {
+          name: 'ゴリラ',
+          pic: 'https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png',
+          hp: 8,
+        },
+      ];
+
+      const monsterContainer = document.querySelector('.monster-container');
+
+      monsters.forEach((monster) => {
+        const monsterDiv = document.createElement('div');
+        monsterDiv.classList.add('monster');
+
+        const nameEl = document.createElement('p');
+        nameEl.textContent = monster.name;
+
+        const imgEl = document.createElement('img');
+        imgEl.src = monster.pic;
+        imgEl.alt = monster.name;
+
+        const hpEl = document.createElement('p');
+        hpEl.textContent = `HP: ${monster.hp}`;
+
+        imgEl.addEventListener('click', () => {
+          if (monster.hp <= 0) {
+            return;
+          }
+
+          monster.hp--;
+          hpEl.textContent = `HP: ${monster.hp}`;
+
+          if (monster.hp <= 0) {
+            monsterDiv.classList.add('deth');
+            nameEl.textContent = `${monster.name}は倒れた`;
+          }
+        });
+
+        monsterDiv.append(nameEl, imgEl, hpEl);
+        monsterContainer.append(monsterDiv);
+      });
+    </script>
+  </body>
+</html>

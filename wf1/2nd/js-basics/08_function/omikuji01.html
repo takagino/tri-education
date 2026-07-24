@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>おみくじランダム</title>
+  </head>
+  <body>
+    <div>
+      <button class="start">start</button>
+      <button class="stop">stop</button>
+    </div>
+    <img
+      class="pic"
+      src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png"
+      alt=""
+    />
+
+    <script>
+      const url = "https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/";
+      const files = ["daikichi.png", "chuukichi.png", "syoukichi.png", "kyou.png", "daikyou.png"];
+
+      console.log(`${url}${files[0]}`);
+    </script>
+  </body>
+</html>

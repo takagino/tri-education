@@ -1,0 +1,242 @@
+@use "sass:math";
+
+// =================================================================
+//  Variables
+// =================================================================
+
+// --- Spacing ---
+$space-s: 0.5rem; // 8px
+$space-m: 1rem; // 16px
+$space-l: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-xxl: 2.5rem; // 40px
+$space-xxxl: 3rem; // 48px
+
+// --- Colors ---
+$color-text: #5A5A5A;
+$color-base: #2B2B2B;
+$color-main: #ED145B;
+$color-accent: #EDAA14;
+$color-bg: #000;
+
+// --- Typography ---
+$font-size-base: 16;
+$font-family-gothic: Verdana, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+$font-family-mincho: "Times New Roman", Times, "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+
+// --- Breakpoints ---
+$breakpoints: (
+  "tablet": 480px,
+  "desktop": 640px
+);
+
+
+// =================================================================
+//  Functions
+// =================================================================
+
+// pxをremに変換する
+// @param {number} $px-value - px値
+// @return {string} - rem値
+@function rem($px-value) {
+  @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// XDのトラッキング値をemに変換する
+// @param {number} $xd-value - XDのトラッキング値
+// @return {string} - em値
+@function ls($xd-value) {
+  @return #{math.div($xd-value, 1000)}em;
+}
+
+
+// =================================================================
+//  Mixins
+// =================================================================
+
+// メディアクエリ (モバイルファースト)
+// @param {string} $breakpoint - $breakpointsのキー
+@mixin mq($breakpoint: desktop) {
+  @media (width >=map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// インナー幅の指定
+// @param {number} $mw - max-width
+// @param {number} $w  - width
+@mixin inner($mw: 900px, $w: percentage(math.div(560, 640))) {
+  max-width: $mw;
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin title-main() {
+  margin-bottom: $space-xxxl;
+  color: $color-base;
+  font-size: rem(32);
+  font-weight: bold;
+  line-height: math.div(38, 32);
+  text-align: center;
+}
+
+// =================================================================
+//  Common
+// =================================================================
+
+body {
+  color: $color-text;
+  font-size: rem(14);
+  font-family: $font-family-gothic;
+  line-height: math.div(24, 14);
+  letter-spacing: ls(25);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+// :focus-visible {
+//   // ブラウザ標準の青枠などを復活させる
+//   outline: revert;
+//   outline-offset: 2px;
+// }
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: $space-xxl 0;
+  background-color: rgba($color: $color-base, $alpha: .8);
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.gnav {
+  &__list {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: rem(30);
+  }
+
+  &__item {
+    font-weight: bold;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  & &__active {
+    color: $color-main;
+  }
+}
+
+.footer {
+  padding: $space-xxl 0 rem(140);
+  background-color: $color-base;
+  color: #fff;
+
+  &__inner {
+    @include inner();
+  }
+}
+
+.post {
+  &__pic {
+    margin-bottom: $space-l;
+  }
+
+  &__title {
+    margin-bottom: $space-m;
+    padding-bottom: $space-m;
+    border-bottom: 1px solid $color-text;
+    color: $color-base;
+    font-size: rem(16);
+    font-weight: bold;
+    line-height: math.div(19, 16);
+  }
+}
+
+.btn {
+  display: block;
+  width: rem(200);
+  margin-top: $space-xxxl;
+  padding: 15px;
+  background-color: $color-main;
+  color: #fff;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+
+  &--info {
+    background-color: $color-accent;
+  }
+}
+
+// =================================================================
+//  Index.html
+// =================================================================
+.mainvisual {
+  padding: rem(240) 0 rem(140);
+  background: url(../images/bg_mainvisual.png) no-repeat center/cover;
+  color: #fff;
+
+  @include mq() {
+    text-align: center;
+  }
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    margin-bottom: $space-xxl;
+    font-size: rem(46);
+    font-weight: bold;
+    line-height: math.div(55, 46);
+
+    span {
+      color: $color-main;
+    }
+  }
+
+  .btn {
+    @include mq() {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}
+
+.updates {
+  padding: rem(120) 0;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main();
+  }
+
+  &__list {
+    display: grid;
+    row-gap: rem(60);
+
+    @include mq() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: rem(60);
+    }
+  }
+}

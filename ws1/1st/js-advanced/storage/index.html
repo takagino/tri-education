@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="">
+      <input type="file" /><br />
+      <button>アップロード</button>
+      <p id="msg"></p>
+      <p><a href="./browser.html">見る</a></p>
+    </form>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js';
+      import {
+        getStorage,
+        ref,
+        uploadBytesResumable,
+        getDownloadURL,
+      } from 'https://www.gstatic.com/firebasejs/11.5.0/firebase-storage.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyD5aE2BZ73zptpsVMhvki7SFroJHiB01Oc',
+        authDomain: 'test-78fed.firebaseapp.com',
+        projectId: 'test-78fed',
+        storageBucket: 'test-78fed.firebasestorage.app',
+        messagingSenderId: '722658321754',
+        appId: '1:722658321754:web:f95ad856c7e732b37f3f63',
+        storageBucket: 'test-78fed.firebasestorage.app',
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const storage = getStorage(app);
+
+      console.log('Firebase Storage initialized:', storage);
+
+      const metadata = {
+        contentType: 'image/jpeg',
+      };
+
+      const fileInput = document.querySelector('input[type="file"]');
+      const uploadButton = document.querySelector('button');
+      const msg = document.getElementById('msg');
+      const msgText = 'アップロード中...';
+      const msgText2 = 'アップロード完了';
+
+      uploadButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const file = fileInput.files[0];
+        if (file) {
+          console.log('Selected file:', file);
+          uploadFile(file);
+        } else {
+          console.error('No file selected');
+        }
+      });
+
+      const uploadFile = (file) => {
+        const storageRef = ref(storage, 'images/' + file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            msg.textContent = msgText;
+            switch (snapshot.state) {
+              case 'paused':
+                console.log('Upload is paused');
+                break;
+              case 'running':
+                console.log('Upload is running');
+                break;
+            }
+          },
+          (error) => {
+            switch (error.code) {
+              case 'storage/unauthorized':
+                break;
+              case 'storage/canceled':
+                break;
+              case 'storage/unknown':
+                break;
+            }
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              console.log('File available at', downloadURL);
+              msg.textContent = msgText2;
+
+              const img = document.createElement('img');
+              img.src = downloadURL;
+              img.style.width = '200px';
+              document.body.appendChild(img);
+            });
+          }
+        );
+      };
+    </script>
+  </body>
+</html>

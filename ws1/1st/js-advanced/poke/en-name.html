@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PokeAPI Fetch Sample</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+      }
+      img {
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ポケモン検索</h1>
+    <input type="text" id="pokemonName" placeholder="例: pikachu" />
+    <button id="searchBtn">検索</button>
+    <div id="result"></div>
+
+    <script>
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const name = document.getElementById('pokemonName').value.toLowerCase();
+        const url = `https://pokeapi.co/api/v2/pokemon/${name}`;
+
+        fetch(url)
+          .then((response) => {
+            console.log(response.ok);
+            if (!response.ok) {
+              throw new Error('ポケモンが見つかりません');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const image = data.sprites.front_default;
+            const types = data.types.map((t) => t.type.name).join(', ');
+            const html = `
+            <h2>${data.name}</h2>
+            <img src="${image}" alt="${data.name}" />
+            <p><strong>タイプ:</strong> ${types}</p>
+          `;
+            document.getElementById('result').innerHTML = html;
+          })
+          .catch((error) => {
+            document.getElementById(
+              'result'
+            ).innerHTML = `<p style="color:red;">${error.message}</p>`;
+          });
+      });
+    </script>
+  </body>
+</html>

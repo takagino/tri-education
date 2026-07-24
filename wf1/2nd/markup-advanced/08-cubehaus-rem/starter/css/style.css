@@ -1,0 +1,249 @@
+body {
+  color: #000;
+  font-size: 0.875rem;
+  font-family: "Helvetica Neue", Arial, "Yu Gothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  line-height: 1.7142857143;
+  letter-spacing: 0.05em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+.header {
+  padding: 2.5rem 0;
+}
+.header__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.header__logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.2083333333;
+  letter-spacing: 0.1em;
+}
+
+.gnav__list {
+  display: grid;
+  grid-auto-flow: column;
+  -moz-column-gap: 1.875rem;
+       column-gap: 1.875rem;
+}
+.gnav__item {
+  font-size: 0.75rem;
+  line-height: 1.1666666667;
+}
+.gnav__active {
+  color: #E40065;
+}
+
+.footer {
+  padding: 5rem 0;
+  background-color: #2F2F2F;
+  color: #fff;
+  text-align: center;
+}
+.footer__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer__copy {
+  font-size: 0.75rem;
+  font-weight: bold;
+  line-height: 1.6666666667;
+}
+
+.post__pic {
+  position: relative;
+}
+.post--new .post__pic::after {
+  content: "NEW";
+  display: block;
+  background-color: #E40065;
+  position: absolute;
+  left: 0.9375rem;
+  bottom: 0.9375rem;
+}
+
+.card {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  row-gap: 2.5rem;
+  padding: 3rem 2.5rem;
+  border: 1px solid #a3a3a3;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.profile {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+}
+.profile__term {
+  font-weight: bold;
+}
+
+.mainvisual {
+  padding-bottom: 5rem;
+}
+.mainvisual__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.philosophy {
+  padding-bottom: 7.5rem;
+}
+.philosophy__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.philosophy__title {
+  margin-bottom: 3.75rem;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.6875;
+  text-align: center;
+}
+.philosophy__title::before {
+  content: "philosophy";
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.philosophy__title::after {
+  content: "";
+  display: block;
+  width: 6.25rem;
+  margin: 1.5rem auto 0;
+  border-bottom: 2px solid #E40065;
+}
+.philosophy__text {
+  max-width: 48.75rem;
+  margin: auto;
+  display: grid;
+  row-gap: 3.75rem;
+  text-align: center;
+}
+.philosophy__text p {
+  line-height: 2.4285714286;
+  overflow-wrap: anywhere;
+}
+@media (width >= 500px) {
+  .philosophy__text p {
+    word-break: keep-all;
+  }
+}
+
+.works {
+  padding-bottom: 7.5rem;
+}
+.works__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.works__title {
+  margin-bottom: 3.75rem;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.6875;
+  text-align: center;
+}
+.works__title::before {
+  content: "works";
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.works__title::after {
+  content: "";
+  display: block;
+  width: 6.25rem;
+  margin: 1.5rem auto 0;
+  border-bottom: 2px solid #E40065;
+}
+.works__list {
+  display: grid;
+  row-gap: 3.75rem;
+}
+@media (width >= 640px) {
+  .works__list {
+    grid-template-columns: repeat(2, 1fr);
+    -moz-column-gap: 5rem;
+         column-gap: 5rem;
+  }
+}
+
+.voice {
+  padding: 5rem 0 7.5rem;
+  background-color: #F4F4F4;
+}
+.voice__inner {
+  max-width: 1000px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.voice__title {
+  margin-bottom: 3.75rem;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.6875;
+  text-align: center;
+}
+.voice__title::before {
+  content: "voice";
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: normal;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.voice__title::after {
+  content: "";
+  display: block;
+  width: 6.25rem;
+  margin: 1.5rem auto 0;
+  border-bottom: 2px solid #E40065;
+}
+.voice__list {
+  display: grid;
+  row-gap: 3.75rem;
+}
+@media (width >= 640px) {
+  .voice__list {
+    grid-template-columns: repeat(2, 1fr);
+    -moz-column-gap: 5rem;
+         column-gap: 5rem;
+  }
+}
+/*# sourceMappingURL=style.css.map */

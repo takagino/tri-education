@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ポケモン</title>
+</head>
+
+<body>
+    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+    <button id="submit">取得</button>
+    <button id="save">保存</button>
+    <button id="delete">削除</button>
+
+    <div class="container"></div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const pokemonName = document.querySelector('#pokemonName');
+        const submitBtn = document.querySelector('#submit');
+        const saveBtn = document.querySelector('#save');
+        const deleteBtn = document.querySelector('#delete');
+
+        let pokemonData = null;
+
+        saveBtn.addEventListener('click', () => {
+            if (!pokemonData) {
+                container.textContent = 'ポケモンデータがありません。まずポケモンを検索してください。';
+                return;
+            }
+
+            const val = encodeURIComponent(JSON.stringify(pokemonData));
+            localStorage.setItem('pokemonData', val);
+            container.textContent = 'ポケモンデータを保存しました。';
+        });
+
+        deleteBtn.addEventListener('click', () => {
+            localStorage.removeItem('pokemonData');
+            container.textContent = 'ポケモンデータを削除しました。';
+        });
+
+        submitBtn.addEventListener('click', () => {
+            container.textContent = '取得中...';
+
+            const name = pokemonName.value;
+            if (!name) {
+                container.textContent = '名前を入力してください。';
+                return;
+            }
+
+            fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    container.textContent = '取得完了!';
+
+                    showPokemon(data);
+                    pokemonData = data;
+                })
+                .catch(error => container.textContent = '取得失敗!')
+                .finally(() => console.log('Finished!'));
+        });
+
+        const showPokemon = (data) => {
+            const pokemon = `
+					<h2>${data.name}</h2>
+					<img src="${data.sprites.front_default}" alt="${data.name}">
+					<ul>
+						${data.abilities.map((ability) => `<li>${ability.ability.name}</li>`).join('')}
+					</ul>
+
+					<p>身長：${data.height}デシメートル</p>
+					<p>体重：${data.weight}ヘクトグラム</p>
+					<ul>
+						${data.types.map((item) => `<li>${item.type.name}</li>`).join('')}
+					</ul>
+				`;
+
+            container.insertAdjacentHTML('beforeend', pokemon);
+        };
+
+        const storedPokemonData = localStorage.getItem('pokemonData');
+        if (storedPokemonData !== null) {
+            pokemonData = JSON.parse(decodeURIComponent(storedPokemonData));
+            showPokemon(pokemonData);
+        }
+    </script>
+</body>
+
+</html>

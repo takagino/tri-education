@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Typing</title>
+    <style>
+      body {
+        padding-top: 40px;
+        font-family: 'Courier New', monospace;
+        text-align: center;
+      }
+
+      #target {
+        font-size: 48px;
+        letter-spacing: 0.1em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <p id="target">word</p>
+    <p id="result"></p>
+
+    <script>
+      const targetEl = document.querySelector('#target');
+
+      const word = 'red';
+      targetEl.textContent = word;
+      let loc = 0;
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== word[loc]) return;
+
+        loc++;
+        target.textContent = '_'.repeat(loc) + word.substring(loc);
+      });
+    </script>
+  </body>
+</html>

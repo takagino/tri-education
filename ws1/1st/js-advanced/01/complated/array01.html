@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>array01.html</title>
+  </head>
+  <body>
+    <button class="btn">#f00</button>
+    <button class="btn">#0f0</button>
+    <button class="btn">#00f</button>
+    <script>
+      const btn = document.querySelectorAll('.btn');
+
+      btn.forEach((element) => {
+        element.style.backgroundColor = element.textContent;
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3択クイズ - 応用01</title>
+    <style>
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container"></div>
+    <script>
+      const quizData = [
+        {
+          question: 'HTMLとは何の略ですか？',
+          choices: {
+            a: 'Hyper Text Markup Language',
+            b: 'High Transfer Machine Language',
+            c: 'Hyperlink and Text Modeling Language',
+          },
+          answer: 'a',
+        },
+        {
+          question: 'CSSとは何の略ですか？',
+          choices: {
+            a: 'Cascading Style Sheets',
+            b: 'Computer Style Syntax',
+            c: 'Color Sheet Script',
+          },
+          answer: 'a',
+        },
+        {
+          question: 'JSONとは何の略ですか？',
+          choices: {
+            a: 'Java Script Object Notation',
+            b: 'Java Serialized Object Name',
+            c: 'Java Source Output Network',
+          },
+          answer: 'a',
+        },
+        {
+          question: 'UIとは何の略ですか？',
+          choices: {
+            a: 'User Interface',
+            b: 'Unified Integration',
+            c: 'Universal Interaction',
+          },
+          answer: 'a',
+        },
+        {
+          question: 'UXとは何の略ですか？',
+          choices: {
+            a: 'User Experience',
+            b: 'Unified Example',
+            c: 'Universal Explosion',
+          },
+          answer: 'a',
+        },
+      ];
+
+      const container = document.querySelector('.container');
+      let currentQuiz = 0;
+      let score = 0;
+      const limit = 3; // 3問で終了
+
+      const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+
+        return array;
+      };
+
+      let shuffledQuizData = shuffle([...quizData]);
+      console.log(shuffledQuizData);
+
+      const loadQuiz = () => {
+        container.innerHTML = '';
+
+        const currentQuizData = shuffledQuizData[currentQuiz];
+        const questionEl = document.createElement('h2');
+        questionEl.textContent = currentQuizData.question;
+        container.append(questionEl);
+
+        const choicesEl = document.createElement('div');
+        for (const [key, value] of Object.entries(currentQuizData.choices)) {
+          const choiceBtn = document.createElement('button');
+          choiceBtn.textContent = value;
+          choiceBtn.setAttribute('name', 'answer');
+          choiceBtn.setAttribute('value', key);
+          choiceBtn.addEventListener('click', () => {
+            if (key === currentQuizData.answer) {
+              score++;
+            }
+            currentQuiz++;
+            if (currentQuiz < limit) {
+              loadQuiz();
+            } else {
+              container.innerHTML = `<h2>あなたのスコアは ${score} / ${limit} です</h2>`;
+              const restartBtn = document.createElement('button');
+              restartBtn.textContent = '再挑戦';
+              restartBtn.addEventListener('click', () => {
+                currentQuiz = 0;
+                score = 0;
+                shuffledQuizData = shuffle([...quizData]);
+                loadQuiz();
+              });
+              container.append(restartBtn);
+            }
+          });
+          choicesEl.append(choiceBtn);
+        }
+        container.append(choicesEl);
+      };
+
+      loadQuiz();
+    </script>
+  </body>
+</html>

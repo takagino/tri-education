@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>非同期処理</title>
+  </head>
+
+  <body>
+    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+    <button id="submit">ポケモンを取得</button>
+    <div class="container"></div>
+    <script>
+      const container = document.querySelector('.container');
+      const submitButton = document.querySelector('#submit');
+      const pokemonNameInput = document.querySelector('#pokemonName');
+
+      submitButton.addEventListener('click', () => {
+        const pokemonName = pokemonNameInput.value;
+        if (!pokemonName) {
+          container.textContent = 'ポケモンの名前を入力してください';
+          return;
+        }
+
+        container.textContent = '取得中...';
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            container.textContent = '';
+
+            showPokemon(data);
+          })
+          .catch((error) => console.error(`Error: ${error}`))
+          .finally(() => console.log('Finished!'));
+      });
+
+      //取得したデータを画面に表示する関数
+      const showPokemon = (data) => {
+        const pokemon = `
+          <h2>${data.name}</h2>
+          <img src="${data.sprites.front_default}" alt="${data.name}">
+          <ul>
+            ${data.abilities.map((ability) => `<li>${ability.ability.name}</li>`).join('')}
+          </ul>
+        `;
+
+        container.insertAdjacentHTML('beforeend', pokemon);
+      };
+    </script>
+  </body>
+</html>

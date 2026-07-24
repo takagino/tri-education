@@ -1,0 +1,262 @@
+@use 'sass:math';
+
+$color-text: #31353b;
+$color-main: #ff9900;
+$color-accent: #f85a47;
+$color-heading: #000;
+$color-bg: #dbffff;
+
+$font-family-base: Helvetica, Arial, sans-serif;
+
+@mixin inner($mw: 1000px, $w: 88%) {
+  max-width: $mw;
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  color: $color-text;
+  font-size: 15px;
+  font-family: $font-family-base;
+  line-height: math.div(26, 15);
+  letter-spacing: #{math.div(20, 1000)}em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+/* common
+-------------------*/
+/* header */
+.header {
+  padding: 50px 0 80px;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: math.div(24, 24);
+
+    a {
+      transition: 0.2s;
+
+      &:hover {
+        color: $color-main;
+      }
+    }
+  }
+}
+
+/* footer */
+.footer {
+  padding: 100px 0;
+  background-color: $color-bg;
+  text-align: right;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__copy {
+    display: block;
+    margin-top: 40px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+/* gnav */
+.gnav {
+  &__list {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: end;
+    column-gap: 30px;
+  }
+
+  &__item {
+    font-weight: bold;
+
+    &--active {
+      a {
+        color: $color-main;
+      }
+    }
+  }
+
+  a {
+    transition: color 0.2s;
+
+    &:hover {
+      color: $color-main;
+    }
+  }
+}
+
+/* unit */
+.unit {
+  &__catch {
+    margin-bottom: 20px;
+    color: $color-main;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: math.div(30, 18);
+  }
+
+  &__title {
+    margin-bottom: 40px;
+    color: $color-heading;
+    font-size: 48px;
+    line-height: math.div(58, 48);
+  }
+
+  // 要素の中の一番最後の要素の下マージンを0にする
+  :last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* card */
+.card {
+  padding: 45px 40px;
+  border: 1px solid #a3a3a3;
+  border-radius: 20px;
+  display: grid;
+}
+
+/* customer */
+.customer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-self: end;
+  column-gap: percentage(math.div(20, 390));
+}
+
+/* psot */
+.post {
+  &__pic {
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 40px;
+  }
+}
+
+/* btn */
+.btn {
+  display: block;
+  width: 200px;
+  margin-top: 60px;
+  padding: 20px;
+  background-color: $color-accent;
+  color: #fff;
+  font-weight: bold;
+  line-height: math.div(15, 15);
+  text-align: center;
+  border-radius: 20px;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: $color-text;
+  }
+
+  &--info {
+    background-color: $color-main;
+  }
+}
+
+/* index.html
+-------------------*/
+/* spaces */
+.spaces {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-template-columns: 440fr 500fr;
+    column-gap: percentage(math.div(60, 1000));
+    align-items: center;
+  }
+}
+
+/* reviews */
+.reviews {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__info {
+    margin-bottom: 40px;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: percentage(math.div(60, 1000));
+
+    .card__content {
+      margin-bottom: 80px;
+    }
+  }
+}
+
+/* about.html
+-------------------*/
+/* deals */
+.deals {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__info {
+    max-width: 600px;
+    margin-bottom: 60px;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: percentage(math.div(50, 1000));
+  }
+}
+
+/* office */
+.office {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-template-columns: 500fr 440fr;
+    column-gap: percentage(math.div(60, 1000));
+    align-items: center;
+  }
+
+  &__info {
+    order: 2;
+  }
+
+  &__pic {
+    order: 1;
+  }
+}

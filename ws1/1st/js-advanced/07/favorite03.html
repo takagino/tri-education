@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firebase</title>
+    <style>
+      .pokemon-card {
+        border: 1px solid #ccc;
+        padding: 1em;
+        margin: 1em 0;
+        border-radius: 8px;
+        background: #f9f9f9;
+      }
+      .pokemon-card img {
+        width: 96px;
+        height: 96px;
+      }
+      .section-title {
+        margin-top: 2em;
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+      button {
+        margin-top: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ポケモン検索</h1>
+    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+    <button id="submit">取得</button>
+
+    <div id="searchResult" class="section"></div>
+    <div id="favorites" class="section"></div>
+
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+      import {
+        getFirestore,
+        doc,
+        setDoc,
+        deleteDoc,
+        collection,
+        getDocs,
+      } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyDxrvDm3Az9goHS0ghoN-xKx4XGyPoAPgo',
+        authDomain: 'test-1387e.firebaseapp.com',
+        projectId: 'test-1387e',
+        storageBucket: 'test-1387e.firebasestorage.app',
+        messagingSenderId: '501826119456',
+        appId: '1:501826119456:web:9ce1d1e57aec867d6f9945',
+      };
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      //DOM要素の取得
+      const nameInput = document.querySelector('#pokemonName');
+      const submitButton = document.querySelector('#submit');
+      const searchResult = document.querySelector('#searchResult');
+      const favorites = document.querySelector('#favorites');
+
+      const loadFavorites = () => {
+        favorites.innerHTML = '<div class="section-title">お気に入りポケモン一覧</div>';
+
+        const myCollection = collection(db, 'pokemon');
+        getDocs(myCollection)
+          .then((snapshot) => {
+            if (snapshot.empty) {
+              favorites.innerHTML += '<p>お気に入りがまだありません。</p>';
+              return;
+            }
+            snapshot.forEach((doc) => {
+              const data = doc.data();
+              renderPokemonCard(data, favorites, false);
+            });
+          })
+          .catch((error) => {
+            favorites.innerHTML += '<p>お気に入りの読み込み失敗!</p>';
+            console.error('Error getting documents: ', error);
+          });
+      };
+
+      window.addEventListener('DOMContentLoaded', loadFavorites);
+
+      //イベントリスナーの設定
+      submitButton.addEventListener('click', () => {
+        const name = nameInput.value.trim();
+        searchResult.innerHTML = '<p>取得中...</p>';
+
+        if (!name) {
+          searchResult.innerHTML = '<p>名前を入力してください。</p>';
+          return;
+        }
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+          .then((response) => response.json())
+          .then((data) => {
+            searchResult.innerHTML = '';
+
+            renderPokemonCard(data, searchResult, true);
+          })
+          .catch((error) => (searchResult.innerHTML = '<p>取得失敗!</p>'));
+      });
+
+      const renderPokemonCard = (data, parent, showAddButton = false) => {
+        const card = document.createElement('div');
+        card.className = 'pokemon-card';
+        card.setAttribute('data-id', data.name);
+
+        card.innerHTML = `
+        <h2>${data.name}</h2>
+        <img src="${data.sprites.front_default}" alt="${data.name}">
+        <ul>
+          ${data.abilities.map((a) => `<li>${a.ability.name}</li>`).join('')}
+        </ul>
+        <p>身長：${data.height}デシメートル</p>
+        <p>体重：${data.weight}ヘクトグラム</p>
+        <ul>
+          ${data.types.map((t) => `<li>${t.type.name}</li>`).join('')}
+        </ul>
+      `;
+
+        const button = document.createElement('button');
+
+        if (showAddButton) {
+          button.textContent = 'お気に入りに追加';
+          button.addEventListener('click', () => {
+            const myDoc = doc(db, 'pokemon', data.name);
+            setDoc(myDoc, data)
+              .then(() => {
+                searchResult.innerHTML = '<p>お気に入り追加完了!</p>';
+                card.remove();
+                loadFavorites();
+              })
+              .catch((error) => {
+                console.error('Error adding document: ', error);
+              });
+          });
+        } else {
+          button.textContent = 'お気に入りから削除';
+          button.addEventListener('click', () => {
+            const myDoc = doc(db, 'pokemon', data.name);
+            deleteDoc(myDoc)
+              .then(() => {
+                card.remove();
+              })
+              .catch((error) => {
+                console.error('Error removing document: ', error);
+              });
+          });
+        }
+        card.appendChild(button);
+        parent.appendChild(card);
+      };
+    </script>
+  </body>
+</html>

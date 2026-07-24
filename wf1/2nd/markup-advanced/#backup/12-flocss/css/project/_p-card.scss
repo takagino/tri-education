@@ -1,0 +1,15 @@
+@use '../global' as *;
+
+.p-card {
+  &__content {
+    padding: 40px 35px;
+    background-color: #fff;
+  }
+
+  &__title {
+    margin-bottom: 12px;
+    color: $color-main;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}

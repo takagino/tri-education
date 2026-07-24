@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3択クイズ - 応用形03</title>
+    <style>
+        .progress-container {
+            width: 100%;
+            max-width: 500px;
+            height: 20px;
+            background-color: #e0d5fe;
+            border: 1px solid #aaa;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #c2acff, #651fff);
+            transition: width 0.3s ease-in-out;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 30px auto 0;
+            padding: 30px;
+            border: 1px #000 dashed;
+        }
+
+        h2 {
+            margin: 0 0 30px;
+        }
+
+        p {
+            margin: 10px 0;
+        }
+
+        button {
+            display: block;
+            color: #ffffff;
+            font-size: 18px;
+            border-radius: 10px;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: 0.1s;
+            box-shadow: 2px 4px 0px -2px rgb(155, 155, 155);
+            background-color: #7521f4;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            box-shadow: 0 0 #fff;
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="progress-container">
+        <div class="progress-bar"></div>
+    </div>
+    <div class="container"></div>
+
+    <script>
+        console.log('更新履歴');
+        console.log('選択肢の順番がシャッフルされるようにしました');
+        console.log('選んだ選択肢が正解か不正解かによってボタンの色を変え、しばらくすると問題が切り替わるようにしました');
+        console.log('問題の進捗がバーで表示されるようにしました');
+
+        const bar = document.querySelector('.progress-bar');
+        const container = document.querySelector('.container');
+        const quizData = [
+            {
+                question: 'HTMLとは何の略ですか？',
+                choices: {
+                    a: 'Hyper Text Markup Language',
+                    b: 'High Transfer Machine Language',
+                    c: 'Hyperlink and Text Modeling Language',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'CSSとは何の略ですか？',
+                choices: {
+                    a: 'Cascading Style Sheets',
+                    b: 'Computer Style Syntax',
+                    c: 'Color Sheet Script',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'JSONとは何の略ですか？',
+                choices: {
+                    a: 'Java Script Object Notation',
+                    b: 'Java Serialized Object Name',
+                    c: 'Java Source Output Network',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'UIとは何の略ですか？',
+                choices: {
+                    a: 'User Interface',
+                    b: 'Unified Integration',
+                    c: 'Universal Interaction',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'UXとは何の略ですか？',
+                choices: {
+                    a: 'User Experience',
+                    b: 'Unified Example',
+                    c: 'Universal Explosion',
+                },
+                answer: 'a',
+            },
+        ];
+        let currentQuiz = 0;
+        let score = 0;
+        const quizNum = 3;
+        let quizResult = [];
+
+        const setQuiz = (obj) => {
+            updateProgressBar();//進捗バーを更新
+
+            //-----問題文----
+            const h2 = document.createElement('h2');
+            container.appendChild(h2);
+            h2.textContent = obj.question;
+
+            //-----三択のボタンを囲むdiv-----
+            const div = document.createElement('div');
+            container.appendChild(div);
+
+            //-----選択肢の順番をシャッフル-----
+            const shuffledKeys = shuffle(Object.keys(obj.choices));
+            shuffledKeys.forEach(key => {
+
+                //-----三択ボタン-----
+                const button = document.createElement('button');
+                div.appendChild(button);
+                button.textContent = obj.choices[key];
+
+                //-----三択ボタンのクリックイベント-----
+                button.addEventListener('click', () => {
+
+                    // -----全てのボタンを取得して無効化-----
+                    const allButtons = div.querySelectorAll('button');
+                    allButtons.forEach(btn => btn.disabled = true);
+
+                    // -----正誤判定＆色変更------
+                    if (key == obj.answer) {
+                        button.style.backgroundColor = '#2EA8D1';
+                        score++;
+                    } else {
+                        button.style.backgroundColor = '#DC1D5E';
+                        // 正解のボタンを緑で示す
+                        allButtons.forEach(btn => {
+                            if (btn.textContent === obj.choices[obj.answer]) {
+                                btn.style.backgroundColor = '#2EA8D1';
+                            }
+                        });
+                    }
+                    //-----選んだ答えを配列に保存-----
+                    quizResult.push(key);
+                    console.log(quizResult);
+
+                    setTimeout(showResult, 1500);
+                })
+            })
+        }
+
+        //-----進捗バー更新関数-----
+        const updateProgressBar = () => {
+            const progress = ((currentQuiz + 1) / quizNum) * 100;
+            bar.style.width = `${progress}%`;
+        };
+
+        //-----問題リセット関数-----
+        const resetQuiz = () => {
+            container.innerHTML = '';
+            currentQuiz = 0;
+            score = 0;
+            quizResult = [];
+            shuffleQuiz = shuffle([...quizData]);//クイズをシャッフル
+            setQuiz(shuffleQuiz[currentQuiz]);
+        }
+
+        //-----次の問題へ＆結果表示関数-----
+        const showResult = () => {
+            container.innerHTML = '';
+            if (currentQuiz < quizNum - 1) {
+                setQuiz(shuffleQuiz[++currentQuiz]);//次の問題を生成
+            } else {
+                //-----スコア表示-----
+                const h2 = document.createElement('h2');
+                container.appendChild(h2);
+                h2.textContent = `あなたのスコアは${score}/${quizNum}です。`;
+
+                //-----振り返り表示-----
+                const h3 = document.createElement('h3');
+                container.appendChild(h3);
+                h3.textContent = '振り返り';
+
+                for (let i = 0; i < quizNum; i++) {
+                    const selectQuiz = shuffleQuiz[i];
+                    let judgment;
+                    if (quizResult[i] == selectQuiz.answer) {
+                        judgment = '正解';
+                    } else {
+                        judgment = '不正解';
+                    }
+                    const comment = document.createElement('div');
+                    container.appendChild(comment);
+                    comment.style.borderBottom = '1px solid #000';
+                    const p1 = document.createElement('p');
+                    comment.appendChild(p1);
+                    p1.textContent = `${selectQuiz.question} - 正解：${selectQuiz.choices[selectQuiz.answer]}`;
+                    const p2 = document.createElement('p');
+                    comment.appendChild(p2);
+                    p2.textContent = `あなたの選んだ回答は「${selectQuiz.choices[quizResult[i]]}」で${judgment}でした！`;
+                }
+
+                //-----再挑戦ボタン-----
+                const button = document.createElement('button');
+                container.appendChild(button);
+                button.textContent = '再挑戦';
+
+                //-----再挑戦ボタンのクリックイベント-----
+                button.addEventListener('click', resetQuiz);
+            }
+        }
+
+        //-----シャッフル関数-----
+        const shuffle = array => {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        let shuffleQuiz = shuffle([...quizData]);
+        setQuiz(shuffleQuiz[currentQuiz]);
+    </script>
+</body>
+
+</html>

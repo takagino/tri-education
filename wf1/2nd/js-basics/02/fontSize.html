@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>練習02</title>
+</head>
+<body>
+  <p id="result">文字が大きくなる</p>
+  <button id="plus">+</button>
+
+  <script>
+    let num = 16;
+    const result = document.getElementById('result');
+    const plusBtn = document.getElementById('plus');
+
+    plusBtn.addEventListener('click', function () {
+      result.style.fontSize = `${num += 1}px`;
+    });
+  </script>
+</body>
+</html>

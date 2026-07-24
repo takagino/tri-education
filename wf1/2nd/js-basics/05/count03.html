@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カウント</title>
+</head>
+<body>
+  <button id="count">カウント</button>
+  <button id="show">表示</button>
+  <p id="result"></p>
+  <script>
+    let init = 10;
+    let num = init;
+    const count = document.getElementById('count');
+    const result = document.getElementById('result');
+    const show = document.getElementById('show');
+
+    result.innerHTML = num;
+
+    count.addEventListener('click', function () {
+      num++;
+      result.innerHTML = num;
+    });
+
+    show.addEventListener('click', function () {
+      let text = init;
+      for (let i = 1; i <= num; i++) {
+        text += `,${i}`;
+      }
+      result.innerHTML = text;
+      num = init;
+    });
+  </script>
+</body>
+</html>

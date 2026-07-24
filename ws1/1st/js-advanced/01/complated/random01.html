@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>random01.html</title>
+  </head>
+  <body>
+    <button class="btn">CLICK</button>
+    <p class="result">0</p>
+    <script>
+      const btn = document.querySelector('.btn');
+      const result = document.querySelector('.result');
+
+      btn.addEventListener('click', () => {
+        const randomNum = Math.floor(Math.random() * 10) + 1;
+        result.textContent = randomNum;
+      });
+    </script>
+  </body>
+</html>

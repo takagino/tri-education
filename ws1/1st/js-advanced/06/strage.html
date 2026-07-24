@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>非同期処理とLocal Storage</title>
+  </head>
+
+  <body>
+    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+    <button id="submit">取得</button>
+    <button id="save">保存</button>
+    <button id="delete">削除</button>
+    <div class="container"></div>
+    <script>
+      const container = document.querySelector('.container');
+      const submitButton = document.querySelector('#submit');
+      const pokemonNameInput = document.querySelector('#pokemonName');
+      const saveButton = document.querySelector('#save');
+      const deleteButton = document.querySelector('#delete');
+      let pokemonData = null;
+
+      saveButton.addEventListener('click', () => {
+        if (!pokemonData) {
+          container.textContent = 'ポケモンデータがありません。まずポケモンを取得してください。';
+          return;
+        }
+
+        const val = encodeURIComponent(JSON.stringify(pokemonData));
+        localStorage.setItem('pokemonData', val);
+        container.textContent = 'ポケモンデータを保存しました';
+      });
+
+      // 追加
+      deleteButton.addEventListener('click', () => {
+        localStorage.removeItem('pokemonData');
+        container.textContent = 'ポケモンデータを削除しました';
+      });
+
+      submitButton.addEventListener('click', () => {
+        const pokemonName = pokemonNameInput.value;
+
+        if (!pokemonName) {
+          container.textContent = 'ポケモンの名前を入力してください';
+          return;
+        }
+
+        container.textContent = '取得中...';
+
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            container.textContent = '';
+
+            showPokemon(data);
+          })
+          .catch((error) => console.error(`Error: ${error}`));
+      });
+
+      const showPokemon = (data) => {
+        const pokemon = `
+        <h2>${data.name}</h2>
+        <img src="${data.sprites.front_default}" alt="${data.name}">
+        <ul>
+          ${data.abilities.map((ability) => `<li>${ability.ability.name}</li>`).join('')}
+        </ul>
+      `;
+
+        container.insertAdjacentHTML('beforeend', pokemon);
+
+        pokemonData = data;
+      };
+
+      const storedPokemonData = localStorage.getItem('pokemonData');
+      if (storedPokemonData !== null) {
+        pokemonData = JSON.parse(decodeURIComponent(storedPokemonData));
+        showPokemon(pokemonData);
+      }
+    </script>
+  </body>
+</html>

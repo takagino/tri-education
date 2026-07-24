@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="result">ブラウザのサイズが表示されます。</p>
+
+    <script>
+      const result = document.getElementById("result");
+
+      window.addEventListener("resize", function () {
+        //複数の値をコンソールに出したい時はカンマで区切る
+        console.log(window.innerWidth, window.innerHeight);
+
+        result.innerHTML = `${window.innerWidth}px : ${window.innerHeight}px`;
+
+        if (window.innerHeight > 400) {
+          result.style.color = "#000";
+        } else {
+          result.style.color = "#f00";
+        }
+      });
+    </script>
+  </body>
+</html>

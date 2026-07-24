@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html {
+        cursor: none;
+      }
+
+      #icon {
+        width: 50px;
+        position: absolute;
+        transition: transform 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="icon" src="https://www.svgrepo.com/show/489642/pencil.svg" alt="" />
+
+    <script>
+      const icon = document.querySelector("#icon");
+      /* mousemoveイベント（マウスを動かした時）とマウス座標の取得 */
+      document.addEventListener("mousemove", function (e) {
+        console.log(e.clientX, e.clientY);
+
+        icon.style.top = `${e.clientY}px`;
+        icon.style.left = `${e.clientX}px`;
+      });
+
+      /* mousedownイベント（マウスを押した時） */
+      document.addEventListener("mousedown", function (e) {
+        icon.style.transform = "scale(1.5)";
+      });
+
+      /* mouseupイベント（マウスを離した時） */
+      document.addEventListener("mouseup", function () {
+        icon.style.transform = "scale(1)";
+      });
+    </script>
+  </body>
+</html>

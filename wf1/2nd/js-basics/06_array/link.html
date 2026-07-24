@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リンクを表示</title>
+</head>
+<body>
+  <ul class="links">
+    <li><a href="https://computer.trident.ac.jp/courses/game_science/">ゲームサイエンス学科</a></li>
+    <li><a href="https://computer.trident.ac.jp/courses/cg_specialist/">CGスペシャリスト学科</a></li>
+    <li><a href="https://computer.trident.ac.jp/courses/web_design/">Web学科</a></li>
+  </ul>
+  <p class="result">URLが表示されます。</p>
+
+  <script>
+    const link = document.querySelectorAll('.links a');
+    const result = document.querySelector('.result');
+
+    for (let i = 0; i < link.length; i++) {
+      link[i].addEventListener('mouseover', function () {
+        result.innerHTML = link[i].getAttribute('href');
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RFID Web Serial & Reset Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
+            color: #fff;
+        }
+
+        #uid-display {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #00ffcc;
+            margin-top: 20px;
+            padding: 20px 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            min-width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        #connect-btn {
+            background: #00ccff;
+            color: #000;
+        }
+
+        #reset-btn {
+            background: #ff3366;
+            color: #fff;
+            display: none;
+        }
+
+        #status-msg {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="btn-group">
+        <button id="connect-btn">Arduinoと接続する</button>
+        <button id="reset-btn">🔄 強制リセット (動かない時)</button>
+    </div>
+
+    <div id="uid-display">---待機中---</div>
+    <div id="status-msg">シリアル通信を切断した状態で接続してください</div>
+
+    <script>
+        const connectBtn = document.getElementById('connect-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const display = document.getElementById('uid-display');
+        const statusMsg = document.getElementById('status-msg');
+
+        let serialPort = null;
+        let textWriter = null;
+
+        connectBtn.addEventListener('click', async () => {
+            try {
+                // ポートを選択して開く
+                serialPort = await navigator.serial.requestPort();
+                await serialPort.open({ baudRate: 9600 });
+
+                // ★追加：データ送信用のWriterを準備
+                const textEncoder = new TextEncoderStream();
+                textEncoder.readable.pipeTo(serialPort.writable);
+                textWriter = textEncoder.writable.getWriter();
+
+                connectBtn.style.display = 'none';
+                resetBtn.style.display = 'block'; // 接続後にリセットボタンを表示
+                display.innerText = "カードをかざしてください";
+                statusMsg.innerText = "接続成功: 待機中...";
+
+                // 受信ループ
+                const textDecoder = new TextDecoderStream();
+                serialPort.readable.pipeTo(textDecoder.writable);
+                const reader = textDecoder.readable.getReader();
+
+                let buffer = "";
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) {
+                        reader.releaseLock();
+                        break;
+                    }
+
+                    buffer += value;
+
+                    if (buffer.includes('\n')) {
+                        const lines = buffer.split('\n');
+                        const data = lines[0].trim();
+
+                        if (data === "SYSTEM_RESET_OK") {
+                            // Arduinoからリセット完了の合図が来た時
+                            statusMsg.innerText = "✅ システムを再起動しました！";
+                            statusMsg.style.color = "#00ffcc";
+                            display.innerText = "準備完了";
+                            setTimeout(() => { statusMsg.style.color = "#aaa"; }, 3000);
+                        } else if (data) {
+                            // 通常のUID読み取りの時
+                            console.log("読み取ったUID:", data);
+                            display.innerText = data;
+
+                            // アニメーションでピカッと光らせる演出
+                            display.style.transform = "scale(1.1)";
+                            display.style.boxShadow = "0 0 20px #00ffcc";
+                            setTimeout(() => {
+                                display.style.transform = "scale(1)";
+                                display.style.boxShadow = "none";
+                            }, 200);
+                        }
+
+                        buffer = lines.slice(1).join('\n');
+                    }
+                }
+            } catch (error) {
+                console.error('通信エラー:', error);
+                alert('接続に失敗しました。');
+            }
+        });
+
+        // ==========================================
+        // ★追加：リセットボタンを押した時の処理
+        // ==========================================
+        resetBtn.addEventListener('click', async () => {
+            if (!textWriter) return;
+
+            try {
+                statusMsg.innerText = "再起動コマンドを送信中...";
+                statusMsg.style.color = "#ffcc00";
+                display.innerText = "---";
+
+                // Arduinoに "RESET" と改行を送る
+                await textWriter.write("RESET\n");
+            } catch (error) {
+                console.error('送信エラー:', error);
+                statusMsg.innerText = "❌ コマンドの送信に失敗しました";
+                statusMsg.style.color = "#ff3366";
+            }
+        });
+
+    </script>
+</body>
+
+</html>

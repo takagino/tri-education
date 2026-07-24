@@ -1,0 +1,250 @@
+@charset "UTF-8";
+/*common
+------------------------------*/
+body {
+  color: #404040;
+  font-size: 14px;
+  font-family: "游ゴシック", "Yu Gothic", Helvetica, Arial, sans-serif;
+  line-height: 1.7142857143;
+  letter-spacing: 0.1em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+/* header */
+.header {
+  padding: 40px 0;
+  text-align: center;
+}
+.header__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* footer */
+.footer {
+  padding: 40px 0;
+  background-color: #EDEFF2;
+  text-align: center;
+}
+.footer__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  row-gap: 15px;
+}
+@media (640px <= width) {
+  .footer__inner {
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.footer__logo {
+  margin: auto;
+}
+.footer__copy {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* psot */
+.post {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 3;
+  row-gap: 0;
+}
+.post__pic {
+  margin-bottom: 30px;
+}
+.post .btn {
+  margin-left: auto;
+}
+@media (640px <= width) {
+  .post .btn {
+    width: 100%;
+  }
+}
+
+/* btn */
+.btn {
+  display: block;
+  width: 300px;
+  margin-top: 40px;
+  padding: 20px;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  background-color: #985E5B;
+}
+
+/*index.html
+------------------------------*/
+/* visual */
+.visual {
+  margin-bottom: 100px;
+  padding: 350px 0 120px;
+  background: url(../images/pic_main.png) no-repeat center/cover;
+  color: #fff;
+}
+.visual__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.visual__title {
+  margin-bottom: 40px;
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 1.4285714286;
+}
+.visual__title span {
+  display: inline-block;
+}
+
+/* concept */
+.concept {
+  padding-bottom: 100px;
+}
+.concept__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.concept__title {
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+@media (640px <= width) {
+  .concept__title {
+    margin-bottom: 70px;
+  }
+}
+.concept__text {
+  display: grid;
+  row-gap: 40px;
+  text-align: center;
+}
+@media (640px <= width) {
+  .concept__text {
+    row-gap: 70px;
+  }
+}
+.concept__text p {
+  word-break: keep-all;
+}
+.concept__text span {
+  display: inline-block;
+}
+
+/* services */
+.services {
+  padding-bottom: 100px;
+}
+.services__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.services__title {
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.services__list {
+  display: grid;
+  row-gap: 80px;
+}
+@media (640px <= width) {
+  .services__list {
+    grid-template-columns: 1fr 1fr;
+    -moz-column-gap: 5%;
+         column-gap: 5%;
+  }
+}
+
+/* open */
+.open {
+  padding-bottom: 100px;
+}
+.open__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.open__title {
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.open__table {
+  overflow-x: auto;
+}
+.open__table table {
+  width: 100%;
+  min-width: 700px;
+}
+.open__table th {
+  background-color: #EDEFF2;
+}
+.open__table th,
+.open__table td {
+  padding: 15px;
+  border: 1px solid #707070;
+  text-align: center;
+}
+.open__tips {
+  margin-top: 20px;
+}
+@media (816px <= width) {
+  .open__tips {
+    display: none;
+  }
+}
+
+/* recruit */
+.recruit {
+  padding-bottom: 100px;
+}
+.recruit__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.recruit__title {
+  margin-bottom: 40px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+/*# sourceMappingURL=style.css.map */

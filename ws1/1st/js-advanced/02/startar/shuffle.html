@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>練習「シャッフル02」</title>
+</head>
+
+<body>
+    <button>シャッフル</button>
+    <ul>
+    </ul>
+    <script>
+        const btn = document.querySelector('button');
+        const ul = document.querySelector('ul');
+        const words = ['りんご', 'ごりら', 'らっぱ', 'ぱんだ', 'だんご'];
+
+        //シャッフルの関数
+        const shuffle = (array) => {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            };
+
+            return array;
+        };
+
+        words.forEach(text => {
+            const li = document.createElement('li');
+            li.textContent = text;
+            ul.append(li);
+        });
+
+        btn.addEventListener('click', () => {
+            shuffle(words);
+
+            ul.innerHTML = '';
+            words.forEach(text => {
+                const li = document.createElement('li');
+                li.textContent = text;
+                ul.append(li);
+            });
+        });
+    </script>
+</body>
+
+</html>

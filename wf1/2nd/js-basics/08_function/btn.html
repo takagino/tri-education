@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>応用「ボタン」</title>
+  </head>
+  <body>
+    <button class="number">1</button>
+    <button class="number">2</button>
+    <button class="number">3</button>
+    <button class="random">ランダム</button>
+    <p class="result"></p>
+
+    <script>
+      //用意した配列
+      const words = ["1.apple", "2.banana", "3.orange"];
+
+      //結果を表示するp要素を取得
+      const result = document.querySelector(".result");
+
+      //使用する関数式
+      const getWord = (num) => {
+        result.innerHTML = words[num];
+      };
+
+      //ページを表示した時にランダムに値をp要素に表示する
+      let random = Math.floor(Math.random() * words.length); //randomという名前の変数を宣言して、配列の数分のランダムな数字を代入する
+      getWord(random); //変数に入っているランダムな数字を関数に渡しながら実行する
+
+      //ランダムボタンをクリックしたら、配列の中から値をランダムに表示する
+      const randomBtn = document.querySelector(".random");
+      randomBtn.addEventListener("click", () => {
+        random = Math.floor(Math.random() * words.length);
+        getWord(random);
+      });
+
+      const numberBtn = document.querySelectorAll(".number");
+      for (let i = 0; i < numberBtn.length; i++) {
+        numberBtn[i].addEventListener("click", (e) => {
+          const num = e.target.innerHTML - 1;
+          getWord(num);
+        });
+      }
+    </script>
+  </body>
+</html>

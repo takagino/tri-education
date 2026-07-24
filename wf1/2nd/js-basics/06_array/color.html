@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背景色を変える</title>
+</head>
+<body>
+  <button class="btn">aa3333</button>
+  <button class="btn">33aa33</button>
+  <button class="btn">3333aa</button>
+
+  <script>
+    const btn = document.querySelectorAll('.btn');
+    console.log(btn);
+
+    for (let i = 0; i < btn.length; i++) {
+      btn[i].addEventListener('click', function () {
+        console.log(btn[i].innerHTML);
+        document.body.style.backgroundColor = `#${btn[i].innerHTML}`;
+      });
+    }
+  </script>
+</body>
+</html>

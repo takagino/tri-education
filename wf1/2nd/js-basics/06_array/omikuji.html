@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>おみくじ</title>
+  <style>
+    #result {
+      transition: 1s;
+    }
+
+    .active {
+      transform: rotateY(360deg);
+    }
+  </style>
+</head>
+<body>
+  <button id="btn">占う</button>
+  <p><img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt=""></p>
+  <p id="message">何か一言が表示されます。</p>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const result = document.getElementById('result');
+    const message = document.getElementById('message');
+    const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+    const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png']; //全てのファイル名を配列に挿入
+    const texts = ['買ってないのに宝くじが当たる', '何もしてないのに褒められる', '頭皮の調子が良い', 'コンタクトレンズが割れる', 'どこかの骨を折る']; //全ての一言を配列に挿入
+
+    btn.addEventListener('click', function () {
+      const num = Math.floor(Math.random() * 5);
+
+      result.setAttribute('src', `${path}/${files[num]}`)
+      message.innerHTML = texts[num];
+      result.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+@use "sass:math";
+
+// =================================================================
+//  Variables
+// =================================================================
+
+// --- Spacing ---
+$space-xs: 0.25rem; // 4px
+$space-s: 0.5rem; // 8px
+$space-m: 1rem; // 16px
+$space-l: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-xxl: 2.5rem; // 40px
+$space-xxxl: 3rem; // 48px
+
+// --- Colors ---
+$color-text: #F2F2F2;
+$color-base: #BDBDBD;
+$color-main: #333;
+$color-accent: #FBFBFB;
+$color-bg: #2C2C2C;
+
+// --- Typography ---
+$font-size-base: 16;
+$font-family-gothic: "Roboto", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+$font-family-mincho: "Times New Roman", Times, "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+
+// --- Breakpoints ---
+$breakpoints: (
+  "tablet": 768px,
+  "desktop": 1024px
+);
+
+
+// =================================================================
+//  Functions
+// =================================================================
+
+// pxをremに変換する
+// @param {number} $px-value - px値
+// @return {string} - rem値
+@function rem($px-value) {
+  @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// XDのトラッキング値をemに変換する
+// @param {number} $xd-value - XDのトラッキング値
+// @return {string} - em値
+@function ls($xd-value) {
+  @return #{math.div($xd-value, 1000)}em;
+}
+
+
+// =================================================================
+//  Mixins
+// =================================================================
+
+// メディアクエリ (モバイルファースト)
+// @param {string} $breakpoint - $breakpointsのキー
+@mixin mq($breakpoint: desktop) {
+  @media (width >=map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// インナー幅の指定
+// @param {number} $mw - max-width
+// @param {number} $w  - width
+@mixin inner($mw: 1170px, $w: 90%) {
+  max-width: $mw;
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin title-main() {
+  margin-bottom: rem(60);
+  color: $color-base;
+  font-size: rem(64);
+  font-weight: 300;
+  line-height: 1;
+}
+
+
+// =================================================================
+//  Common
+// =================================================================
+body {
+  color: $color-main;
+  font-size: rem(16);
+  font-family: $font-family-gothic;
+  line-height: math.div(25, 16);
+  letter-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+:focus-visible {
+  outline: revert;
+  outline-offset: 2px;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  padding: rem(30) 0;
+  background-color: #fff;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-template-columns: 400fr 770fr;
+    align-items: center;
+  }
+}
+
+.gnav {
+  &__list {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    column-gap: percentage(math.div(45, 770));
+  }
+
+  &__item {
+    font-size: rem(12);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+  }
+
+  &__link {
+    display: block;
+    padding: rem(4) rem(15);
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+
+    &--active,
+    &:hover {
+      border-color: $color-main;
+    }
+  }
+}
+
+.main {
+  padding-top: rem(100);
+}
+
+.btn {
+  display: block;
+  width: rem(220);
+  margin-top: rem(30);
+  padding: rem(30);
+  background-color: $color-main;
+  color: #fff;
+  text-align: center;
+  font-size: rem(12);
+  line-height: 1;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  &::after {
+    content: "→";
+    padding-left: 15px;
+  }
+}
+
+
+// =================================================================
+//  Index
+// =================================================================
+
+.about {
+  margin-bottom: rem(150);
+
+  &__inner {
+    @include inner();
+    padding: rem(30) rem(70) rem(30) rem(100);
+    background-color: $color-accent;
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: 570fr 400fr;
+    align-items: start;
+    container-type: inline-size;
+    column-gap: percentage(math.div(30, 1000));
+  }
+
+  &__title {
+    @include title-main();
+    margin-bottom: rem(20);
+  }
+
+  &__images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3cqi;
+  }
+
+  &__image {
+    &--item01 {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+    }
+
+    &--item02 {
+      grid-column: 1 / 2;
+      grid-row: 2 / 3;
+      margin-bottom: rem(-60);
+    }
+
+    &--item03 {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      margin-top: rem(30);
+    }
+  }
+
+  &__text {
+    font-weight: 300;
+  }
+
+  &__btn {
+    color: $color-main;
+    background-color: #fff;
+  }
+}
+
+.mission {
+  margin-bottom: 120px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main();
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: percentage(math.div(30, 1170));
+    align-items: center;
+  }
+
+  &__contents {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: percentage(math.div(30, 570));
+    align-items: center;
+  }
+
+  &__number {
+    color: $color-text;
+    font-size: rem(200);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  &__text {
+    font-size: rem(22);
+    line-height: math.div(36, 22);
+  }
+}
+
+.projects {
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main();
+  }
+
+  &__container {
+    container-type: inline-size;
+
+    &--inner {
+      display: grid;
+      gap: 3cqi;
+    }
+  }
+
+  &__list {
+    display: grid;
+    column-gap: 3cqi;
+
+    &--item01 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &--item02 {
+      grid-template-columns: 270fr 470fr 370fr;
+    }
+  }
+
+  &__item {
+    position: relative;
+  }
+
+  &__info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0 percentage(math.div(80, 570));
+    background-color: rgba(51, 51, 51, .8);
+    opacity: 0;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &--active,
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  &__name {
+    font-size: rem(64);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  &__link {
+    display: block;
+    margin-top: rem(15);
+    font-size: rem(12);
+    line-height: 1;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+
+    &::after {
+      content: "→";
+      padding-left: 15px;
+    }
+  }
+
+  &__btn {
+    margin-left: auto;
+  }
+}
+
+.contact {
+  &__inner {
+    @include inner ();
+  }
+
+  &__title {
+    @include title-main();
+    margin-bottom: rem(20);
+  }
+}

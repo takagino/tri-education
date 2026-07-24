@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>function</title>
+  </head>
+  <body>
+    <h1>見出し</h1>
+    <p>本文</p>
+    <button>ボタン</button>
+
+    <script>
+      // let count = 0;
+      // let timer;
+
+      // const countUp = () => {
+      //   console.log(count++);
+
+      //   if (count > 5) {
+      //     clearInterval(timer);
+      //   }
+      // };
+
+      // timer = setInterval(countUp, 1000);
+
+      // let timer2;
+      // const changeColor = () => {
+      //   let r = Math.floor(Math.random() * 256);
+      //   let g = Math.floor(Math.random() * 256);
+      //   let b = Math.floor(Math.random() * 256);
+      //   document.body.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+      // };
+
+      // timer2 = setInterval(changeColor, 100);
+
+      // document.body.addEventListener("click", () => {
+      //   clearInterval(timer2);
+      // });
+
+      let count = 0;
+      let timer;
+
+      const countUp = () => {
+        console.log(count++);
+
+        timer = setTimeout(countUp, 1000);
+
+        if (count > 5) {
+          clearTimeout(timer);
+        }
+      };
+
+      countUp();
+    </script>
+  </body>
+</html>

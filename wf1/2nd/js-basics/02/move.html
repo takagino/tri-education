@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>練習03</title>
+</head>
+<body>
+  <div>
+    <button id="left">←</button>
+    <button id="center">■</button>
+    <button id="right">→</button>
+  </div>
+
+  <img id="monster" src="https://pbs.twimg.com/media/EXae-7lWkAANYU6.png" alt="">
+
+  <script>
+    let num = 0;
+    const monster = document.getElementById('monster');
+
+    /* 左矢印のプログラム */
+    const leftBtn = document.getElementById('left');
+    leftBtn.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num -= 5}px)`;
+    });
+
+    /* 右矢印のプログラム */
+    const rightBtn = document.getElementById('right');
+    right.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num += 5}px)`;
+    });
+
+    /* 初期位置に戻すプログラム */
+    const centerBtn = document.getElementById('center');
+    centerBtn.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num = 0}px)`;
+    });
+  </script>
+</body>
+</html>

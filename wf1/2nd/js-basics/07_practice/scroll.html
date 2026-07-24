@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        height: 3000px;
+        background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+      }
+
+      #toTop {
+        position: fixed;
+        bottom: 50px;
+        right: 50px;
+        width: 50px;
+        height: 50px;
+        border: 0;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        /* 1行のテキストを上下中央にする */
+        font-size: 1rem;
+        line-height: 1rem;
+
+        /* 1行ではないものを上下中央にする */
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
+
+        text-align: center;
+        cursor: pointer;
+        display: none;
+      }
+
+      #toTop.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="toTop">↑</button>
+
+    <script>
+      const toTop = document.querySelector("#toTop");
+      const limit = 300;
+
+      window.addEventListener("scroll", function (e) {
+        console.log(e);
+
+        // && かつ、|| または、! 否定
+        if (window.scrollY > limit && !toTop.classList.contains("active")) {
+          toTop.classList.add("active");
+        } else if (window.scrollY <= limit && toTop.classList.contains("active")) {
+          toTop.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
+</html>

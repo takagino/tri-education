@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クリックゲーム</title>
+    <style>
+      dl {
+        text-align: center;
+      }
+
+      dd {
+        margin: 0;
+      }
+
+      .name {
+        margin-bottom: 1em;
+        font-weight: bold;
+      }
+
+      .pic {
+        cursor: pointer;
+      }
+
+      .hp {
+        margin-top: 0.5em;
+        font-style: oblique;
+      }
+    </style>
+  </head>
+  <body>
+    <dl>
+      <dt class="name">名前</dt>
+      <dd>
+        <img
+          class="pic"
+          src="https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png"
+          alt=""
+          width="200"
+        />
+      </dd>
+      <dd class="hp">HP:0</dd>
+    </dl>
+    <script>
+      const monsters = [
+        {
+          name: 'スライム',
+          pic: './monster/slime.png',
+          hp: 4,
+        },
+        {
+          name: '目玉',
+          pic: './monster/eye.png',
+          hp: 6,
+        },
+        {
+          name: '半魚人',
+          pic: './monster/fish.png',
+          hp: 8,
+        },
+      ];
+
+      const nameEl = document.querySelector('.name');
+      const picEl = document.querySelector('.pic');
+      const hpEl = document.querySelector('.hp');
+
+      let currentHp = 0;
+      let currentMonster = 0;
+
+      const setMonster = (monster) => {
+        nameEl.textContent = monster.name;
+        picEl.src = monster.pic;
+        currentHp = monster.hp;
+        hpEl.textContent = `HP:${currentHp}`;
+      };
+
+      //関数の実行
+      setMonster(monsters[currentMonster]);
+
+      picEl.addEventListener('click', () => {
+        if (currentHp > 0) {
+          currentHp--;
+          hpEl.textContent = `HP:${currentHp}`;
+        } else {
+          currentMonster++;
+          //if文に変更
+          if (currentMonster >= monsters.length) {
+            alert('モンスターを全て倒しました！');
+          } else {
+            setMonster(monsters[currentMonster]);
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

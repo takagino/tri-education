@@ -1,0 +1,268 @@
+@use "sass:math";
+
+$color-text: #000000;
+$color-main: #E40065;
+$color-bg: #2F2F2F;
+$color-bg2: #F4F4F4;
+
+$font-family-base: "游ゴシック", "Yu Gothic", Helvetica, Arial, sans-serif;
+
+$breakpoints: (
+  "desktop": 640px,
+);
+
+@mixin mq($breakpoint: desktop) {
+  @media (#{map-get($breakpoints, $breakpoint)} <=width) {
+    @content;
+  }
+}
+
+@mixin inner($mw: 1000px, $w: percentage(math.div(560, 640))) {
+  max-width: $mw;
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin title-main($t) {
+  margin-bottom: 60px;
+  font-size: 32px;
+  font-weight: bold;
+  line-height: math.div(54, 32);
+  text-align: center;
+
+  &::before {
+    content: $t;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: math.div(14, 14);
+    text-transform: uppercase;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    margin: 25px auto 0;
+    width: 100px;
+    border-bottom: 2px solid $color-main;
+  }
+}
+
+/*common
+------------------------------*/
+body {
+  color: $color-text;
+  font-size: 14px;
+  font-family: $font-family-base;
+  line-height: math.div(24, 14);
+  letter-spacing: #{math.div(50,1000)}em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+/* header */
+.header {
+  padding: 40px 0;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+  }
+
+  &__logo {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: math.div(29, 24);
+    letter-spacing: #{math.div(100, 1000)}em;
+  }
+}
+
+/* gnav */
+.gnav {
+  &__list {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 30px;
+  }
+
+  a {
+    font-size: 12px;
+    line-height: math.div(14, 12);
+  }
+
+  a:hover,
+  &__active {
+    color: $color-main;
+  }
+}
+
+/* footer */
+.footer {
+  padding: 80px 0;
+  background-color: $color-bg;
+  color: #fff;
+  text-align: center;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__copy {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: math.div(20, 12);
+  }
+}
+
+/* post */
+.post {
+  &__pic {
+    position: relative;
+
+    &--new::before {
+      content: "new";
+      display: inline-block;
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+      padding: 8px 15px;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: math.div(12, 12);
+      text-transform: uppercase;
+      background-color: $color-main;
+    }
+  }
+
+  &__title {
+    margin: 30px 0 20px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: math.div(31, 18);
+  }
+}
+
+/* card */
+.card {
+  display: grid;
+  padding: 45px 40px;
+  border: 1px solid #a3a3a3;
+  border-radius: 20px;
+  background-color: #fff;
+
+  &__content {
+    margin-bottom: 40px;
+  }
+}
+
+/* customer */
+.customer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  align-self: end;
+  column-gap: 20px;
+
+  &__company {
+    font-weight: bold;
+  }
+}
+
+/*index.html
+------------------------------*/
+/* .mainvisual */
+.mainvisual {
+  padding-bottom: 80px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__pic {
+    width: 100%;
+  }
+}
+
+/* philosophy */
+.philosophy {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("philosophy");
+  }
+
+  &__text {
+    max-width: 780px;
+    margin: auto;
+    text-align: center;
+    display: grid;
+    row-gap: 60px;
+
+    p {
+      line-height: math.div(34, 14);
+      word-break: keep-all;
+    }
+  }
+}
+
+/* works */
+.works {
+  padding-bottom: 120px;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("works");
+  }
+
+  &__list {
+    display: grid;
+    row-gap: 60px;
+
+    @include mq() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: percentage(math.div(80, 1000));
+    }
+  }
+}
+
+/* voice */
+.voice {
+  padding: 80px 0 120px;
+  background-color: $color-bg2;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("voice");
+  }
+
+  &__list {
+    display: grid;
+    row-gap: 60px;
+
+    @include mq() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: percentage(math.div(80, 1000));
+    }
+  }
+}

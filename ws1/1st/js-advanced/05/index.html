@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非同期処理</title>
+</head>
+
+<body>
+    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+    <button id="submit">ポケモンを取得</button>
+    <div class="container"></div>
+    <script>
+        const pokemonName = document.querySelector('#pokemonName');
+        const submitBtn = document.querySelector('#submit');
+
+        submitBtn.addEventListener('click', () => {
+            container.textContent = '取得中...';
+
+            const name = pokemonName.value;
+            if (!name) {
+                container.textContent = '名前を入力してください。';
+                return;
+            }
+
+            fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    container.textContent = '取得完了!';
+
+                    showPokemon(data);
+                })
+                .catch(error => container.textContent = '取得失敗!')
+                .finally(() => console.log('Finished!'));
+        });
+
+
+        const container = document.querySelector('.container');
+
+
+        const showPokemon = (data) => {
+            const pokemon = `
+                <h2>${data.name}</h2>
+                <img src="${data.sprites.front_default}" alt="${data.name}">
+                <ul>
+                    ${data.abilities.map((ability) => `<li>${ability.ability.name}</li>`).join('')}
+                </ul>
+
+                <p>身長：${data.height}デシメートル</p>
+                <p>体重：${data.weight}ヘクトグラム</p>
+                <ul>
+                    ${data.types.map((item) => `<li>${item.type.name}</li>`).join('')}
+                </ul>
+            `;
+            container.insertAdjacentHTML('beforeend', pokemon);
+        };
+
+        const showPokemon3 = (data) => {
+            const pokeName = `
+                <h2>${data.name}</h2>
+            `;
+
+            container.insertAdjacentHTML('beforeend', pokeName);
+
+            const img = document.createElement('img');
+            img.src = data.sprites.front_default;
+            container.appendChild(img);
+            img.addEventListener('click', () => {
+                console.log('click');
+            });
+
+            const pokemon = `
+                <ul>
+                    ${data.abilities.map((ability) => `<li>${ability.ability.name}</li>`).join('')}
+                </ul>
+                <p>身長：${data.height}デシメートル</p>
+                <p>体重：${data.weight}ヘクトグラム</p>
+                <ul>
+                    ${data.types.map((item) => `<li>${item.type.name}</li>`).join('')}
+                </ul>
+            `;
+
+            container.insertAdjacentHTML('beforeend', pokemon);
+        };
+
+        //取得したデータを画面に表示する関数
+        const showPokemon2 = (data) => {
+            console.log(data.name);
+
+            const name = document.createElement('h2');
+            name.textContent = data.name;
+            container.appendChild(name);
+
+            const ul = document.createElement('ul');
+            data.abilities.forEach((item) => {
+                const li = document.createElement('li');
+                li.textContent = item.ability.name;
+                ul.appendChild(li);
+            });
+            container.appendChild(ul);
+
+            const height = document.createElement('p');
+            height.textContent = `身長：${data.height} デシメートル`;
+            container.appendChild(height);
+
+            const weight = document.createElement('p');
+            weight.textContent = `体重：${data.weight} ヘクトグラム`;
+            container.appendChild(weight);
+
+            const types = document.createElement('ul');
+            data.types.forEach((item) => {
+                const li = document.createElement('li');
+                li.textContent = item.type.name;
+                types.appendChild(li);
+            });
+            container.appendChild(types);
+        };
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+/* philosophy */
+.philosophy__title {
+  font-size: 32px;
+  text-align: center;
+}
+.philosophy__title::before {
+  content: "PHILOSOPHY";
+  display: block;
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1;
+}
+.philosophy__title::after {
+  content: "";
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>array03.html</title>
+  </head>
+  <body>
+    <button class="btn">#f00</button>
+    <button class="btn">#0f0</button>
+    <button class="btn">#00f</button>
+    <script>
+      const btn = document.querySelectorAll('.btn');
+      let currentColor = '';
+
+      btn.forEach((element) => {
+        const color = element.textContent;
+        element.style.backgroundColor = color;
+
+        element.addEventListener('click', () => {
+          if (currentColor === color) {
+            currentColor = '';
+            document.body.style.backgroundColor = '#fff';
+            return;
+          }
+          document.body.style.backgroundColor = color;
+          currentColor = color;
+        });
+      });
+    </script>
+  </body>
+</html>

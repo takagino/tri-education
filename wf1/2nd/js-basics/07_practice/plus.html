@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p id="result">0</p>
+    <button id="plus">+</button>
+
+    <script>
+      let num = 0;
+      const result = document.querySelector("#result");
+      const plusBtn = document.querySelector("#plus");
+
+      plusBtn.addEventListener("click", function () {
+        num = num + 1;
+        result.innerHTML = num;
+      });
+    </script>
+  </body>
+</html>

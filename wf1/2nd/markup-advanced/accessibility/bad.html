@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>悪いコントラストと色に頼った例</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding-top: 5em;
+      line-height: 1.8;
+    }
+
+    .status-text {
+      font-size: 1.2rem;
+      margin-bottom: 2em;
+    }
+
+    .status-success {
+      color: green;
+      /* 緑色で成功を表現 */
+      font-weight: bold;
+    }
+
+    .status-error {
+      color: red;
+      /* 赤色でエラーを表現 */
+      font-weight: bold;
+    }
+
+    .action-button {
+      display: inline-block;
+      padding: 0.8em 1.5em;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      margin: 0 1em;
+      border-radius: 5px;
+    }
+
+    .button-primary {
+      background-color: #4CAF50;
+      /* 緑色のボタン */
+    }
+
+    .button-danger {
+      background-color: #F44336;
+      /* 赤色のボタン */
+    }
+  </style>
+</head>
+<body>
+  <div class="status-text">
+    <p class="status-success">処理が正常に完了しました</p>
+    <p class="status-error">エラーが発生しました。入力内容を確認してください</p>
+  </div>
+
+  <p>下記から操作を選んでください</p>
+  <div>
+    <a href="#" class="action-button button-primary">注文を確定する</a>
+    <a href="#" class="action-button button-danger">キャンセルする</a>
+  </div>
+</body>
+</html>

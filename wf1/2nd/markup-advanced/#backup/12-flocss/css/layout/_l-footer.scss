@@ -1,0 +1,15 @@
+@use '../global' as *;
+
+.l-footer {
+  padding: 100px 0 40px;
+  background-color: $color-main;
+
+  &__inner {
+    @include m-inner();
+  }
+
+  &__copy {
+    color: #fff;
+    font-size: 12px;
+  }
+}

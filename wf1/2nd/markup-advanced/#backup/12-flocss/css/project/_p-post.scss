@@ -1,0 +1,10 @@
+@use '../global' as *;
+
+.p-post {
+  &__title {
+    margin-bottom: 12px;
+    color: $color-main;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}

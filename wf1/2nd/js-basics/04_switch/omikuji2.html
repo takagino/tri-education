@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>おみくじその2</title>
+  <style>
+    #result {
+      transition: 1s;
+    }
+
+    .active {
+      transform: rotateY(360deg);
+    }
+  </style>
+</head>
+<body>
+  <button id="btn">占う</button>
+  <p><img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt="占う"></p>
+  <p id="message">何か一言が表示されます。</p>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const result = document.getElementById('result');
+    const message = document.getElementById('message');
+    const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+
+    btn.addEventListener('click', function () {
+      const num = Math.floor(Math.random() * 5);
+
+      switch (num) {
+        case 0:
+          result.setAttribute('src', `${path}/daikichi.png`);
+          message.innerHTML = '買ってないのに宝くじが当たる';
+          break;
+
+        case 1:
+          result.setAttribute('src', `${path}/chuukichi.png`);
+          message.innerHTML = '何もしてないのに褒められる';
+          break;
+
+        case 2:
+          result.setAttribute('src', `${path}/syoukichi.png`);
+          message.innerHTML = '頭皮の調子が良い';
+          break;
+
+        case 3:
+          result.setAttribute('src', `${path}/kyou.png`);
+          message.innerHTML = 'コンタクトレンズが割れる';
+          break;
+
+        case 4:
+          result.setAttribute('src', `${path}/daikyou.png`);
+          message.innerHTML = 'どこかの骨を折る';
+          break;
+
+        default:
+          console.log('エラー');
+          break;
+      }
+
+      result.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

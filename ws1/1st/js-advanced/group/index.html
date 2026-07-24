@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>グループ分け</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css"
+    />
+    <style>
+      button {
+        all: revert;
+        cursor: pointer;
+        margin-bottom: 1em;
+      }
+
+      .container {
+        width: fit-content;
+        margin: 3em auto;
+      }
+
+      .all {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 1em;
+      }
+
+      .left,
+      .center,
+      .right {
+        display: grid;
+        grid-template-columns: 200px 200px;
+      }
+
+      .list-item {
+        background-color: #f0f0f0;
+        border: 1px solid #000;
+        padding: 1em;
+        text-align: center;
+        aspect-ratio: 1 / 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .item-0,
+      .item-1,
+      .item-2,
+      .item-3 {
+        background-color: #ffcccc;
+      }
+      .item-4,
+      .item-5,
+      .item-6,
+      .item-7 {
+        background-color: #ccffcc;
+      }
+      .item-8,
+      .item-9,
+      .item-10,
+      .item-11 {
+        background-color: #ccccff;
+      }
+      .item-12,
+      .item-13,
+      .item-14,
+      .item-15 {
+        background-color: #ffffcc;
+      }
+      .item-16,
+      .item-17,
+      .item-18,
+      .item-19 {
+        background-color: #ffccff;
+      }
+      .item-20,
+      .item-21,
+      .item-22,
+      .item-23 {
+        background-color: #ccffff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button id="startButton">START</button>
+      <button id="stopButton">STOP</button>
+      <div class="all">
+        <div class="left"></div>
+        <div class="center"></div>
+        <div class="right"></div>
+      </div>
+    </div>
+    <script>
+      // const students = [
+      //   '磯部 紗那',
+      //   '加藤 美羽',
+      //   '金原 武陽',
+      //   '亀田 啓斗',
+      //   'KHANT KYAW',
+      //   '岸本 璃空',
+      //   '清井 すず',
+      //   '栗田 蓮音',
+      //   '後藤 匠',
+      //   '佐藤 礼都',
+      //   '鈴木 優太郎',
+      //   '竹岡 美虹',
+      //   'THADAR MOE HTET',
+      //   '通事 陽菜',
+      //   '中村 紫音',
+      //   '西岡 恭佑',
+      //   '殖田 結貴',
+      //   '細田 侑里',
+      //   '増元 ひかり',
+      //   '水竹 凛',
+      //   'MYAT THANDAR',
+      //   '八木 ジョナタン',
+      //   '山内 拡登',
+      //   '湯浅 遼次',
+      // ];
+      const students = [
+        '栗田 蓮音',
+        '八木 ジョナタン',
+        '中村 紫音',
+        '鈴木 優太郎',
+        'MYAT THANDAR',
+        '通事 陽菜',
+        '清井 すず',
+        '湯浅 遼次',
+        '岸本 璃空',
+        '西岡 恭佑',
+        '亀田 啓斗',
+        'KHANT KYAW',
+        '増元 ひかり',
+        '殖田 結貴',
+        '金原 武陽',
+        'THADAR MOE HTET',
+        '後藤 匠',
+        '水竹 凛',
+        '山内 拡登',
+        '竹岡 美虹',
+        '加藤 美羽',
+        '細田 侑里',
+        '佐藤 礼都',
+        '磯部 紗那',
+      ];
+      let timerId = null;
+      let listItems = [];
+
+      const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+
+        return array;
+      };
+
+      const leftDiv = document.querySelector('.left');
+      const centerDiv = document.querySelector('.center');
+      const rightDiv = document.querySelector('.right');
+      const startButton = document.getElementById('startButton');
+      const stopButton = document.getElementById('stopButton');
+
+      for (let i = 0; i < students.length; i++) {
+        const listItem = document.createElement('div');
+        listItem.classList.add('list-item', `item-${i}`);
+        listItems.push(listItem);
+        if (i < students.length / 3) {
+          leftDiv.appendChild(listItem);
+        } else if (i < (students.length * 2) / 3) {
+          centerDiv.appendChild(listItem);
+        } else {
+          rightDiv.appendChild(listItem);
+        }
+      }
+
+      startButton.addEventListener('click', () => {
+        // if (timerId) return;
+
+        // timerId = setInterval(() => {
+        //   const shuffledStudents = shuffle([...students]);
+        //   listItems.forEach((item, index) => {
+        //     item.textContent = shuffledStudents[index];
+        //   });
+        // }, 100);
+
+        listItems.forEach((item, index) => {
+          item.textContent = students[index];
+        });
+      });
+
+      stopButton.addEventListener('click', () => {
+        clearInterval(timerId);
+        timerId = null;
+      });
+    </script>
+  </body>
+</html>

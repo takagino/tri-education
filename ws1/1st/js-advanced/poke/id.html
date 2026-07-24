@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>IDでポケモン検索</title>
+  </head>
+  <body>
+    <h1>ポケモンID検索</h1>
+    <input type="number" id="pokemonId" placeholder="例: 25" />
+    <button id="fetchBtn">検索</button>
+    <div id="result"></div>
+
+    <script>
+      document.getElementById('fetchBtn').addEventListener('click', () => {
+        const id = document.getElementById('pokemonId').value;
+        const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+
+        fetch(url)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('ポケモンが見つかりません');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            const name = data.name;
+            const image = data.sprites.front_default;
+            const types = data.types.map((t) => t.type.name).join(', ');
+
+            document.getElementById('result').innerHTML = `
+            <h2>${name}（ID: ${id}）</h2>
+            <img src="${image}" alt="${name}">
+            <p>タイプ: ${types}</p>
+          `;
+          })
+          .catch((error) => {
+            document.getElementById(
+              'result'
+            ).innerHTML = `<p style="color:red;">${error.message}</p>`;
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,14 @@
+@use '../global' as *;
+
+.c-main-title {
+  margin-bottom: 40px;
+  color: $color-main;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  &:is(.p-news *) {
+    padding-bottom: 40px;
+    border-bottom: 1px solid $color-bg;
+  }
+}

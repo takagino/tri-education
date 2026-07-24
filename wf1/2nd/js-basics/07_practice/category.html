@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .btnall {
+        margin-bottom: 10px;
+      }
+      .postall {
+        display: flex;
+        flex-wrap: wrap;
+      }
+      article {
+        width: 100px;
+        height: 100px;
+        margin-right: 10px;
+        padding: 10px;
+        font-size: 0.7rem;
+      }
+      .html {
+        background-color: #f00;
+      }
+      .css {
+        background-color: #0f0;
+      }
+      .javascript {
+        background-color: #00f;
+      }
+      .php {
+        background-color: #ff0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btnall">
+      <button class="btn" id="html">HTML</button>
+      <button class="btn" id="css">CSS</button>
+      <button class="btn" id="javascript">JavaScript</button>
+      <button class="btn" id="php">PHP</button>
+    </div>
+
+    <div class="postall">
+      <article class="html css">
+        <h2>HTML+CSS</h2>
+      </article>
+      <article class="css">
+        <h2>CSS</h2>
+      </article>
+      <article class="javascript">
+        <h2>JavaScript</h2>
+      </article>
+      <article class="php">
+        <h2>PHP</h2>
+      </article>
+      <article class="html">
+        <h2>HTML02</h2>
+      </article>
+      <article class="css">
+        <h2>CSS02</h2>
+      </article>
+    </div>
+
+    <script>
+      const btns = document.querySelectorAll(".btn");
+      const posts = document.querySelectorAll(".postall article");
+
+      for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function () {
+          for (let j = 0; j < posts.length; j++) {
+            if (posts[j].classList.contains(btns[i].id)) {
+              posts[j].style.display = "block";
+            } else {
+              posts[j].style.display = "none";
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

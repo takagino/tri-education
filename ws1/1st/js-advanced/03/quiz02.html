@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3択クイズ - 基本形</title>
+</head>
+
+<body>
+    <div class="container"></div>
+
+    <script>
+        const quizData = [
+            {
+                question: 'HTMLとは何の略ですか？',
+                choices: {
+                    a: 'Hyper Text Markup Language',
+                    b: 'High Transfer Machine Language',
+                    c: 'Hyperlink and Text Modeling Language',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'CSSとは何の略ですか？',
+                choices: {
+                    a: 'Cascading Style Sheets',
+                    b: 'Computer Style Syntax',
+                    c: 'Color Sheet Script',
+                },
+                answer: 'a',
+            },
+            {
+                question: 'JSONとは何の略ですか？',
+                choices: {
+                    a: 'Java Script Object Notation',
+                    b: 'Java Serialized Object Name',
+                    c: 'Java Source Output Network',
+                },
+                answer: 'a',
+            },
+        ];
+
+        const containerEl = document.querySelector('.container');
+        let currentQuiz = 0;
+        let score = 0;
+
+        const showResult = () => {
+            containerEl.innerHTML = '';
+
+            const resultText = document.createElement('h2');
+            resultText.textContent = `あなたのスコアは ${score} / ${quizData.length} です。`;
+            containerEl.append(resultText);
+
+            const restartBtn = document.createElement('button');
+            restartBtn.textContent = '再挑戦';
+            restartBtn.addEventListener('click', () => {
+                currentQuiz = 0;
+                score = 0;
+                loadQuiz();
+            });
+            containerEl.append(restartBtn);
+        };
+
+        const loadQuiz = () => {
+            containerEl.innerHTML = '';
+
+            const questionEl = document.createElement('h2');
+            questionEl.textContent = quizData[currentQuiz].question;
+            containerEl.append(questionEl);
+
+            for (const key in quizData[currentQuiz].choices) {
+                const choiceBtn = document.createElement('button');
+                choiceBtn.textContent = quizData[currentQuiz].choices[key];
+                choiceBtn.setAttribute('name', 'answer');
+                choiceBtn.setAttribute('value', key);
+
+                choiceBtn.addEventListener('click', (e) => {
+                    const userAnswer = e.target.value;
+                    if (userAnswer === quizData[currentQuiz].answer) {
+                        score++;
+                        console.log(score);
+                    }
+
+                    currentQuiz++;
+
+                    if (currentQuiz < quizData.length) {
+                        loadQuiz();
+                    } else {
+                        showResult();
+                    }
+                });
+
+                containerEl.append(choiceBtn);
+            }
+        }
+
+        loadQuiz();
+    </script>
+</body>
+
+</html>

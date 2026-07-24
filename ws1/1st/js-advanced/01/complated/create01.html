@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>create01.html</title>
+  </head>
+  <body>
+    <button class="add">ADD</button>
+    <ul class="result"></ul>
+    <script>
+      const add = document.querySelector('.add');
+      const result = document.querySelector('.result');
+
+      add.addEventListener('click', () => {
+        const li = document.createElement('li');
+        li.textContent = `リスト`;
+        result.append(li);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,346 @@
+@use "sass:math";
+
+@font-face {
+  font-family: 'Noto';
+  src: url('../fonts/NotoSansJP-VariableFont_wght.woff2') format('woff2');
+  font-display: swap;
+}
+
+// =================================================================
+//  Variables
+// =================================================================
+
+// --- Spacing ---
+$space-xs: 0.25rem; //4px
+$space-s: 0.5rem; // 8px
+$space-m: 1rem; // 16px
+$space-l: 1.5rem; // 24px
+$space-xl: 2rem; // 32px
+$space-xxl: 2.5rem; // 40px
+$space-xxxl: 3rem; // 48px
+$space-xxxxl: 5rem; // 80px
+$space-xxxxxl: 7.5rem; // 120px
+
+// --- Colors ---
+$color-text: #000;
+$color-base: #2F2F2F;
+$color-main: #E40065;
+$color-bg: #F4F4F4;
+
+// --- Typography ---
+$font-size-base: 16;
+$font-family-gothic: "Noto", "Helvetica Neue", Arial, "Yu Gothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+$font-family-mincho: "Times New Roman", Times, "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+
+// --- Breakpoints ---
+$breakpoints: (
+  "tablet": 768px,
+  "desktop": 640px
+);
+
+
+// =================================================================
+//  Functions
+// =================================================================
+
+// pxをremに変換する
+// @param {number} $px-value - px値
+// @return {string} - rem値
+@function rem($px-value) {
+  @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// XDのトラッキング値をemに変換する
+// @param {number} $xd-value - XDのトラッキング値
+// @return {string} - em値
+@function ls($xd-value) {
+  @return #{math.div($xd-value, 1000)}em;
+}
+
+
+// =================================================================
+//  Mixins
+// =================================================================
+
+// メディアクエリ (モバイルファースト)
+// @param {string} $breakpoint - $breakpointsのキー
+@mixin mq($breakpoint: desktop) {
+  @media (width >=map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// インナー幅の指定
+// @param {number} $mw - max-width
+// @param {number} $w  - width
+@mixin inner($mw: 1000px, $w: percentage(math.div(560, 640))) {
+  max-width: $mw;
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin title-main($t) {
+  margin-bottom: rem(60);
+  font-size: rem(32);
+  font-weight: bold;
+  line-height: math.div(54, 32);
+  text-align: center;
+
+  &::before {
+    content: $t;
+    display: block;
+    margin-bottom: $space-m;
+    font-size: rem(14);
+    font-weight: normal;
+    line-height: math.div(14, 14);
+    text-transform: uppercase;
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    margin: $space-l auto 0;
+    width: rem(100);
+    border-bottom: 2px solid $color-main;
+  }
+}
+
+body {
+  color: $color-text;
+  font-size: rem(14);
+  font-family: $font-family-gothic;
+  line-height: math.div(24, 14);
+  letter-spacing: ls(50);
+}
+
+:focus-visible {
+  /* ブラウザ標準の青枠を出す */
+  outline: revert;
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+// =================================================================
+//  Common
+// =================================================================
+.header {
+  padding: $space-xxl 0;
+
+  &__inner {
+    @include inner();
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo {
+    font-size: rem(24);
+    font-weight: bold;
+    line-height: math.div(29, 24);
+    letter-spacing: ls(100);
+  }
+}
+
+.gnav {
+  &__list {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: rem(30);
+  }
+
+  &__item {
+    font-size: rem(12);
+    line-height: math.div(14, 12);
+  }
+
+  a:hover,
+  &__active {
+    color: $color-main;
+  }
+}
+
+.footer {
+  padding: rem(80) 0;
+  background-color: $color-base;
+  color: #fff;
+  text-align: center;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__copy {
+    font-size: rem(12);
+    font-weight: bold;
+    line-height: math.div(20, 12);
+  }
+}
+
+.post {
+  &__pic {
+    position: relative;
+
+    &--new::before {
+      content: "new";
+      display: inline-block;
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+      padding: $space-s $space-m;
+      border-radius: 20px;
+      color: #fff;
+      font-size: rem(12);
+      font-weight: bold;
+      line-height: math.div(12, 12);
+      text-transform: uppercase;
+      background-color: $color-main;
+    }
+  }
+
+  &__title {
+    margin: $space-xl 0 $space-l;
+    font-size: rem(18);
+    font-weight: bold;
+    line-height: math.div(31, 18);
+  }
+}
+
+// .card {
+//   display: grid;
+//   padding: $space-xxl $space-xl;
+//   border: 1px solid #a3a3a3;
+//   border-radius: 20px;
+//   background-color: #fff;
+
+//   &__content {
+//     margin-bottom: $space-xxl;
+//   }
+// }
+
+// .customer {
+//   display: grid;
+//   grid-auto-flow: column;
+//   justify-content: start;
+//   align-items: center;
+//   align-self: end;
+//   column-gap: $space-m;
+
+//   &__company {
+//     font-weight: bold;
+//   }
+// }
+
+.card {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 2;
+  row-gap: 40px;
+  padding: $space-xxl $space-xl;
+  border: 1px solid #a3a3a3;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.customer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  align-items: center;
+  column-gap: $space-m;
+
+  &__company {
+    font-weight: bold;
+  }
+}
+
+// =================================================================
+//  Index
+// =================================================================
+.mainvisual {
+  padding-bottom: $space-xxxl;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__pic {
+    width: 100%;
+  }
+}
+
+.philosophy {
+  padding-bottom: $space-xxxxxl;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("philosophy");
+  }
+
+  &__text {
+    max-width: rem(780);
+    margin: auto;
+    text-align: center;
+    display: grid;
+    row-gap: rem(60);
+
+    p {
+      line-height: math.div(34, 14);
+      word-break: keep-all;
+    }
+  }
+}
+
+.works {
+  padding-bottom: $space-xxxxxl;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("works");
+  }
+
+  &__list {
+    display: grid;
+    row-gap: rem(60);
+
+    @include mq() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: $space-xxxxl;
+    }
+  }
+}
+
+.voice {
+  padding: $space-xxxxl 0 $space-xxxxxl;
+  background-color: $color-bg;
+
+  &__inner {
+    @include inner();
+  }
+
+  &__title {
+    @include title-main("voice");
+  }
+
+  &__list {
+    display: grid;
+    row-gap: rem(60);
+
+    @include mq() {
+      grid-template-columns: 1fr 1fr;
+      column-gap: $space-xxxxl;
+    }
+  }
+}

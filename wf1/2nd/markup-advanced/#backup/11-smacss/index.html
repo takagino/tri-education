@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SMACSS</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <header class="l-header">
+      <div class="l-inner">
+        <h1 class="l-header-logo"><img src="./images/img_logo.png" alt="Newslly" /></h1>
+      </div>
+    </header>
+    <main class="l-main">
+      <section class="news l-py-4">
+        <div class="l-inner">
+          <h2 class="main-title">more news</h2>
+          <div class="l-grid-2">
+            <article class="news-item post">
+              <h3 class="post-title">Subtitle</h3>
+              <div class="post-text">
+                <p>
+                  Lorem ipsum dolor sit amet, in eam odio amet, vix id nullam detracto, vidit
+                  vituperatoribus duo id. Affert detraxit voluptatum vis eu, inermis eloquentiam.
+                </p>
+              </div>
+              <p class="time">2m ago</p>
+            </article>
+            <article class="news-item post">
+              <h3 class="post-title">Subtitle</h3>
+              <div class="post-text">
+                <p>
+                  Lorem ipsum dolor sit amet, in eam odio amet, vix id nullam detracto, vidit
+                  vituperatoribus duo id. Affert detraxit voluptatum vis eu, inermis eloquentiam.
+                </p>
+              </div>
+              <p class="time">1d ago</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <section class="trending l-py-4">
+        <div class="l-inner">
+          <h2 class="main-title">trending</h2>
+          <div class="l-grid-2">
+            <article class="trending-item card">
+              <img class="card-pic" src="./images/pic_trending01.png" alt="" />
+              <div class="card-content">
+                <h3 class="card-title">Dolore magna aliqua</h3>
+                <div class="card-text">
+                  <p>Lorem ipsum dolor sit amet, ipsum labitur lucilius mel id, ad has appareat.</p>
+                </div>
+                <a class="btn" href="#">read more...</a>
+              </div>
+            </article>
+            <article class="trending-item card">
+              <img class="card-pic" src="./images/pic_trending02.png" alt="" />
+              <div class="card-content">
+                <h3 class="card-title">Dolore magna aliqua</h3>
+                <div class="card-text">
+                  <p>Lorem ipsum dolor sit amet, ipsum labitur lucilius mel id, ad has appareat.</p>
+                </div>
+                <a class="btn" href="#">read more...</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="l-footer">
+      <div class="l-inner">
+        <small class="l-footer-copy">TRIDENT college All Rights Reserved.</small>
+      </div>
+    </footer>
+  </body>
+</html>

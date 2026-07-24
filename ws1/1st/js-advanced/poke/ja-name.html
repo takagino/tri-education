@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日本語でポケモン検索</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2rem;
+      }
+      img {
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>日本語でポケモン検索</h1>
+    <input type="text" id="pokemonName" placeholder="例: ピカチュウ" />
+    <button id="searchBtn">検索</button>
+    <div id="result"></div>
+
+    <script>
+      const API_BASE = 'https://pokeapi.co/api/v2';
+
+      const toFullWidthKatakana = (str) => {
+        return str.replace(/[\u3041-\u3096]/g, (match) => {
+          return String.fromCharCode(match.charCodeAt(0) + 0x60);
+        });
+      };
+      document.getElementById('pokemonName').addEventListener('input', (event) => {
+        event.target.value = toFullWidthKatakana(event.target.value);
+      });
+
+      document.getElementById('searchBtn').addEventListener('click', async () => {
+        const input = document.getElementById('pokemonName').value.trim();
+        const resultDiv = document.getElementById('result');
+        resultDiv.innerHTML = '検索中…';
+
+        try {
+          // 全ポケモンの種族一覧を取得（limit=1000まで対応）
+          const speciesList = await fetch(`${API_BASE}/pokemon-species?limit=10000`).then((res) =>
+            res.json()
+          );
+          //console.log(speciesList);
+
+          // 各種族の詳細を取得し、日本語名と照合
+          for (const species of speciesList.results) {
+            const speciesData = await fetch(species.url).then((res) => res.json());
+            //console.log(speciesData);
+            const jaName = speciesData.names.find((n) => n.language.name === 'ja');
+            //console.log(jaName);
+            if (jaName && jaName.name === input) {
+              // 英語名またはIDを取得して本体情報取得
+              const pokemonData = await fetch(`${API_BASE}/pokemon/${speciesData.id}`).then((res) =>
+                res.json()
+              );
+
+              console.log(pokemonData);
+              const image = pokemonData.sprites.front_default;
+              const types = pokemonData.types.map((t) => t.type.name).join(', ');
+              resultDiv.innerHTML = `
+              <h2>${jaName.name}（${pokemonData.name}）</h2>
+              <img src="${image}" alt="${pokemonData.name}" />
+              <p><strong>タイプ:</strong> ${types}</p>
+            `;
+              return;
+            }
+          }
+
+          resultDiv.innerHTML = `<p style="color:red;">「${input}」に該当するポケモンは見つかりませんでした。</p>`;
+        } catch (err) {
+          resultDiv.innerHTML = `<p style="color:red;">エラーが発生しました: ${err.message}</p>`;
+        }
+      });
+    </script>
+  </body>
+</html>

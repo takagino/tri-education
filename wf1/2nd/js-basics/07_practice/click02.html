@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sample</title>
+    <style>
+      body {
+        text-align: center;
+      }
+
+      ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+
+      .all {
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+        margin: 0 auto;
+      }
+
+      .chr {
+        width: 30%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>click game</h1>
+    <p class="msg">クリックでモンスターを倒せ！</p>
+    <div class="all">
+      <div class="chr">
+        <img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a0.png" alt="" />
+        <p>HP:10</p>
+      </div>
+      <div class="chr">
+        <img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a1.png" alt="" />
+        <p>HP:10</p>
+      </div>
+      <div class="chr">
+        <img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a2.png" alt="" />
+        <p>HP:10</p>
+      </div>
+    </div>
+    <script>
+      const chr = document.querySelectorAll(".chr img");
+      const hp = document.querySelectorAll(".chr p");
+      let msg = document.querySelector(".msg");
+      let num = [];
+
+      for (let i = 0; i < chr.length; i++) {
+        num[i] = Math.floor(Math.random() * 5 + 5);
+        hp[i].innerHTML = "HP:" + num[i];
+
+        chr[i].addEventListener("click", function () {
+          if (num[i] > 0) {
+            num[i]--;
+            hp[i].innerHTML = "HP:" + num[i];
+          }
+
+          if (num[0] == 0 && num[1] == 0 && num[2] == 0) {
+            msg.innerHTML = "おめでとう！";
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

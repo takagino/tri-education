@@ -1,0 +1,15 @@
+@use '../global' as *;
+
+body {
+  color: $color-text;
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}

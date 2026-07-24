@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クラスの操作</title>
+</head>
+<body>
+  <p id="sample" class="hoge fuga">ほげ</p>
+
+  <script>
+    const sample = document.getElementById('sample');
+    console.log(sample.classList.value);
+
+    sample.classList.add('piyo');
+
+    sample.addEventListener('click', function () {
+      //sample.classList.toggle('piyo');
+      if (sample.classList.contains('hoge')) {
+        sample.classList.remove('hoge');
+        sample.innerHTML = 'あ';
+      } else {
+        sample.classList.add('hoge');
+        sample.innerHTML = '';
+      }
+    });
+  </script>
+</body>
+</html>

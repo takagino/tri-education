@@ -1,0 +1,26 @@
+@use "sass:math";
+
+@mixin title-main($t) {
+  font-size: 32px;
+  text-align: center;
+
+  &::before {
+    content: $t;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  &::after {
+    content: "";
+  }
+}
+
+
+/* philosophy */
+.philosophy {
+  &__title {
+    @include title-main("PHILOSOPHY");
+  }
+}

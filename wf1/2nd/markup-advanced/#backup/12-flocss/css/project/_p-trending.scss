@@ -1,0 +1,15 @@
+@use '../global' as *;
+
+.p-trending {
+  background-color: $color-bg;
+
+  &__inner {
+    @include m-inner();
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+  }
+}

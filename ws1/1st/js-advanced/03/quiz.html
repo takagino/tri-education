@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>漢字クイズ</title>
+</head>
+
+<body>
+    <p>以下の漢字の読みを答えてください。</p>
+    <h2 class="question"></h2>
+    <input type="text" class="answer" placeholder="答えを入力してください" />
+    <button class="submit">回答する</button>
+    <div class="result"></div>
+
+    <script>
+        const quizData = [
+            {
+                question: '凡例',
+                answer: 'はんれい',
+            },
+            {
+                question: '進捗',
+                answer: 'しんちょく',
+            },
+            {
+                question: '適宜',
+                answer: 'てきぎ',
+            },
+        ];
+
+        const questionEl = document.querySelector('.question');
+        const answerInput = document.querySelector('.answer');
+        const submitBtn = document.querySelector('.submit');
+        const resultEl = document.querySelector('.result');
+
+        let currentQuiz = 0;
+        let currentQuizData = null;
+        let score = 0;
+
+        const loadQuiz = () => {
+            questionEl.innerHTML = '';
+
+            currentQuizData = quizData[currentQuiz];
+            questionEl.textContent = currentQuizData.question;
+        }
+
+        submitBtn.addEventListener('click', () => {
+            const userAnswer = answerInput.value.trim();
+
+            if (userAnswer === currentQuizData.answer) {
+                score++;
+            }
+
+            answerInput.value = '';
+            currentQuiz++;
+
+            if (currentQuiz < quizData.length) {
+                loadQuiz();
+            } else {
+                const resultText = document.createElement('h2');
+                resultText.textContent = `あなたのスコアは ${score} / ${quizData.length} です。`;
+                resultEl.append(resultText);
+
+                const restartBtn = document.createElement('button');
+                restartBtn.textContent = `再挑戦`;
+                restartBtn.addEventListener('click', () => {
+                    resultEl.innerHTML = '';
+                    currentQuiz = 0;
+                    score = 0;
+                    loadQuiz();
+                });
+                resultEl.append(restartBtn);
+            }
+        });
+
+        loadQuiz();
+    </script>
+</body>
+
+</html>

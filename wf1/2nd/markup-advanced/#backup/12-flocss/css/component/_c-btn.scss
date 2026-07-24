@@ -1,0 +1,13 @@
+@use '../global' as *;
+
+.c-btn {
+  display: block;
+  width: 150px;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 25px;
+  background-color: $color-main;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}

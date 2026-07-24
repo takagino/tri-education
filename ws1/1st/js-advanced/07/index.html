@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase</title>
+</head>
+
+<body>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import {
+            getFirestore,
+            collection,
+            doc,
+            getDoc,
+            getDocs
+        } from 'https://www.gstatic.com/firebasejs/11.9.1//firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhgiGg8wJv3xBH43Oe6Qbnyo3gmMsGCcQ",
+            authDomain: "test2-798a5.firebaseapp.com",
+            projectId: "test2-798a5",
+            storageBucket: "test2-798a5.firebasestorage.app",
+            messagingSenderId: "137765232821",
+            appId: "1:137765232821:web:e01517fac3a6a2a09c5efc"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const colRef = collection(db, "users");
+        const docRef = doc(colRef, "takagi");
+
+        getDoc(docRef)
+            .then((snapshot) => {
+                if (snapshot.exists()) {
+                    console.log(snapshot.data());
+                } else {
+                    console.log('No such document!');
+                }
+            })
+            .catch(error => console.error(error));
+
+        getDocs(colRef)
+            .then((snapshot) => {
+                snapshot.forEach((doc) => {
+                    console.log(doc.id, doc.data());
+
+                    const user = `
+                        <h1>${doc.id}</h1>
+                        <p>血液型：${doc.data().blood}</p>
+                    `;
+                    document.body.insertAdjacentHTML('beforeend', user);
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
+</body>
+
+</html>

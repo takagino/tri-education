@@ -1,0 +1,114 @@
+@charset "utf-8";
+
+/* Base
+---------------------------------*/
+body {
+  color: #a6adb4;
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+/* Layout
+---------------------------------*/
+.l-inner {
+  width: min(90%, 800px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.l-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.l-py-4 {
+  padding-top: 4em;
+  padding-bottom: 4em;
+}
+
+/* header */
+.l-header {
+  padding-top: 30px;
+  text-align: center;
+}
+
+/* footer */
+
+.l-footer {
+  padding: 100px 0 40px;
+  background-color: #202124;
+}
+
+.l-footer-copy {
+  color: #fff;
+  font-size: 12px;
+}
+
+/* モジュール
+---------------------------------*/
+.btn {
+  display: block;
+  width: 150px;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 25px;
+  background-color: #202124;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.time {
+  margin-top: 20px;
+  padding-left: 26px;
+  font-size: 12px;
+  font-style: oblique;
+  background: url(../../images/icon_time.png) no-repeat left center;
+}
+
+.main-title {
+  margin-bottom: 40px;
+  color: #202124;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.main-title:is(.news *) {
+  padding-bottom: 40px;
+  border-bottom: 1px solid #f6f8f9;
+}
+
+/* card */
+.card-content {
+  padding: 40px 35px;
+  background-color: #fff;
+}
+.card-title {
+  margin-bottom: 12px;
+  color: #202124;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* post */
+.post-title {
+  margin-bottom: 12px;
+  color: #202124;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* trending */
+.trending {
+  background-color: #f6f8f9;
+}

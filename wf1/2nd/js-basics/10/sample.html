@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>アコーディオンメニュー</title>
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .faq {
+        max-width: 800px;
+        margin: 3em auto;
+      }
+
+      .faq__q {
+        padding: 0.5em 1em;
+        background-color: #39c;
+        cursor: pointer;
+      }
+
+      .faq__a {
+        margin-left: 0;
+        padding: 0 1em;
+      }
+
+      .faq__a {
+        height: 0;
+        margin-left: 0;
+        padding: 0 1em;
+        overflow: hidden;
+      }
+
+      .active.faq__a {
+        height: auto;
+        padding: 0.5em 1em;
+      }
+
+      ul {
+        list-style-type: none;
+        padding-left: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 100px);
+      }
+
+      img {
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <dl class="faq">
+      <div class="faq__item">
+        <dt class="faq__q">2022年11月分の料金はいつ引き落としされますか？</dt>
+        <dd class="faq__a">
+          お客さまの締め日によって異なり、毎月6日、16日、26日の引き落とし日に分かれます。
+        </dd>
+      </div>
+      <div class="faq__item">
+        <dt class="faq__q">前月分の料金が確定するのはいつですか？</dt>
+        <dd class="faq__a">お客さまの締め日から10日後が料金確定日の目安です。</dd>
+      </div>
+      <div class="faq__item">
+        <dt class="faq__q">請求書が届きました。「PayPay」で支払うことはできますか？</dt>
+        <dd class="faq__a">「PayPay」でお支払いできます。</dd>
+      </div>
+    </dl>
+
+    <button id="btn">生成</button>
+
+    <script>
+      let active = 0;
+      const q = document.querySelectorAll(".faq__q");
+
+      for (let i = 0; i < q.length; i++) {
+        q[i].addEventListener("click", () => {
+          q[active].nextElementSibling.classList.remove("active");
+          active = i;
+          q[active].nextElementSibling.classList.add("active");
+        });
+      }
+
+      const url = [
+        "https://housefoods.jp/_sys/catimages/recipe/hfrecipe/items/00018280/0.485-310.jpeg",
+        "https://asset.watch.impress.co.jp/img/grw/docs/1643/671/sub3_l.jpg",
+        "https://m-munashi.com/wp/wp-content/uploads/2022/07/menu-0278-1-720x540.jpg",
+      ];
+      const btn = document.querySelector("#btn");
+      const ul = document.createElement("ul");
+      document.body.append(ul);
+
+      btn.addEventListener("click", () => {
+        const li = document.createElement("li");
+        // li.innerHTML = Math.floor(Math.random() * 100);
+        const img = document.createElement("img");
+        img.setAttribute("src", url[Math.floor(Math.random() * url.length)]);
+        img.setAttribute("width", "100");
+
+        li.append(img);
+        ul.append(li);
+      });
+    </script>
+  </body>
+</html>

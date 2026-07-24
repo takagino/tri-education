@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>日記</title>
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        #diary-entry {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        #diary-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #diary-list li {
+            background-color: #f0f0f0;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>日記</h1>
+        <textarea id="diary-entry" rows="10" placeholder="今日の出来事を記入..."></textarea>
+        <button id="submit-button" type="submit" disabled>保存</button>
+        <ul id="diary-list"></ul>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            serverTimestamp,
+            deleteDoc,
+            query,
+            orderBy,
+            getDocs,
+            limit,
+        } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+
+        // 自分の情報に変更
+        const firebaseConfig = {
+            apiKey: "AIzaSyDhgiGg8wJv3xBH43Oe6Qbnyo3gmMsGCcQ",
+            authDomain: "test2-798a5.firebaseapp.com",
+            projectId: "test2-798a5",
+            storageBucket: "test2-798a5.firebasestorage.app",
+            messagingSenderId: "137765232821",
+            appId: "1:137765232821:web:e01517fac3a6a2a09c5efc"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const diaryEntry = document.querySelector('#diary-entry');
+        const submitButton = document.querySelector('#submit-button');
+        const diaryList = document.querySelector('#diary-list');
+
+        diaryEntry.addEventListener('input', () => {
+            submitButton.disabled = diaryEntry.value.trim() === '';
+        });
+
+        const loadEntries = () => {
+            diaryList.innerHTML = '';
+
+            const myQuery = query(collection(db, 'entries'), orderBy('timestamp', 'desc'), limit(5));
+
+            getDocs(myQuery)
+                .then((snapshot) => {
+                    if (snapshot.empty) return;
+
+                    snapshot.forEach((doc) => {
+                        const d = new Date(doc.data().timestamp.seconds * 1000);
+                        const formattedDate = `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${d.getMinutes()}`;
+
+                        const li = document.createElement('li');
+                        li.innerHTML = `<dl><dt>${formattedDate}</dt><dd>${doc.data().content}</dd></dl>`;
+                        diaryList.append(li);
+                        console.log(formattedDate);
+                    });
+                })
+                .catch();
+        }
+
+        loadEntries();
+
+        submitButton.addEventListener('click', () => {
+            const entry = diaryEntry.value.trim();
+
+            if (!entry) return;
+
+            addDoc(collection(db, 'entries'), {
+                content: entry,
+                timestamp: serverTimestamp()
+            })
+                .then(() => {
+                    loadEntries();
+
+                    diaryEntry.value = '';
+                    submitButton.disabled = true;
+                })
+                .catch();
+
+            console.log(entry);
+        });
+
+        // getDocs(collection(db, 'entries'))
+        //     .then((snapshot) => {
+        //         snapshot.forEach((doc) => {
+        //             deleteDoc(doc.ref);
+        //         });
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
+    </script>
+</body>
+
+</html>

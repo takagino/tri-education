@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <button class="btn">0.5rem</button>
+      <button class="btn">1rem</button>
+      <button class="btn">1.5rem</button>
+    </div>
+    <h1>見出しです。</h1>
+    <p>本文です。</p>
+
+    <script>
+      const btns = document.querySelectorAll(".btn");
+
+      for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", () => {
+          const text = btns[i].innerHTML;
+          document.body.style.fontSize = text;
+        });
+      }
+    </script>
+  </body>
+</html>

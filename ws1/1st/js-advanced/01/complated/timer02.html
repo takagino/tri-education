@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>timer02.html</title>
+  </head>
+  <body>
+    <button class="start">START</button>
+    <button class="stop">STOP</button>
+    <p class="result">0</p>
+    <script>
+      const start = document.querySelector('.start');
+      const stop = document.querySelector('.stop');
+      const result = document.querySelector('.result');
+      let count = 0;
+      let timerId;
+
+      start.addEventListener('click', () => {
+        clearInterval(timerId);
+        count = 0;
+        result.textContent = count;
+        result.style.color = '#000';
+
+        timerId = setInterval(() => {
+          count++;
+          result.textContent = count;
+        }, 100);
+      });
+
+      stop.addEventListener('click', () => {
+        clearInterval(timerId);
+        if (count == 50) {
+          result.style.color = '#f00';
+        }
+      });
+    </script>
+  </body>
+</html>

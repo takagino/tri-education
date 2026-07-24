@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>要素の追加</title>
+  </head>
+  <body>
+    <button id="btn">生成</button>
+    <div class="container"></div>
+    <script>
+      const url = [
+        "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+        "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png",
+        "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+        "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+      ];
+
+      const btn = document.querySelector("#btn");
+
+      const createPic = () => {
+        const pic = document.createElement("img");
+        pic.setAttribute("src", url[Math.floor(Math.random() * url.length)]);
+        pic.setAttribute("width", 200);
+        document.body.append(pic);
+        setTimeout(createPic, 1000);
+      };
+
+      //createPic();
+
+      const container = document.querySelector(".container");
+      let pic = "";
+      btn.addEventListener("click", () => {
+        pic += `<img src="${url[0]}" width="200">`;
+        container.innerHTML = pic;
+      });
+    </script>
+  </body>
+</html>

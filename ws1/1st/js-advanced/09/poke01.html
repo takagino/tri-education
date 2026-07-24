@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ポケモン検索＋お気に入り登録</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 2em;
+      }
+
+      #pokemonInfo {
+        margin-bottom: 100px;
+      }
+
+      .pokemon {
+        border: 1px solid #ccc;
+        padding: 1em;
+        margin-top: 1em;
+      }
+      img {
+        width: 150px;
+      }
+      .favorites {
+        margin-top: 2em;
+      }
+
+      #favoritesList {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>ランダムポケモン表示</h1>
+    <button id="randomBtn">ランダム表示</button>
+
+    <div id="pokemonInfo" class="pokemon"></div>
+
+    <h2>お気に入り一覧</h2>
+    <div id="favoritesList" class="favorites"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+      // ✅ Supabase初期化
+      const supabaseUrl = 'https://eydhgyramxjqjbizuwtx.supabase.co';
+      const supabaseKey =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZGhneXJhbXhqcWpiaXp1d3R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODI2OTcsImV4cCI6MjA2OTU1ODY5N30.jYuzzMXNZAcbYXr_p3gTIflPV_e0YqUokRK83fytSWI';
+      const client = supabase.createClient(supabaseUrl, supabaseKey);
+
+      const randomBtn = document.getElementById('randomBtn');
+      const pokemonInfo = document.getElementById('pokemonInfo');
+      const favoritesList = document.getElementById('favoritesList');
+
+      // ✅ pokeAPIからポケモン取得＆表示
+      async function fetchPokemon(id) {
+        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+        if (!res.ok) {
+          alert('ポケモンが見つかりませんでした');
+          return;
+        }
+
+        const data = await res.json();
+        const name = data.name;
+        const image = data.sprites.front_default;
+        const height = data.height;
+        const weight = data.weight;
+        const types = data.types.map((t) => t.type.name).join(', ');
+
+        pokemonInfo.innerHTML = `
+        <h2>${name}</h2>
+        <img src="${image}" alt="${name}" />
+        <p>身長: ${height}</p>
+        <p>体重: ${weight}</p>
+        <p>タイプ: ${types}</p>
+        <button id="favBtn">お気に入りに追加</button>
+      `;
+
+        document.getElementById('favBtn').addEventListener('click', () => {
+          saveToFavorites({
+            poke_id: id,
+            name,
+            image_url: image,
+            height,
+            weight,
+            types,
+          });
+        });
+      }
+
+      // ✅ Supabaseに登録
+      async function saveToFavorites(pokemon) {
+        const { error } = await client.from('poke').insert(pokemon);
+        if (error) {
+          console.error('保存失敗:', error.message);
+        } else {
+          alert('お気に入りに追加しました！');
+          await loadFavorites();
+        }
+      }
+
+      // ✅ お気に入り一覧表示
+      async function loadFavorites() {
+        const { data, error } = await client.from('poke').select('*').order('id');
+        if (error) {
+          console.error('取得失敗:', error.message);
+          return;
+        }
+
+        favoritesList.innerHTML = '';
+        data.forEach((p) => {
+          const div = document.createElement('div');
+          div.className = 'pokemon';
+          div.innerHTML = `
+          <h3>${p.name}（ID: ${p.poke_id}）</h3>
+          <img src="${p.image_url}" alt="${p.name}" />
+          <p>身長: ${p.height}</p>
+          <p>体重: ${p.weight}</p>
+          <p>タイプ: ${p.types}</p>
+        `;
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = '削除';
+          deleteBtn.className = 'deleteBtn';
+          deleteBtn.setAttribute('data-id', p.id);
+          div.appendChild(deleteBtn);
+          deleteBtn.addEventListener('click', async () => {
+            await deleteFavorite(p.id);
+          });
+          favoritesList.appendChild(div);
+        });
+      }
+
+      // 削除ボタンにイベントを追加
+      document.querySelectorAll('.deleteBtn').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          const id = e.target.getAttribute('data-id');
+          await deleteFavorite(id);
+        });
+      });
+
+      async function deleteFavorite(id) {
+        const { error } = await client.from('poke').delete().eq('id', id);
+        if (error) {
+          console.error('削除失敗:', error.message);
+        } else {
+          alert('削除しました');
+          await loadFavorites();
+        }
+      }
+
+      // ✅ ランダムボタン押下時の処理
+      randomBtn.addEventListener('click', () => {
+        const randomId = Math.floor(Math.random() * 1000) + 1; // ID: 1〜1000
+        fetchPokemon(randomId);
+      });
+
+      // ✅ 初期表示：お気に入り一覧
+      loadFavorites();
+    </script>
+  </body>
+</html>

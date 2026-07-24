@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script type="module">
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js';
+      import {
+        getStorage,
+        ref,
+        listAll,
+        getDownloadURL,
+      } from 'https://www.gstatic.com/firebasejs/11.5.0/firebase-storage.js';
+
+      const firebaseConfig = {
+        apiKey: 'AIzaSyD5aE2BZ73zptpsVMhvki7SFroJHiB01Oc',
+        authDomain: 'test-78fed.firebaseapp.com',
+        projectId: 'test-78fed',
+        storageBucket: 'test-78fed.firebasestorage.app',
+        messagingSenderId: '722658321754',
+        appId: '1:722658321754:web:f95ad856c7e732b37f3f63',
+        storageBucket: 'test-78fed.firebasestorage.app',
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const storage = getStorage(app);
+      const listRef = ref(storage, 'images/');
+
+      listAll(listRef)
+        .then((res) => {
+          res.items.forEach((itemRef) => {
+            console.log(itemRef);
+
+            getDownloadURL(itemRef)
+              .then((url) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = itemRef.name;
+                img.style.width = '200px';
+                img.style.height = 'auto';
+                document.body.appendChild(img);
+              })
+              .catch((error) => {
+                console.error('Error getting download URL:', error);
+              });
+          });
+        })
+        .catch((error) => {
+          console.log('Error listing items:', error);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お絵描き判定ツール</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 2em;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+            margin-bottom: 1em;
+        }
+
+        #result {
+            font-size: 1.2em;
+            margin-top: 1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>お絵かき分類ゲーム</h1>
+    <p>キャンバスに動物の絵を描いて、「分類する」を押すとAIが判定します。</p>
+
+    <canvas id="canvas" width="224" height="224"></canvas>
+    <div>
+        <button onclick="clearCanvas()">クリア</button>
+        <button onclick="predict()">分類する</button>
+    </div>
+
+    <ul id="resultList"></ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', drawstart);
+        canvas.addEventListener('mouseup', () => drawing = false);
+        canvas.addEventListener('mouseout', () => drawing = false);
+        canvas.addEventListener('mousemove', draw);
+
+        function drawstart(e) {
+            drawing = true;
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 4;
+            ctx.limeCap = 'round';
+            ctx.lineJoin = 'round';
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        }
+
+        function clearCanvas() {
+            // canvas要素と同じ大きさの矩形の範囲をクリアする
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            document.getElementById('resultList').innerHTML = '';
+        }
+
+        const URL = "https://teachablemachine.withgoogle.com/models/mR9etfnNC/";
+
+        let model;
+        let maxPredictions;
+
+        async function loadModel() {
+            const modelURL = URL + 'model.json';
+            const metadataURL = URL + 'metadata.json';
+            model = await tmImage.load(modelURL, metadataURL);
+            maxPredictions = model.getTotalClasses();
+
+            console.log(model, maxPredictions);
+
+            const metadata = await fetch(metadataURL).then(res => res.json());
+            console.log('完了', metadata);
+        }
+
+        loadModel();
+
+        async function predict() {
+            if (!model) return;
+
+            const prediction = await model.predict(canvas);
+            console.log(prediction);
+
+            document.getElementById('resultList').innerHTML = "";
+
+            for (let i = 0; i < maxPredictions; i++) {
+                const className = prediction[i].className;
+                const probability = (prediction[i].probability * 100).toFixed(1);
+
+                const li = document.createElement('li');
+                li.textContent = `${className}：${probability}%`;
+                document.getElementById('resultList').appendChild(li);
+            }
+        }
+    </script>
+</body>
+
+</html>

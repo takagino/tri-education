@@ -1,0 +1,10 @@
+@use '../global' as *;
+
+.l-header {
+  padding-top: 30px;
+  text-align: center;
+
+  &__inner {
+    @include m-inner();
+  }
+}

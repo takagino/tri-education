@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage</title>
+</head>
+
+<body>
+    <button id="save">保存</button>
+    <button id="get">取得</button>
+    <button id="delete">削除</button>
+
+
+    <script>
+        const save = document.querySelector("#save");
+        const get = document.querySelector("#get");
+        const del = document.querySelector("#delete");
+
+        let obj = {
+            name: "高木",
+            age: 44
+        };
+
+        save.addEventListener('click', () => {
+            localStorage.setItem('text', encodeURIComponent(JSON.stringify(obj)));
+        });
+
+        get.addEventListener('click', () => {
+            const text = JSON.parse(decodeURIComponent(localStorage.getItem('text')));
+            alert(text.name);
+        });
+
+        del.addEventListener('click', () => {
+            localStorage.clear();
+        });
+    </script>
+</body>
+
+</html>
