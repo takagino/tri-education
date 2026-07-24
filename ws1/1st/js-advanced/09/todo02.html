@@ -1,171 +1,173 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todoリスト</title>
-  </head>
-  <body>
-    <h1>TODO追加フォーム02</h1>
-    <input type="text" id="todoInput" placeholder="やることを入力" />
-    <label for="prioritySelect">優先度:</label>
-    <select id="prioritySelect">
-      <option value="3">高</option>
-      <option value="2" selected>中</option>
-      <option value="1">小</option>
-    </select>
-    <button id="addButton">追加</button>
 
-    <button id="deleteAllButton">すべて削除</button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todoリスト</title>
+</head>
 
-    <ul id="todoList"></ul>
+<body>
+  <h1>TODO追加フォーム02</h1>
+  <input type="text" id="todoInput" placeholder="やることを入力" />
+  <label for="prioritySelect">優先度:</label>
+  <select id="prioritySelect">
+    <option value="3">高</option>
+    <option value="2" selected>中</option>
+    <option value="1">小</option>
+  </select>
+  <button id="addButton">追加</button>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script>
-      const supabaseUrl = 'https://eydhgyramxjqjbizuwtx.supabase.co';
-      const supabaseKey =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZGhneXJhbXhqcWpiaXp1d3R4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODI2OTcsImV4cCI6MjA2OTU1ODY5N30.jYuzzMXNZAcbYXr_p3gTIflPV_e0YqUokRK83fytSWI';
-      const client = supabase.createClient(supabaseUrl, supabaseKey);
+  <button id="deleteAllButton">すべて削除</button>
 
-      const todoInput = document.querySelector('#todoInput');
-      const addButton = document.querySelector('#addButton');
-      addButton.addEventListener('click', addTodo);
+  <ul id="todoList"></ul>
 
-      const todoList = document.querySelector('#todoList');
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    const supabaseUrl = 'https://eydhgyramxjqjbizuwtx.supabase.co';
+    const supabaseKey =;
+    const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-      const deleteAllButton = document.querySelector('#deleteAllButton');
-      deleteAllButton.addEventListener('click', deleteAllTodos);
+    const todoInput = document.querySelector('#todoInput');
+    const addButton = document.querySelector('#addButton');
+    addButton.addEventListener('click', addTodo);
 
-      const priorityWeight = { 3: '高', 2: '中', 1: '小' };
-      const prioritySelect = document.querySelector('#prioritySelect');
+    const todoList = document.querySelector('#todoList');
 
-      async function fetchTodos() {
-        todoList.innerHTML = '';
+    const deleteAllButton = document.querySelector('#deleteAllButton');
+    deleteAllButton.addEventListener('click', deleteAllTodos);
 
-        const { data, error } = await client
-          .from('todo')
-          .select('*')
-          .order('priority', { ascending: false })
-          .order('id', { ascending: true });
+    const priorityWeight = { 3: '高', 2: '中', 1: '小' };
+    const prioritySelect = document.querySelector('#prioritySelect');
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+    async function fetchTodos() {
+      todoList.innerHTML = '';
 
-        data.forEach((item) => {
-          const li = document.createElement('li');
+      const { data, error } = await client
+        .from('todo')
+        .select('*')
+        .order('priority', { ascending: false })
+        .order('id', { ascending: true });
 
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.checked = item.is_done;
-          checkbox.addEventListener('change', () => {
-            updateIsDone(item.id, checkbox.checked);
-          });
-          li.appendChild(checkbox);
+      if (error) {
+        console.error(error);
+        return;
+      }
 
-          const span = document.createElement('span');
-          span.textContent = `${item.title}（優先度: ${priorityWeight[item.priority]}）`;
-          if (item.is_done) {
-            span.classList.add('done');
-          }
-          li.appendChild(span);
+      data.forEach((item) => {
+        const li = document.createElement('li');
 
-          const deleteBtn = document.createElement('button');
-          deleteBtn.textContent = '削除';
-          deleteBtn.addEventListener('click', () => {
-            deleteTodo(item.id);
-          });
-          li.appendChild(deleteBtn);
-
-          todoList.appendChild(li);
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = item.is_done;
+        checkbox.addEventListener('change', () => {
+          updateIsDone(item.id, checkbox.checked);
         });
-      }
+        li.appendChild(checkbox);
 
-      async function addTodo() {
-        const priority = prioritySelect.value;
-        const title = todoInput.value.trim();
-
-        if (title === '') {
-          alert('タイトルを入力してください');
-          return;
+        const span = document.createElement('span');
+        span.textContent = `${item.title}（優先度: ${priorityWeight[item.priority]}）`;
+        if (item.is_done) {
+          span.classList.add('done');
         }
+        li.appendChild(span);
 
-        const { data, error } = await client.from('todo').insert({
-          title: title,
-          priority: priority,
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '削除';
+        deleteBtn.addEventListener('click', () => {
+          deleteTodo(item.id);
         });
+        li.appendChild(deleteBtn);
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+        todoList.appendChild(li);
+      });
+    }
 
-        console.log('追加成功');
-        todoInput.value = '';
-        await fetchTodos();
+    async function addTodo() {
+      const priority = prioritySelect.value;
+      const title = todoInput.value.trim();
+
+      if (title === '') {
+        alert('タイトルを入力してください');
+        return;
       }
 
-      async function updateTodo() {
-        const { data, error } = await client
-          .from('todo')
-          .update({
-            title: '更新しました',
-          })
-          .match({ id: 1 });
+      const { data, error } = await client.from('todo').insert({
+        title: title,
+        priority: priority,
+      });
 
-        if (error) {
-          console.error(error);
-          return;
-        }
-
-        console.log('更新成功');
+      if (error) {
+        console.error(error);
+        return;
       }
 
-      async function deleteTodo(id) {
-        const { data, error } = await client.from('todo').delete().eq('id', id);
+      console.log('追加成功');
+      todoInput.value = '';
+      await fetchTodos();
+    }
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+    async function updateTodo() {
+      const { data, error } = await client
+        .from('todo')
+        .update({
+          title: '更新しました',
+        })
+        .match({ id: 1 });
 
-        console.log('削除成功');
-        await fetchTodos();
+      if (error) {
+        console.error(error);
+        return;
       }
 
-      async function deleteAllTodos() {
-        const confirmDelete = confirm('本当にすべて削除しますか？');
-        if (!confirmDelete) return;
+      console.log('更新成功');
+    }
 
-        const { data, error } = await client.from('todo').delete().neq('id', 0);
+    async function deleteTodo(id) {
+      const { data, error } = await client.from('todo').delete().eq('id', id);
 
-        if (error) {
-          console.error(error);
-          return;
-        }
-
-        console.log('全ての削除成功');
-        await fetchTodos();
+      if (error) {
+        console.error(error);
+        return;
       }
 
-      async function updateIsDone(id, isDone) {
-        const { error } = await client.from('todo').update({ is_done: isDone }).eq('id', id);
+      console.log('削除成功');
+      await fetchTodos();
+    }
 
-        if (error) {
-          console.error(error);
-          return;
-        }
+    async function deleteAllTodos() {
+      const confirmDelete = confirm('本当にすべて削除しますか？');
+      if (!confirmDelete) return;
 
-        await fetchTodos();
+      const { data, error } = await client.from('todo').delete().neq('id', 0);
+
+      if (error) {
+        console.error(error);
+        return;
       }
 
-      async function init() {
-        //await deleteAllTodos();
-        await fetchTodos();
+      console.log('全ての削除成功');
+      await fetchTodos();
+    }
+
+    async function updateIsDone(id, isDone) {
+      const { error } = await client.from('todo').update({ is_done: isDone }).eq('id', id);
+
+      if (error) {
+        console.error(error);
+        return;
       }
 
-      init();
-    </script>
-  </body>
+      await fetchTodos();
+    }
+
+    async function init() {
+      //await deleteAllTodos();
+      await fetchTodos();
+    }
+
+    init();
+  </script>
+</body>
+
 </html>

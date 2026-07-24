@@ -1,69 +1,64 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>お気に入り登録</title>
-  </head>
-  <body>
-    <ul>
-      <li>pikachu</li>
-      <li>charmander</li>
-      <li>bulbasaur</li>
-      <li>squirtle</li>
-    </ul>
-    <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
-    <button id="submit">取得</button>
 
-    <div class="container"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>お気に入り登録</title>
+</head>
 
-    <script type="module">
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
-      import {
-        getFirestore,
-        doc,
-        setDoc,
-      } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+<body>
+  <ul>
+    <li>pikachu</li>
+    <li>charmander</li>
+    <li>bulbasaur</li>
+    <li>squirtle</li>
+  </ul>
+  <input type="text" id="pokemonName" placeholder="ポケモンの名前を入力" />
+  <button id="submit">取得</button>
 
-      const firebaseConfig = {
-        apiKey: 'AIzaSyDxrvDm3Az9goHS0ghoN-xKx4XGyPoAPgo',
-        authDomain: 'test-1387e.firebaseapp.com',
-        projectId: 'test-1387e',
-        storageBucket: 'test-1387e.firebasestorage.app',
-        messagingSenderId: '501826119456',
-        appId: '1:501826119456:web:9ce1d1e57aec867d6f9945',
-      };
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+  <div class="container"></div>
 
-      //DOM要素の取得
-      const container = document.querySelector('.container');
-      const nameInput = document.querySelector('#pokemonName');
-      const submitButton = document.querySelector('#submit');
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+    } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
 
-      //イベントリスナーの設定
-      submitButton.addEventListener('click', () => {
-        const name = nameInput.value.trim();
-        container.textContent = '取得中...';
+    const firebaseConfig = {};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        if (!name) {
-          container.textContent = '名前を入力してください。';
-          return;
-        }
+    //DOM要素の取得
+    const container = document.querySelector('.container');
+    const nameInput = document.querySelector('#pokemonName');
+    const submitButton = document.querySelector('#submit');
 
-        fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data);
-            container.textContent = '取得完了!';
+    //イベントリスナーの設定
+    submitButton.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      container.textContent = '取得中...';
 
-            renderPokemon(data);
-          })
-          .catch((error) => (container.textContent = '取得失敗!'));
-      });
+      if (!name) {
+        container.textContent = '名前を入力してください。';
+        return;
+      }
 
-      const renderPokemon = (data) => {
-        const html = `
+      fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          container.textContent = '取得完了!';
+
+          renderPokemon(data);
+        })
+        .catch((error) => (container.textContent = '取得失敗!'));
+    });
+
+    const renderPokemon = (data) => {
+      const html = `
         <h2>${data.name}</h2>
         <img src="${data.sprites.front_default}" alt="${data.name}">
         <ul>
@@ -76,25 +71,26 @@
         </ul>
       `;
 
-        container.insertAdjacentHTML('beforeend', html);
+      container.insertAdjacentHTML('beforeend', html);
 
-        const favoriteButton = document.createElement('button');
-        favoriteButton.textContent = 'お気に入りに追加';
-        favoriteButton.addEventListener('click', () => {
-          setData(data);
-        });
-        container.appendChild(favoriteButton);
-      };
+      const favoriteButton = document.createElement('button');
+      favoriteButton.textContent = 'お気に入りに追加';
+      favoriteButton.addEventListener('click', () => {
+        setData(data);
+      });
+      container.appendChild(favoriteButton);
+    };
 
-      const setData = (data) => {
-        const myDoc = doc(db, 'pokemon', data.name);
+    const setData = (data) => {
+      const myDoc = doc(db, 'pokemon', data.name);
 
-        setDoc(myDoc, data)
-          .then(() => {
-            container.textContent = 'お気に入りに追加！';
-          })
-          .catch((error) => (container.textContent = 'お気に入りに追加失敗!'));
-      };
-    </script>
-  </body>
+      setDoc(myDoc, data)
+        .then(() => {
+          container.textContent = 'お気に入りに追加！';
+        })
+        .catch((error) => (container.textContent = 'お気に入りに追加失敗!'));
+    };
+  </script>
+</body>
+
 </html>
