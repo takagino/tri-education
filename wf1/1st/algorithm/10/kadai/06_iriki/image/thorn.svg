@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75.24 75.24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #c1c1c1;
+      }
+
+      .cls-2 {
+        fill: #7e7f7e;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー 1">
+    <rect class="cls-2" x="7.52" y="45.14" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="15.05" y="60.19" width="15.05" height="15.05"/>
+    <rect class="cls-2" y="60.19" width="15.05" height="15.05"/>
+    <rect class="cls-1" x="22.57" y="45.14" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="30.1" y="60.19" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="45.14" y="60.19" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="60.19" y="60.19" width="15.05" height="15.05"/>
+    <rect class="cls-1" x="37.62" y="45.14" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="15.05" y="30.1" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="22.57" y="15.05" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="30.1" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="37.62" y="15.05" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="45.14" y="30.1" width="15.05" height="15.05"/>
+    <rect class="cls-2" x="52.67" y="45.14" width="15.05" height="15.05"/>
+    <rect class="cls-1" x="30.1" y="30.1" width="15.05" height="15.05"/>
+  </g>
+</svg>

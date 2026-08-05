@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>p5play</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.min.js"></script>
+    <script src="https://p5play.org/v3/planck.min.js"></script>
+    <script src="https://p5play.org/v3/p5play.min.js"></script>
+    <script src="sketch.js" defer></script>
+    <style>
+        canvas {
+            border: 1px solid;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+
+        .sousa {
+            margin-left: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sousa">
+        ＜操作方法＞<br>
+        spaceキー : ジャンプ / 左右キー : 移動<br>
+        shiftキー : 急降下<br>
+        ※左右キーは'A'と'D'のほうがやりやすいかも
+        <br>
+        <br>
+        ゲーム途中にescapeキーを押すとタイトル画面に戻れます
+    </div>
+</body>
+
+</html>
