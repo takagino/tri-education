@@ -2,7 +2,7 @@
     <main>
       <div class="about">
         <section class="profile">
-          <img class="profile-pic" src="<?php echo get_theme_file_uri('/images/pic_about.jpg'); ?>" alt="">
+          <img class="profile-pic" src="<?php echo esc_url( get_theme_file_uri( '/images/pic_about.jpg' ) ); ?>" alt="">
           <h2 class="profile-title">山田 太郎<span>Yamada Tarou</span></h2>
           <dl>
             <div class="profile-item">
@@ -44,5 +44,4 @@
         </section>
       </div>
     </main>
-  </div>
 <?php get_footer(); ?>

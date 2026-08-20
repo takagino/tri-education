@@ -9,49 +9,9 @@
           the_post();
           ?>
 
-          <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
+          <?php get_template_part( 'template-parts/content' ); ?>
 
-            <?php
-            if( has_post_thumbnail() ):
-              the_post_thumbnail('thumbnail');
-            else:
-            ?>
-
-            <img src="<?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?>" alt="">
-
-            <?php
-            endif;
-            ?>
-
-            <h2 class="post-title"><?php the_title(); ?></h2>
-            <p class="post-date"><?php the_time('Y.n.j.'); ?></p>
-            <div class="post-contents">
-              <?php the_excerpt(); ?>
-            </div>
-            <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
-            <div class="post-info">
-              <ul>
-                <li class="post-category">Category: <?php the_category(','); ?></li>
-                <li class="post-tag">Tag: <?php the_tags('Tag:', ' / '); ?></li>
-              </ul>
-            </div>
-          </article>
-
-          <?php
-          endwhile;
-          else:
-          ?>
-          <p>記事がありません。</p>
-          <?php
-          endif;
-          ?>
-
-          <div class="nav-page">
-            <ul>
-              <li><?php previous_posts_link(); ?></li>
-              <li><?php next_posts_link('古い記事へ'); ?></li>
-            </ul>
-          </div>
+          <?php endwhile; ?>
 
           <div class="nav-page blog">
             <?php
@@ -64,11 +24,14 @@
             );
             ?>
           </div>
+
+          <?php else: ?>
+          <?php get_template_part( 'template-parts/content', 'none' ); ?>
+          <?php endif; ?>
         </div>
         <div class="sidebar">
           <?php get_sidebar(); ?>
         </div>
       </div>
     </main>
-  </div>
 <?php get_footer(); ?>

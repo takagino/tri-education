@@ -11,7 +11,7 @@
 
           <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
             <h2 class="post-title"><?php the_title(); ?></h2>
-            <p class="post-date"><?php the_time('Y年n月j日'); ?></p>
+            <time class="post-date" datetime="<?php echo get_the_date('Y-m-d'); ?>"><?php echo get_the_date('Y年n月j日'); ?></time>
             <div class="post-contents">
               <?php the_content(); ?>
             </div>
@@ -25,18 +25,18 @@
 
           <?php comments_template(); ?>
 
+          <div class="nav-page">
+            <ul>
+              <li><?php previous_post_link('%link', '←前の記事'); ?></li>
+              <li><a href="<?php echo esc_url( home_url('/') ); ?>">一覧に戻る</a></li>
+              <li><?php next_post_link('%link', '次の記事→'); ?></li>
+            </ul>
+          </div>
+
           <?php
           endwhile;
           endif;
           ?>
-
-          <div class="nav-page">
-            <ul>
-              <li><?php previous_post_link('%link', '←前の記事'); ?></li>
-              <li><a href="<?php echo home_url('/'); ?>">一覧に戻る</a></li>
-              <li><?php next_post_link('%link', '次の記事→'); ?></li>
-            </ul>
-          </div>
 
           <!-- サブループのサンプル -->
           <?php
@@ -52,7 +52,7 @@
           ?>
 
           <article class="post">
-            <?php the_title(); ?>
+            <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
           </article>
 
           <?php
@@ -66,5 +66,4 @@
         </div>
       </div>
     </main>
-  </div>
 <?php get_footer(); ?>

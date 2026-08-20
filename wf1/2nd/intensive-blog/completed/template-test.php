@@ -16,5 +16,4 @@ Template Name: テンプレートのテスト
     <?php endwhile; ?>
     <?php endif ?>
   </main>
-</div>
 <?php get_footer(); ?>

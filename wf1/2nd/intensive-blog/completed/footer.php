@@ -1,4 +1,5 @@
-<footer>
+  </div><!-- /.inner (opened in header.php) -->
+  <footer>
     <div class="inner">
       <ul class="nav-sns">
         <li><a href="#">Twittr</a></li>

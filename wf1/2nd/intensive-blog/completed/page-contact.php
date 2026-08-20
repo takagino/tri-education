@@ -1,8 +1,14 @@
 <?php get_header(); ?>
     <main>
       <div class="contact">
-        <?php echo do_shortcode('[contact-form-7 id="2132" title="コンタクトフォーム 1"]'); ?>
+        <?php
+        if ( have_posts() ) :
+          while ( have_posts() ) :
+            the_post();
+            the_content();
+          endwhile;
+        endif;
+        ?>
       </div>
     </main>
-  </div>
 <?php get_footer(); ?>

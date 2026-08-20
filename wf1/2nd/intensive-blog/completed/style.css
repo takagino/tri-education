@@ -2,13 +2,15 @@
 
 /*
 Theme Name: blog-sample
-Theme URI:
 Author: Tarou Yamada
-Author URI:
 Description: WordPressを学んで、最初のテーマです。
 Version: 1.0
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.4
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: blog-sample
 */
 
 /*Common
@@ -248,7 +250,7 @@ footer {
 
 /*MediaQuery
 -------------------------------------*/
-@media (min-width:800px) {
+@media (width<=800px) {
   .contents {
     display: flex;
     justify-content: space-between;
