@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRIDENT WEBDESIGN CONFERENCE 2025</title>
+  <link href="https://fonts.googleapis.com/css?family=Caveat" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Pacifico&family=Sacramento&display=swap"
+    rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-B3nbHUrf.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DTKDexUi.css">
+</head>
+
+<body>
+  <div id="mouse-stalker"></div>
+  <div class="sphere">
+    <header class="section" id="top">
+      <div class="inner">
+        <h1 class="title">TRIDENT WEBDESIGN CONFERENCE 2025</h1>
+      </div>
+    </header>
+    <main>
+      <div class="main">
+        <div class="news">
+          <div class="inner">
+            <h2 class="fade-in">News<span>News</span></h2>
+            <div class="link fade-in">
+              <p id="text">2025年12月1日(月)</p>
+              <a href="#">申し込む</a>
+            </div>
+          </div>
+        </div>
+        <section class="section" id="concept">
+          <div class="inner">
+            <h2 class="fade-in">The web of the future is tangible.<span>The web of the future is tangible.</span></h2>
+            <div class="text fade-in">
+              <p>
+                TRIDENT WEBDESIGN CONFERENCE 2025
+                は、「視覚を超える体験」をテーマに、次世代のWeb表現とその可能性に迫るカンファレンスです。
+              </p>
+
+              <p>
+                WebGL、インタラクションデザイン、空間的なUI設計など、フロントエンドの新領域で活躍するクリエイターが集結し、未来のWebの「触感」を議論・共有します。
+              </p>
+              <p>
+                現実とデジタルの境界が曖昧になる時代に、私たちが届けるべき体験とは何か──それを一緒に考え、かたちにする1日を。
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="section" id="session">
+          <div class="inner">
+            <h2 class="fade-in">Session<span>Session</span></h2>
+            <div class="article fade-in">
+              <article>
+                <img src="./images/kawaguchi.jpg" alt="" width="300" />
+                <h3>Immersive Web Design <br>〜没入型インターフェースの最前線〜</h3>
+                <dl>
+                  <dt>講演者</dt>
+                  <dd>河口英生（グラフィックデザイナー）</dd>
+                </dl>
+              </article>
+              <article>
+                <img src="./images/takagi.jpg" alt="" width="300" />
+                <h3>Touch, Motion, Emotion<br>〜インタラクションが動かす感情設計〜</h3>
+                <dl>
+                  <dt>講演者</dt>
+                  <dd>高木寛貴（インタラクションエンジニア）</dd>
+                </dl>
+              </article>
+            </div>
+          </div>
+        </section>
+        <section class="section" id="outline">
+          <div class="inner">
+            <h2 class="fade-in">Event overview<span>Event overview</span></h2>
+            <dl>
+              <div class="fade-in">
+                <dt>日時</dt>
+                <dd>2025年12月1日(月) 13:00〜17:00</dd>
+              </div>
+              <div class="fade-in">
+                <dt>会場</dt>
+                <dd>トライデントコンピュータ専門学校 メディアホール（名古屋市中村区）</dd>
+              </div>
+              <div class="fade-in">
+                <dt>参加費</dt>
+                <dd>無料（事前登録制）</dd>
+              </div>
+              <div class="fade-in">
+                <dt>参加方法</dt>
+                <dd>
+                  学校公式サイトまたは当ページの申込フォームより受付。<br />
+                  学生・一般どちらも参加可能。オンライン配信あり（URLは申込者に後日送付）
+                </dd>
+              </div>
+              <div class="fade-in">
+                <dt>主催</dt>
+                <dd>トライデントコンピュータ専門学校 Webデザイン学科</dd>
+              </div>
+            </dl>
+            <p class="fade-in">詳細は<a href="#">公式サイト</a>をご覧ください。</p>
+          </div>
+        </section>
+      </div>
+    </main>
+    <footer>
+      <div class="inner">
+        <p class="tag">ハッシュタグ：#TWC2025</p>
+        <p>Copyright<span>© 2025 TRIDENT WEBDESIGN CONFERENCE</span></p>
+      </div>
+    </footer>
+  </div>
+  <script>
+    const stalker = document.getElementById('mouse-stalker');
+    document.addEventListener('mousemove', function (e) {
+      const offsetX = 25;
+      const offsetY = 25;
+      stalker.style.transform = 'translate(' + e.clientX + 'px, ' + e.clientY + 'px)';
+    });
+
+    const links = document.querySelectorAll('a');
+
+    links.forEach(link => {
+      link.addEventListener('mouseenter', () => {
+        stalker.classList.add('hover');
+      });
+
+      link.addEventListener('mouseleave', () => {
+        stalker.classList.remove('hover');
+      });
+    });
+
+    function isPc() {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    }
+
+    window.addEventListener('scroll', () => {
+      const elements = document.querySelectorAll('.fade-in');
+      elements.forEach(function (element) {
+        const position = element.getBoundingClientRect();
+        if (position.top < window.innerHeight && position.bottom >= 0) {
+          element.classList.add('visible');
+        } else {
+          element.classList.remove('visible');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

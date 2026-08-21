@@ -1,0 +1,12 @@
+/*
+デフォルトのコードをすべて削除し、以下のコードを記述
+*/
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+}

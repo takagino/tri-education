@@ -1,0 +1,29 @@
+/* 余白を消して、画面からはみ出さないようにする */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #ffffff;
+}
+
+/* Three.jsのキャンバスを背景として画面全体に固定する */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  /* 文字よりも後ろ（下）に配置する */
+}
+
+/* 文字を画面のド真ん中に配置する */
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 完全に中央揃えにする魔法 */
+  text-align: center;
+
+  /* 【超重要】文字のエリアが、後ろの3D空間のクリック操作を邪魔しないようにする */
+  pointer-events: none;
+}

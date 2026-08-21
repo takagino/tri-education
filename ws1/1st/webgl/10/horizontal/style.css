@@ -1,0 +1,68 @@
+/* style.css */
+body {
+    margin: 0;
+    background-color: #111;
+    color: #fff;
+    font-family: sans-serif;
+}
+
+.normal-section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.red-bg {
+    background-color: #495057;
+}
+
+.blue-bg {
+    background-color: #343a40;
+}
+
+
+/* --- 横スクロール用の設定 --- */
+
+/* 親エリア：画面1枚分の枠を固定する */
+.horizontal-section {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    /* ⚠️ 必須：横にはみ出た要素でスクロールバーを出さない */
+}
+
+/* 子エリア：フレックスで横に繋げる（100vw × 4枚 ＝ 400%） */
+.horizontal-wrapper {
+    display: flex;
+    width: 400vw;
+    height: 100%;
+}
+
+/* 各パネル：画面1枚分のサイズ */
+.panel {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.c1 {
+    background-color: #e03131;
+}
+
+.c2 {
+    background-color: #1971c2;
+}
+
+.c3 {
+    background-color: #2f9e44;
+}
+
+.c4 {
+    background-color: #f08c00;
+}

@@ -1,0 +1,41 @@
+/* App.css */
+
+body {
+    margin: 0;
+    background-color: #111;
+    color: #fff;
+    font-family: sans-serif;
+    overflow-x: hidden;
+}
+
+/* 3Dキャンバスを画面の背面に固定する */
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    /* 背面 */
+    pointer-events: none;
+    /* マウスの操作を貫通させて、スクロールできるようにする */
+}
+
+/* 手前のHTMLテキスト */
+.scroll-content {
+    position: relative;
+    z-index: 2;
+    /* 手前 */
+}
+
+.section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}

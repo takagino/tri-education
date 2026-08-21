@@ -1,0 +1,36 @@
+/* src/App.css */
+body {
+    margin: 0;
+    background: #111;
+    color: #fff;
+    font-family: sans-serif;
+}
+
+.canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    /* 背景に配置 */
+    pointer-events: none;
+    /* マウスイベントを貫通させる */
+}
+
+.scroll-content {
+    position: relative;
+    z-index: 2;
+    /* 3Dより手前に配置 */
+}
+
+.section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-left: 10vw;
+}
+
+h1 {
+    font-size: 3rem;
+}
