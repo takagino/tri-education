@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+body {
+    margin: 0;
+    color: #898989;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.5;
+    /* 21 / 14 */
+    letter-spacing: 0;
+}
+
+.wrapper {
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    padding: 60px 0 80px;
+}
+
+h1 {
+    margin: 0;
+    color: #E5916B;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    /* 大文字にする */
+}
+
+h2 {
+    margin: 0 0 40px;
+    color: #202124;
+    font-size: 24px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+h3 {
+    margin: 0 0 10px;
+    color: #202124;
+    font-size: 20px;
+}
+
+footer {
+    padding: 20px 0 80px;
+    border-top: 3px solid #E5916B;
+}
+
+footer p {
+    margin: 0;
+    color: #202124;
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+    letter-spacing: 0.05em;
+    text-align: right;
+}
+
+.news {
+    margin-bottom: 60px;
+}
+
+.news article {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px dashed #898989;
+}
+
+.category {
+    margin: 0 0 20px;
+    color: #E5916B;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+}
+
+.date {
+    margin: 30px 0 0;
+    color: #898989;
+    font-style: italic;
+}
+
+.trending {
+    margin-bottom: 80px;
+}
+
+.trending article {
+    margin-bottom: 40px;
+    background-color: #F6F6F6;
+}
+
+.trending .contents {
+    padding: 30px;
+}
+
+.trending h3 {
+    font-size: 18px;
+}

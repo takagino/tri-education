@@ -1,0 +1,121 @@
+@charset "utf-8";
+
+body {
+    color: #676767;
+    font-size: 14px;
+    font-family: 'Times New Roman', Times, serif;
+    line-height: 1.5;
+    letter-spacing: 0;
+    background-color: #fff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+.inner {
+    width: 87.5%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    margin: 40px 0;
+}
+
+header .inner {
+    display: grid;
+    align-items: center;
+    /* justify-content: center; */
+    text-align: center;
+    row-gap: 10px;
+}
+
+.gnav ul {
+    display: flex;
+    justify-content: center;
+    column-gap: 30px;
+}
+
+.about {
+    background-color: #0864B1;
+    color: #fff;
+}
+
+.about .inner {
+    padding: 80px 0;
+    background: url(./images/bg_about.png) no-repeat right;
+}
+
+.about h2 {
+    margin-bottom: 60px;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 1.2;
+}
+
+.about a {
+    display: block;
+    width: 240px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    color: #0864B1;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.posts {
+    display: grid;
+    /* gap: 60px 5%; */
+    /* 上下のgapを%にすると意図した大きさにならない場合があるので注意 */
+    row-gap: 60px;
+    column-gap: 5%;
+}
+
+/* tablet */
+@media (640px < width) {
+
+    header .inner {
+        /* grid-template-columns: auto auto; */
+        grid-auto-flow: column;
+        justify-content: space-between;
+    }
+
+    .about h2 {
+        font-size: 42px;
+    }
+
+    .posts {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+/* desktop */
+@media (1000px < width) {
+    .posts {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* .posts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.posts article {
+    width: 47.5%;
+} */
+
+
+
+/* .posts img {
+    width: 100%;
+} */

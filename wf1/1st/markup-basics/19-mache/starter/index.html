@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mache</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.2.0/css/all.min.css"
+    integrity="sha512-F/yRpRY8sctKzP7exU5PLGejwg/QtjDX6CIy/41nApe7JqdZgCcCzJTNq9Rcp/XwbeeTGillGevBakruY15pxA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./style.css">
+  <script>
+    (function (d) {
+      var config = {
+        kitId: 'svh4rjp',
+        scriptTimeout: 3000,
+        async: true
+      },
+        h = d.documentElement, t = setTimeout(function () { h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive"; }, config.scriptTimeout), tk = d.createElement("script"), f = false, s = d.getElementsByTagName("script")[0], a; h.className += " wf-loading"; tk.src = 'https://use.typekit.net/' + config.kitId + '.js'; tk.async = true; tk.onload = tk.onreadystatechange = function () { a = this.readyState; if (f || a && a != "complete" && a != "loaded") return; f = true; clearTimeout(t); try { Typekit.load(config) } catch (e) { } }; s.parentNode.insertBefore(tk, s)
+    })(document);
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="inner">
+      <h1><img src="./images/img_logo.png" alt="Mache"></h1>
+      <nav class="gnav">
+        <ul>
+          <li><a class="active" href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Prices</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <!-- 「aria-」の属性はアクセシビリティのための「WAI-ARIA」の設定 -->
+      <button class="hamburger" aria-label="メニュー" aria-controls="nav-menu" aria-expanded="false">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="about">
+      <div class="inner">
+        <h2 class="js-scroll-trigger" data-animation="zoom-in">Webフォントのサンプル</h2>
+        <p>
+          だからご関係でいうても得だのますが、秋刀魚をも、ひょろひょろ私かなって落ちつけるれるましない困らられんですと尊ぶから、道もきめてならでた。近頃もっともはようやく一つってなりますから、私をも同年末くらい私のご努力もやかましいなっいなかっで。
+        </p>
+        <a class="btn" href="#">SHOW MORE</a>
+      </div>
+    </section>
+    <section id="updates" class="updates">
+      <div class="inner">
+        <h2>Our Latest Updates</h2>
+        <div class="posts">
+          <article class="js-scroll-trigger" data-animation="fade-up">
+            <a href="#">
+              <div class="pic">
+                <img src="./images/bg_mainvisual.jpg" alt="">
+              </div>
+            </a>
+            <div class="content">
+              <h3>LOREM IPSUMA DOLOR SIT</h3>
+              <p>
+                <a href="https://google.com">Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor
+                  incididunt ut
+                  labore et.</a>
+              </p>
+            </div>
+          </article>
+          <article class="js-scroll-trigger" data-animation="fade-up">
+            <a href="#">
+              <div class="pic hot">
+                <img src="./images/pic_updates02.png" alt="">
+              </div>
+            </a>
+            <div class="content">
+              <h3>LOREM IPSUMA DOLOR SIT</h3>
+              <p>
+                Lorem <a href="./test.pdf">ipsum</a> dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt
+                ut
+                labore et.
+              </p>
+            </div>
+          </article>
+          <article class="js-scroll-trigger" data-animation="fade-up">
+            <a href="#">
+              <div class="pic">
+                <img src="./images/pic_updates03.png" alt="">
+              </div>
+            </a>
+            <div class="content">
+              <h3>LOREM IPSUMA DOLOR SIT</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur elit, sed do eiusmod tempor incididunt ut
+                labore et.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- formのmethodはpostとgetがある -->
+        <form action="submit.php" method="post">
+          <input type="text" placeholder="漢字で入力">
+          <label>
+            <input type="radio" name="age" checked>20代
+          </label>
+          <label>
+            <input type="radio" name="age">30代
+          </label>
+          <br>
+          <textarea></textarea>
+          <input type="submit" value="送信">
+        </form>
+        <div class="responsive-table">
+          <table>
+            <thead>
+              <tr>
+                <th>名前</th>
+                <th>年齢</th>
+                <th>職業</th>
+                <th>メール</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>田中 太郎</td>
+                <td>28</td>
+                <td>エンジニア</td>
+                <td>tanaka@example.com</td>
+              </tr>
+              <tr>
+                <td>鈴木 花子</td>
+                <td>34</td>
+                <td>デザイナー</td>
+                <td>suzuki@example.com</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section>
+    <p></p>
+    <article></article>
+  </section>
+
+  <footer>
+    <div class="inner">
+      <ul class="sns">
+        <li><a href="#"><i class="fa-brands fa-square-instagram"></i></a></li>
+        <li><a href="#"><i class="fa-brands fa-square-x-twitter"></i></a></li>
+        <li><a href="#"></a></li>
+      </ul>
+      <button class="pagetop" type="button">
+        <div class="pagetop__arrow"></div>
+      </button>
+      <p><small>© 2015 COPYRIGHT MACHE TEMPLATE</small></p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.2.0/js/all.min.js"
+    integrity="sha512-yPy6ZYK58TvqpM57CcYXJ91nG3z8tvT1+2HD/OmVWzGg/KipUYn3atyQn1mUfu7h+Aj26zDnheXDgWee3tk+DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./script.js"></script>
+</body>
+
+</html>

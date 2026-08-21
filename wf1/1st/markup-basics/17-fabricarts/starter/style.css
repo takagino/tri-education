@@ -1,0 +1,235 @@
+@charset "utf-8";
+
+body {
+    color: #000;
+    font-size: 14px;
+    font-family: "Helvetica Neue",
+        Arial,
+        "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans",
+        "Noto Sans JP",
+        sans-serif;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+h2 {
+    margin-bottom: 60px;
+    font-size: 38px;
+    font-weight: bold;
+    line-height: 1.2;
+    text-align: center;
+}
+
+h2::before {
+    content: "news";
+    display: block;
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
+.works h2::before {
+    content: "works";
+}
+
+.voice h2::before {
+    content: "voice";
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 100px;
+    margin: 25px auto 0;
+    border-bottom: 2px solid #E40065;
+}
+
+::selection {
+    color: #fff;
+    background-color: #E40065;
+}
+
+.inner {
+    width: 88%;
+    max-width: 1170px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    padding: 35px 0;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+header .inner {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gnav ul {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 30px;
+}
+
+.gnav a {
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.gnav .active,
+.gnav a:hover {
+    color: #E40065;
+}
+
+.news {
+    margin-top: 180px;
+}
+
+.news-list {
+    /* width: 51%; */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    column-gap: 40px;
+    padding: 25px;
+}
+
+.news-item:nth-of-type(2n) {
+    background-color: #f7f7f7;
+    /*
+    偶数（2n, even）
+    奇数（2n+1, odd）
+    3の倍数（3n）
+    */
+}
+
+.news-item dt::first-letter {
+    color: #E40065;
+}
+
+.news-item dd::before {
+    content: "『";
+}
+
+.news-item dd::after {
+    content: "』";
+}
+
+.works .posts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* repeat(2, 1fr)*/
+    column-gap: 50px;
+}
+
+.works .pic {
+    position: relative;
+}
+
+.works .pic::before {
+    /* display: inline-block; 絶対配置をした時は指定しなくても幅等を設定できる */
+    position: absolute;
+    left: 10px;
+    bottom: 15px;
+    padding: 5px 15px;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.works .new::before {
+    content: "new";
+    background-color: #E40065;
+}
+
+/* .voice article {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 80px;
+}
+
+.voice article:nth-of-type(even) {
+    flex-direction: row-reverse;
+}
+
+.voice article img {
+    width: 34%;
+}
+
+.voice .text {
+    width: 60%;
+} */
+
+.voice article {
+    display: grid;
+    grid-template-columns: 400fr 700fr;
+    align-items: center;
+    column-gap: 6%;
+    margin-top: 80px;
+}
+
+.voice article:nth-of-type(even) {
+    grid-template-columns: 700fr 400fr;
+}
+
+.voice article:nth-of-type(even) img {
+    order: 2;
+    /* 順番を数字の順にする */
+}
+
+.voice .text {
+    position: relative;
+    padding: 50px;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+}
+
+.voice .text::before {
+    content: "";
+    display: inline-block;
+    border: 15px solid transparent;
+    border-right-color: #f7f7f7;
+    position: absolute;
+    top: 50%;
+    left: -30px;
+}
+
+.voice article:nth-of-type(even) .text::before {
+    border-right-color: transparent;
+    border-left-color: #f7f7f7;
+    left: auto;
+    /* 初期値に戻す */
+    right: -30px;
+}
+
+.circle {
+    width: 30px;
+    height: 30px;
+    background-color: #000;
+    border-radius: 50%;
+}
