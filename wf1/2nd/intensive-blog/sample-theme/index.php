@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?php bloginfo('name'); ?></title>
   <meta name="description" content="<?php bloginfo('description'); ?>">
-  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css" />
-  <link rel="stylesheet" href="<?php echo get_stylesheet_uri(); ?>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
+  <link rel="stylesheet" href="<?php echo esc_url(get_stylesheet_uri()); ?>">
   <?php wp_head(); ?>
 </head>
 
@@ -15,41 +15,42 @@
   <?php wp_body_open(); ?>
   <div class="inner">
     <header>
-      <h1><a href="<?php echo home_url('/'); ?>">Sample Blog</a></h1>
+      <h1><a href="<?php echo esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a></h1>
       <nav class="nav-global">
         <ul>
-          <li><a href="<?php echo home_url('/'); ?>">HOME</a></li>
-          <li><a href="about.html">ABOUT</a></li>
-          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="<?php echo esc_url(home_url('/')); ?>">HOME</a></li>
+          <li><a href="<?php echo esc_url(home_url('/about/')); ?>">ABOUT</a></li>
+          <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">CONTACT</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <div class="contents">
         <div class="post-all">
-
           <?php
           if (have_posts()):
             while (have_posts()):
               the_post();
           ?>
-
-              <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
-                <img src="<?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?>" alt="">
+              <article class="post">
+                <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
                 <h2 class="post-title"><?php the_title(); ?></h2>
-                <p class="post-date"><?php the_time('Y年n月j日'); ?></p>
+                <p class="post-date">
+                  <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
+                    <?php the_time('Y年n月j日'); ?>
+                  </time>
+                </p>
                 <div class="post-contents">
                   <?php the_excerpt(); ?>
                 </div>
                 <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
                 <div class="post-info">
                   <ul>
-                    <li class="post-category">Category: <?php echo get_the_category_list(','); ?></li>
-                    <li class="post-tag"><?php echo get_the_tag_list('Tag: ', ' / '); ?></li>
+                    <li class="post-category">Category: <?php the_category(', '); ?></li>
+                    <li class="post-tag">Tag: <?php the_tags('', ' / '); ?></li>
                   </ul>
                 </div>
               </article>
-
           <?php
             endwhile;
           endif;
@@ -104,6 +105,7 @@
       <p><small>Copyright sample-blog All Rights Reserved.</small></p>
     </div>
   </footer>
+
   <?php wp_footer(); ?>
 </body>
 
