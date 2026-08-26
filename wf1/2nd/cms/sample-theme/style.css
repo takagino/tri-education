@@ -251,3 +251,11 @@ footer {
     background-color: #ddd;
   }
 }
+
+.thumbnail img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  /* 好きな縦横比を指定（1/1なら正方形） */
+  object-fit: cover;
+  /* 枠に合わせて綺麗にトリミングする */
+}

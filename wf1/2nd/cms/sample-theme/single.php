@@ -8,27 +8,16 @@
           the_post();
       ?>
           <article class="post">
-            <div class="thumbnail">
-              <?php
-              if (has_post_thumbnail()):
-                the_post_thumbnail('medium');
-              else:
-              ?>
-                <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="No Image">
-              <?php
-              endif;
-              ?>
-            </div>
-            <h2 class="post-title"><?php the_title(); ?></h2>
+            <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
+            <h1 class="post-title"><?php the_title(); ?></h1>
             <p class="post-date">
               <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
                 <?php the_time('Y年n月j日'); ?>
               </time>
             </p>
             <div class="post-contents">
-              <?php the_excerpt(); ?>
+              <?php the_content(); ?>
             </div>
-            <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
             <div class="post-info">
               <ul>
                 <li class="post-category">Category: <?php the_category(', '); ?></li>
@@ -40,18 +29,11 @@
         endwhile;
       endif;
       ?>
-
       <div class="nav-page">
         <ul>
-          <?php
-          $arg = array(
-            'mid_size' => 1,
-            'prev_text' => '<',
-            'next_text' => '>',
-            'type' => 'list'
-          );
-          the_posts_pagination($arg);
-          ?>
+          <li><?php previous_post_link('%link', '← 前の記事'); ?></li>
+          <li><a href="<?php echo esc_url(home_url('/')); ?>">一覧に戻る</a></li>
+          <li><?php next_post_link('%link', '次の記事 →'); ?></li>
         </ul>
       </div>
     </div>

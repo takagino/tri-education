@@ -2,6 +2,20 @@
 <main>
   <div class="contents">
     <div class="post-all">
+      <?php if (is_category()): ?>
+        <!-- カテゴリー一覧ページの場合 -->
+        <?php single_cat_title(); ?>の記事一覧
+      <?php elseif (is_tag()): ?>
+        <!-- タグ一覧ページの場合 -->
+        <?php single_tag_title(); ?>の記事一覧
+      <?php elseif (is_month()): ?>
+        <!-- 月別アーカイブページの場合 -->
+        <?php the_time('Y年n月'); ?>の記事一覧
+      <?php else: ?>
+        <!-- その他のアーカイブページ -->
+        過去の記事一覧
+      <?php endif; ?>
+
       <?php
       if (have_posts()):
         while (have_posts()):
