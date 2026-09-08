@@ -1,3 +1,10 @@
+<aside class="side-search">
+    <h2 class="side-title">Search</h2>
+
+    <!-- ここに検索フォームを出力 -->
+    <?php get_search_form(); ?>
+
+</aside>
 <aside class="side-category">
     <h2 class="side-title">category</h2>
     <ul class="side-list">

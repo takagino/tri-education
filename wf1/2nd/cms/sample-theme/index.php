@@ -7,53 +7,32 @@
         while (have_posts()):
           the_post();
       ?>
-          <article class="post">
-            <div class="thumbnail">
-              <?php
-              if (has_post_thumbnail()):
-                the_post_thumbnail('medium');
-              else:
-              ?>
-                <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="No Image">
-              <?php
-              endif;
-              ?>
-            </div>
-            <h2 class="post-title"><?php the_title(); ?></h2>
-            <p class="post-date">
-              <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
-                <?php the_time('Y年n月j日'); ?>
-              </time>
-            </p>
-            <div class="post-contents">
-              <?php the_excerpt(); ?>
-            </div>
-            <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
-            <div class="post-info">
-              <ul>
-                <li class="post-category">Category: <?php the_category(', '); ?></li>
-                <li class="post-tag">Tag: <?php the_tags('', ' / '); ?></li>
-              </ul>
-            </div>
-          </article>
-      <?php
-        endwhile;
-      endif;
-      ?>
 
-      <div class="nav-page">
-        <ul>
-          <?php
-          $arg = array(
-            'mid_size' => 1,
-            'prev_text' => '<',
-            'next_text' => '>',
-            'type' => 'list'
-          );
-          the_posts_pagination($arg);
-          ?>
-        </ul>
-      </div>
+          <!-- 切り取った跡地に以下を記述 -->
+          <?php get_template_part('template-parts/loop', 'post'); ?>
+
+        <?php endwhile; ?>
+
+        <div class="nav-page">
+          <ul>
+            <?php
+            $arg = array(
+              'mid_size' => 1,
+              'prev_text' => '<',
+              'next_text' => '>',
+              'type' => 'list'
+            );
+            the_posts_pagination($arg);
+            ?>
+          </ul>
+        </div>
+
+      <?php else: ?>
+
+        <!-- 記事がない場合の処理 -->
+        <p>記事がありません。</p>
+
+      <?php endif; ?>
     </div>
     <div class="sidebar">
       <?php get_sidebar(); ?>

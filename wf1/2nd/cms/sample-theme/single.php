@@ -7,7 +7,7 @@
         while (have_posts()):
           the_post();
       ?>
-          <article class="post">
+          <article id="post-<?php the_ID(); ?>" <?php post_class('post'); ?>>
             <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
             <h1 class="post-title"><?php the_title(); ?></h1>
             <p class="post-date">
@@ -24,18 +24,25 @@
                 <li class="post-tag">Tag: <?php the_tags('', ' / '); ?></li>
               </ul>
             </div>
+
+            <div class="post-comments">
+              <?php
+              // コメントが開いているか、コメントが1件以上ある場合に表示
+              if (comments_open() || get_comments_number()):
+                comments_template();
+              endif;
+              ?>
+            </div>
           </article>
-      <?php
-        endwhile;
-      endif;
-      ?>
-      <div class="nav-page">
-        <ul>
-          <li><?php previous_post_link('%link', '← 前の記事'); ?></li>
-          <li><a href="<?php echo esc_url(home_url('/')); ?>">一覧に戻る</a></li>
-          <li><?php next_post_link('%link', '次の記事 →'); ?></li>
-        </ul>
-      </div>
+        <?php endwhile; ?>
+        <div class="nav-page">
+          <ul>
+            <li><?php previous_post_link('%link', '← 前の記事'); ?></li>
+            <li><a href="<?php echo esc_url(home_url('/')); ?>">一覧に戻る</a></li>
+            <li><?php next_post_link('%link', '次の記事 →'); ?></li>
+          </ul>
+        </div>
+      <?php endif; ?>
     </div>
     <div class="sidebar">
       <?php get_sidebar(); ?>
