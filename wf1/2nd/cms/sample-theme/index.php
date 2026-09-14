@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="ja">
+<html <?php language_attributes(); ?>>
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sample Blog</title>
+  <title><?php bloginfo('name'); ?></title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="<?php echo esc_url(get_stylesheet_uri()); ?>">
 </head>
 
 <body>
