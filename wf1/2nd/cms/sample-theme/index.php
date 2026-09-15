@@ -48,8 +48,8 @@
             <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
             <div class="post-info">
               <ul>
-                <li class="post-category">Category: <a href="#">作品</a></li>
-                <li class="post-tag">Tag: <a href="#">HTML</a> / <a href="#">CSS</a> / <a href="#">JavaScript</a></li>
+                <li class="post-category">Category: <?php the_category(' / '); ?></li>
+                <li class="post-tag">Tag: <?php the_tags('', ' / '); ?></li>
               </ul>
             </div>
           </article>
