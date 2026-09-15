@@ -5,19 +5,27 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><?php bloginfo('name'); ?></title>
+  <!-- サイトの説明（検索時に出てくる文章） -->
+  <meta name="description" content="<?php bloginfo('description'); ?>">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
-  <link rel="stylesheet" href="<?php echo esc_url(get_stylesheet_uri()); ?>">
+  <link rel="stylesheet" href="<?php
+                                # PHPのコメント
+                                # getがついているタグは値を取得するだけ
+                                echo esc_url(get_stylesheet_uri());
+                                ?>">
+  <?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class('test test2'); ?>>
+  <?php wp_body_open(); ?>
   <header>
     <div class="inner">
-      <h1><a href="index.html">Sample Blog</a></h1>
+      <h1><a href="<?php echo esc_url(home_url('/')); ?>">Sample Blog</a></h1>
       <nav class="nav-global">
         <ul>
-          <li><a href="index.html">HOME</a></li>
-          <li><a href="about.html">ABOUT</a></li>
-          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="<?php echo esc_url(home_url('/')); ?>">HOME</a></li>
+          <li><a href="<?php echo esc_url(home_url('/about/')); ?>">ABOUT</a></li>
+          <li><a href="<?php echo esc_url(home_url('/contact/')); ?>">CONTACT</a></li>
         </ul>
       </nav>
     </div>
@@ -27,13 +35,17 @@
       <div class="inner">
         <div class="post-all">
           <article class="post">
-            <img src="images/pic_post01.jpg" alt="">
-            <h2 class="post-title">記事のタイトル</h2>
-            <p class="post-date">2020年8月12日</p>
+            <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
+            <h2 class="post-title"><?php the_title(); ?></h2>
+            <p class="post-date">
+              <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
+                <?php the_time('y.m.d'); ?>
+              </time>
+            </p>
             <div class="post-contents">
-              <p>本文の抜粋を20文字程度表示します。</p>
+              <?php the_excerpt(); ?>
             </div>
-            <a class="post-btn" href="single.html">続きを読む</a>
+            <a class="post-btn" href="<?php the_permalink(); ?>">続きを読む</a>
             <div class="post-info">
               <ul>
                 <li class="post-category">Category: <a href="#">作品</a></li>
@@ -120,6 +132,7 @@
       <p><small>Copyright sample-blog All Rights Reserved.</small></p>
     </div>
   </footer>
+  <?php wp_footer(); ?>
 </body>
 
 </html>
