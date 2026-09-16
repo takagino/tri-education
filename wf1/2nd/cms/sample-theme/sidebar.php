@@ -12,9 +12,11 @@
 <aside class="side-archive">
     <h2 class="side-title">archive</h2>
     <ul class="side-list">
-        <li><a href="#">2020年9月</a></li>
-        <li><a href="#">2020年8月</a></li>
-        <li><a href="#">2020年7月</a></li>
+        <?php wp_get_archives(
+            array(
+                'show_post_count' => 1,
+            )
+        ); ?>
     </ul>
 </aside>
 <aside class="side-about">
