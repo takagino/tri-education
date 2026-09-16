@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Single | Sample Blog</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="<?php
+                                echo esc_url(get_stylesheet_uri());
+                                ?>">
 </head>
 
 <body>
@@ -26,21 +28,35 @@
     <div class="contents">
       <div class="inner">
         <div class="post-all">
-          <article class="post">
-            <img src="images/pic_post01.jpg" alt="">
-            <h2 class="post-title">記事のタイトル</h2>
-            <p class="post-date">2020年8月12日</p>
-            <div class="post-contents">
-              <p>本文をすべて表示します。</p>
-              <h3>記事の見出しです。</h3>
-            </div>
-            <div class="post-info">
-              <ul>
-                <li class="post-category">Category: <a href="#">作品</a></li>
-                <li class="post-tag">Tag: <a href="#">HTML</a> / <a href="#">CSS</a> / <a href="#">JavaScript</a></li>
-              </ul>
-            </div>
-          </article>
+
+          <?php
+          if (have_posts()):
+            while (have_posts()):
+              the_post();
+          ?>
+              <article id="post-<?php the_ID(); ?> <?php post_class('post'); ?>">
+                <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
+                <h2 class="post-title"><?php the_title(); ?></h2>
+                <p class="post-date">
+                  <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
+                    <?php the_time('Y.m.d'); ?>
+                  </time>
+                </p>
+                <div class="post-contents">
+                  <?php the_content(); ?>
+                </div>
+                <div class="post-info">
+                  <ul>
+                    <li class="post-category">Category: <?php the_category(' / '); ?></li>
+                    <li class="post-tag">Tag: <?php the_tags('', ' / '); ?></li>
+                  </ul>
+                </div>
+              </article>
+
+          <?php
+            endwhile;
+          endif;
+          ?>
           <div class="nav-page">
             <ul>
               <li><a href="#">←前の記事</a></li>
