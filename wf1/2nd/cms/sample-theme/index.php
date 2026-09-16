@@ -34,14 +34,17 @@
         ?>
 
         <div class="nav-page">
-          <ul>
-            <li><a href="#">&lt;</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">&gt;</a></li>
-          </ul>
+          <?php
+          # argument(引数)
+          $arg = array(
+            'prev_text' => '<',
+            'next_text' => '>',
+            'type' => 'list',
+            'mid_size' => 1
+          );
+
+          the_posts_pagination($arg);
+          ?>
         </div>
       </div>
       <div class="sidebar">

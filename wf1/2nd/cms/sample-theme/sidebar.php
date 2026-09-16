@@ -1,9 +1,12 @@
 <aside class="side-category">
     <h2 class="side-title">category</h2>
     <ul class="side-list">
-        <li><a href="#">日常生活</a></li>
-        <li><a href="#">読書</a></li>
-        <li><a href="#">作品</a></li>
+        <?php wp_list_categories(
+            array(
+                'title_li' => '',
+                'show_count' => 1
+            )
+        ); ?>
     </ul>
 </aside>
 <aside class="side-archive">
