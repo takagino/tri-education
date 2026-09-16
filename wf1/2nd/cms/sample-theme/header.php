@@ -20,7 +20,16 @@
     <?php wp_body_open(); ?>
     <header>
         <div class="inner">
-            <h1><a href="<?php echo esc_url(home_url('/')); ?>">Sample Blog</a></h1>
+
+            <?php if (is_front_page() || is_home()): ?>
+                <h1>
+                    <a href="<?php echo esc_url(home_url('/')); ?>">Sample Blog</a>
+                </h1>
+            <?php else: ?>
+                <div>
+                    <a href="<?php echo esc_url(home_url('/')); ?>">Sample Blog</a>
+                </div>
+            <?php endif; ?>
             <nav class="nav-global">
                 <ul>
                     <li><a href="<?php echo esc_url(home_url('/')); ?>">HOME</a></li>

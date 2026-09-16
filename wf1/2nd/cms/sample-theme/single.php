@@ -11,7 +11,7 @@
         ?>
             <article id="post-<?php the_ID(); ?> <?php post_class('post'); ?>">
               <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
-              <h2 class="post-title"><?php the_title(); ?></h2>
+              <h1 class="post-title"><?php the_title(); ?></h1>
               <p class="post-date">
                 <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
                   <?php the_time('Y.m.d'); ?>
