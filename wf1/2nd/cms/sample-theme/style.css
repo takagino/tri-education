@@ -267,3 +267,9 @@ footer {
     background-color: #ddd;
   }
 }
+
+.thumbnail img {
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 300/150;
+}

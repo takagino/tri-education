@@ -10,7 +10,7 @@
             the_post();
         ?>
             <article id="post-<?php the_ID(); ?> <?php post_class('post'); ?>">
-              <img src="<?php echo esc_url(get_theme_file_uri('/images/pic_post01.jpg')); ?>" alt="">
+              <?php the_post_thumbnail('thumbnail'); ?>
               <h1 class="post-title"><?php the_title(); ?></h1>
               <p class="post-date">
                 <time datetime="<?php echo get_the_date('Y-m-d'); ?>">
