@@ -31,3 +31,31 @@ function mytheme_setup()
     remove_action('wp_head', 'wlwmanifest_link'); // wlwmanifest（Windows Live Writer）のリンクを削除
 }
 add_action('after_setup_theme', 'mytheme_setup');
+
+/**
+ * タイトルの区切り文字を変更
+ */
+function mytheme_change_title_separator($sep)
+{
+    return ' / ';
+}
+add_filter('document_title_separator', 'mytheme_change_title_separator');
+
+/**
+ * 抜粋の文字数を指定
+ */
+function mytheme_custom_excerpt_length($length)
+{
+    return 10; // 10文字に変更
+}
+// 第3引数の「999」は実行の優先順位（他の設定より確実に優先させるため）
+add_filter('excerpt_length', 'mytheme_custom_excerpt_length', 999);
+
+/**
+ * 抜粋の文末文字を指定
+ */
+function mytheme_custom_excerpt_more($more)
+{
+    return ' ... 続く'; // [...] から変更
+}
+add_filter('excerpt_more', 'mytheme_custom_excerpt_more');

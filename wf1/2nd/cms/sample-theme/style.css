@@ -273,3 +273,12 @@ footer {
   object-fit: cover;
   aspect-ratio: 300/150;
 }
+
+/* 記事の内容 */
+.post-contents ol {
+  margin-bottom: 30px;
+}
+
+.post-contents img {
+  margin-bottom: 30px;
+}
