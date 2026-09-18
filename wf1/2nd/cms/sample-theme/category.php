@@ -3,7 +3,9 @@
   <div class="contents">
     <div class="inner">
       <div class="post-all">
-
+        <p class="archive-title">
+          カテゴリー専用のページです。
+        </p>
         <?php
         if (have_posts()):
           while (have_posts()):

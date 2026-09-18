@@ -6,12 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- サイトの説明（検索時に出てくる文章） -->
     <meta name="description" content="<?php bloginfo('description'); ?>">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
-    <link rel="stylesheet" href="<?php
-                                    # PHPのコメント
-                                    # getがついているタグは値を取得するだけ
-                                    echo esc_url(get_stylesheet_uri());
-                                    ?>">
     <?php wp_head(); ?>
 </head>
 

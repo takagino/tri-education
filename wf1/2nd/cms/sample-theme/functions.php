@@ -33,29 +33,22 @@ function mytheme_setup()
 add_action('after_setup_theme', 'mytheme_setup');
 
 /**
- * タイトルの区切り文字を変更
+ * CSSとJavaScriptの読み込み
  */
-function mytheme_change_title_separator($sep)
+function mytheme_enqueue_scripts()
 {
-    return ' / ';
+    wp_enqueue_style('my-reset', 'https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css');
+    wp_enqueue_style('my-googlefont', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+    wp_enqueue_style('my-style', get_stylesheet_uri(), array('my-reset', 'my-googlefont'), filemtime(get_theme_file_path('/style.css')));
 }
-add_filter('document_title_separator', 'mytheme_change_title_separator');
+add_action('wp_enqueue_scripts', 'mytheme_enqueue_scripts');
 
-/**
- * 抜粋の文字数を指定
- */
-function mytheme_custom_excerpt_length($length)
+function mytheme_resource_hints($urls, $relation_type)
 {
-    return 10; // 10文字に変更
+    if ($relation_type === 'preconnect') {
+        array_push($urls, array('rel' => 'preconnect', 'href' => 'https://fonts.googleapis.com'));
+        array_push($urls, array('rel' => 'preconnect', 'href' => 'https://fonts.gstatic.com', 1 => 'crossorigin'));
+    }
+    return $urls;
 }
-// 第3引数の「999」は実行の優先順位（他の設定より確実に優先させるため）
-add_filter('excerpt_length', 'mytheme_custom_excerpt_length', 999);
-
-/**
- * 抜粋の文末文字を指定
- */
-function mytheme_custom_excerpt_more($more)
-{
-    return ' ... 続く'; // [...] から変更
-}
-add_filter('excerpt_more', 'mytheme_custom_excerpt_more');
+add_filter('wp_resource_hints', 'mytheme_resource_hints', 10, 2);
