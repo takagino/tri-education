@@ -6,32 +6,30 @@
         <p class="archive-title">
           「<?php echo get_search_query(); ?>」の検索結果
         </p>
+
         <?php
         if (have_posts()):
           while (have_posts()):
             the_post();
         ?>
-
             <?php get_template_part('template-parts/loop', 'post'); ?>
+          <?php endwhile; ?>
+          <div class="nav-page">
+            <?php
+            # argument(引数)
+            $arg = array(
+              'prev_text' => '<',
+              'next_text' => '>',
+              'type' => 'list',
+              'mid_size' => 1
+            );
 
-        <?php
-          endwhile;
-        endif;
-        ?>
-
-        <div class="nav-page">
-          <?php
-          # argument(引数)
-          $arg = array(
-            'prev_text' => '<',
-            'next_text' => '>',
-            'type' => 'list',
-            'mid_size' => 1
-          );
-
-          the_posts_pagination($arg);
-          ?>
-        </div>
+            the_posts_pagination($arg);
+            ?>
+          </div>
+        <?php else: ?>
+          <p>記事はありません。</p>
+        <?php endif; ?>
       </div>
       <div class="sidebar">
         <?php get_sidebar(); ?>

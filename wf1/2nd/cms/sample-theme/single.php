@@ -28,17 +28,17 @@
               </div>
             </article>
 
-        <?php
-          endwhile;
-        endif;
-        ?>
-        <div class="nav-page">
-          <ul>
-            <li><?php previous_post_link('%link', '←前の記事'); ?></li>
-            <li><a href="<?php echo esc_url(home_url('/')); ?>">一覧に戻る</a></li>
-            <li><?php next_post_link('%link', '次の記事→'); ?></li>
-          </ul>
-        </div>
+          <?php endwhile ?>
+          <div class="nav-page">
+            <ul>
+              <li><?php previous_post_link('%link', '←前の記事'); ?></li>
+              <li><a href="<?php echo esc_url(home_url('/')); ?>">一覧に戻る</a></li>
+              <li><?php next_post_link('%link', '次の記事→'); ?></li>
+            </ul>
+          </div>
+        <?php else: ?>
+          <p>記事はありません。</p>
+        <?php endif; ?>
       </div>
       <div class="sidebar">
         <?php get_sidebar(); ?>
