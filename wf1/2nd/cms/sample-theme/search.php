@@ -4,7 +4,7 @@
     <div class="inner">
       <div class="post-all">
         <p class="archive-title">
-          カテゴリー専用のページです。
+          「<?php echo get_search_query(); ?>」の検索結果
         </p>
         <?php
         if (have_posts()):
