@@ -36,6 +36,8 @@
     <?php
     $args = array(
         'post_type' => 'post',
+        'category_name' => 'nobis',
+        'orderby' => 'rand',
         'posts_per_page' => 3,
     );
 
