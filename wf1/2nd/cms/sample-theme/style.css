@@ -288,3 +288,36 @@ footer {
   color: #fff;
   padding: 10px;
 }
+
+input,
+textarea {
+  border: 1px solid;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  padding: 10px 15px;
+}
+
+.comment-form .submit {
+  width: 200px;
+  margin: 30px auto 0;
+  text-align: center;
+  background-color: #333;
+  border: 0;
+  color: #fff;
+}
+
+.comment-list footer {
+  background-color: #fff;
+}
+
+.comment-list .children {
+  margin-left: 30px;
+  border-left: 1px solid;
+}
+
+.comment-list .edit-link {
+  display: none;
+}

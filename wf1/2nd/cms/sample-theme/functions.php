@@ -52,3 +52,17 @@ function mytheme_resource_hints($urls, $relation_type)
     return $urls;
 }
 add_filter('wp_resource_hints', 'mytheme_resource_hints', 10, 2);
+
+function reorder_comment_field($fields)
+{
+    $new_fields = array(
+        'author'  => $fields['author'],
+        'email'   => $fields['email'],
+        'url'     => $fields['url'],
+        'cookies' => $fields['cookies'],
+        'comment' => $fields['comment'],
+    );
+
+    return $new_fields;
+}
+add_filter('comment_form_fields', 'reorder_comment_field');
