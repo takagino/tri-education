@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>問題01「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」問題01</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <section class="clause">
+          <h3 class="clause__title">Level.1</h3>
+          <div class="item">
+            <ol>
+              <li>中心からマウスの位置に線を描く。</li>
+              <li>同時にマウスの位置に円を描く。（大きさは自由）</li>
+              <li>塗りの色を設定する。（色は自由）</li>
+            </ol>
+            <div id="q01"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw(){
+  clear();
+  line(width / 2, height / 2, mouseX, mouseY);
+
+  fill(180, 50, 50);
+  ellipse(mouseX, mouseY, 50, 50);
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.2</h3>
+          <div class="item">
+            <ol>
+              <li>中心から離れるほど円が大きくなる。</li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw(){
+  clear();
+  line(width / 2, height / 2, mouseX, mouseY);
+
+  fill(180, 50, 50);
+  const w = dist(width / 2, height / 2, mouseX, mouseY);
+  ellipse(mouseX, mouseY, w, w);
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.3</h3>
+          <div class="item">
+            <ol>
+              <li>クリックした場所に円を記録する。</li>
+            </ol>
+            <div id="q03"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let num = 0;
+let w = 0;
+const x = [];
+const y = [];
+const d = [];
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw(){
+  clear();
+  line(width / 2, height / 2, mouseX, mouseY);
+
+  fill(180, 50, 50);
+  w = dist(width / 2, height / 2, mouseX, mouseY);
+  ellipse(mouseX, mouseY, w, w);
+
+  for(let i=0; i<x.length; i+=1){
+    ellipse(x[i], y[i], d[i], d[i]);
+  }
+}
+
+function mousePressed(){
+  x[num] = mouseX;
+  y[num] = mouseY;
+  d[num] = w;
+  num+=1;
+}</code></pre>
+          </div> -->
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.line(p.width / 2, p.height / 2, p.mouseX, p.mouseY);
+
+          p.fill(180, 50, 50);
+          p.ellipse(p.mouseX, p.mouseY, 50, 50);
+        };
+      };
+      new p5(q01, "q01");
+
+      let q02 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.line(p.width / 2, p.height / 2, p.mouseX, p.mouseY);
+
+          const w = p.dist(p.width / 2, p.height / 2, p.mouseX, p.mouseY);
+          p.fill(180, 50, 50);
+          p.ellipse(p.mouseX, p.mouseY, w, w);
+        };
+      };
+      new p5(q02, "q02");
+
+      let q03 = function (p) {
+        let num = 0;
+        let w = 0;
+        const x = [];
+        const y = [];
+        const d = [];
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.line(p.width / 2, p.height / 2, p.mouseX, p.mouseY);
+
+          w = p.dist(p.width / 2, p.height / 2, p.mouseX, p.mouseY);
+          p.fill(180, 50, 50);
+          p.ellipse(p.mouseX, p.mouseY, w, w);
+
+          for(let i=0; i<x.length; i+=1){
+            p.ellipse(x[i], y[i], d[i], d[i]);
+          }
+        };
+
+        p.mousePressed = () => {
+          x[num] = p.mouseX;
+          y[num] = p.mouseY;
+          d[num] = w;
+          num+=1;
+        };
+      };
+      new p5(q03, "q03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

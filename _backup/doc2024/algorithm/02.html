@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」02_変数 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」02_変数</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;変数&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      function setup() {
+        createCanvas(400, 400);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【スニペットの登録】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">{
+  "p5.js CDN": {
+    "prefix": "p5",
+    "scope": "html",
+    "body": [
+      "&lt;script src=\"https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js\"&gt;&lt;/script&gt;"
+      "&lt;script&gt;"
+      "&lt;/script&gt;"
+    ]
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 変数とは？</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              プログラムで使われる値を、名前付きで管理するラベルのようなもの。
+            </p>
+            <dl>
+              <dt>【変数の使い所】</dt>
+              <dd>
+                <ol>
+                  <li>同じ値が何度も出てくるとき。</li>
+                  <li>値を変化させたいとき。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 変数宣言</h3>
+          <p>
+            変数を使うには、まず<em>変数の宣言</em>を行う必要がある。JavaScriptの場合は「<em>let</em>」というキーワードを使用し、宣言することによって初めて変数名で値を管理できる状態になる。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let 変数名 = 初期値;
+
+//例
+let d = 50;
+circle(100, 100, d, d);</code></pre>
+          </div>
+          <div class="item">
+            <p>
+              ※プログラムにおける等号（=）は<em>代入</em>を表し、数式のような左辺と右辺の値が等しいことを表すわけではないことに注意。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【値の再代入】</dt>
+              <dd>
+                letを使って宣言した変数の値は、後で上書きすることができる。
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = 50;
+circle(100, 100, d, d);
+
+d = 100;
+circle(200, 100, d, d);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【値の再宣言】</dt>
+              <dd>
+                同じ変数名で重複して変数宣言を行うことを<em>値の再宣言</em>と言う。letや後述するconstでは、変数の再宣言を行うと<strong>エラーになる</strong>ので注意。
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = 50;
+circle(100, 100, d, d);
+
+let d = 100;
+circle(200, 100, d, d);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. コンソール</h3>
+          <div class="item">
+            <p>
+              コンソールとは、コンピュータの入出力を行うための装置（<em>入出力ウィンドウ</em>）のこと。JavaScriptにおけるコンソールとは、一般的には各ブラウザの開発者ツール（GoogleChromeデベロッパーツールなど）に備わっているコンソールのことを指す。
+            </p>
+            <dl>
+              <dt>【コンソールの使い所】</dt>
+              <dd>
+                <ol>
+                  <li>どんなエラーが出ているのかチェックしたいとき。</li>
+                  <li>変数の状態を調べたいとき。</li>
+                  <li>動作確認をしたいとき。 などなど</li>
+                </ol>
+              </dd>
+            </dl>
+            <p><strong>コンソールを制するものがJavaScriptを制す！</strong></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【コンソールの起動方法】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>ショートカット『option + command + j』</li>
+                  <li>
+                    Chromeデベロッパーツールを起動して「Console」タブを選択する。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>
+              ☆エラーの意味を調べてみる。（<a
+                href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Errors"
+                >JavaScript エラーリファレンス</a
+              >）
+            </p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. 定数（const）</h3>
+          <p>
+            「const」キーワードは、再代入できない変数の宣言とその変数が参照する値（初期値）を定義できる。意図せず値が変更されるのを防げるためエラーを減らすことができる。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const 変数名 = 初期値;
+
+//例
+const x = 300;
+line(x, 100, x, 200);</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【値を再代入しようとするとエラーになる】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const x = 300;
+line(x, 100, x, 200);
+
+x = 200;
+//Assignment to constant variable.（定数変数への割り当て）</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【宣言と同時に値を代入しないとエラーになる】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const x;
+line(x, 100, x, 200);
+
+//Missing initializer in const declaration.（定数の初期化忘れ）</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-4. 古い書き方（var）</h3>
+          <p>「var」キーワードは、値の再代入が可能な変数を宣言できる。</p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">var 変数名 = 初期値;
+
+//例
+var w = 100;
+rect(0, 0, w, 50);</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【varの問題】</dt>
+              <dd>
+                「var」キーワードには同じ名前の変数を再定義できてしまう問題がありエラーが起こりやすいため、現在はあまり使われていない。
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">var w = 100;
+var w = 200;
+rect(0, 0, w, 50);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-5. 変数の命名規則（名前のルール）</h3>
+          <pre
+            class="line-numbers"
+          ><code class="language-javascript">let $; // OK: $が使用できる
+let _title; // OK: _が使用できる
+let jquery; // OK: 小文字のアルファベットが使用できる
+let TITLE; // OK: 大文字のアルファベットが使用できる
+let es2015; // OK: 数字は先頭以外なら使用できる
+let 日本語の変数名; // OK: 一部の漢字や日本語も使用できる（しかし、基本は使用しない）
+
+let na-me; // NG: -は使用できない
+let name!; // NG: !は使用できない
+let 1st; // NG: 数字から始まっている
+let 123; // NG: 数字のみで構成されている</code></pre>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 演算子</h2>
+        <div class="clause">
+          <p>
+            <em>演算子</em
+            >とは、値をもとに何らかの処理を行い、その結果を返す記号のこと。=や+の記号などがそれに当たる。そして、演算子によって処理される値は、<em>オペランド</em>と呼ぶ。
+          </p>
+          <p>
+            <img
+              src="https://tech.pjin.jp/wp-content/uploads/2021/09/1-6.png"
+              alt=""
+              width="500"
+            />
+          </p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. 算術演算子</h3>
+          <div class="item">
+            <p>
+              数値計算に使う演算子を<em>算術演算子</em>と呼び、JavaScriptで使用できる算術演算子には以下のようなものがある。
+            </p>
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">/* 加算 a + b */
+console.log(6 + 9); //結果：15
+
+/* 減算 a - b */
+console.log(10 - 15); //結果：-5
+
+/* 乗算 a * b */
+console.log(3 * -7); //結果：-21
+
+/* 除算 a / b */
+console.log(10 / 5); //結果：2
+
+/* 剰余 a % b （aをbで割ったときの余り） */
+console.log(7 % 3); //結果：1
+
+/* べき乗 a ** b （aのb乗） */
+console.log(3 ** 2); //結果：9</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【変数による計算】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 200;
+console.log(x + 10);
+
+let y = 100;
+console.log(x - y / 2);
+</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習</h3>
+          <p>日本の国旗を変数を使って描いてみる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">//日本
+rect(100, 50, 200, 120);
+ellipse(200, 110, 60, 60);</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【変数の宣言】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 200;
+
+//日本
+rect(100, 50, 200, 120);
+ellipse(200, 110, 60, 60);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【変数に置き換える】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 200;
+
+//日本
+rect(x - 100, 50, 200, 120);
+ellipse(x, 110, 60, 60);</code></pre>
+              </dd>
+            </dl>
+            <p>☆値を変更してみる。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【幅も変数にする】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 200;
+let w = 200;
+
+//日本
+rect(x - w / 2, 50, w, 120);
+ellipse(x, 110, 60, 60);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【y座標と高さも変数にする】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 200;
+let y = 50;
+let w = 200;
+let h = 120;
+
+//日本
+rect(x - w / 2, y, w, h);
+ellipse(x, y + h / 2, h / 2, h / 2);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">★応用</h3>
+          <p>フランスの国旗を変数を使って描いてみる。</p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let x2 = 100;
+let y2 = 200;
+let w2 = 200;
+let h2 = 120;
+
+//フランス
+rect(100, 200, 200, 40);
+rect(100, 240, 200, 40);
+rect(100, 280, 200, 40);</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              前回の課題「おでん」のx座標とy座標を変数にし、自由に位置を変えられるようにする。
+            </p>
+            <p><img src="assets/01/08.png" width="400" alt="" /></p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">//たまごの中心を基準とする
+let x = 200;
+let y = 200;
+
+background(200);
+strokeWeight(6);
+
+//たまご
+fill(240, 200, 140);
+ellipse(200, 200, 100, 100);
+
+//こんにゃく
+fill(140, 130, 110);
+triangle(120, 150, 280, 150, 200, 80);
+
+//ちくわ
+fill(240, 230, 200);
+rect(120, 250, 160, 70);
+
+//串
+line(200, 320, 200, 360);</code></pre>
+          </div>
+          <dl>
+            <dt>【提出先】</dt>
+            <dd>
+              <ul>
+                <li>
+                  <a
+                    href="https://drive.google.com/drive/folders/1D5oKTCklsGKBiwcQ0n5hkECLbbHGGUgN?usp=sharing"
+                    >Googleドライブ</a
+                  >
+                </li>
+                <li>締切：</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

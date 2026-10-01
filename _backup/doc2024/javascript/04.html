@@ -1,0 +1,414 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」04_条件分岐（switch文） | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」04_条件分岐（switch文）</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 前回の復習</h3>
+        <div class="item">
+          <dl>
+            <dt>【条件分岐（if文）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">if(条件式){
+  ifブロック //条件式に合致したときに行う処理
+}</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">if(条件式){
+  ifブロック //条件式に合致したときに行う処理
+}else{
+  elseブロック //条件式に合致しないときに行う処理
+}</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">if(条件式A){
+  ifブロック //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  else ifブロック //条件式Bに合致しないときに行う処理
+}else if(条件式C){
+  else ifブロック //条件式Cに合致しないときに行う処理
+}
+
+//最後にelseブロックを追加することも可能
+if(条件式A){
+  ifブロック //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  else ifブロック //条件式Bに合致しないときに行う処理
+}else{
+  elseブロック //上記の条件式全てに合致しないときに行う処理
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスの操作】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//クラス名を取得する
+element.classList.value;
+
+//クラス名を追加する
+element.classList.add('hoge');
+
+//クラス名を削除する
+element.classList.remove('hoge');
+
+//クラス名を置き換える
+element.classList.replace('hoge', 'piyo');
+
+//クラス名の追加・削除を切り替える
+element.classList.toggle('hoge');
+
+//クラス名を含むかどうか調べる
+if(element.classList.contains('hoge')){
+  console.log(element.classList);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 前回の課題</h3>
+        <p><a href="./assets/03/slidemenu2/" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;スライドインするメニュー&lt;/title&gt;
+  &lt;style&gt;
+    #btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+    }
+
+    #menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 50px 0;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      z-index: 9998;
+      transition: .5s;
+      transform: translateY(-100%);
+    }
+
+    #menu.open {
+      transform: translateY(0);
+    }
+
+    #menu ul {
+      padding-left: 0;
+      list-style: none;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="btn"&gt;メニュー&lt;/button&gt;
+  &lt;div id="menu"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;HOME&lt;/li&gt;
+      &lt;li&gt;ABOUT&lt;/li&gt;
+      &lt;li&gt;CONTACT&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+  const btn = document.getElementById('btn');
+  const menu = document.getElementById('menu');
+
+  btn.addEventListener('click', function () {
+    if (menu.classList.contains('open')) {
+      menu.classList.remove('open');
+      btn.innerHTML = 'メニュー';
+    } else {
+      menu.classList.add('open');
+      btn.innerHTML = '閉じる';
+    }
+  });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 今回学ぶこと</h2>
+      <div class="clause">
+        <div class="item">
+          <ul class="clause__list">
+            <li>条件分岐（switch文）</li>
+            <li>ランダム</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>条件分岐</dt>
+            <dd>プログラムの重要な制御構造の一つ。<br>
+              ある条件を指定すると、実行時にこれを評価し、条件が満たされている場合に実行するコードと、満たされていない場合に実行するコードに分岐させることができる。</dd>
+          </dl>
+          <p><img src="https://kenko-keep.com/wp-content/uploads/images/if_sample.png" alt=""></p>
+          <p>
+            <strong>つまり、
+              「もし〜なら」のように、条件によって処理を変えること。</strong>
+          </p>
+          <p>多くのプログラミング言語では<em>if文</em>や<em>switch文</em>などの条件文が用いられる。</p>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. switch文</h2>
+      <div class="clause">
+        <p>switch文では、条件式に渡した値が<em>case節</em>と一致した場合にそれ以降のコードを実行し、条件式の値がcase節のどれにも一致しない場合には、<em>default節</em>に続くコードが実行される。<br>また、それぞれのcase節の最後に<em>break（ここで終わりという意味）</em>というキーワードを記述するのが一般的。</p>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">switch(条件式){
+  case 値1:
+    //条件式の値が値1に一致する場合に実行される処理
+    break;
+  case 値2:
+    //条件式の値が値2に一致する場合に実行される処理
+    break;
+  default:
+    //上記のどの値にも一致しない場合に実行される処理
+}</code></pre>
+          </p>
+          <p><img src="assets/03/06.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'りんご'
+
+switch (fruit) {
+  case 'りんご':
+    console.log('りんごがあります。');
+    break;
+  case 'ばなな':
+    console.log('ばなながあります。');
+    break;
+  default:
+    console.log('フルーツはありません。');
+}</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Statements/switch">switch - mdn web docs</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【if文で書くと】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'りんご'
+
+if(fruit === 'りんご') {
+    console.log('りんごがあります。');
+}else if(fruit === 'ばなな'){
+    console.log('ばなながあります。');
+}else{
+    console.log('フルーツはありません。');
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>ボタンをクリックし、ボタンのクラス名が「red」の時はbody要素の背景色を「赤」、「green」の時は「緑」、「blue」の時は「青」、それ以外の時は「黒」にする。</p>
+        <p><a href="./assets/04/sample01.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;button id="btn" class="red"&gt;click!&lt;/button&gt;
+
+&lt;script&gt;
+&lt;/script&gt;</code></pre>
+        </div>
+        <!-- <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const btn = document.getElementById('btn');
+
+btn.addEventListener('click', function () {
+  const className = btn.classList.value;
+
+  switch (className) {
+    case 'red':
+      document.body.style.backgroundColor = '#f00';
+      break;
+
+    case 'green':
+      document.body.style.backgroundColor = '#0f0';
+      break;
+
+    case 'blue':
+      document.body.style.backgroundColor = '#00f';
+      break;
+
+    default:
+      document.body.style.backgroundColor = '#000';
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div> -->
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-1. if文とswitch文の使い分け</h3>
+        <table>
+          <tr>
+            <th>構文</th>
+            <th>判定</th>
+            <th>使い分け</th>
+          </tr>
+          <tr>
+            <td>if文</td>
+            <td>「true」or「false」で判定</td>
+            <td>基本的にはこちらを使用</td>
+          </tr>
+          <tr>
+            <td>switch文</td>
+            <td>変数の値で判定</td>
+            <td>可読性が高いので、分岐の数が多い場合に使用</td>
+          </tr>
+        </table>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用「おみくじ（omikuji.html）」</h3>
+        <p><a href="./assets/04/omikuji.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ol>
+              <li>「占う」ボタンをクリックすると、おみくじの「結果」と「なにか一言」がランダムに表示される。</li>
+              <li>占いの結果は「大吉」「中吉」「小吉」「凶」「大凶」の5種類</li>
+            </ol>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;button id="btn"&gt;占う&lt;/button&gt;
+&lt;p id="result"&gt;結果が表示されます。&lt;/p&gt;
+&lt;p id="message"&gt;何か一言が表示されます。&lt;/p&gt;
+
+&lt;script&gt;
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. ランダム</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">//「0.0000...」から「9.9999...」までのランダムな小数を取得する
+let num = Math.random() * 10;
+
+//小数を切り捨てて、「0」から「9」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 10);
+
+//「1」をプラスすることで、「1」から「11」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 10) + 1;</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用「おみくじその2（omikuji2.html）」</h3>
+        <p><a href="./assets/04/omikuji2.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ol>
+              <li>結果のテキストを画像に差し替える。</li>
+              <li>占う度に画像がアニメーションする。</li>
+            </ol>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;button id="btn"&gt;占う&lt;/button&gt;
+&lt;p&gt;&lt;img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt="占う"&gt;&lt;/p&gt;
+&lt;p id="message"&gt;何か一言が表示されます。&lt;/p&gt;
+
+&lt;script&gt;
+&lt;/script&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画像】</dt>
+            <dd>
+              <ul>
+                <li><a href="./assets/04/omikuji/daikichi.png" target="_blank">大吉</a></li>
+                <li><a href="./assets/04/omikuji/chuukichi.png" target="_blank">中吉</a></li>
+                <li><a href="./assets/04/omikuji/syoukichi.png" target="_blank">小吉</a></li>
+                <li><a href="./assets/04/omikuji/kyou.png" target="_blank">凶</a></li>
+                <li><a href="./assets/04/omikuji/daikyou.png" target="_blank">大凶</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 課題「おみくじその3（omikuji3.html）」</h2>
+      <div class="clause">
+        <p>上記のおみくじをさらに改造する。</p>
+        <p><a href="./assets/04/omikuji3.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【改造例】</dt>
+          <dd>
+            <ol>
+              <li>それぞれ出た回数をカウントして表示する。</li>
+              <li>大吉が出た回数によって、大吉の「何か一言」を変える。</li>
+              <li>出る割合を「大吉1, 中吉2, 小吉4, 凶2, 大凶1」にする。</li>
+              <li>その他、自分で考えて改造する。（わかるように明記してください）</li>
+            </ol>
+            <p>※改造が難しい人は、CSSで見た目を整える。</p>
+          </dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

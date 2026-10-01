@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5play</title>
+    <style>
+      canvas {
+        border: 1px solid #333;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://q5js.org/q5.js"></script>
+    <script src="https://p5play.org/v3/planck.min.js"></script>
+    <script src="https://p5play.org/v3/p5play.js"></script>
+
+    <script>
+      function setup() {
+        createCanvas(400, 400);
+
+        skeleton = new Sprite();
+        skeleton.d = 50;
+        skeleton.image = "./skeleton.png";
+        skeleton.image.scale = 0.16;
+        skeleton.x = Math.floor(Math.random() * width);
+        skeleton.y = Math.floor(Math.random() * height);
+
+        woman = new Sprite();
+        woman.d = 50;
+        woman.image = "./woman.png";
+        woman.image.scale = 0.16;
+        woman.x = Math.floor(Math.random() * width);
+        woman.y = Math.floor(Math.random() * height);
+      }
+
+      function draw() {
+        background(255);
+
+        skeleton.debug = mouse.pressing();
+        skeleton.moveTowards(width / 2, height / 2, 0.02);
+
+        woman.debug = mouse.pressing();
+        woman.moveTowards(width / 2, height / 2, 0.02);
+      }
+    </script>
+  </body>
+</html>

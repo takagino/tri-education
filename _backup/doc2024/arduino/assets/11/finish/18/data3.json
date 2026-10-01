@@ -1,0 +1,42 @@
+{
+    "y2023": [
+        {
+            "label": "読売ジャイアンツ",
+            "val": 22,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/397143/main.jpg?20191211033029",
+            "color": ""
+        },
+        {
+            "label": "東京ヤクルトスワローズ",
+            "val": 6,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/395843/main.jpg?20191211032947",
+            "color": ""
+        },
+        {
+            "label": "広島東洋カープ",
+            "val": 3,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/new20200424014919/main.jpg",
+            "color": ""
+        }
+    ],
+    "y2024": [
+        {
+            "label": "西武ライオンズ",
+            "val": 13,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/113164/main.jpg?20200108035301",
+            "color": "#f58220"
+        },
+        {
+            "label": "福岡ソフトバンクホークス",
+            "val": 11,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/398193/main.jpg?20191211032430",
+            "color": "#da3000"
+        },
+        {
+            "label": "オリックスバファローズ",
+            "val": 5,
+            "url": "https://img.hmv.co.jp/hybridimage/eventpage/394553/main.jpg?20230314053057",
+            "color": "#3e63af"
+        }
+    ]
+}

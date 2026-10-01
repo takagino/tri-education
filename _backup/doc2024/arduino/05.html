@@ -1,0 +1,769 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」05_p5.jsとサウンド | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」05_p5.jsとサウンド</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 今回やること</h2>
+      <div class="clause">
+        <ol>
+          <li>p5.jsの復習</li>
+          <li>座標変換</li>
+          <li>サウンドライブラリ「p5.sound」</li>
+          <li>課題「オーディオビジュアライザー」制作</li>
+        </ol>
+        <p><a href="./assets/05/sample_random02.html" target="_blank">オーディオビジュアライザー見本（※音が鳴るので注意）</a></p>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. p5.jsの復習</h2>
+      <div class="clause">
+        <dl>
+          <dt>【基本形】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5.js&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </dd>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">//ページ読み込み時に1度だけ実行される関数
+function setup() {
+  createCanvas(640, 480); //canvas要素の生成
+}
+
+//ページを表示している間、ずっと繰り返し実行される関数
+function draw() {
+  console.log('draw!');
+}</code></pre>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 図形の描画</h3>
+        <div class="item">
+          <dl>
+            <dt>【基本図形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//点の描画：point( X座標, Y座標 );
+point( 100, 200 );
+
+//線の描画：line( X座標始点, Y座標始点, X座標終点, Y座標終点 );
+line( 10, 10, 200, 180 );
+
+//矩型の描画：rect( X座標, Y座標, 幅, 高さ );
+rect( 10, 10, 200, 180 );
+
+//楕円の描画：ellipse( X座標, Y座標, 幅, 高さ );
+ellipse( 10, 10, 200, 180 );</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【色の指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//背景色
+background(0, 0, 0);
+
+//グレースケール（白〜黒）の場合は値1個に省略できる
+background(0);
+
+//塗りの色
+fill(255, 0, 0);
+
+//塗りなし
+noFill();
+
+//線の色（16進数コードでもOK）
+stroke("#0000ff");
+
+//線なし
+noStroke();</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【透明度】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//値を1個追加することで、透明度を設定できる
+background(0, 200);
+fill(255, 0, 0, 100);
+
+//16進数の書き方では無理っぽい
+//stroke("#0000ff", 100);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【その他】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//カラーモードの変更：RGB、HSB、HSL
+colorMode(HSL);
+
+//矩型の基準点の変更
+rectMode(CENTER);
+
+//線の太さ・形状
+strokeWeight(6);
+strokeCap(ROUND);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. アニメーションさせる</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+}
+
+function draw() {
+  x++;
+  rect(x, 25, 50, 50);
+}</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【描画したモノを消す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+}
+
+function draw() {
+  clear(); //描画したモノを削除
+
+  x++;
+  rect(x, 25, 50, 50);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ランダムにする】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://p5js.org/reference/#/p5/random">random()</a></li>
+                <li><a href="https://p5js.org/reference/#/p5/floor">floor()</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. システム変数とシステム関数</h3>
+        <pre class="line-numbers"><code class="language-javascript">let x = 0;
+let y = 0;
+let c = 0;
+let d = 0;
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  noStroke();
+}
+
+function draw() {
+  x = mouseX;
+  y = mouseY;
+  c = floor(random(0, 100));
+  d = floor(random(10, 100));
+
+  fill(180, 50, c, 0.3);
+
+  if (mouseIsPressed) {
+    rect(x, y, d, d);
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32) {
+    clear();
+  }
+}</code></pre>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 座標変換</h2>
+      <div class="clause">
+        <ul>
+          <li><a href="https://p5js.org/reference/#Transform">translate(), rotate(), scale()</a></li>
+          <li><a href="https://p5js.org/reference/#Structure">push(), pop()</a></li>
+          <li><a href="https://p5js.org/reference/p5/angleMode/">angleMode()</a></li>
+        </ul>
+      </div>
+      <!-- <section class="clause">
+        <h3 class="clause__title">2-3. 座標変換</h3>
+        <pre class="line-numbers"><code class="language-javascript">let obj = {
+  c: 0,
+  r: 0,
+  s: 0,
+};
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+  colorMode(HSL);
+  noStroke();
+}
+
+function draw() {
+  // clear();
+
+  obj.c = Math.floor(Math.random() * 100);
+  obj.r = Math.floor(Math.random() * 360);
+  obj.s = Math.random() * 2 + 0.5;
+
+  //座標空間を保存
+  push();
+
+  //移動、回転、拡大縮小
+  translate(mouseX, mouseY);
+  rotate(obj.r);
+  scale(obj.s);
+
+  fill(180, 50, obj.c, 0.5);
+  rect(0, 0, 50, 50);
+
+  //保存した状態に戻す
+  pop();
+}</code></pre>
+      </section> -->
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. ライブラリの活用</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://p5js.org/libraries/">ライブラリ - p5.js</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サウンドライブラリの読み込み】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5.sound&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"&gt;&lt;/script&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <p><em>※ここからは「Safari」で表示してください。</em></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. 音声ファイルの再生</h3>
+        <dl>
+          <dt>【サンプルファイル】</dt>
+          <dd>
+            <audio src="./assets/05/groove.mp3" controls></audio>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let mySound;
+
+//事前にファイルを読み込む
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  mySound.amp(0.5); //音量の調節
+}
+
+function draw() {}
+
+function keyPressed() {
+  mySound.play(); //ループ再生したい場合は「loop()」
+}
+
+function keyReleased() {
+  mySound.stop(); //一時停止は「pause()」
+}</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【マウスの値で音量を変える】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  mySound.amp(0.5);
+}
+
+function draw() {
+  //追加
+  let vol = map(mouseY, 0, height, 0, 1);
+  mySound.amp(vol);
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【最大値と最小値を設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  mySound.amp(0.5);
+}
+
+function draw() {
+  let vol = map(mouseY, 0, height, 0, 1);
+
+  //追加
+  vol = constrain(vol, 0, 1);
+  mySound.amp(vol);
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【再生中かどうか判別する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  mySound.amp(0.5);
+}
+
+function draw() {
+
+  //修正
+  if (mySound.isPlaying()) {
+    let vol = map(mouseY, 0, height, 0, 1);
+    vol = constrain(vol, 0, 1);
+    mySound.amp(vol);
+  }
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>再生中のみ、ランダムな場所にランダム色、大きさ、角度の四角形を描画する。（<a href="./assets/05/rect.html" target="_blank">見本</a>）
+            <!-- <pre class="line-numbers"><code class="language-javascript">let mySound;
+
+let x = 0;
+let y = 0;
+let d = 0;
+let c = 0;
+let r = 0;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  noStroke();
+  mySound.amp(0.5);
+}
+
+function draw() {
+
+  if (mySound.isPlaying()) {
+    let vol = map(mouseY, 0, height, 0, 1);
+    vol = constrain(vol, 0, 1);
+    mySound.amp(vol);
+
+    x = floor(random(0, width));
+    y = floor(random(0, height));
+    d = floor(random(0.5, 4));
+    c = floor(random(0, 360));
+    r = floor(random(0, 360));
+
+    push();
+
+    translate(x, y);
+    rotate(r);
+    scale(d);
+
+    fill(c, 50, 50, 0.5);
+    rect(0, 0, 50, 50);
+
+    pop();
+  }
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+  clear();
+}</code></pre> -->
+          </li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 音声の解析</h3>
+        <div class="item">
+          <dl>
+            <dt>【analyze（周波数帯の割合？）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+let fft; //変数追加
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  noStroke();
+  mySound.amp(0.5);
+
+  fft = new p5.FFT(); //fft(高速フーリエ変換)の作成
+}
+
+function draw() {
+
+  if (mySound.isPlaying()) {
+    let vol = map(mouseY, 0, height, 0, 1);
+    vol = constrain(vol, 0, 1);
+    mySound.amp(vol);
+
+    //周波数帯の割合を取得
+    //長さ「1024」の配列に値が格納される（0〜255）
+    let analyze = fft.analyze();
+    console.log(analyze);
+  }
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【waveform（周波数ごとの振幅？）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+let fft;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  noStroke();
+  mySound.amp(0.5);
+
+  fft = new p5.FFT();
+}
+
+function draw() {
+  let vol = map(mouseY, 0, height, 0, 1);
+  vol = constrain(vol, 0, 1);
+  mySound.amp(vol);
+
+  if (mySound.isPlaying()) {
+    //周波数ごとの振幅を取得
+    //長さ「1024」の配列に値が格納される（-1.0〜1.0）
+    let waveform = fft.waveform();
+    console.log(waveform);
+  }
+}
+
+function keyPressed() {
+  mySound.play();
+}
+
+function keyReleased() {
+  mySound.stop();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【可視化する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let mySound;
+let fft;
+let x = 0;
+let y = 0;
+let d = 0;
+let c = 0;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  mySound.amp(0.5);
+  fft = new p5.FFT();
+}
+
+function draw() {
+  clear();
+
+  if (mySound.isPlaying()) {
+    let vol = map(mouseY, 0, height, 0, 1);
+    vol = constrain(vol, 0, 1);
+    mySound.amp(vol);
+
+    let waveform = fft.waveform();
+    console.log(waveform);
+
+    for (let i = 0; i < waveform.length; i++) {
+      let x = map(i, 0, waveform.length, 0, width);
+      let h = map(waveform[i], -1, 1, 0, height);
+      line(x, 0, x, h);
+    }
+
+    // translate(random(0, width), random(0, height));
+    // rotate(random(0, 360));
+    // x = 0;
+    // y = 0;
+    // c = floor(random(0, 100));
+    // d = floor(random(10, 100));
+
+    // fill(180, 50, c, 0.3);
+    // rect(x, y, d, d);
+  }
+}
+
+function keyPressed() {
+  mySound.loop();
+}
+
+function keyReleased() {
+  mySound.pause();
+  clear();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ol>
+          <li>自分の好きな音源（MP3形式のフリー音源）に差し替える。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 模様の生成</h2>
+      <section class="clause">
+        <h3 class="clause__title">5-1. ランダム</h3>
+        <div class="item">
+          <ol>
+            <li>円の座標・大きさ・色を、ランダムと音の成分で表現する。（<a href="./assets/05/sample_random01.html" target="_blank">見本</a>）</li>
+            <li>円の座標を最初のみランダムにし、それ以降は変わらないようにする。（<a href="./assets/05/sample_random02.html" target="_blank">見本</a>）</li>
+          </ol>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 課題</h2>
+      <div class="clause">
+        <p>自由に可視化する。</p>
+        <dl>
+          <dt>【シンプルなサンプルコード】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">let mySound;
+let fft;
+
+function preload() {
+  mySound = loadSound('groove.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  mySound.amp(0.5);
+  fft = new p5.FFT();
+}
+
+function draw() {
+  clear();
+
+  if (mySound.isPlaying()) {
+    let vol = map(mouseY, 0, height, 0, 1);
+    vol = constrain(vol, 0, 1);
+    mySound.amp(vol);
+
+    let data = fft.analyze();
+    console.log(data);
+
+    for (let i = 0; i < data.length; i++) {
+      let c = map(data[i], 0, 255, 0, 360);
+      fill(c, 50, 50, 0.3);
+      ellipse(320, 240, data[i], data[i]);
+    }
+  }
+}
+
+function keyPressed() {
+  mySound.loop();
+}
+
+function keyReleased() {
+  mySound.pause();
+  clear();
+}</code></pre>
+          </dd>
+        </dl>
+        <dl>
+          <dt>【提出先】</dt>
+          <dd>
+            <a href="https://drive.google.com/drive/folders/1INPupdPG-n9PYQhNAi5S7TbP5j8hYfwK?usp=sharing">Googleドライブ</a>
+          </dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

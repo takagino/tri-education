@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クリックゲーム</title>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      .monster-all {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .monster {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: span 3;
+        text-align: center;
+      }
+
+      .monster img {
+        justify-self: center;
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>click game</h1>
+    <div class="monster-all"></div>
+    <script>
+      const monsters = [
+        {
+          name: "ピンクカバ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+          hp: 10,
+          clear: () => {
+            alert("ピンクカバを倒した！");
+          },
+        },
+        {
+          name: "カマキリ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png",
+          hp: 6,
+          clear: () => {
+            alert("カマキリを倒した！");
+          },
+        },
+        {
+          name: "ゴリラ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+          hp: 8,
+          clear: () => {
+            alert("ゴリラを倒した！");
+          },
+        },
+      ];
+
+      const monsterAll = document.querySelector(".monster-all");
+
+      for (let i = 0; i < monsters.length; i++) {
+        const monster = document.createElement("div");
+        monster.classList.add("monster");
+
+        const name = document.createElement("p");
+        name.textContent = monsters[i].name;
+        monster.append(name);
+
+        const pic = document.createElement("img");
+        pic.setAttribute("src", monsters[i].pic);
+        pic.setAttribute("width", 200);
+        monster.append(pic);
+
+        const hp = document.createElement("p");
+        hp.textContent = `HP:${monsters[i].hp}`;
+        monster.append(hp);
+
+        pic.addEventListener("click", () => {
+          if (monsters[i].hp > 0) {
+            hp.textContent = `HP:${--monsters[i].hp}`;
+
+            if (monsters[i].hp === 0) {
+              monsters[i].clear();
+            }
+          }
+        });
+
+        monsterAll.append(monster);
+      }
+    </script>
+  </body>
+</html>

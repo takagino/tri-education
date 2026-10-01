@@ -1,0 +1,50 @@
+svg {
+    background-color: #ddd;
+  }
+
+  body{
+    background: url('https://t3.ftcdn.net/jpg/03/77/14/40/360_F_377144002_z5MknE9pIukmNc23IThjWYG4Om41FsY5.jpg') no-repeat;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 2px;
+    stroke: tomato;
+}
+
+
+#conteiner {
+  width: fit-content;
+  height:fit-content;
+  margin:  0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+svg {
+    width: 90%;
+    max-width: 1600px;
+    height: 70vh;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 50px;
+}
+.button-container button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.button-container button:hover {
+  background-color: #2980b9;
+}
+.title{
+  margin-top: 40px;
+  text-align: center;
+}

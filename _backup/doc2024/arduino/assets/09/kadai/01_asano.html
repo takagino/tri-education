@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3.js</title>
+    <style>
+        svg {
+            background-color: #fff;
+            border: 2px solid #000;
+        }
+
+        body {
+            text-align: center;
+            background-color: #ebd4be;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>国内のワンちゃん種類別飼育数ランキング</h1>
+    <div id="container">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const dataset = [
+            { title: "プードル", num: 8 },
+            { title: "チワワ", num: 4.8 },
+            { title: "ダックスフンド", num: 2.9 },
+            { title: "ポメラニアン", num: 2 },
+            { title: "ミニチュア・シュナウザー", num: 1.4 }
+        ];
+
+        const width = 640;
+        const height = 400;
+
+        const svg = d3.create("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.selectAll('rect')
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", (data, index) => index * 70 + 20)
+            .attr("width", (data) => data.num * 50)
+            .attr("height", 40)
+            .attr('fill', '#8a6048');
+
+        svg.selectAll('.title')
+            .data(dataset)
+            .enter()
+            .append("text")
+            .classed("title", true)
+            .attr("font-size", "16")
+            .attr("font-weight", "bold")
+            .attr("x", (data) => data)
+            .attr("y", (data, index) => index * 70 + 14)
+            .text((data, index) => `${index + 1}位 ${data.title}`);
+
+
+        svg.selectAll('.num')
+            .data(dataset)
+            .enter()
+            .append("text")
+            .classed("num", true)
+            .attr("font-size", "12")
+            .attr("x", (data) => data.num * 50 + 5)
+            .attr("y", (data, index) => index * 70 + 60)
+            .text((data) => `${data.num}万匹`);
+
+
+
+
+
+        container.append(svg.node());
+
+    </script>
+</body>
+
+</html>

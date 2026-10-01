@@ -1,0 +1,179 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript基礎チェック Vol.1「変数と演算子」 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+  <link rel="stylesheet" href="../../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title">JavaScript基礎チェック</p>
+    <h1 class="l-header__title-sub">Vol.1「変数と演算子」</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">問題</h2>
+      <div class="clause">
+        <p>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。また、エラーがでる場合は「エラー」と記述すること。</p>
+        <p><a href="https://forms.gle/qGxVVkAikgoKnqTL6">解答用Googleフォーム</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">Q1</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const num = 100;
+  console.log(num);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>100</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q2</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const today = '10月27日';
+  today = '10月28日'
+  console.log(today);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>エラー</dd>
+          <dd>※定数は宣言後に再代入できない。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q3</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let name;
+  console.log(name);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>undefined</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q4</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let 2nd = 'apple';
+  console.log(2nd);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>エラー</dd>
+          <dd>※変数名の先頭に数字は使えない。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q5</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let $year = 2020,
+      _month = 10,
+      DAY = 27;
+
+  console.log(DAY);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>27</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q6</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let value = 1 + 10;
+  console.log(value);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>11</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q7</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let value = 1 + '10';
+  console.log(value);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>110</dd>
+          <dd>※数値と文字列の加算は、文字列として結合される。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q8</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let value = 'Java' + 'Script';
+  console.log(value);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>JavaScript</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q9</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let value = 10;
+  value /= 2;
+  console.log(value);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>5</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q10</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  console.log(2 ** 3);
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>8</dd>
+          <dd>※2の3乗。（2 * 2 * 2）</dd>
+        </dl>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="../../assets/js/common.js"></script>
+</body>
+
+</html>

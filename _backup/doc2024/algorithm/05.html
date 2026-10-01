@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」05_論理演算 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」05_論理演算</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;変数&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <section class="clause">
+            <h3 class="clause__title">1-1. setup関数とdraw関数</h3>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">//ページ読み込み時に1度だけ実行される
+function setup(){
+  createCanvas(400, 400);
+}
+
+//ページを表示している間、1秒間に60回実行される
+function draw(){
+
+}</code></pre>
+            </div>
+          </section>
+          <section class="clause">
+            <h3 class="clause__title">1-2. 条件分岐</h3>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let x = 10;
+
+if(x > 5){
+  console.log(x > 5);
+}</code></pre>
+            </div>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let num = 1;
+
+if(num == 1){
+  console.log(num == 1);
+}else{
+  console.log(num == 1);
+}</code></pre>
+            </div>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let num = 1;
+
+if(num == 1){
+  console.log(num == 1);
+} else if (num == 2){
+  console.log(num == 2);
+} else {
+  console.log(num);
+}</code></pre>
+            </div>
+          </section>
+          <section class="clause">
+            <h3 class="clause__title">1-3. 前回の課題</h3>
+            <div id="mouse01"></div>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill(); //塗りなし
+}
+
+function draw() {
+  //3秒間クリックしなければ消す
+  if (frameCount > 180) {
+    clear();
+  }
+
+  //画面下は赤、上は青
+  if (mouseY > 200) {
+    stroke(255, 0, 0);
+  } else {
+    stroke(0, 0, 255);
+  }
+
+  //マウスをクリックしながら動かすと円を描画する
+  //動かす速さに応じて円の大きさを変える
+  if (mouseIsPressed) {
+    frameCount = 0; //秒数を0にリセット
+    let w = dist(mouseX, mouseY, pmouseX, pmouseY); //2点間の距離を計算する
+    ellipse(mouseX, mouseY, w, w);
+  }
+}</code></pre>
+            </div>
+          </section>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 練習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  ellipse(50, 200, 50, 50);
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【円を横に動かす】</dt>
+              <dd>
+                <div id="move01"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, 50, 50);
+  x += 3;
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ループさせる】</dt>
+              <dd>
+                <div id="move02"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+let w = 50;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, w, w);
+  x += 3;
+
+  if (x > width + w / 2) {
+    x = -w / 2;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>width</dt>
+              <dd>表示領域（canvas）の横幅を取得する。</dd>
+            </dl>
+            <dl>
+              <dt>height</dt>
+              <dd>表示領域（canvas）の高さを取得する。</dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【跳ね返す】</dt>
+              <dd>
+                <div id="move03"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+let w = 50;
+let speed = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, w, w);
+  x += speed;
+
+  if (x > width - w / 2) {
+    speed = -speed;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【反対側も跳ね返す】</dt>
+              <dd>
+                <div id="move04"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+let w = 50;
+let speed = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, w, w);
+  x += speed;
+
+  if (x > width - w / 2) {
+    speed = -speed;
+  }
+
+  if (x < w / 2) {
+    speed = -speed;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 論理演算</h2>
+        <div class="clause">
+          <p>論理演算とは、ある事象が真か偽かを判断する演算のこと。</p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. 論理和（OR）</h3>
+          <div class="item">
+            <dl>
+              <dt>A または B</dt>
+              <dd>
+                <img
+                  src="https://medium-company.com/wp-content/uploads/2020/10/wasyuugou.png"
+                  width="500"
+                  alt=""
+                />
+              </dd>
+            </dl>
+            <table>
+              <tbody>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A || B</th>
+                </tr>
+                <tr>
+                  <td>true</td>
+                  <td>true</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>true</td>
+                  <td>false</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>false</td>
+                  <td>true</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>false</td>
+                  <td>false</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例1】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  if (mouseX < 100 || 300 < mouseX) {
+    ellipse(mouseX, mouseY, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>☆練習</dt>
+              <dd>
+                円が跳ね返るサンプルを、論理和を使ってまとめる。
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 100;
+let w = 50;
+let speed = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, w, w);
+  x += speed;
+
+  if (x < w / 2 || x > width - w / 2) {
+    speed = -speed;
+  }
+}</code></pre> -->
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. 論理積（AND）</h3>
+          <div class="item">
+            <dl>
+              <dt>A かつ B</dt>
+              <dd>
+                <img
+                  src="https://medium-company.com/wp-content/uploads/2020/10/sekisyuugou.png"
+                  width="500"
+                  alt=""
+                />
+              </dd>
+            </dl>
+            <table>
+              <tbody>
+                <tr>
+                  <th>A</th>
+                  <th>B</th>
+                  <th>A && B</th>
+                </tr>
+                <tr>
+                  <td>true</td>
+                  <td>true</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>true</td>
+                  <td>false</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>false</td>
+                  <td>true</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>false</td>
+                  <td>false</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例1】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  if (mouseX > 200 && mouseY > 200) {
+    ellipse(mouseX, mouseY, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【例2】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  if (mouseIsPressed && (mouseX > 200 || mouseY > 200)) {
+    ellipse(mouseX, mouseY, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>☆練習</dt>
+              <dd>
+                円が跳ね返るサンプルを改造し、マウスをクリックしている間のみ跳ね返るようにする。
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 100;
+let w = 50;
+let speed = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  ellipse(x, 200, w, w);
+  x += speed;
+
+  if (mouseIsPressed && (x < w / 2 || x > width - w / 2)) {
+    speed = -speed;
+  }
+}</code></pre> -->
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. 否定（NOT）</h3>
+          <div class="item">
+            <dl>
+              <dt>A ではない</dt>
+              <dd>
+                <img
+                  src="https://medium-company.com/wp-content/uploads/2020/10/hosyuugou.png"
+                  width="500"
+                  alt=""
+                />
+              </dd>
+            </dl>
+            <table>
+              <tbody>
+                <tr>
+                  <th>A</th>
+                  <th>!A</th>
+                </tr>
+                <tr>
+                  <td>true</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>false</td>
+                  <td>true</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例1】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  if (!mouseIsPressed) {
+    ellipse(mouseX, mouseY, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>下のようなプログラムを考える。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【第1段階】</dt>
+              <dd>
+                <div id="move05"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+let y = 200;
+let w = 50;
+let speedX = 3;
+let speedY = 2;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+  ellipse(x, 200, w, w);
+  x += speedX;
+
+  if (x < w / 2 || x > width - w / 2) {
+    speedX = -speedX;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【第2段階】</dt>
+              <dd>
+                <div id="move06"></div>
+              </dd>
+              <!-- <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+let y = 200;
+let w = 50;
+let speedX = 3;
+let speedY = 2;
+
+function setup() {
+  createCanvas(400, 400);
+  noFill();
+}
+
+function draw() {
+  clear();
+
+  line(200, 0, 200, 400);
+  line(0, 200, 400, 200);
+
+  if (x < 200 && y < 200) {
+    fill(255, 0, 0);
+  } else if (x > 200 && y < 200) {
+    fill(0, 255, 0);
+  } else if (x < 200 && y > 200) {
+    fill(0, 0, 255);
+  } else {
+    fill(255, 255, 0);
+  }
+
+  ellipse(x, y, w, w);
+  x += speedX;
+  y += speedY;
+
+  if (x < w / 2 || x > width - w / 2) {
+    speedX = -speedX;
+  }
+
+  if (y < w / 2 || y > height - w / 2) {
+    speedY = -speedY;
+  }
+}</code></pre>
+              </dd> -->
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>clear() をコメントアウトすると</dt>
+              <dd>
+                <div id="move07"></div>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/1FoBrllNOrUGYwVEimqNL1TBfuKuiqzYL?usp=sharing"
+                      >Googleドライブ</a
+                    >
+                  </li>
+                  <li>締切：</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let mouse01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          let w = p.dist(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
+
+          if (p.frameCount > 180) {
+            p.clear();
+          }
+
+          if (p.mouseY > 200) {
+            p.stroke(255, 0, 0);
+          } else {
+            p.stroke(0, 0, 255);
+          }
+
+          if (p.mouseIsPressed) {
+            p.frameCount = 0;
+            p.ellipse(p.mouseX, p.mouseY, w, w);
+          }
+        };
+      };
+      new p5(mouse01, "mouse01");
+
+      let move01 = function (p) {
+        let x = 50;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x, 200, 50, 50);
+          x += 3;
+        };
+      };
+      new p5(move01, "move01");
+
+      let move02 = function (p) {
+        let x = 50;
+        let w = 50;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x, 200, w, w);
+          x += 3;
+
+          if (x > p.width + w / 2) {
+            x = -w / 2;
+          }
+        };
+      };
+      new p5(move02, "move02");
+
+      let move03 = function (p) {
+        let x = 50;
+        let w = 50;
+        let speed = 3;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x, 200, w, w);
+          x += speed;
+
+          if (x > p.width - w / 2) {
+            speed = -speed;
+          }
+        };
+      };
+      new p5(move03, "move03");
+
+      let move04 = function (p) {
+        let x = 50;
+        let w = 50;
+        let speed = 3;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x, 200, w, w);
+          x += speed;
+
+          if (x > p.width - w / 2) {
+            speed = -speed;
+          }
+
+          if (x < w / 2) {
+            speed = -speed;
+          }
+        };
+      };
+      new p5(move04, "move04");
+
+      let move05 = function (p) {
+        let x = 50;
+        let y = 200;
+        let w = 50;
+        let speedX = 3;
+        let speedY = 2;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x, y, w, w);
+          x += speedX;
+          y += speedY;
+
+          if (x < w / 2 || x > p.width - w / 2) {
+            speedX = -speedX;
+          }
+
+          if (y < w / 2 || y > p.height - w / 2) {
+            speedY = -speedY;
+          }
+        };
+      };
+      new p5(move05, "move05");
+
+      let move06 = function (p) {
+        let x = 50;
+        let y = 200;
+        let w = 50;
+        let speedX = 3;
+        let speedY = 2;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.line(200, 0, 200, 400);
+          p.line(0, 200, 400, 200);
+
+          if (x < 200 && y < 200) {
+            p.fill(255, 0, 0);
+          } else if (x > 200 && y < 200) {
+            p.fill(0, 255, 0);
+          } else if (x < 200 && y > 200) {
+            p.fill(0, 0, 255);
+          } else {
+            p.fill(255, 255, 0);
+          }
+
+          p.ellipse(x, y, w, w);
+          x += speedX;
+          y += speedY;
+
+          if (x < w / 2 || x > p.width - w / 2) {
+            speedX = -speedX;
+          }
+
+          if (y < w / 2 || y > p.height - w / 2) {
+            speedY = -speedY;
+          }
+        };
+      };
+      new p5(move06, "move06");
+
+      let move07 = function (p) {
+        let x = 50;
+        let y = 200;
+        let w = 50;
+        let speedX = 3;
+        let speedY = 2;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          p.line(200, 0, 200, 400);
+          p.line(0, 200, 400, 200);
+
+          if (x < 200 && y < 200) {
+            p.fill(255, 0, 0);
+          } else if (x > 200 && y < 200) {
+            p.fill(0, 255, 0);
+          } else if (x < 200 && y > 200) {
+            p.fill(0, 0, 255);
+          } else {
+            p.fill(255, 255, 0);
+          }
+
+          p.ellipse(x, y, w, w);
+          x += speedX;
+          y += speedY;
+
+          if (x < w / 2 || x > p.width - w / 2) {
+            speedX = -speedX;
+          }
+
+          if (y < w / 2 || y > p.height - w / 2) {
+            speedY = -speedY;
+          }
+        };
+      };
+      new p5(move07, "move07");
+    </script>
+  </body>
+</html>

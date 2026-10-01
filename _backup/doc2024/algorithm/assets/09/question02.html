@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>配列問題02「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」配列問題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <section class="clause">
+          <h3 class="clause__title">question05.html</h3>
+          <div class="item">
+            <ol>
+              <li>
+                「60, 120, 180, 240, 300, 360」の6つの値が入った配列を宣言する。
+              </li>
+              <li>
+                画面をクリックする度に、配列の値の色相（彩度、明度は50）の矩形を順番に描く。
+              </li>
+              <li>6個以上は描けない。</li>
+              <li>
+                矩形を6️個描いてから3秒経つと、矩形を消去しもう一度描画できる。
+              </li>
+            </ol>
+            <p>※難しい場合は途中までで良い。</p>
+            <div id="question05"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const color = [60, 120, 180, 240, 300, 360];
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw() {}
+
+function mousePressed() {
+  fill(180, 50, 50);
+  rect(mouseX, mouseY, 50, 50);
+}</code></pre>
+          </div>
+          <div class="item">
+            <!-- <pre
+              class="line-numbers"
+            ><code class="language-javascript">const c = [60, 120, 180, 240, 300, 360];
+let count = 0;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw() {
+  if (frameCount > 180 && count >= c.length) {
+    clear();
+    count = 0;
+  }
+}
+
+function mousePressed() {
+  if (count < c.length) {
+    fill(c[count], 50, 50);
+    rect(mouseX, mouseY, 50, 50);
+    count += 1;
+    frameCount = 0;
+  }
+}</code></pre> -->
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question06.html</h3>
+          <div class="item">
+            <ol>
+              <li>ランダムな場所に矩形（四角形）を10個描く。</li>
+              <li>矩形には好きな半透明の色を設定する。</li>
+              <li>マウスの位置と矩形の中心を線で結ぶ。</li>
+              <li>マウスの位置と矩形の距離が遠いほど、矩形が大きくなる。</li>
+              <li>画面をクリックしたら、矩形の位置がランダムに変わる。</li>
+            </ol>
+            <p>※難しい場合は1個だけでも良い。</p>
+            <div id="question06"></div>
+          </div>
+          <div class="item">
+            <!-- <pre
+              class="line-numbers"
+            ><code class="language-javascript">const x = [];
+const y = [];
+const num = 10;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  fill(180, 50, 50, 0.5);
+
+  for (let i = 0; i < num; i += 1) {
+    x[i] = Math.random() * width;
+    y[i] = Math.random() * height;
+  }
+}
+
+function draw() {
+  clear();
+
+  for (let i = 0; i < num; i += 1) {
+    let d = dist(mouseX, mouseY, x[i], y[i]) * 0.5;
+    line(mouseX, mouseY, x[i], y[i]);
+    rect(x[i], y[i], d, d);
+  }
+}
+
+function mouseReleased() {
+  for (let i = 0; i < num; i += 1) {
+    x[i] = Math.random() * width;
+    y[i] = Math.random() * height;
+  }
+}</code></pre> -->
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question07.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面の中央からマウスの位置に線を描く。</li>
+              <li>
+                画面をクリックする度にマウスの位置を記録し、線を描いていく。
+              </li>
+            </ol>
+            <div id="question07"></div>
+          </div>
+          <div class="item">
+            <!-- <pre
+              class="line-numbers"
+            ><code class="language-javascript">const x1 = [];
+const y1 = [];
+const x2 = [];
+const y2 = [];
+let count = 0;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeWeight(4);
+
+  x1[0] = width / 2;
+  y1[0] = height / 2;
+}
+
+function draw() {
+  clear();
+
+  x2[count] = mouseX;
+  y2[count] = mouseY;
+
+  for (let i = 0; i <= count; i++) {
+    line(x1[i], y1[i], x2[i], y2[i]);
+  }
+}
+
+function mousePressed() {
+  count += 1;
+  x1[count] = mouseX;
+  y1[count] = mouseY;
+}</code></pre> -->
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question08.html</h3>
+          <div class="item">
+            <ol>
+              <li>
+                画面外のランダムな場所（X座標）からランダムなスピードで円を10個落とす。
+              </li>
+              <li>画面の下まで来たらそれ以上は下がらない。</li>
+              <li>
+                マウスをクリックしている間は、一定のスピードで上にあがる。
+              </li>
+              <li>
+                マウスを離すと、再度ランダムなスピードで下に落ちる。（最初とは違うランダムな値で良い）
+              </li>
+            </ol>
+            <p>※難しい場合は途中までで良い。</p>
+            <div id="question08"></div>
+          </div>
+          <div class="item">
+            <!-- <pre
+              class="line-numbers"
+            ><code class="language-javascript">const x = [];
+const y = [];
+const speed = [];
+let num = 10;
+const w = 20;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  for (let i = 0; i < num; i += 1) {
+    x[i] = Math.random() * width;
+    y[i] = 0;
+    speed[i] = Math.random() * 3 + 2;
+  }
+}
+
+function draw() {
+  clear();
+
+  for (let i = 0; i < num; i += 1) {
+    y[i] += speed[i];
+
+    if (y[i] > height - w / 2) {
+      speed[i] = 0;
+      y[i] = height - w / 2;
+    }
+    ellipse(x[i], y[i], w, w);
+  }
+}
+
+function mousePressed() {
+  for (let i = 0; i < num; i += 1) {
+    speed[i] = -3;
+  }
+}
+
+function mouseReleased() {
+  for (let i = 0; i < num; i += 1) {
+    speed[i] = Math.random() * 3 + 2;
+  }
+}</code></pre> -->
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question09.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面の中心に円を5個描く。</li>
+              <li>最初の円はマウスに徐々に近づく。</li>
+              <li>2個目以降の円は、前の円に徐々に近づく。</li>
+            </ol>
+            <p>
+              ※<a
+                href="https://trident.takagino.net/doc2024/algorithm/assets/07/question07.html"
+                target="_blank"
+                >ヒント</a
+              >
+            </p>
+            <div id="question09"></div>
+          </div>
+          <div class="item">
+            <!-- <pre
+              class="line-numbers"
+            ><code class="language-javascript">const x = [];
+const y = [];
+const num = 5;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  for (let i = 0; i < num; i += 1) {
+    x[i] = width / 2;
+    y[i] = width / 2;
+  }
+}
+
+function draw() {
+  clear();
+
+  ellipse(x[0], y[0], 50, 50);
+  x[0] += (mouseX - x[0]) * 0.1;
+  y[0] += (mouseY - y[0]) * 0.1;
+
+  for (let i = 1; i < num; i += 1) {
+    ellipse(x[i], y[i], 50, 50);
+    x[i] += (x[i - 1] - x[i]) * 0.1;
+    y[i] += (y[i - 1] - y[i]) * 0.1;
+  }
+}</code></pre> -->
+          </div>
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let question05 = function (p) {
+        const c = [60, 120, 180, 240, 300, 360];
+        let count = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+        };
+
+        p.draw = () => {
+          if (p.frameCount > 180 && count >= c.length) {
+            p.clear();
+            count = 0;
+          }
+        };
+
+        p.mousePressed = () => {
+          if (count < c.length) {
+            p.fill(c[count], 50, 50);
+            p.rect(p.mouseX, p.mouseY, 50, 50);
+            count += 1;
+            p.frameCount = 0;
+          }
+        };
+      };
+      new p5(question05, "question05");
+
+      let question06 = function (p) {
+        const x = [];
+        const y = [];
+        const num = 10;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+
+          p.fill(180, 50, 50, 0.5);
+
+          for (let i = 0; i < num; i += 1) {
+            x[i] = Math.random() * p.width;
+            y[i] = Math.random() * p.height;
+          }
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          for (let i = 0; i < num; i += 1) {
+            let d = p.dist(p.mouseX, p.mouseY, x[i], y[i]) * 0.5;
+            p.line(p.mouseX, p.mouseY, x[i], y[i]);
+            p.rect(x[i], y[i], d, d);
+          }
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < num; i += 1) {
+            x[i] = Math.random() * p.width;
+            y[i] = Math.random() * p.height;
+          }
+        };
+      };
+      new p5(question06, "question06");
+
+      let question07 = function (p) {
+        const x1 = [];
+        const y1 = [];
+        const x2 = [];
+        const y2 = [];
+        let count = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+
+          p.strokeWeight(4);
+
+          x1[0] = p.width / 2;
+          y1[0] = p.height / 2;
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          x2[count] = p.mouseX;
+          y2[count] = p.mouseY;
+
+          for (let i = 0; i <= count; i++) {
+            p.line(x1[i], y1[i], x2[i], y2[i]);
+          }
+        };
+
+        p.mousePressed = () => {
+          count += 1;
+          x1[count] = p.mouseX;
+          y1[count] = p.mouseY;
+        };
+      };
+      new p5(question07, "question07");
+
+      let question08 = function (p) {
+        const x = [];
+        const y = [];
+        const speed = [];
+        let num = 10;
+        const w = 20;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+
+          for (let i = 0; i < num; i += 1) {
+            x[i] = Math.random() * p.width;
+            y[i] = 0;
+            speed[i] = Math.random() * 3 + 2;
+          }
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          for (let i = 0; i < num; i += 1) {
+            y[i] += speed[i];
+
+            if (y[i] > p.height - w / 2) {
+              speed[i] = 0;
+              y[i] = p.height - w / 2;
+            }
+            p.ellipse(x[i], y[i], w, w);
+          }
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < num; i += 1) {
+            speed[i] = -3;
+          }
+        };
+
+        p.mouseReleased = () => {
+          for (let i = 0; i < num; i += 1) {
+            speed[i] = Math.random() * 3 + 2;
+          }
+        };
+      };
+      new p5(question08, "question08");
+
+      let question09 = function (p) {
+        const x = [];
+        const y = [];
+        const num = 5;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+
+          for (let i = 0; i < num; i += 1) {
+            x[i] = p.width / 2;
+            y[i] = p.width / 2;
+          }
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(x[0], y[0], 50, 50);
+          x[0] += (p.mouseX - x[0]) * 0.1;
+          y[0] += (p.mouseY - y[0]) * 0.1;
+
+          for (let i = 1; i < num; i += 1) {
+            p.ellipse(x[i], y[i], 50, 50);
+            x[i] += (x[i - 1] - x[i]) * 0.1;
+            y[i] += (y[i - 1] - y[i]) * 0.1;
+          }
+        };
+      };
+      new p5(question09, "question09");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>画像を移動させる</title>
+  </head>
+  <body>
+    <div>
+      <button id="right">→</button>
+    </div>
+    <img id="monster" src="https://pbs.twimg.com/media/EXae-7lWkAANYU6.png" alt="" />
+
+    <script>
+      let num = 0;
+      const monster = document.getElementById("monster");
+      const rightBtn = document.getElementById("right");
+
+      rightBtn.addEventListener("click", function () {
+        num = num + 1;
+        monster.style.transform = `translateX(${num * 10}px)`;
+      });
+    </script>
+  </body>
+</html>

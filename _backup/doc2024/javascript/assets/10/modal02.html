@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>モーダルウィンドウ</title>
+  <style>
+    #modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+    }
+
+    #modal.show {
+      display: flex;
+    }
+
+  </style>
+</head>
+<body>
+  <button id="btn">トライデントとは？</button>
+  <template>
+    <p>名古屋にある専門学校です。</p>
+  </template>
+  <div id="modal"></div>
+
+  <script>
+    const btn = document.querySelector('#btn');
+    const modal = document.querySelector('#modal')
+
+    btn.addEventListener('click', () => {
+      const tmp = btn.nextElementSibling;
+      const tmpContent = tmp.content;
+      modal.append(tmpContent);
+      modal.classList.add('show');
+    });
+
+    modal.addEventListener('click', () => {
+      modal.classList.remove('show');
+    })
+  </script>
+</body>
+</html>

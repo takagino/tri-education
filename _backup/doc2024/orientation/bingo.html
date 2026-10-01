@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「導入教育」共通ビンゴ | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      .wrapper {
+        width: 802px;
+        margin: 2em auto;
+        color: #333;
+      }
+
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        border: 1px solid #333;
+      }
+
+      h1 {
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .name {
+        width: 300px;
+        margin-left: auto;
+        margin-bottom: 2rem;
+        border-bottom: 1px solid;
+      }
+
+      .cell {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 160px;
+        height: 160px;
+        padding: 1em;
+        border: 1px solid #333;
+      }
+
+      .center {
+        align-items: center;
+        background-color: #ddd;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .title {
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .you {
+        margin-top: auto;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>共通点探し</h1>
+      <p class="name">氏名</p>
+      <div id="container"></div>
+    </div>
+    <script>
+      const container = document.getElementById("container");
+
+      const question = [
+        "出身地(市町村)",
+        "出身校",
+        "星座",
+        "血液型",
+        "何人兄弟",
+        "身長",
+        "足のサイズ",
+        "趣味",
+        "好きな歌手",
+        "好きな食べ物",
+        "嫌いな食べ物",
+        "得意な科目",
+        "苦手な科目",
+        "中学時の部活",
+        "高校時の部活",
+        "好きな色",
+        "ニックネーム",
+        "好きなTV番組",
+        "好きな場所",
+        "将来の夢",
+        "飼っている動物",
+        "誕生日の月",
+        "誕生日の日",
+        "何か一言",
+      ];
+
+      const init = () => {
+        const shuffle_question = shuffle(question);
+        shuffle_question.splice(12, 0, "Free");
+        shuffle_question.forEach((elem) => {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          const term = document.createElement("p");
+          term.classList.add("title");
+          term.textContent = elem;
+          cell.appendChild(term);
+
+          if (elem == "Free") {
+            cell.classList.add("center");
+          } else {
+            const you = document.createElement("p");
+            you.classList.add("you");
+            you.textContent = "同じ人 −";
+            cell.appendChild(you);
+          }
+
+          container.appendChild(cell);
+        });
+      };
+
+      const shuffle = ([...array]) => {
+        for (let i = array.length - 1; i >= 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      };
+
+      window.addEventListener("DOMContentLoaded", () => {
+        init();
+      });
+    </script>
+  </body>
+</html>

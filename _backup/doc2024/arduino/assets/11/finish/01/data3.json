@@ -1,0 +1,76 @@
+{
+    "mv": [
+        {
+            "label": "My Buddy",
+            "val": 1565,
+            "rank": 1,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2017/06/tsujou1.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "Steal a Kiss",
+            "val": 526,
+            "rank": 2,
+            "img": "https://bullettrain.jp/justlikebullettrain/wp-content/uploads/2024/02/ZXRH2109_JK_tsujo.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "Call My Name",
+            "val": 444,
+            "rank": 3,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2023/05/artwork-440x440-1.jpeg",
+            "color": "#db256b"
+        },
+        {
+            "label": "AwA AwA",
+            "val": 375,
+            "rank": 4,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2024/11/UPCH-7697_1106_AwA-AwA_-JK_tsujo-1024x929.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "MORA MORA",
+            "val": 365,
+            "rank": 5,
+            "img": "https://bullettrain.jp/B9/wp-content/themes/B9/images/cd2b.jpg",
+            "color": "#db256b"
+        }
+    ],
+    "spotify": [
+        {
+            "label": "AwA AwA",
+            "val": 570,
+            "rank": 1,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2024/11/UPCH-7697_1106_AwA-AwA_-JK_tsujo-1024x929.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "ジュブナイラー",
+            "val": 1030,
+            "rank": 2,
+            "img": "https://bullettrain.jp/justlikebullettrain/wp-content/uploads/2024/02/ZXRH2109_JK_tsujo.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "Steal a Kiss",
+            "val": 1000,
+            "rank": 3,
+            "img": "https://bullettrain.jp/justlikebullettrain/wp-content/uploads/2024/02/ZXRH2109_JK_tsujo.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "My Buddy",
+            "val": 3150,
+            "rank": 4,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2017/06/tsujou1.jpg",
+            "color": "#db256b"
+        },
+        {
+            "label": "Call My Name",
+            "val": 1880,
+            "rank": 5,
+            "img": "https://bullettrain.jp/wp/wp-content/uploads/2023/05/artwork-440x440-1.jpeg",
+            "color": "#db256b"
+        }
+    ]
+}

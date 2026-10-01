@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript基礎チェック Vol.6「配列」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+    <link rel="stylesheet" href="../../assets/css/common.css" />
+    <style>
+      dd {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">JavaScript基礎チェック</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">Vol.6「配列」</h2>
+        <div class="clause">
+          <p><a href="https://forms.gle/c2Q8MkzdH8YcYvD18">解答用Googleフォーム</a></p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">Q1</h3>
+          <p>
+            以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。また、エラーがでる場合は「エラー」と記述すること。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+
+console.log(fruits[1]);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q2</h3>
+          <p>
+            以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。また、エラーがでる場合は「エラー」と記述すること。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+fruits[3] = 'grape';
+
+console.log(fruits.length);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q3</h3>
+          <p>
+            以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。また、エラーがでる場合は「エラー」と記述すること。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+fruits = ['grape', 'melon', 'peach'];
+
+console.log(fruits.length);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q4, Q5, Q6</h3>
+          <p>
+            カラーコードが何種類か格納された配列から値を取り出し、body要素の背景色に設定したい。[]に入る適切なコードを答えなさい。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const colors = ['#000000', '#ffffcc', '#99ff99', '#66ffff', '#ff00ff'];
+
+let random = Math.[Q4](Math.random() * colors.[Q5]);
+document.body.style.backgroundColor = [Q6];</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q7, Q8, Q9, Q10</h3>
+          <p>
+            配列num の値をすべて足して、コンソールに表示したい。[]に入る適切なコードを答えなさい。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const num = [5, 10, 15, 20, 25, 30];
+
+let add = 0;
+for (let i = 0; i &lt; [Q7]; [Q8]) {
+  [Q9] += [Q10];
+}
+
+console.log(add);</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="../../assets/js/common.js"></script>
+    <script>
+      let num = 0;
+      let sum = 0;
+
+      while (num <= 100) {
+        sum += num;
+        num += 1;
+      }
+      console.log(sum);
+    </script>
+  </body>
+</html>

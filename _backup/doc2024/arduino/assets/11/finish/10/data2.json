@@ -1,0 +1,126 @@
+{
+    "weapon": [
+        {
+            "label": "DBV-12",
+            "val": 311,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/dbv12_fancy@2x.png",
+            "color": "#028482"
+        },
+        {
+            "label": "L115",
+            "val": 255,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/l96a1_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "F2000",
+            "val": 245,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/f2000_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "FAMAS",
+            "val": 239,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/famas_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "MTAR-21",
+            "val": 234,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/mtar21_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "P90",
+            "val": 165,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/p90_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "MK153 SMAW",
+            "val": 143,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/mk153_smaw_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "SAIGA 12K",
+            "val": 130,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/saiga12_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "G18",
+            "val": 129,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/glock18_fancy@2x.png",
+            "color": "#3e63af"
+        },
+        {
+            "label": "MX4",
+            "val": 117,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/weapon_unlock/squarelarge/mx4_fancy@2x.png",
+            "color": "#3e63af"
+        }
+    ],
+    "vehicle": [
+        {
+            "label": "Main Battle Tank",
+            "val": 145,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/m1a2_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Attack Boats",
+            "val": 106,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/dv15_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Soldier Equipment",
+            "val": 84,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/suav_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Infantry Fighting Vehicle",
+            "val": 64,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/btr90_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Anti-Air",
+            "val": 51,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/lav-ad_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Transport Vehicle",
+            "val": 45,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/venom_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Stationary Weapon",
+            "val": 35,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/gunshield_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Attack Helicopter",
+            "val": 17,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/ah1z_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Air",
+            "val": 17,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/h6k_fancy@2x.png",
+            "color": "#da3000"
+        },
+        {
+            "label": "Scout Helicopter",
+            "val": 10,
+            "url": "https://cdn.battlelog.com/bl-cdn/cdnprefix/3422397/public/profile/warsaw/gamedata/vehicle_unlock/squarelarge/ah6_fancy@2x.png",
+            "color": "#da3000"
+        }
+    ]
+}

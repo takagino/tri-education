@@ -1,0 +1,248 @@
+{
+    "y2021": [
+        {
+            "ranking": "1",
+            "score": 655,
+            "name": "錦鯉",
+            "color": "#CD3A1C",
+            "rankingColor": "#BF9F36",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "2",
+            "score": 665,
+            "name": "オズワルド",
+            "color": "#CD3A1C",
+            "rankingColor": "#B7B7B7",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "3",
+            "score": 655,
+            "name": "インディアンス",
+            "color": "#CD3A1C",
+            "rankingColor": "#8F6158",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "4",
+            "score": 649,
+            "name": "ロングコートダディ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "5",
+            "score": 645,
+            "name": "もも",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "6",
+            "score": 638,
+            "name": "ゆにばーす",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "7",
+            "score": 638,
+            "name": "真空ジェシカ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "8",
+            "score": 637,
+            "name": "モグライダー",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "9",
+            "score": 636,
+            "name": "ハライチ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "10",
+            "score": 628,
+            "name": "ランジャタイ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        }
+    ],
+    "y2022": [
+        {
+            "ranking": "1",
+            "score": 659,
+            "name": "ウエストランド",
+            "color": "#CD3A1C",
+            "rankingColor": "#BF9F36",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "2",
+            "score": 667,
+            "name": "さや香",
+            "color": "#CD3A1C",
+            "rankingColor": "#B7B7B7",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "3",
+            "score": 660,
+            "name": "ロングコートダディ",
+            "color": "#CD3A1C",
+            "rankingColor": "#8F6158",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "4",
+            "score": 650,
+            "name": "男性ブランコ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "5",
+            "score": 647,
+            "name": "真空ジェシカ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "6",
+            "score": 647,
+            "name": "ヨネダ2000",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "7",
+            "score": 639,
+            "name": "オズワルド",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "8",
+            "score": 634,
+            "name": "カベポスター",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "9",
+            "score": 620,
+            "name": "キュウ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "10",
+            "score": 616,
+            "name": "ダイヤモンド",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        }
+    ],
+    "y2023": [
+        {
+            "ranking": "1",
+            "score": 648,
+            "name": "令和ロマン",
+            "color": "#CD3A1C",
+            "rankingColor": "#BF9F36",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "2",
+            "score": 656,
+            "name": "ヤーレンズ",
+            "color": "#CD3A1C",
+            "rankingColor": "#B7B7B7",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "3",
+            "score": 659,
+            "name": "さや香",
+            "color": "#CD3A1C",
+            "rankingColor": "#8F6158",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "4",
+            "score": 645,
+            "name": "マユリカ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "5",
+            "score": 643,
+            "name": "真空ジェシカ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "6",
+            "score": 635,
+            "name": "カベポスター",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "7",
+            "score": 632,
+            "name": "モグライダー",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "8",
+            "score": 631,
+            "name": "ダンビラムーチョ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "9",
+            "score": 627,
+            "name": "シシガシラ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        },
+        {
+            "ranking": "10",
+            "score": 620,
+            "name": "くらげ",
+            "color": "#CD3A1C",
+            "rankingColor": "#fff",
+            "manzai": "./3x/manzai@3x.png"
+        }
+    ]
+}

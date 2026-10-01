@@ -1,0 +1,42 @@
+[
+    {
+        "label": "スコティッシュ・フォールド",
+        "val": 7811,
+        "img": 50,
+        "color": "#de9445",
+        "dilay": 0,
+        "url": "https://www.pet-ss.com/cwp/wp-content/uploads/2020/07/3138259_m-600x400.jpg"
+    },
+    {
+        "label": "混血猫",
+        "val": 6154,
+        "img": 100,
+        "color": "#c9c8c5",
+        "dilay": 200,
+        "url": "https://www.idog.jp/blog/wp-content/uploads/2021/09/StockSnap_LWZSJAAVXI-min-1024x683.jpg"
+    },
+    {
+        "label": "マンチカン",
+        "val": 5891,
+        "img": 150,
+        "color": "#f2c474",
+        "dilay": 400,
+        "url": "https://www.cocopet.jp/journal/wp-content/uploads/2024/04/01-min-8.jpg"
+    },
+    {
+        "label": "ラグドール",
+        "val": 4433,
+        "img": 200,
+        "color": "#f5ebda",
+        "dilay": 600,
+        "url": "https://www.sbiprism.co.jp/img/column/no_36/c_36_2.jpg"
+    },
+    {
+        "label": "ミヌエット",
+        "val": 3905,
+        "img": 250,
+        "color": "#968b78",
+        "dilay": 800,
+        "url": "https://happyplace.pet/neko/wp-content/uploads/2024/05/breeds_minuet.jpg"
+    }
+]

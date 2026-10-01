@@ -1,0 +1,612 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」06_配列 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」06_配列</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 前回の復習</h3>
+        <div class="item">
+          <dl>
+            <dt>【while文】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">while(条件式){
+  whileブロック //条件式に合致している間、繰り返し処理される
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【for文】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">for(初期化処理; ループ継続の条件式; ループごとの最後に実行される式){
+  forブロック //ループ継続の条件式に合致している間、繰り返し処理される
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 今回学ぶこと</h2>
+      <div class="clause">
+        <ol>
+          <li>配列</li>
+          <li>配列とfor文の組み合わせ</li>
+          <li>複数要素の取得</li>
+        </ol>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 配列とは？</h2>
+      <div class="clause">
+        <div class="item">
+          <ul>
+            <li><em>「配列」</em>とは、下図のようにいくつものデータを記録することのできる仕組み。
+              <img src="assets/06/01.png" alt="" width="600">
+            </li>
+            <li>変数と同じように、<em>「配列」</em>全体には名前をつけることができる。</li>
+            <li><em>「配列」</em>には、先頭のデータから順番に「0、1、2…」というように番号がついていて、この番号のことを<em>「添字」</em>または<em>「インデックス」</em>と言う。</li>
+          </ul>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 配列の宣言</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const 配列 = [値1, 値2, 値3, ...];
+
+//例
+const fruits = ['apple', 'banana', 'orange'];
+console.log(fruits);
+
+//空の配列を宣言することもできる
+const empty = [];
+console.log(empty);</code></pre>
+        </div>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">//別の書き方
+const 配列 = new Array(値1, 値2, 値3, ...);
+
+//例
+const fruits = new Array('apple', 'banana', 'orange');
+console.log(fruits);
+
+//配列の長さを指定することができる
+const fruits = new Array(3);
+console.log(fruits);</code></pre>
+        </div>
+        <p>※上記の2つの書き方は全く同じもので、[] は new Array の省略形。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. 配列の基本操作</h3>
+        <div class="item">
+          <dl>
+            <dt>【値の取得と変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+console.log(fruits[0]); //0番目の値を取得する
+
+fruits[1] = 'peach'; //1番目の値を変更する
+console.log(fruits);</code></pre>
+            </dd>
+          </dl>
+          <p><em>※配列自体は const で宣言しているが、配列の値は後から変更できることに注意。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【配列の長さ（値の数）を取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+console.log(fruits.length);
+
+//lengthの値はコンソールに表示されている
+console.log(fruits);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【配列の最後の値を取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+console.log(fruits[fruits.length - 1]);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 配列とランダム</h3>
+        <p>配列は<em>添字</em>で値を取得し、<em>添字</em>は基本的に連番（0,1,2,3...）になっているため、ランダムと相性が良い。</p>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+
+let random = Math.floor(Math.random() * 3);
+console.log(fruits[random]);
+
+//ランダムに取得する数字は「配列の値の数」と等しい場合が多いため、以下のように書くとよりスマート
+let random = Math.floor(Math.random() * fruits.length);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>カラーコードの値が何種類か格納された配列を用意し、ページを表示する度にランダムに配列から値を取り出し、body要素の背景色に設定する。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const colors = ['#000000', '#ffffcc', '#99ff99', '#66ffff', '#ff00ff'];
+
+let random = Math.floor(Math.random() * colors.length);
+document.body.style.backgroundColor = colors[random];</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習「おみくじ再び（omikuji.html）」</h3>
+        <p><a href="./assets/04/omikuji2.html" target="_blank">swich文を使った例</a>を改造し、switch文を使わないシンプルな形にする。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;おみくじ&lt;/title&gt;
+  &lt;style&gt;
+    #result {
+      transition: 1s;
+    }
+
+    .active {
+      transform: rotateY(360deg);
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="btn"&gt;占う&lt;/button&gt;
+  &lt;p&gt;&lt;img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt=""&gt;&lt;/p&gt;
+  &lt;p id="message"&gt;何か一言が表示されます。&lt;/p&gt;
+
+  &lt;script&gt;
+    const btn = document.getElementById('btn');
+    const result = document.getElementById('result');
+    const message = document.getElementById('message');
+    const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+
+    btn.addEventListener('click', function () {
+      const num = Math.floor(Math.random() * 5);
+
+      switch (num) {
+        case 0:
+          result.setAttribute('src', `${path}/daikichi.png`);
+          message.innerHTML = '買ってないのに宝くじが当たる';
+          break;
+
+        case 1:
+          result.setAttribute('src', `${path}/chuukichi.png`);
+          message.innerHTML = '何もしてないのに褒められる';
+          break;
+
+        case 2:
+          result.setAttribute('src', `${path}/syoukichi.png`);
+          message.innerHTML = '頭皮の調子が良い';
+          break;
+
+        case 3:
+          result.setAttribute('src', `${path}/kyou.png`);
+          message.innerHTML = 'コンタクトレンズが割れる';
+          break;
+
+        case 4:
+          result.setAttribute('src', `${path}/daikyou.png`);
+          message.innerHTML = 'どこかの骨を折る';
+          break;
+
+        default:
+          console.log('エラー');
+          break;
+      }
+
+      result.classList.toggle('active');
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ヒント】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png']; //全てのファイル名を配列に挿入
+const texts = ['買ってないのに宝くじが当たる', '何もしてないのに褒められる', '頭皮の調子が良い', 'コンタクトレンズが割れる', 'どこかの骨を折る']; //全ての一言を配列に挿入</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const btn = document.getElementById('btn');
+const result = document.getElementById('result');
+const message = document.getElementById('message');
+const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png'];
+const texts = ['買ってないのに宝くじが当たる', '何もしてないのに褒められる', '頭皮の調子が良い', 'コンタクトレンズが割れる', 'どこかの骨を折る'];
+
+btn.addEventListener('click', function () {
+  const num = Math.floor(Math.random() * files.length);
+
+  result.setAttribute('src', `${path}/${files[num]}`);
+  message.innerHTML = texts[num];
+
+  result.classList.toggle('active');
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 配列とfor文</h2>
+      <div class="clause">
+        <p>配列は<em>添字</em>で値を取得し、<em>添字</em>は基本的に連番（0,1,2,3...）になっているため、for文と相性が良い。</p>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fruits = ['apple', 'banana', 'orange'];
+
+for(let i = 0; i &lt; fruits.length; i++){
+  console.log(`${i}番目の値は、${fruits[i]}です。`);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <div class="item">
+          <p>以下のような配列がある。</p>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const num = [5, 10, 15, 20, 25, 30];</code></pre>
+          </p>
+          <ol>
+            <li>for文を使って、配列内の数値を全て足し、その値をコンソールに表示する。（正解は105）</li>
+            <li>for文を使って、配列内の最初と最後を除く数値を全て足し、その値をコンソールに表示する。（正解は70）</li>
+          </ol>
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//Q1
+let add = 0;
+for (let i = 0; i &lt; num.length; i++) {
+  add += num[i];
+}
+
+console.log(add);
+
+//Q2
+let add = 0;
+for (let i = 1; i &lt; num.length - 1; i++) {
+  add += num[i];
+}
+
+console.log(add);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用「おみくじ改造（omikuji2.html）」</h3>
+        <p>先ほどのおみくじを配列とfor文を使って改造し、それぞれ出た回数をカウントして表示する。（<a href="./assets/06/omikuji2.html" target="_blank">見本</a>）</p>
+        <p>※難しいので、出来るところまで試行錯誤してください。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;おみくじ&lt;/title&gt;
+  &lt;style&gt;
+    #result {
+      transition: 1s;
+    }
+
+    .active {
+      transform: rotateY(360deg);
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="btn"&gt;占う&lt;/button&gt;
+  &lt;p&gt;&lt;img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt=""&gt;&lt;/p&gt;
+  &lt;p id="message"&gt;何か一言が表示されます。&lt;/p&gt;
+  &lt;ul id="count"&gt;&lt/ul&gt;
+
+  &lt;script&gt;
+    const btn = document.getElementById('btn');
+    const result = document.getElementById('result');
+    const message = document.getElementById('message');
+    const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+
+    const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png'];
+    const texts = ['買ってないのに宝くじが当たる', '何もしてないのに褒められる', '頭皮の調子が良い', 'コンタクトレンズが割れる', 'どこかの骨を折る'];
+
+    //回数追加
+    let daikichi = 0;
+    let chuukichi = 0;
+    let syoukichi = 0;
+    let kyou = 0;
+    let daikyou = 0;
+
+    const count = document.getElementById('count');
+    count.innerHTML = `&lt;li&gt;大吉：${daikichi}&lt;/li&gt;
+                        &lt;li&gt;中吉：${chuukichi}&lt;/li&gt;
+                        &lt;li&gt;小吉：${syoukichi}&lt;/li&gt;
+                        &lt;li&gt;凶：${kyou}&lt;/li&gt;
+                        &lt;li&gt;大凶：${daikyou}&lt;/li&gt;`;
+
+
+    btn.addEventListener('click', function () {
+      const num = Math.floor(Math.random() * files.length);
+
+      result.setAttribute('src', `${path}/${files[num]}`);
+      message.innerHTML = texts[num];
+
+      result.classList.toggle('active');
+
+      //回数更新
+      count.innerHTML = `&lt;li&gt;大吉：${daikichi}&lt;/li&gt;
+                        &lt;li&gt;中吉：${chuukichi}&lt;/li&gt;
+                        &lt;li&gt;小吉：${syoukichi}&lt;/li&gt;
+                        &lt;li&gt;凶：${kyou}&lt;/li&gt;
+                        &lt;li&gt;大凶：${daikyou}&lt;/li&gt;`;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 複数要素の取得</h2>
+      <div class="clause">
+        <div class="item">
+          <p>今までの授業では「getElementById()」を使用し、任意のID名がついた要素を1つだけ取得してきた。しかしJavaScriptには、他にも多くの要素の取得の仕方がある。
+          </p>
+        </div>
+        <dl>
+          <dt>【準備】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;ul&gt;
+    &lt;li&gt;aaa&lt;/li&gt;
+    &lt;li&gt;bbb&lt;/li&gt;
+    &lt;li class="obj"&gt;ccc&lt;/li&gt;
+    &lt;li class="obj"&gt;ddd&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. 要素名で指定する</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const list = document.getElementsByTagName('li'); // Elements（複数形）であることに注意
+console.log(list);</code></pre>
+        </div>
+        <div class="item">
+          <p>取得した値は配列のように扱うことができる。（<a href="https://developer.mozilla.org/ja/docs/Web/API/HTMLCollection">HTMLCollection - MDN</a>）</p>
+          <pre class="line-numbers"><code class="language-javascript">const list = document.getElementsByTagName('li');
+
+//for文で1つずつ取り出す
+for (let i = 0; i &lt; list.length; i++) {
+  console.log(list[i]);
+}</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. クラス名で指定する</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const list = document.getElementsByClassName('obj'); // Elements（複数形）であることに注意
+console.log(list);
+
+for (let i = 0; i &lt; list.length; i++) {
+  console.log(list[i].innerHTML);
+}</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-3. セレクタAPIで指定する</h3>
+        <p>CSSセレクタと同様の記述で、要素を指定することができる。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const elem = document.querySelector('.obj'); // セレクタに一致した最初の要素だけを取得する
+console.log(elem);
+
+const all = document.querySelectorAll('.obj'); // セレクタに一致した全ての要素を取得する
+console.log(all);
+
+for (let i = 0; i &lt; all.length; i++) {
+  console.log(all[i]);
+}</code></pre>
+        </div>
+        <p>取得した値は配列のように扱うことができる。（<a href="https://developer.mozilla.org/ja/docs/Web/API/NodeList">NodeList - MDN</a>）</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-4. 指定方法まとめ</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">document.getElementsByTagName('要素名');
+document.getElementById('id名');
+document.getElementsByClassName('class名');
+document.querySelector('セレクタ');
+document.querySelectorAll('セレクタ');</code></pre>
+        </div>
+        <ul class="clause__list">
+          <li>「querySelector」より「getElementById」の方が処理速度が速い。</li>
+          <li>「getElementsBy」で取得できる「HTMLCollection」は動的、「querySelectorAll」で取得できる「NodeList」は静的。</li>
+        </ul>
+        <p>※この授業では、わかりやすさを重視し「<em>querySelector, querySelectorAll</em>」を使用します。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用（color.html）</h3>
+        <p>ボタンをクリックしたらテキストを取得し、bodyの背景色に適応する。</p>
+        <p><a href="./assets/06/color.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;button class="btn"&gt;aa3333&lt;/button&gt;
+&lt;button class="btn"&gt;33aa33&lt;/button&gt;
+&lt;button class="btn"&gt;3333aa&lt;/button&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ヒント】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const btn = document.querySelectorAll('.btn');
+
+//取得した全てのボタンにクリックイベントを登録する
+for (let i = 0; i &lt; btn.length; i++) {
+  btn[i].addEventListener('click', function () {
+
+  });
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用（link.html）</h3>
+        <p>リンクテキストにマウスオーバーすると設定されているURLが表示され、マウスアウトすると元に戻る。</p>
+        <p><a href="./assets/06/link.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;ul class="links"&gt;
+  &lt;li&gt;&lt;a href="https://computer.trident.ac.jp/courses/game_science/"&gt;ゲームサイエンス学科&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://computer.trident.ac.jp/courses/cg_specialist/"&gt;CGスペシャリスト学科&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="https://computer.trident.ac.jp/courses/web_design/"&gt;Web学科&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p class="result"&gt;URLが表示されます。&lt;/p&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 課題「クリックゲーム（click.html）」</h2>
+      <div class="clause">
+        <p><a href="assets/06/click.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ol>
+              <li>ページを更新するたびに、最初のHPがランダムに設定される。</li>
+              <li>モンスターをクリックする度にHPが減る。</li>
+              <li>HPが「0」になったら終了、それ以上は減らない。</li>
+              <li>すべてのモンスターのHPが「0」になったら「おめでとう！」と表示する。</li>
+              <li>その他自分で改造してみる。（アニメーションをつけるなど）</li>
+            </ol>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;sample&lt;/title&gt;
+    &lt;style&gt;
+    body {
+      text-align: center;
+    }
+
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .all {
+      display: flex;
+      justify-content: space-around;
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    .chr {
+      width: 30%;
+    }
+  &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;click game&lt;/h1&gt;
+    &lt;p class="msg"&gt;クリックでモンスターを倒せ！&lt;/p&gt;
+    &lt;div class="all"&gt;
+      &lt;div class="chr"&gt;
+        &lt;img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a0.png" alt=""&gt;
+        &lt;p&gt;HP:10&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="chr"&gt;
+        &lt;img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a1.png" alt=""&gt;
+        &lt;p&gt;HP:10&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="chr"&gt;
+        &lt;img src="https://trident.takagino.net/doc/2018/javascript/data/03/images/a2.png" alt=""&gt;
+        &lt;p&gt;HP:10&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

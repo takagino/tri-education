@@ -1,0 +1,427 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」05_設定ファイルの追加 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」05_設定ファイルの追加</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 設定ファイル「functions.php」</h2>
+      <div class="clause">
+        <div class="item">
+          <p>WordPressのテーマに必須のファイルの1つ。<br>
+            使用したい機能を有効にしたり、独自の設定を定義したり、WordPressを使う上で必要なコードを記述するためのファイル。</p>
+          <p>★ディフォルトテーマ「twentytwentyfour」の「functions.php」を見てみる。</p>
+        </div>
+        <p>作成したテーマを公開し世界中の方々に使ってもらいたい場合は、ディフォルトテーマのように設定する項目が多くあるが、今回は必要最低限の項目に絞って説明します。</p>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. アイキャッチ画像の設定</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. アイキャッチ画像とは？</h3>
+        <div class="item">
+          <p>アイキャッチ画像とは、記事の初めに入れて読者の興味を惹いたり、記事の概要を表したりする画像のことを指す。<br>
+            情報で溢れかえっている時代においてユーザーは文字情報よりもまず初めに画像を見ているため、記事を読んでもらうためには設定しておいたほうが良い。</p>
+          <p><img src="assets/05/01.png" width="500" alt=""></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【single.phpの画像を削除しておく】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># 「single.php」10行目あたりの下の一文を削除する
+&lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. アイキャッチ画像の設定</h3>
+        <div class="item">
+          <dl>
+            <dt>【functions.phpの設定】</dt>
+            <dd>
+              <ol>
+                <li>エディタで新規ファイルを作成し、ファイル名「functions.php」でテーマフォルダ内に保存する。</li>
+                <li>以下のソースコードを記述し「保存」。
+                  <pre class="line-numbers"><code class="language-php">&lt;?php
+add_theme_support('post-thumbnails'); #アイキャッチ画像の設定
+?&gt;</code></pre>
+                </li>
+                <li>『管理画面メニュー > 投稿一覧』から新規追加した記事をクリックし、編集画面に「アイキャッチ」の項目が増えていることを確認。
+                  <img src="assets/05/02.png" width="300" alt="">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【記事にアイキャッチ画像を設定する】</dt>
+            <dd>
+              <ol>
+                <li>追加された項目「アイキャッチ画像を設定」をクリック。</li>
+                <li>「メディアライブラリ」をクリック。</li>
+                <li>任意の画像をクリック。</li>
+                <li>「アイキャッチ画像を設定」をクリック。
+                  <img src="assets/05/03.png" width="800" alt="">
+                </li>
+                <li>投稿の編集を保存。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定したアイキャッチ画像をサイトに表示する】</dt>
+            <dd>
+              <ol>
+                <li>「index.php」をエディタで開く</li>
+                <li>記事の画像部分を以下のように変更
+                  <pre class="line-numbers"><code class="language-php">&lt;article id=post-&lt;?php the_ID(); ?&gt; &lt;?php post_class('post'); ?&gt;&gt;
+  &lt;?php the_post_thumbnail('thumbnail'); ?&gt;
+  &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+    .
+    .</code></pre>
+                </li>
+              </ol>
+            </dd>
+          </dl>
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/the_post_thumbnail/">the_post_thumbnail()</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サムネイルとその他サイズの違い】</dt>
+            <dd>
+              <ul>
+                <li>サムネイル → 管理画面で設定したサイズにトリミングされる。主にアイキャッチ画像に使用する。</li>
+                <li>その他のサイズ → 元画像の縦横比を保ったまま管理画面で設定したサイズに縮小される。主に記事内の画像に使用する。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 画像関連の設定</h3>
+        <div class="item">
+          <p><a href="https://komaricote.com/wordpress/media-setting/">不要な画像を作成せず必要なものだけにする！WordPressのメディア設定</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画像がアップロードされる場所】</dt>
+            <dd>
+              『wp-content &gt; uploads』
+              <img src="assets/05/07.png" width="800" alt="">
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. アイキャッチ画像が無い場合の処理</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php
+if ( has_post_thumbnail() ):
+  the_post_thumbnail('thumbnail');
+else:
+?&gt;
+
+&lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+
+&lt;?php
+endif;
+?&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 「functions.php」のその他設定</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 追加機能を読み込むタイミングの設定</h3>
+        <p>「functions.php」にアイキャッチ画像の設定などの機能を追加する際、コードをそのまま書くと、何らかの原因でエラーが起こる可能性がある。<br>エラーを回避するために読み込むタイミングを設定しておく必要があり、その設定のことを「アクションフック」もしくは「フィルターフック」という。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php"># 「functions.php」を編集
+
+&lt;?php
+#初期設定
+function my_theme_support() {
+  add_theme_support( 'post-thumbnails' ); #アイキャッチ画像の設定
+};
+
+add_action( 'after_setup_theme', 'my_theme_support' );
+?&gt;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. タイトルタグの出力</h3>
+        <div class="item">
+          <p>head内のtitle要素を、ページに合わせて自動的に出力してくれる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php">&lt;?php
+#初期設定
+function my_theme_support() {
+  add_theme_support( 'post-thumbnails' ); #アイキャッチ画像の設定
+  add_theme_support('title-tag'); #タイトルタグの出力
+};
+
+add_action( 'after_setup_theme', 'my_theme_support' );
+?&gt;</code></pre>
+          </div>
+          <p>★自分で書いたタイトル要素を削除し、表示を確認する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【区切り文字の変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#区切り文字の変更
+function change_title_separator( $sep ){
+  $sep = ' | ';
+  return $sep;
+}
+add_filter( 'document_title_separator', 'change_title_separator' );</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. RSSフィードの出力</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php
+#初期設定
+function my_theme_support() {
+  add_theme_support( 'post-thumbnails' ); #アイキャッチ画像の設定
+  add_theme_support('title-tag'); #タイトルタグの出力
+  add_theme_support('automatic-feed-links'); #RSSフィードの出力
+};
+
+add_action( 'after_setup_theme', 'my_theme_support' );
+?&gt;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. HTML5に変換</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php
+#初期設定
+function my_theme_support() {
+  add_theme_support( 'post-thumbnails' ); #アイキャッチ画像の設定
+  add_theme_support('title-tag'); #タイトルタグの出力
+  add_theme_support('automatic-feed-links'); #RSSフィードの出力
+  add_theme_support('html5', array('comment-list', 'comment-form', 'search-form', 'gallery', 'caption', 'style', 'script')); #HTML5に変換
+};
+
+add_action( 'after_setup_theme', 'my_theme_support' );
+?&gt;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 抜粋の文字数を指定</h3>
+        <div class="item">
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php">#抜粋の文字数を指定
+function custom_excerpt_length($length) {
+  return 140;
+}
+add_filter('excerpt_length', 'custom_excerpt_length', 999);</code></pre>
+          </div>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【抜粋の文末文字を指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#抜粋の文末文字を指定
+function custom_excerpt_more($more) {
+  return ' ... ';
+}
+add_filter('excerpt_more', 'custom_excerpt_more');</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-6. CSS、JSの読み込み</h3>
+        <p>head要素内やbody要素内に直接読み込ませても良いが、functions.phpに記述することで他のファイルとバッティングすることなく動作させることが出来る。</p>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/wp_enqueue_style/">wp_enqueue_style()</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【詳細】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">wp_enqueue_style( $handle, $src, $deps, $ver, $media );
+
+$handle：識別するための任意の名前（英語で） ※必須
+$src：ファイルまでのパス（絶対パス） ※必須
+$deps：依存するファイル（array()形式で記述）
+$ver：任意のバージョン（キャッシュが残りやすくなる）
+$media：media属性の設定（'all', 'print', 'screen'）</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#cssを追加
+function my_style_output() {
+  wp_enqueue_style('reset', 'https://unpkg.com/modern-css-reset/dist/reset.min.css');
+  wp_enqueue_style('my-style', get_stylesheet_uri(), array('reset'), '1.0.0', 'all');
+}
+add_action('wp_enqueue_scripts', 'my_style_output');</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/wp_enqueue_script/">wp_enqueue_script()</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【詳細】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">wp_enqueue_script( $handle, $src, $deps, $ver, $args );
+
+$handle：識別するための任意の名前（英語で） ※必須
+$src：ファイルまでのパス（絶対パス） ※必須
+$deps：依存するファイル（array()形式で記述）
+$ver：任意のバージョン（キャッシュが残りやすくなる）
+$args：その他の設定（「true」にするとwp_footer()、「false」にするとwp_head()の場所に読み込まれる）</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#jsを追加
+function my_script_output() {
+  wp_enqueue_script( 'my-script', get_theme_file_uri('/script.js'), array('jquery'), '1.0.0', true);
+  //最後の値を「true」にするためには、他の値を省略できない
+}
+add_action('wp_enqueue_scripts', 'my_script_output');</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【特定のページにのみcssやjsを読み込みたい場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#cssを追加
+function my_style_output() {
+  #全ページに読み込むファイル
+  wp_enqueue_style('reset', 'https://unpkg.com/modern-css-reset/dist/reset.min.css');
+
+  #ページ別に読み込むファイル
+  if ( is_single() ) {
+    wp_enqueue_style('my-style', get_theme_file_uri('/css/single.css'));
+  }else{
+    wp_enqueue_style('my-style', get_stylesheet_uri());
+  }
+}
+add_action('wp_enqueue_scripts', 'my_style_output');</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <p>※これらの設定は覚える必要はない。<strong>大事なのは、コメントを明記し、後で見返せるようにしておくこと。</strong></p>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【現状のソースコード】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/05-1_functions.php">functions.php</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 補足</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【アイコンフォントやGoogleフォントを読み込んでいる場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">#cssを追加
+function my_style_output() {
+  wp_enqueue_style('reset', 'https://unpkg.com/modern-css-reset/dist/reset.min.css');
+  wp_enqueue_style('icon-font', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css');
+  wp_enqueue_style('google-font', 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet');
+  wp_enqueue_style('my-style', get_stylesheet_uri());
+}
+add_action('wp_enqueue_scripts', 'my_style_output');</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># Googleフォントの残り部分は「header.php」に
+
+&lt;!doctype html&gt;
+&lt;html &lt;?php language_attributes(); ?&gt;"&gt;
+
+&lt;head&gt;
+  &lt;meta charset="&lt;?php bloginfo('charset'); ?&gt;"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;meta name="description" content="&lt;?php bloginfo('description'); ?&gt;"&gt;
+  &lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+  &lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+
+  &lt;?php wp_head(); ?&gt;
+&lt;/head&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【自作のJavaScriptに「jQuery」を使っている場合】</dt>
+            <dd><a href="https://web-souko.com/wp-jquery-trouble/">WordPressでjQueryが動作しない場合</a></dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+  <pre class="line-numbers">
+    <code class="language-markup">
+      &lt; ... &gt;
+    </code>
+  </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

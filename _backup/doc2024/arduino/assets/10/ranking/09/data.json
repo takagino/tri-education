@@ -1,0 +1,32 @@
+[
+    {
+        "label": "名探偵コナン 100万ドルの五稜星",
+        "val": 157.1,
+        "url": "./konan.png",
+        "color": "#ff0000"
+    },
+    {
+        "label": "劇場版ハイキュー!! ゴミ捨て場の決戦",
+        "val": 115.1,
+        "url": "./haikyu.png",
+        "color": "#00ff00"
+    },
+    {
+        "label": "キングダム 大将軍の帰還",
+        "val": 79.8,
+        "url": "./kingdam.jpg",
+        "color": "#0000ff"
+    },
+    {
+        "label": "ゴジラ-1.0",
+        "val": 75.9,
+        "url": "./godzila.jpg",
+        "color": "#ffff00"
+    },
+    {
+        "label": "劇場版 SPY×FAMILY CODE:White",
+        "val": 62.6,
+        "url": "./spyfamily.jpg",
+        "color": "#00ffff"
+    }
+]

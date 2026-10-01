@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>d3.js</title>
+    <style>
+        h1 {
+            text-align: center;
+            color: #fff;
+            -webkit-text-stroke: 2px rgb(87, 87, 87);
+        }
+
+        /* SVGの背景色を設定 */
+        svg {
+            background-color: rgba(100, 100, 100, 0.8);
+            /* 背景色を50%透明にする */
+        }
+
+        /* ページ全体の背景画像 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url(https://images5.alphacoders.com/410/thumb-1920-410344.jpg);
+            background-size: cover;
+            /* 背景画像を画面全体に拡大 */
+            background-attachment: fixed;
+            /* 背景を固定 */
+            overflow: hidden;
+            /* 全体のスクロールを無効にする */
+        }
+
+        /* コンテナをスクロール可能にする */
+        #container {
+            margin: auto;
+            width: 60%;
+            height: 80vh;
+            /* ビューポートの高さを指定 */
+            overflow-y: scroll;
+            /* 縦スクロールを有効にする */
+            overflow-x: hidden;
+            /* 横スクロールを無効にする */
+            border: outset 5px #fff;
+        }
+
+        .bb {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+
+        /* ボタンのスタイル */
+        button {
+            display: inline-block;
+            margin: 50px 10px;
+            padding: 10px 50px;
+            font-size: 16px;
+            background-color: #636363;
+            color: #fff;
+            border: outset 5px #fff;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #fff;
+            color: #636363;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>BF4 BATTLE LOG</h1>
+    <div class="bb">
+        <button id="btn23" data-key="weapon">武器</button>
+        <button id="btn24" data-key="vehicle">戦闘車両</button>
+    </div>
+    <div id="container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const width = 600;
+        const height = 1000;
+        const imageW = 100;
+        const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`); //レスポンシブ対応
+
+        d3.json("./data2.json")
+            .then((dataset) => {
+                // ランダムな色を生成する関数
+                const getRandomColor = () => {
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    return `rgb(${r}, ${g}, ${b})`;
+                };
+
+                // weapon データにランダムな色を割り当て
+                dataset.weapon = dataset.weapon.map((item) => ({
+                    ...item,
+                    color: getRandomColor() // ランダムな色を設定
+                }));
+
+                // vehicle データにもランダムな色を割り当て
+                dataset.vehicle = dataset.vehicle.map((item) => ({
+                    ...item,
+                    color: getRandomColor() // ランダムな色を設定
+                }));
+
+                // データのスケーリング
+                const max23 = d3.max(dataset.weapon, (data) => data.val);
+                const max24 = d3.max(dataset.vehicle, (data) => data.val);
+                const max = Math.max(max23, max24);
+                const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+                const g = svg
+                    .selectAll(".item")
+                    .data(dataset.weapon)
+                    .enter()
+                    .append("g")
+                    .classed("item", true)
+                    .attr("transform", (data, index) => `translate(20, ${index * 100 + 20})`);
+
+                const rect = g
+                    .append("rect")
+                    .attr("x", imageW + 20)
+                    .attr("y", 35)
+                    .attr("width", 0)
+                    .attr("height", 20)
+                    .attr("fill", (data) => data.color); // ランダムな色
+
+                const label = g
+                    .append("text")
+                    .classed("label", true)
+                    .attr("font-size", 15)
+                    .attr("x", (data) => imageW + 20)
+                    .attr("y", 15)
+                    .attr("fill", "white") // ラベルの文字色を黒に固定
+                    .text((data) => data.label);
+
+                const val = g
+                    .append("text")
+                    .classed("value", true)
+                    .attr("font-size", 15)
+                    .attr("x", imageW + 20)
+                    .attr("y", 50)
+                    .text((data) => data.val);
+
+                const img = g
+                    .append("image")
+                    .attr("href", (data) => data.url)
+                    .attr("width", imageW);
+
+                // id名「container」の要素にsvgを追加
+                document.getElementById("container").appendChild(svg.node());
+
+                const onChange = (key) => {
+                    rect
+                        .data(dataset[key])
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeBounceIn)
+                        .attr("width", (data) => scale(data.val));
+
+                    val
+                        .data(dataset[key])
+                        .text((data) => data.val)
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeBounceIn)
+                        .attr("x", (data) => imageW + 20 + scale(data.val));
+
+                    label.data(dataset[key]).text((data) => data.label);
+
+                    img.data(dataset[key]).attr("href", (data) => data.url);
+                };
+
+                const btn = document.querySelectorAll("button");
+
+                btn.forEach((elem) => {
+                    elem.addEventListener("click", () => {
+                        onChange(elem.dataset.key);
+                    });
+                });
+            })
+            .catch((error) => { });
+    </script>
+</body>
+
+</html>

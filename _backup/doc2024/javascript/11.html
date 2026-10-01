@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「JavaScript基礎」11_オブジェクト | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「JavaScript基礎」11_オブジェクト</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 今後のスケジュール</h3>
+          <ul>
+            <li>1/16(木)：オブジェクト</li>
+            <li>1/23(木)：補足</li>
+            <li>1/30(木)：2年前期クラス分け確認テスト</li>
+          </ul>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 今回やること</h2>
+        <div class="clause">
+          <ul class="clause__list">
+            <li>オブジェクト</li>
+          </ul>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. オブジェクトとは？</h3>
+          <p>「オブジェクトとは」でGoogle検索。</p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. オブジェクトの基本操作</h2>
+        <section class="clause">
+          <h3 class="clause__title">3-1. 初期化</h3>
+          <p>
+            オブジェクトを使うには、まずオブジェクトの初期化を行う。初期化とは、何らかの機能を使用可能な状態にすること。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const オブジェクトの名前 = {
+  キー : 値,
+  キー : 値,
+  キー : 値,
+}
+
+//例
+const obj = {
+  int: 123,
+  str: "りんご",
+  bool: false,
+  obj: {
+    sub: "ばなな"
+  },
+  名前: "高木",
+};
+console.log(obj);
+
+//空のオブジェクトを作成することもできる
+const empty = {};
+console.log(empty);
+
+//別の書き方
+const empty = new Object();
+console.log(empty);</code></pre>
+          </div>
+          <div class="item">
+            <p>
+              <img
+                src="https://magazine-cf.techacademy.jp/wp-content/uploads/2019/06/27173302/explainobject-const.png"
+                alt=""
+                width="600"
+              />
+            </p>
+            <ul class="clause__list">
+              <li>キーには任意の文字列を設定する。</li>
+              <li>キーには日本語を使用できるが、おすすめしない。</li>
+              <li>キーと値はコロン(:)で区切る。</li>
+              <li>キーと値のペア（プロパティ）はカンマ(,)で区切る。</li>
+              <li>値には他のオブジェクトを設定することが可能。</li>
+              <li>最後のペアの後のカンマは省略可能。</li>
+            </ul>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. 値の取得・変更</h3>
+          <p>オブジェクトから値を取得・変更する場合には、次の2つの方法を使用できる。</p>
+          <ol>
+            <li>ドット記法</li>
+            <li>ブラケット記法</li>
+          </ol>
+          <div class="item">
+            <dl>
+              <dt>【ドット記法】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">const obj = {
+  int: 123,
+  str: "りんご",
+  bool: false,
+  obj: {
+    sub: "ばなな"
+  },
+  名前: "高木",
+};
+
+//中身の確認
+console.log(obj);
+
+//値の取得
+console.log(obj.int);
+
+//値の中のオブジェクトの値を取得
+console.log(obj.obj.sub);
+
+//値の変更
+obj.str = "アップル";
+console.log(obj);
+
+//キーと値のペア（プロパティ）を追加
+obj.ran = Math.floor(Math.random()*100);
+console.log(obj);
+
+//キーの削除
+delete obj.bool;
+console.log(obj.bool);
+
+//変数をキーにすることはできない
+const key = "str";
+console.log(obj.key);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ブラケット記法】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">const obj = {
+  int: 123,
+  str: "りんご",
+  bool: false,
+  obj: {
+    sub: "ばなな"
+  },
+  名前: "高木",
+};
+
+//値の取得（文字列でキーを指定）
+console.log(obj["int"]);
+
+//値の中のオブジェクトの値を取得
+console.log(obj["obj"]["sub"]);
+
+//値の変更
+obj["str"] = "アップル";
+console.log(obj);
+
+//キーと値のペア（プロパティ）を追加
+obj["ran"] = Math.floor(Math.random()*100);
+console.log(obj);
+
+//キーの削除
+delete obj["bool"];
+console.log(obj["bool"]);
+
+//変数が使用できる
+const key = "str";
+console.log(obj[key]);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <dl>
+            <dt>【記法の使い分け】</dt>
+            <dd>
+              <ol>
+                <li>ブラケット記法：変数を使用したい場合</li>
+                <li>ドット記法：それ以外（授業では基本こちらを使う）</li>
+              </ol>
+            </dd>
+          </dl>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>以下のソースコードの「変数」を「オブジェクト」の形に変更する。</p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const path = "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_chick_01.png";
+const width = 200;
+const color = "#f00";
+
+const img = document.createElement("img");
+img.setAttribute("src", path);
+img.setAttribute("width", width);
+img.style.border = `6px solid ${color}`;
+
+document.body.append(img);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. 値に関数を設定する</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const obj = {
+  int: 123,
+  str: "りんご",
+  bool: false,
+  obj: {
+    sub: "ばなな"
+  },
+  名前: "高木",
+  play: function(){
+    console.log("play!");
+  }
+}
+
+obj.play();
+
+//アロー関数の書き方
+const obj = {
+  play: () => {
+    console.log("play!");
+  }
+}
+
+//さらに省略
+const obj = {
+  play() {
+    console.log("play!");
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>
+            上記「練習」のオブジェクトに以下の関数を追加し、画像をクリックしたら実行されるように改造する。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">play: () => {
+  console.log("play!");
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-4. それぞれの使い分け</h3>
+          <div class="clause">
+            <div class="item">
+              <dl>
+                <dt>【変数】</dt>
+                <dd>
+                  1つの値に対して、名前をつけて管理する。
+                  <pre
+                    class="line-numbers"
+                  ><code class="language-javascript">const teacher = "高木";
+console.log(teachar);</code></pre>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>【配列】</dt>
+                <dd>
+                  1種類の値が複数ある時に、名前をつけて管理する。
+                  <pre
+                    class="line-numbers"
+                  ><code class="language-javascript">const wf1 = ["青島", "秋田", "天久", "安藤", ....];
+console.log(wf1[0]);</code></pre>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>【オブジェクト】</dt>
+                <dd>
+                  関連した数種類の値が1つずつある時に、名前をつけて管理する。
+                  <pre class="line-numbers"><code class="language-javascript">const teacher = {
+  name: "高木",
+  age: 44,
+  blood: "B"
+};
+console.log(teacher.name);</code></pre>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">★ 実践「クリックゲーム（click.html）」</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="./assets/11/click01.html" target="_blank">見本</a></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;クリックゲーム&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;click game&lt;/h1&gt;
+    &lt;div class="monster"&gt;
+      &lt;p class="name"&gt;名前&lt;/p&gt;
+      &lt;img class="pic" src="#" width="200" /&gt;
+      &lt;p class="hp"&gt;HP:&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+      const obj = {
+        name: "ピンクカバ",
+        pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+        hp: 10,
+        clear: () => {
+          alert("クリア！");
+        },
+      };
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    ページを表示したら、定義されているオブジェクトの値を利用して画面に「名前」「画像」「HP」を表示する。
+                  </li>
+                  <li>画像にクリックイベントを登録し、クリックするたびにHPを1ずつ減らす。</li>
+                  <li>
+                    HPが「0」になったらオブジェクト内の関数を実行しアラートを表示する。それ以降HPは減らない。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">改造「動的に要素を生成する」</h3>
+          <div class="item">
+            <p><a href="./assets/11/click02.html" target="_blank">見本</a></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;クリックゲーム&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;click game&lt;/h1&gt;
+    &lt;div class="monster"&gt;
+
+    &lt;/div&gt;
+
+    &lt;script&gt;
+      const obj = {
+        name: "ピンクカバ",
+        pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+        hp: 10,
+        clear: () => {
+          alert("クリア！");
+        },
+      };
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    上記のクリックゲームを改造し、2つのp要素と画像を動的に生成する。（document.createElement）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 配列とオブジェクトの組み合わせ</h2>
+        <div class="clause">
+          <p>複数のオブジェクトを扱う場合は、オブジェクトを配列に入れて管理できる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const teacher = [
+  {
+    name: "高木",
+    age: 44,
+    blood: "B"
+  },
+  {
+    name: "河口",
+    age: 52,
+    blood: "AB"
+  }
+];
+console.log(teacher[1].name);</code></pre>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">★ 実践「クリックゲームその2（click02.html）」</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="./assets/11/click03.html" target="_blank">見本</a></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;クリックゲームその2&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;click game&lt;/h1&gt;
+    &lt;div class="monster-all"&gt;
+
+    &lt;/div&gt;
+
+    &lt;script&gt;
+      const monsters = [
+        {
+          name: "ピンクカバ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+          hp: 10,
+          clear: () => {
+            alert("ピンクカバを倒した！");
+          },
+        },
+        {
+          name: "カマキリ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png",
+          hp: 6,
+          clear: () => {
+            alert("カマキリを倒した！");
+          },
+        },
+        {
+          name: "ゴリラ",
+          pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+          hp: 8,
+          clear: () => {
+            alert("ゴリラを倒した！");
+          },
+        },
+      ];
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    ページを表示したら、定義されているオブジェクトの配列を利用して、3体のモンスターを動的に生成する。（for文で繰り返す）
+                  </li>
+                  <li>画像をクリックするたびに、そのモンスターのHPを1ずつ減らす。</li>
+                  <li>
+                    HPが「0」になったらオブジェクト内の関数を実行しアラートを表示する。それ以降HPは減らない。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;!-- 動的に生成する完成図 --&gt;
+&lt;div class="monster-all"&gt;
+  &lt;div class="monster"&gt;
+    &lt;p&gt;ピンクカバ&lt;/p&gt;
+    &lt;img src="https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png" width="200"&gt;
+    &lt;p&gt;HP:10&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="monster"&gt;
+    &lt;p&gt;カマキリ&lt;/p&gt;
+    &lt;img src="https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png" width="200"&gt;
+    &lt;p&gt;HP:6&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;div class="monster"&gt;
+    &lt;p&gt;ゴリラ&lt;/p&gt;
+    &lt;img src="https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png" width="200"&gt;
+    &lt;p&gt;HP:8&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【さらに改造】</dt>
+              <dd>
+                <ol>
+                  <li>CSSで見た目を整える。</li>
+                  <li>自由に改造する。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">補足</h2>
+        <div class="clause">
+          <dl>
+            <dt>【forEachとthisキーワード】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const monsters = [
+  {
+    name: "ピンクカバ",
+    pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+    hp: 10,
+    clear: function () {
+      alert(`${this.name}を倒した！`);
+    },
+  },
+  {
+    name: "カマキリ",
+    pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png",
+    hp: 6,
+    clear: function () {
+      alert(`${this.name}を倒した！`);
+    },
+  },
+  {
+    name: "ゴリラ",
+    pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+    hp: 8,
+    clear: function () {
+      alert(`${this.name}を倒した！`);
+    },
+  },
+];
+
+const monsterall = document.querySelector(".monster-all");
+
+monsters.forEach((obj) => {
+  const monster = document.createElement("div");
+  monster.classList.add("monster");
+
+  const name = document.createElement("p");
+  name.textContent = obj.name;
+  monster.append(name);
+
+  const pic = document.createElement("img");
+  pic.setAttribute("src", obj.pic);
+  pic.setAttribute("width", 200);
+
+  pic.addEventListener("click", () => {
+    if (obj.hp > 0) {
+      hp.textContent = `HP: ${--obj.hp}`;
+      if (obj.hp == 0) {
+        obj.clear();
+        pic.parentElement.classList.add("clear");
+      }
+    }
+  });
+
+  monster.append(pic);
+
+  const hp = document.createElement("p");
+  hp.textContent = `HP: ${obj.hp}`;
+  monster.append(hp);
+
+  monsterall.append(monster);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

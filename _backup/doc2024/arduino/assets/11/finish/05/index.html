@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>データ切り替え</title>
+      <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+      <style>
+         #buttons {
+            margin-bottom: 20px;
+         }
+         button {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 20px;
+         }
+         button.active {
+            background-color: #ffcc00;
+            color: #333;
+            transition: 0.3s;
+         }
+         svg {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="buttons">
+         <button data-dataset="crime_stats">犯罪認知件数</button>
+         <button data-dataset="fraud_stats">特殊詐欺件数</button>
+         <button data-dataset="cybercrime_stats">サイバー犯罪</button>
+         <button data-dataset="child_abuse">児童虐待</button>
+      </div>
+      <div id="chart-container"></div>
+      <script>
+         const datasets = {
+            crime_stats: "./crime_stats.json",
+            fraud_stats: "./fraud_stats.json",
+            cybercrime_stats: "./cybercrime_stats.json",
+            child_abuse: "./child_abuse.json",
+         };
+
+         const width = 800;
+         const height = 500;
+         const svg = d3
+            .select("#chart-container")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+         function drawChart(data, datasetType) {
+            svg.selectAll("*").remove();
+
+            // タイトル設定
+            const titles = {
+               crime_stats: "犯罪認知件数",
+               fraud_stats: "特殊詐欺件数",
+               cybercrime_stats: "サイバー犯罪",
+               child_abuse: "児童虐待",
+            };
+
+            svg.append("text")
+               .attr("x", width / 2)
+               .attr("y", 30)
+               .attr("text-anchor", "middle")
+               .attr("font-size", "20px")
+               .attr("font-weight", "bold")
+               .text(titles[datasetType]);
+
+            if (datasetType === "crime_stats") {
+               // 凡例を追加
+               const legend = svg
+                  .append("g")
+                  .attr("transform", "translate(600, 40)");
+
+               legend
+                  .append("line")
+                  .attr("x1", 0)
+                  .attr("y1", 0)
+                  .attr("x2", 20)
+                  .attr("y2", 0)
+                  .attr("stroke", "blue")
+                  .attr("stroke-width", 2);
+
+               legend
+                  .append("text")
+                  .attr("x", 30)
+                  .attr("y", 5)
+                  .attr("font-size", "14px")
+                  .attr("fill", "#333")
+                  .text("犯罪認知件数");
+
+               legend
+                  .append("line")
+                  .attr("x1", 0)
+                  .attr("y1", 20)
+                  .attr("x2", 20)
+                  .attr("y2", 20)
+                  .attr("stroke", "green")
+                  .attr("stroke-width", 2);
+
+               legend
+                  .append("text")
+                  .attr("x", 30)
+                  .attr("y", 25)
+                  .attr("font-size", "14px")
+                  .attr("fill", "#333")
+                  .text("検挙件数");
+            }
+
+            const xScale = d3
+               .scaleBand()
+               .domain(data.map((d) => d.year))
+               .range([50, width - 50])
+               .padding(0.1);
+
+            const yMaxKey =
+               datasetType === "child_abuse" ? "total_children" : "cases";
+
+            const yMax =
+               datasetType === "crime_stats"
+                  ? d3.max(data, (d) => d.recognized_cases) * 1.2
+                  : d3.max(data, (d) => d[yMaxKey]) * 1.2;
+
+            const yScale = d3
+               .scaleLinear()
+               .domain([0, yMax])
+               .range([height - 50, 50]);
+
+            svg.append("g")
+               .attr("transform", `translate(0, ${height - 50})`)
+               .call(d3.axisBottom(xScale));
+
+            svg.append("g")
+               .attr("transform", `translate(50, 0)`)
+               .call(d3.axisLeft(yScale));
+
+            if (datasetType === "crime_stats") {
+               const line1 = d3
+                  .line()
+                  .x((d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .y((d) => yScale(d.recognized_cases));
+
+               const line2 = d3
+                  .line()
+                  .x((d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .y((d) => yScale(d.arrested_cases));
+
+               const path1 = svg
+                  .append("path")
+                  .datum(data)
+                  .attr("fill", "none")
+                  .attr("stroke", "blue")
+                  .attr("stroke-width", 2)
+                  .attr("d", line1);
+
+               const path2 = svg
+                  .append("path")
+                  .datum(data)
+                  .attr("fill", "none")
+                  .attr("stroke", "green")
+                  .attr("stroke-width", 2)
+                  .attr("d", line2);
+
+               const totalLength1 = path1.node().getTotalLength();
+               const totalLength2 = path2.node().getTotalLength();
+
+               path1
+                  .attr("stroke-dasharray", `${totalLength1} ${totalLength1}`)
+                  .attr("stroke-dashoffset", totalLength1)
+                  .transition()
+                  .duration(2000)
+                  .ease(d3.easeLinear)
+                  .attr("stroke-dashoffset", 0);
+
+               path2
+                  .attr("stroke-dasharray", `${totalLength2} ${totalLength2}`)
+                  .attr("stroke-dashoffset", totalLength2)
+                  .transition()
+                  .duration(2000)
+                  .ease(d3.easeLinear)
+                  .attr("stroke-dashoffset", 0);
+
+               svg.selectAll(".point1")
+                  .data(data)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("cy", (d) => yScale(d.recognized_cases))
+                  .attr("r", 5)
+                  .attr("fill", "blue");
+
+               svg.selectAll(".point2")
+                  .data(data)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("cy", (d) => yScale(d.arrested_cases))
+                  .attr("r", 5)
+                  .attr("fill", "green");
+
+               // 数字ラベルを追加
+               svg.selectAll(".label1")
+                  .data(data)
+                  .enter()
+                  .append("text")
+                  .attr("x", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("y", (d) => yScale(d.recognized_cases) - 10)
+                  .attr("text-anchor", "middle")
+                  .attr("fill", "blue")
+                  .text((d) => d.recognized_cases);
+
+               svg.selectAll(".label2")
+                  .data(data)
+                  .enter()
+                  .append("text")
+                  .attr("x", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("y", (d) => yScale(d.arrested_cases) - 10)
+                  .attr("text-anchor", "middle")
+                  .attr("fill", "green")
+                  .text((d) => d.arrested_cases);
+            } else {
+               const line = d3
+                  .line()
+                  .x((d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .y((d) => yScale(d[yMaxKey]));
+
+               const path = svg
+                  .append("path")
+                  .datum(data)
+                  .attr("fill", "none")
+                  .attr("stroke", "orange")
+                  .attr("stroke-width", 2)
+                  .attr("d", line);
+
+               const totalLength = path.node().getTotalLength();
+
+               path
+                  .attr("stroke-dasharray", `${totalLength} ${totalLength}`)
+                  .attr("stroke-dashoffset", totalLength)
+                  .transition()
+                  .duration(2000)
+                  .ease(d3.easeLinear)
+                  .attr("stroke-dashoffset", 0);
+
+               svg.selectAll(".point")
+                  .data(data)
+                  .enter()
+                  .append("circle")
+                  .attr("cx", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("cy", (d) => yScale(d[yMaxKey]))
+                  .attr("r", 5)
+                  .attr("fill", "orange");
+
+               // 数字ラベルを追加
+               svg.selectAll(".label")
+                  .data(data)
+                  .enter()
+                  .append("text")
+                  .attr("x", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                  .attr("y", (d) => yScale(d[yMaxKey]) - 10)
+                  .attr("text-anchor", "middle")
+                  .attr("fill", "orange")
+                  .text((d) => d[yMaxKey]);
+            }
+         }
+
+         document.querySelectorAll("#buttons button").forEach((button) => {
+            button.addEventListener("click", () => {
+               document
+                  .querySelectorAll("#buttons button")
+                  .forEach((btn) => btn.classList.remove("active"));
+               button.classList.add("active");
+
+               const datasetType = button.getAttribute("data-dataset");
+               const filePath = datasets[datasetType];
+               d3.json(filePath).then((data) => drawChart(data, datasetType));
+            });
+         });
+
+         d3.json(datasets.crime_stats).then((data) => {
+            drawChart(data, "crime_stats");
+            document
+               .querySelector("button[data-dataset='crime_stats']")
+               .classList.add("active");
+         });
+      </script>
+   </body>
+</html>

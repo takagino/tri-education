@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル時計</title>
+
+    <style>
+        /* Google Fonts 読み込み */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body{
+    margin:0;
+}
+
+/* 全体を囲うコンテナー */
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: #181823;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* 時計の共通スタイル */
+.clock {
+  font-family:  "Press Start 2P", serif;
+  color: #fff;
+  text-shadow: 0 0 20px #0aafe6;
+  line-height: 1.2;
+  text-align: center;
+  transition: 0.3s;
+}
+
+/* 日付のスタイル */
+.clock-date {
+  font-size: 25px;
+}
+
+/* 時間のスタイル */
+.clock-time {
+  font-size: 100px;
+}
+
+.x{
+    display: block;
+    text-align: left;
+    transition: 0.3s;
+}
+
+.x__line{
+  position:relative;
+}
+
+.x__line::before{
+  position:absolute;
+  top: 50%;
+  content: '';
+  height: 1;
+  border: 0.8px dashed rgba(255,255,255,0.7);
+  width:800px;
+}
+
+.s,.m,.h{
+  width: fit-content;
+}
+
+
+/* 文字サイズ調整 */
+@media screen and (max-width: 500px) {
+  .clock-date {
+    font-size: 5vw;
+  }
+  .clock-time {
+    font-size: 20vw;
+  }
+}
+
+/*stars*/
+.stars{
+  position: relative;
+  overflow: hidden;
+}
+
+.star{
+  position: absolute;
+  display: block;
+  background-color: hsl(0,0%,360%);
+  border-radius: 50%;
+  opacity:0;
+  animation: twinkle 5s infinite;
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0;
+  }
+
+  20% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.press,.stop{
+  margin-top: 60px;
+  font-family:  "Press Start 2P", serif;
+  color: #fff;
+  font-size: 25px;
+  text-shadow: 0 0 10px #00bfff;
+  line-height: 1.2;
+  text-align: center;
+  transition: 0.5s;
+}
+
+.press:hover{
+  cursor: pointer;
+  transform:scale(1.03);
+}
+
+.press:active{
+  transform: scale(0.97);
+}
+
+.message{
+  margin: 10px;
+  font-size: 13px;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container stars">
+        <div class="clock">
+            <p class="clock-date"></p>
+            <p class="clock-time"></p>
+            <div class="x">
+                <div class="x__line">
+                  <p class="s">1s</p>
+                </div>
+                <div class="x__line">
+                  <p class="m">1m</p>
+                </div>
+                <div class="x__line">
+                  <p class="h">1h</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="press">click here!</p>
+        <p class="press message"></p>
+    </div>
+
+    <script>
+        const container = document.querySelector(".container");
+        const clockClass = document.querySelector(".clock");
+        const clockDate = document.querySelector(".clock-date");
+        const clockTime = document.querySelector(".clock-time");
+        const stars = document.querySelector(".stars");
+        const press = document.querySelector(".press");
+        const message = document.querySelector(".message");
+        const s = document.querySelector(".s");
+        const m = document.querySelector(".m");
+        const h = document.querySelector(".h");
+        let limit = 0;
+
+
+
+        const clock = () => {
+            const d = new Date();
+            let year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            let date = d.getDate();
+            let dayNum = d.getDay();
+            const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            let day = weekday[dayNum];
+            /* 　秒数 */
+            let hour = d.getHours();
+            let min = d.getMinutes();
+            let sec = d.getSeconds();
+
+
+            // 変更--------------------
+            // ゲーミング　
+            color = Math.floor(Math.random() * 360);
+            clockClass.style.textShadow = `0px 0px 20px hsl(${Math.abs(color-180)},100%,50%)`;
+            press.style.textShadow = `0px 0px 20px hsl(${color},100%,50%)`;
+            message.style.textShadow = `0px 0px 20px hsl(${color},100%,50%)`;
+
+
+            // 移動
+            let size = clockClass.clientWidth;
+
+
+            s.style.transform = `translateX(${(size / 60) * sec-32}px`;
+            m.style.transform = `translateX(${(size / 3600) * (((min - 1) * 60) + sec)}px`;
+            h.style.transform = `translateX(${(size / 86400) * (((hour) * 3600) + min + sec)}px`;
+              s.innerText = `${sec}s`;
+              m.innerText = `${min}m`;
+              h.innerText = `${hour}h`;
+
+
+            // 1桁の場合は0を足して2桁に
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+
+            let today = `${year}.${month}.${date} ${day}`;
+            let time = `${hour}:${min}:${sec}`;
+
+            //　出力 ----------------------------
+
+            clockDate.innerText = today;
+            clockTime.innerText = time;
+
+            setTimeout(clock, 1000 - d.getMilliseconds());
+        };
+        clock();
+
+        press.addEventListener("click", () => {
+          const createStar = () => {
+            const starEl = document.createElement("span");
+            starEl.className = "star";
+            const minSize = 1;
+            const maxSize = 3;
+            const size = Math.random() * (maxSize - minSize) + minSize;
+            const starColor = Math.floor(Math.random()*360);
+            const starWhite = Math.floor(Math.random()*40)+60;
+            starEl.style.backgroundColor = `hsl(${starColor},100%,${starWhite}%)`;
+            starEl.style.width = `${size}px`;
+            starEl.style.height = `${size}px`;
+            starEl.style.left = `${Math.random() * 100}%`;
+            starEl.style.top = `${Math.random() * 100}%`;
+            starEl.style.animationDelay = `${Math.random() * 10}s`;
+            stars.appendChild(starEl);
+          };
+
+          if (limit < 10) {
+            for (let i = 0; i <= 50; i++) {
+              createStar();
+              console.log('You make for a wonderful night sky full of stars!');
+            }
+            limit += 1;
+          } else{
+            press.innerText =`thank you click!`;
+            message.innerText = `You make for a wonderful night sky full of stars!`;
+            press.classList.add ('stop');
+            press.classList.remove ('press');
+            message.classList.add('stop');
+            message.classList.remove('press');
+          }
+
+
+      });
+
+    </script>
+</body>
+</html>

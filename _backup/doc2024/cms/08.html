@@ -1,0 +1,307 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」08_本番環境へのアップロード | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」08_本番環境へのアップロード</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. WordPressのインストール</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://user.lolipop.jp/">ロリポップ</a>には、「WordPress簡単インストール」という機能があるが、今回は授業なのですべて手動で作業していく。</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. WordPressのダウンロード</h3>
+        <p><a href="https://ja.wordpress.org/download/" target="_blank">公式サイト</a>から「WordPress」の最新版をダウンロードし、解凍しておく。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. データベースの作成</h3>
+        <div class="item">
+          <ol>
+            <li>『ロリポップの管理画面メニュー > サーバーの管理・設定 > データベース』を選択。</li>
+            <li>「データベースを作成」ボタンをクリック。
+              <img src="assets/08/01.png" width="600" alt="">
+            </li>
+            <li>情報の入力して「作成」ボタンをクリック。
+              <img src="assets/08/02.png" width="600" alt="">
+            </li>
+            <li>データベース名やホスト名は、後で使用するのでページは開いたままにしておく。
+              <img src="assets/08/03.png" width="600" alt="">
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. 「wp-config.php」の編集</h3>
+        <p>ローカルでは、ブラウザ上でデータベース等の設定を行ったが、今回は直接ファイルを編集する。</p>
+        <ol>
+          <li>ダウンロード＆解凍したWordPressフォルダを「wordpress」から「blog」に変更。<br>
+            ※ファルダ名が<a href="http://takagino2024.sub.jp/blog/">URLの末尾になる</a>ので、任意の名前で。</li>
+          <li>フォルダ内の「wp-config-sample.php」を複製する。</li>
+          <li>複製したファイルを「wp-config.php」に変更し、VSCodeで開く。
+            <img src="assets/08/04.png" width="600" alt="">
+          </li>
+          <li>23行目あたりからの項目を以下のように変更する。（<em>コピペするとスペースなどが入るので注意</em>）
+            <pre class="line-numbers"><code class="language-php">// ** Database settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define( 'DB_NAME', 'データベース名' );
+
+/** Database username */
+define( 'DB_USER', 'ユーザー名' );
+
+/** Database password */
+define( 'DB_PASSWORD', 'パスワード' );
+
+/** Database hostname */
+define( 'DB_HOST', 'データベースホスト' );
+
+/** Database charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8' );
+
+/** The database collate type. Don't change this if in doubt. */
+define( 'DB_COLLATE', '' );</code></pre>
+          </li>
+          <li>ついでに、69行目あたりからの接頭辞も変更しておく
+            <pre class="line-numbers"><code class="language-php">/**
+* WordPress database table prefix.
+*
+* You can have multiple installations in one database if you give each
+* a unique prefix. Only numbers, letters, and underscores please!
+*/
+$table_prefix = 'blog_';</code></pre>
+          </li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. WordPressのアップロード</h3>
+        <ol>
+          <li>「blog（ダウンロードしたwordpress）」フォルダごと、「Cyberduck」にドラッグ&ドロップ。</li>
+          <li>アップロードが完了したら、「http://自分のロリポップのURL/bolg」にアクセス。</li>
+          <li>ブログの情報を入力し、「WordPressをインストール」をクリック。（※ユーザ名以外は後で変更可能）
+            <img src="./assets/01/22.png" width="600" alt="">
+          </li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 独自ドメインの設定（任意）</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://tridentwebdesign.blog.fc2.com/e/blog2023">先輩のポートフォリオサイト</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【独自ドメイン取得サービス】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://muumuu-domain.com/">ムームードメイン</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. WordPressの初期設定</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt><em>【注意点】</em></dt>
+            <dd>WordPressは「記事の投稿・画像のアップロード・固定ページの追加」などの作業をするたびに、「ID番号」がどんどん増えていきます。<br>
+              完全にテーマが完成するまでは、ローカル環境で作業して、完璧な形で記事を書き始めましょう。</dd>
+          </dl>
+        </div>
+        <p><a href="https://www.xserver.ne.jp/blog/wordpress-initial-setting/">【必須！】WordPressブログ開設後にやるべき初期設定13個</a></p>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. その他の設定</h2>
+      <section class="clause">
+        <h3 class="clause__title">4-1. faviconの設定</h3>
+        <ol>
+          <li>管理画面メニュー『テーマ &gt; カスタマイズ』を選択。</li>
+          <li>「サイト基本設定」をクリック。</li>
+          <li>サイトアイコンを選択をクリックし、画像をアップロード。（512 x 512 ピクセル推奨）
+            <img src="./assets/08/05.png" width="300" alt="">
+          </li>
+          <li>設定が完了したら「公開」をクリック。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. OGPの設定</h3>
+        <div class="item">
+          <p><a href="https://www.xserver.ne.jp/bizhp/open-graph-protocol/">OGPとは？SNSでの役割や設定方法を初心者向けに解説</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定のチェック方法】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://developers.facebook.com/tools/debug/">シェアデバッガー – Meta for Developers</a></li>
+                <li><a href="https://cards-dev.twitter.com/validator">Twitter Card Validator</a></li>
+                <li><a href="https://chromewebstore.google.com/detail/seo-meta-in-1-click/bjogjfinolnhfhkbipphpdlldadpnmhc?hl=ja">SEO META in 1 CLICK - Chrome拡張</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. Googleアナリティクスの設定</h3>
+        <div class="item">
+          <p><a href="https://be-marke.jp/articles/knowhow-ga-setting">【2024年版】Googleアナリティクス（GA4）の設定方法と基本的な使い方を初心者向けに解説！</a></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-4. その他、head要素に書くべき項目</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://qiita.com/tanimoto-hikari/items/1264efa1ba7a023b8c0b">HTML<head>の中をちゃんと理解する</a></li>
+            <li><a href="https://saruwakakun.com/html-css/basic/head">head内に書くべきタグを総まとめ：SEO対策に有効なものは？</a></li>
+          </ul>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. おすすめプラグイン</h2>
+      <div class="clause">
+        <p>※元々インストールされている「Hello Dolly」は削除しておく。</p>
+        <div class="item">
+          <dl>
+            <dt>【スパムコメント対策】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/akismet/">Akismet Anti-spam: Spam Protection</a></li>
+                <li><a href="https://hitodeblog.com/plugin-akismet">【スパムコメント対策】Akismet Anti-Spamの設定方法を解説！</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【記事やカテゴリーを並び替える】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://wordpress.org/plugins/simple-custom-post-order/">Simple Custom Post Order</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ソースコードを綺麗に表示する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/code-block-pro/">Code Block Pro – Beautiful Syntax Highlighting</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【目次を生成する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/easy-table-of-contents/">Easy Table of Contents</a></li>
+                <li><a href="https://ja.wordpress.org/plugins/table-of-contents-plus/">Table of Contents Plus</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【シェアボタンを表示する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/add-to-any/">AddToAny Share Buttons</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ローディング画面を表示する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://wordpress.org/plugins/loftloader/">LoftLoader</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【パンくずリストを表示する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/breadcrumb-navxt/">Breadcrumb NavXT</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【不要なデータを削除する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/wp-optimize/">WP-Optimize</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【セキュリティを強化する】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://ja.wordpress.org/plugins/xo-security/">XO Security</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <p>※「wordpress プラグイン 2024」で検索するとおすすめ記事がヒットするので、各自自由にインストールしてください。</p>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+        <pre class="line-numbers">
+          <code class="language-markup">
+            &lt; ... &gt;
+          </code>
+        </pre>
+        -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

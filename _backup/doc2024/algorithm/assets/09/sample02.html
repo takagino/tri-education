@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>配列</title>
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let x = [];
+      let y = [];
+      let speed = [];
+      const num = 10;
+
+      function setup() {
+        createCanvas(400, 400);
+        colorMode(HSB);
+        rectMode(CENTER);
+
+        for (let i = 0; i < num; i += 1) {
+          x[i] = Math.random() * width;
+          y[i] = Math.random() * height;
+          speed[i] = 3;
+        }
+      }
+
+      function draw() {
+        clear();
+
+        for (let i = 0; i < num; i += 1) {
+          ellipse(x[i], y[i], 20, 20);
+          x[i] += speed[i];
+          if (x[i] < 0 || x[i] > width) {
+            speed[i] = -speed[i];
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

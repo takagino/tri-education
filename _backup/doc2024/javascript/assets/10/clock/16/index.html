@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>デジタル時計</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Darumadrop+One&family=Shippori+Antique+B1&display=swap"
+    rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      position: relative;
+      background-color: #7bb448;
+      font-family: "Darumadrop One", serif;
+
+
+    }
+
+    .loop {
+      display: flex;
+      overflow: hidden;
+    }
+
+    .loop p {
+      margin: 0;
+      font-size: 15vw;
+      padding-right: .5em;
+      white-space: nowrap;
+    }
+
+    .text01 {
+      color: #fff;
+      animation: loop 50s -25s linear infinite;
+    }
+
+    .text02 {
+      color: #fff;
+      animation: loop2 50s linear infinite;
+    }
+
+    @keyframes loop {
+      0% {
+        transform: translateX(100%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    @keyframes loop2 {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-200%);
+      }
+    }
+
+    /* 全体を囲うコンテナー */
+    .container {
+
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .object {
+      position: absolute;
+      bottom: 95px;
+      left: 35px;
+      width: 60%;
+    }
+
+
+    /* 時計の共通スタイル */
+    .clock {
+      width: 100%;
+      margin: 55px auto;
+      padding: 300px 70px 75px 70px;
+      color: #190e29;
+      text-shadow: 0 5px 5px #4d4d4d;
+      line-height: 1.1;
+      text-align: right;
+      background-color: #fff;
+    }
+
+    /* 日付のスタイル */
+    .clock-date {
+      margin: 0;
+      padding-right: 10px;
+      font-size: 25px;
+      text-shadow: none;
+    }
+
+    /* 時間のスタイル */
+    .clock-time {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 100px;
+    }
+
+    /* 文字サイズ調整 */
+    @media screen and (max-width: 500px) {
+      .clock-date {
+        font-size: 5vw;
+      }
+
+      .clock-time {
+        font-size: 20vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="clock">
+      <p class="clock-date"></p>
+      <p class="clock-time"></p>
+    </div>
+  </div>
+  <img class="object" src="./images/object.svg" alt="">
+  <div class="loop">
+    <p class="text01">PIYO PIYO PIYO PIYO</p>
+    <p class="text02">PIYO PIYO PIYO PIYO</p>
+  </div>
+
+  <script>
+    const audioElement = new Audio("./images/PIYO.mp3");
+    const clock = () => {
+      const d = new Date();
+      let year = d.getFullYear();
+      let month = d.getMonth() + 1;
+      let date = d.getDate();
+      let dayNum = d.getDay();
+      const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+      let day = weekday[dayNum];
+      let hour = d.getHours();
+      let min = d.getMinutes();
+      let sec = d.getSeconds();
+
+      // 1桁の場合は0を足して2桁に
+      month = month < 10 ? "0" + month : month;
+      date = date < 10 ? "0" + date : date;
+      hour = hour < 10 ? "0" + hour : hour;
+      min = min < 10 ? "0" + min : min;
+      sec = sec < 10 ? "0" + sec : sec;
+
+      // 日付・時刻の文字列を作成
+      let today = `${year}.${month}.${date} ${day}`;
+      let time;
+
+      if (sec % 10 === 0) {
+        audioElement.play();
+        time = `PIYO`;
+      } else if (sec % 10 === 3) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        time = `${hour}:${min}:${sec}`;
+      } else {
+        time = `${hour}:${min}:${sec}`;
+      }
+
+
+      //let time = `${hour}:${min}`;
+      // 文字列を出力
+      document.querySelector(".clock-date").innerText = today;
+      document.querySelector(".clock-time").innerText = time;
+
+      setTimeout(clock, 1000 - d.getMilliseconds);
+    };
+
+    clock();
+
+  </script>
+</body>
+
+</html>

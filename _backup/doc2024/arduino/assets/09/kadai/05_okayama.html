@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>d3.js</title>
+      <style>
+         svg {
+            background-color: #ddd;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="container"></div>
+
+      <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+      <script>
+         const svg = d3.create("svg").attr("width", 640).attr("height", 480);
+
+         const dataset = [
+            { title: "米津玄師「Lemon」", num: 8.4, rank: 1, cl: "ff4444" },
+            {
+               title: "DAOKO×米津玄師「打上花火」",
+               num: 5.8,
+               rank: 2,
+               cl: "ffdd22",
+            },
+            {
+               title: "Official髭男dism「Pretender」",
+               num: 4.9,
+               rank: 3,
+               cl: "ffdd77",
+            },
+            { title: "King Gnu「白日」", num: 4.6, rank: 4, cl: "aaff77" },
+            {
+               title: "ピコ太郎「PPAP (Long Version)」",
+               num: 4.5,
+               rank: 5,
+               cl: "66ff55",
+            },
+         ];
+
+         d3.select("#container")
+            .insert("h1", "svg")
+            .text("歴代MV再生回数ランキング（YouTube・日本国内)");
+
+         svg.selectAll("rect")
+            .data(dataset)
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", (data, index) => 40 + index * 80)
+            .attr("width", (data) => data.num * 50)
+            .attr("height", 25)
+            .attr("fill", (data) => "#" + data.cl);
+
+         svg.selectAll("text")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr("font-size", 14)
+            .attr("x", (data, index) => 10)
+            .attr("y", (data, i) => 30 + i * 80)
+            .text((data) => data.title)
+            .attr("font-size", 16)
+            .attr("font-weight", "bold");
+
+         svg.selectAll(".rank")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr("font-size", 14)
+            .attr("x", (data) => data.num * 50 + 10)
+            .attr("y", (data, i) => 57 + i * 80)
+            .attr("font-weight", "bold")
+            .text((data) => data.rank);
+
+         svg.selectAll(".num")
+            .data(dataset)
+            .enter()
+            .append("text")
+            .attr("font-size", 14)
+            .attr("x", (data) => data.num * 40)
+            .attr("y", (data, i) => 77 + i * 80)
+            .text((data) => "総再生数" + data.num + "億");
+
+         //  svg.selectAll("circle")
+         //     .data(dataset)
+         //     .enter()
+         //     .append("circle")
+         //     .attr("cx", (data, index) => 40 + index * 120)
+         //     .attr("cy", (data) => 240)
+         //     .attr("r", (data) => data)
+         //     .attr("fill", "orange");
+
+         container.append(svg.node());
+
+         //  const list = d3
+         //     .selectAll("li")
+         //     .text("テキストを変更しました。")
+         //     .style("color", "red")
+         //     .classed("list-item", true);
+
+         //  const container = d3
+         //     .select("#container")
+         //     .insert("h1", "ul")
+         //     .text("テキストを変更");
+
+         //  const datalist = ["しりとり", "りんご", "ごりら", "ラッパ"];
+
+         //  d3.selectAll("p")
+         //     .data(datalist)
+         //     .enter()
+         //     .append("p")
+         //     .text((data) => data);
+      </script>
+   </body>
+</html>

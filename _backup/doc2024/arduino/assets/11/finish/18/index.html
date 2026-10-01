@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<!-- head部分は同じなので省略 -->
+
+<head>
+    <!-- 前のCSSはそのまま -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>プロ野球リーグ優勝回数</title>
+    <style>
+        /* 前のCSSをそのまま使用 */
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 他のスタイルも同じ */
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f0f0f0;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        svg {
+            background-color: white;
+            border-radius: 8px;
+            width: 100%;
+            height: auto;
+        }
+
+        .item image {
+            transition: transform 0.3s ease;
+        }
+
+        .item:hover image {
+            transform: scale(1.1);
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        .value {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .unit {
+            font-size: 14px;
+            fill: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="button-container">
+            <button id="btn23" data-key="y2023">セ・リーグ優勝回数</button>
+            <button id="btn24" data-key="y2024">パ・リーグ優勝回数</button>
+        </div>
+        <div id="container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const width = 640;
+        const height = 480;
+        const imageW = 80;
+        const svg = d3.create("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .attr("preserveAspectRatio", "xMidYMid meet");
+
+        d3.json("./data3.json")
+            .then((dataset) => {
+                const max23 = d3.max(dataset.y2023, d => d.val);
+                const max24 = d3.max(dataset.y2024, d => d.val);
+                const max = Math.max(max23, max24);
+                const scale = d3.scaleLinear()
+                    .domain([0, max])
+                    .range([0, 400]);
+
+                // Background grid
+                const grid = svg.append("g")
+                    .attr("class", "grid")
+                    .attr("transform", `translate(${imageW + 20}, 0)`);
+
+                const gridValues = d3.range(0, max + 1, Math.ceil(max / 5));
+                gridValues.forEach(value => {
+                    grid.append("line")
+                        .attr("x1", scale(value))
+                        .attr("y1", 0)
+                        .attr("x2", scale(value))
+                        .attr("y2", height)
+                        .attr("stroke", "#f0f0f0")
+                        .attr("stroke-width", 1);
+
+                    grid.append("text")
+                        .attr("x", scale(value))
+                        .attr("y", height - 10)
+                        .attr("text-anchor", "middle")
+                        .attr("fill", "#666")
+                        .attr("font-size", "12px")
+                        .text(value + "回");
+                });
+
+                const g = svg.selectAll(".item")
+                    .data(dataset.y2023)
+                    .enter()
+                    .append("g")
+                    .classed("item", true)
+                    .attr("transform", (d, i) => `translate(20, ${i * 90 + 20})`);
+
+                const rect = g.append("rect")
+                    .attr("x", imageW + 20)
+                    .attr("y", 35)
+                    .attr("width", 0)
+                    .attr("height", 30)
+                    .attr("rx", 4)
+                    .attr("fill", d => d.color)
+                    .attr("opacity", 0.8);
+
+                const label = g.append("text")
+                    .classed("label", true)
+                    .attr("font-size", 16)
+                    .attr("x", imageW + 20)
+                    .attr("y", 20)
+                    .attr("fill", d => d.color)
+                    .text(d => d.label);
+
+                // 数値と単位を1つのグループにまとめる
+                const valueGroup = g.append("g")
+                    .attr("class", "value-group")
+                    .attr("transform", d => `translate(${imageW + 20}, 55)`);
+
+                const val = valueGroup.append("text")
+                    .classed("value", true)
+                    .attr("font-size", 16)
+                    .attr("fill", "#333")
+                    .text(d => d.val);
+
+                const unit = valueGroup.append("text")
+                    .classed("unit", true)
+                    .attr("fill", "#666")
+                    .text("回");
+
+                // 初期位置の設定
+                val.each(function () {
+                    const valueWidth = this.getComputedTextLength();
+                    d3.select(this.parentNode)
+                        .select(".unit")
+                        .attr("x", valueWidth + 5);
+                });
+
+                const img = g.append("image")
+                    .attr("href", d => d.url)
+                    .attr("width", imageW)
+                    .attr("height", imageW)
+                    .attr("y", 0);
+
+                container.append(svg.node());
+
+                const onChange = (key) => {
+                    document.querySelectorAll('button').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    document.querySelector(`button[data-key="${key}"]`).classList.add('active');
+
+                    rect.data(dataset[key])
+                        .transition()
+                        .duration(1000)
+                        .delay((d, i) => i * 100)
+                        .ease(d3.easeElasticOut)
+                        .attr("width", d => scale(d.val));
+
+                    // グループごとアニメーション
+                    valueGroup.data(dataset[key])
+                        .each(function (d) {
+                            const group = d3.select(this);
+                            const valueText = group.select(".value");
+
+                            valueText.text(d.val);
+                            const valueWidth = valueText.node().getComputedTextLength();
+
+                            group.transition()
+                                .duration(1000)
+                                .delay((d, i) => i * 100)
+                                .ease(d3.easeElasticOut)
+                                .attr("transform", `translate(${imageW + 25 + scale(d.val)}, 55)`);
+
+                            group.select(".unit")
+                                .attr("x", valueWidth + 5);
+                        });
+
+                    label.data(dataset[key]).text(d => d.label);
+                    img.data(dataset[key]).attr("href", d => d.url);
+                };
+
+                document.querySelector('#btn23').classList.add('active');
+
+                document.querySelectorAll("button").forEach(elem => {
+                    elem.addEventListener("click", () => {
+                        onChange(elem.dataset.key);
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('データの読み込みに失敗しました:', error);
+            });
+    </script>
+</body>
+
+</html>

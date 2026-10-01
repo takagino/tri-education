@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>繰り返し処理問題「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」繰り返し処理問題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【共通の条件】</dt>
+              <dd>
+                <ol>
+                  <li>マウスの押すと指定の図形が描画される。</li>
+                  <li>マウスを離すと消える。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">question01.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面のランダムな場所に、5本の線を描く。</li>
+              <li>線の太さは「10」、色はランダムとする。</li>
+            </ol>
+            <div id="question01"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeWeight(10);
+}
+
+function draw(){
+}
+
+function mousePressed(){
+  for(let i = 0; i < 5; i += 1){
+    stroke(Math.random()*360, 100, 100);
+
+    line(
+      Math.random() * width, //1点目のx座標
+      Math.random() * height, //1点目のy座標
+      Math.random() * width, //2点目のx座標
+      Math.random() * height //2点目のy座標
+    );
+  }
+}
+
+function mouseReleased(){
+  clear();
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question02.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面の高さ中央の1列に、8つの矩形を描く。</li>
+              <li>色はランダム、線は無しとする。</li>
+            </ol>
+            <div id="question02"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let w; //矩形の幅（まだ「width」は使用できないので宣言のみ）
+let num = 8; //矩形を描く数
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  noStroke();
+  w = width / num; //画面の幅を矩形の数で割ることで、矩形1個の幅を求める
+}
+
+function draw(){
+}
+
+function mousePressed(){
+  for (let i = 0; i < num; i += 1) { //矩形を描く数だけ繰り返す
+    fill(Math.random() * 360, 100, 100);
+    rect(w * i + w / 2, height / 2, w, w);
+  }
+}
+
+function mouseReleased(){
+  clear();
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question03.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面の中心に8つの円を描く。</li>
+              <li>
+                円の大きさは「50, 100, 150, 200, 250, 300, 350,
+                400」、色はランダム、線は無しとする。
+              </li>
+            </ol>
+            <div id="question03"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  noStroke();
+}
+
+function draw(){
+}
+
+function mousePressed(){
+  for (let i = 8; i > 0; i -= 1) { //大きな円から順番に描いていく
+    fill(Math.random() * 360, 100, 100);
+    ellipse(width / 2, height / 2, 50 * i);
+  }
+}
+
+function mouseReleased(){
+  clear();
+}</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let question01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeWeight(10);
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < 5; i += 1) {
+            p.stroke(Math.random() * 360, 100, 100);
+            p.line(
+              Math.random() * p.width,
+              Math.random() * p.height,
+              Math.random() * p.width,
+              Math.random() * p.height
+            );
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question01, "question01");
+
+      let question02 = function (p) {
+        let w;
+        let num = 8;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.noStroke();
+          w = p.width / num;
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < num; i += 1) {
+            p.fill(Math.random() * 360, 100, 100);
+            p.rect(w * i + w / 2, p.height / 2, w, w);
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question02, "question02");
+
+      let question03 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.noStroke();
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 8; i > 0; i -= 1) {
+            p.fill(Math.random() * 360, 100, 100);
+            p.ellipse(p.width / 2, p.height / 2, 50 * i);
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question03, "question03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

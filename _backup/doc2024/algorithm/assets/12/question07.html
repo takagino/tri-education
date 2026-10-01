@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>問題07「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」問題07</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <section class="clause">
+          <h3 class="clause__title">Level.1</h3>
+          <div class="item">
+            <ol>
+              <li>押されたキーボードの値を画面の中央に描画する。</li>
+              <li>フォントサイズは「20px」とする。</li>
+            </ol>
+            <div id="q01"></div>
+          </div>
+          <!-- <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const size = 20;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  textSize(size);
+}
+
+function draw() {}
+
+function keyPressed() {
+  clear();
+  text(key, width / 2, height / 2 + size / 2);
+}
+
+function keyReleased() {
+  clear();
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.2</h3>
+          <div class="item">
+            <ol>
+              <li>
+                キーボードが描画される度に、画面左上から値を描画していく。
+              </li>
+              <li>画面の端までいったら一段下がる。</li>
+              <li>「Enter」を押すとリセットされる。</li>
+              <li>
+                「Aroow Up」などの1文字でない値が出てしまうが、気にしないこと。
+              </li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <!-- <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const size = 20;
+let x = size / 2;
+let y = size / 2;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  textSize(size);
+  textAlign(CENTER);
+}
+
+function draw() {}
+
+function keyPressed() {
+  if (x < width) {
+    text(key, x, y);
+    x += size;
+  } else {
+    if (y < height) {
+      x = size / 2;
+      y += size;
+    }
+  }
+
+  if (key == "Enter") {
+    clear();
+    x = size / 2;
+    y = size / 2;
+  }
+}
+
+function keyReleased() {}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.3</h3>
+          <div class="item">
+            <ol>
+              <li>
+                配列の値がランダムに出るように変更する。
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const words = ["red", "green", "blue", "yellow"];</code>
+              </pre>
+              </li>
+            </ol>
+            <div id="q03"></div>
+          </div>
+          <!-- <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const size = 20;
+let x = 0;
+let y = size / 2;
+const words = ["red", "green", "blue", "yellow"];
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+  textSize(size);
+}
+
+function draw() {}
+
+function keyPressed() {
+  let word = Math.floor(Math.random() * words.length);
+  if (x < width) {
+    text(words[word], x, y);
+    x += textWidth(words[word]) + size / 2;
+  } else {
+    if (y < height) {
+      x = size / 2;
+      y += size;
+    }
+  }
+
+  if (key == "Enter") {
+    clear();
+    x = size / 2;
+    y = size / 2;
+  }
+}
+
+function keyReleased() {}</code></pre>
+          </div> -->
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q01 = function (p) {
+        const size = 20;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+          p.textSize(size);
+        };
+
+        p.draw = () => {};
+
+        p.keyPressed = () => {
+          p.clear();
+          p.text(p.key, p.width / 2, p.height / 2 + size / 2);
+        };
+
+        p.keyReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(q01, "q01");
+
+      let q02 = function (p) {
+        const size = 20;
+        let x = size / 2;
+        let y = size / 2;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+          p.textSize(size);
+          p.textAlign(p.CENTER);
+        };
+
+        p.draw = () => {};
+
+        p.keyPressed = () => {
+          if (x < p.width) {
+            p.text(p.key, x, y);
+            x += size;
+          } else {
+            if (y < p.height) {
+              x = size / 2;
+              y += size;
+            }
+          }
+
+          if (p.key == "Enter") {
+            p.clear();
+            x = size / 2;
+            y = size / 2;
+          }
+        };
+      };
+      new p5(q02, "q02");
+
+      let q03 = function (p) {
+        const size = 20;
+        let x = size / 2;
+        let y = size / 2;
+        const words = ["red", "green", "blue", "yellow"];
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+          p.textSize(size);
+        };
+
+        p.draw = () => {};
+
+        p.keyPressed = () => {
+          let word = Math.floor(Math.random() * words.length);
+          if (x < p.width) {
+            p.text(words[word], x, y);
+            x += p.textWidth(words[word]) + size / 2;
+          } else {
+            if (y < p.height) {
+              x = size / 2;
+              y += size;
+            }
+          }
+
+          if (p.key == "Enter") {
+            p.clear();
+            x = size / 2;
+            y = size / 2;
+          }
+        };
+      };
+      new p5(q03, "q03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」12_最終課題 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」12_最終課題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;問題01&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 雛形</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+}
+
+function draw(){
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 座標変換</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  push(); //設定の保存
+
+  translate(width / 2, height / 2); //座標の移動
+  rotate(Math.random() * 360); //座標の回転
+  scale(2) //座標の拡大（縮小）
+
+  rect(0, 0, 50, 50);
+
+  pop(); //設定の復元
+}
+
+function draw(){
+}</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 最終課題</h2>
+        <div class="clause">
+          <div class="item">
+            <ul>
+              <li>
+                <a href="./assets/12/question01.html" target="_blank"
+                  >question01.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question02.html" target="_blank"
+                  >question02.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question03.html" target="_blank"
+                  >question03.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question04.html" target="_blank"
+                  >question04.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question05.html" target="_blank"
+                  >question05.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question06.html" target="_blank"
+                  >question06.html</a
+                >
+              </li>
+              <li>
+                <a href="./assets/12/question07.html" target="_blank"
+                  >question07.html</a
+                >
+              </li>
+              <li>question08.html（自由に作品を創る）</li>
+            </ul>
+            <p>※レベルごとにファイルを分ける必要はありません。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <a
+                  href="https://drive.google.com/drive/folders/1V01At2I47M3zFwRjAg8rpkR6kOS9IEQY?usp=sharing"
+                  target="_blank"
+                  >Googleドライブ</a
+                >
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script></script>
+  </body>
+</html>

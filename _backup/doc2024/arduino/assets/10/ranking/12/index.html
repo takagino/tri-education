@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+    <title>d3.js</title>
+    <style>
+        body {
+            font-size: 16px;
+            margin: 0;
+            background-color: #222;
+            padding-top: 5em;
+        }
+
+        body::before {
+            border-color: #D86A22 transparent transparent transparent;
+            border-style: solid;
+            border-width: 100px 100vw 0 0;
+            top: 0;
+            content: "";
+            height: 0;
+            position: absolute;
+        }
+
+
+        .value {
+            font-family: "Dela Gothic One", serif;
+
+        }
+
+        svg {
+            background-color: transparent;
+        }
+
+        #container {
+            margin: auto;
+            max-width: 1000px;
+
+        }
+
+
+        .logoimg {
+            width: 20%;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+
+        h1 {
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            text-align: center;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <h1><img src="./m1.png" alt="" class="logoimg"><br>歴代得点ランキング</h1>
+    <div id="container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const width = 700;
+        const height = 700;
+        const imageW = 100;
+        const svg = d3.create("svg")
+            .attr("viewBox", `0 0 ${width} ${height}`);
+
+        d3.json("./data.json")
+            .then((dataset) => {
+                console.log(dataset);
+
+                const max = d3.max(dataset, (data) => data.val);
+                const min = d3.min(dataset, (data) => data.val);
+                console.log(max, min);
+
+                const scale = d3.scaleLinear()
+                    .domain([min, max])
+                    .range([200, 400]);
+
+
+                const g = svg.selectAll(".item")
+                    .data(dataset)
+                    .enter()
+                    .append("g")
+                    .classed("item", true)
+                    .attr("transform", (data, index) => `translate(20,${index * 100 + 40})`);
+
+                //要素で指定する場合
+                g.append("rect")
+                    .attr("x", imageW + 20)
+                    .attr("y", 25)
+                    .attr("width", 0)
+                    .attr("height", 25)
+                    .attr('fill', '#D86A22')
+                    .transition() /* アニメーションの設定を開始する合図 */
+                    .duration(1000) /*何秒かけてアニメーションするか */
+                    .delay(500) /*何秒遅らせるか */
+                    .attr("width", (data) => scale(data.val));
+
+                //クラス名で指定する場合
+                g.append("text")
+                    .classed("label", true)
+                    .attr("font-size", "16")
+                    .attr("x", 0)
+                    .attr("y", 16 + 25)
+                    .text((data) => data.label)
+                    .attr('fill', '#fff')
+                    .transition() /* アニメーションの設定を開始する合図 */
+                    .duration(1000) /*何秒かけてアニメーションするか */
+                    .delay(500) /*何秒遅らせるか */
+                    .attr("x", (data) => scale(data.val) + imageW + 40);
+
+
+                g.append("text")
+                    .classed("value", true)
+                    .attr("font-size", "80")
+                    .attr("x", imageW + 20)
+                    .attr("y", 14)
+                    .text((data) => data.val)
+                    .attr('fill', '#fff')
+
+                    .transition()
+                    .duration(800)
+                    .delay((data, index) => index * 200)
+                    .ease(d3.easeExpInOut)
+                    .attr("font-size", "30")
+
+
+
+                g.append("image")
+                    .attr("href", (data) => data.url)
+                    .attr("width", imageW)
+                    .attr("x", 0)
+                    .attr("y", 0);
+
+
+                //id名「container」の要素にsvgを追加
+                container.append(svg.node());
+
+                //クリックイベントを追加
+                const startBtn = document.querySelector("#start");
+                startBtn.addEventListener("click", (e) => {
+                    console.log(e);
+                });
+            })
+            .catch((error) => {
+            });
+
+        //svg要素を生成
+
+    </script>
+</body>
+
+</html>

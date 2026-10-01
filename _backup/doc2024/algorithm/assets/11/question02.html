@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>座標変換 練習02「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」座標変換 練習02</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <section class="clause">
+          <h3 class="clause__title">練習02</h3>
+          <div class="item">
+            <ol>
+              <li>画面の中央から、ランダムな方向・長さの線を描く。</li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+}
+
+function draw() {
+  translate(width / 2, height / 2);
+  rotate(Math.random() * 360);
+
+  line(0, 0, 0, Math.random() * 200);
+}</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q02 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          p.translate(p.width / 2, p.height / 2);
+          p.rotate(Math.random() * 360);
+
+          p.line(0, 0, 0, Math.random() * 200);
+        };
+      };
+      new p5(q02, "q02");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

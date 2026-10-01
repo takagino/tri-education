@@ -1,0 +1,263 @@
+{
+  "roles": [
+    {
+      "yaku": "リーチ",
+      "percentage": 45.1,
+      "fan": 1,
+      "average_score": 8000,
+      "can_furo": false
+    },
+    {
+      "yaku": "役牌",
+      "percentage": 40.0,
+      "fan": 1,
+      "average_score": 7000,
+      "can_furo": true
+    },
+    {
+      "yaku": "断ヤオ",
+      "percentage": 21.4,
+      "fan": 1,
+      "average_score": 3900,
+      "can_furo": true
+    },
+    {
+      "yaku": "平和",
+      "percentage": 19.9,
+      "fan": 1,
+      "average_score": 2000,
+      "can_furo": false
+    },
+    {
+      "yaku": "門前清自摸和",
+      "percentage": 17.6,
+      "fan": 1,
+      "average_score": 6000,
+      "can_furo": false
+    },
+    {
+      "yaku": "一発",
+      "percentage": 10.2,
+      "fan": 1,
+      "average_score": 12000,
+      "can_furo": false
+    },
+    {
+      "yaku": "混一色",
+      "percentage": 6.31,
+      "fan": 3,
+      "average_score": 9600,
+      "can_furo": true
+    },
+    {
+      "yaku": "一盃口",
+      "percentage": 4.75,
+      "fan": 1,
+      "average_score": 5200,
+      "can_furo": false
+    },
+    {
+      "yaku": "対々和",
+      "percentage": 3.92,
+      "fan": 2,
+      "average_score": 8000,
+      "can_furo": true
+    },
+    {
+      "yaku": "三色同順",
+      "percentage": 3.46,
+      "fan": 2,
+      "average_score": 5200,
+      "can_furo": true
+    },
+    {
+      "yaku": "七対子",
+      "percentage": 2.52,
+      "fan": 2,
+      "average_score": 6400,
+      "can_furo": false
+    },
+    {
+      "yaku": "一気通貫",
+      "percentage": 1.75,
+      "fan": 2,
+      "average_score": 8000,
+      "can_furo": true
+    },
+    {
+      "yaku": "混全帯ヤオ九",
+      "percentage": 1.24,
+      "fan": 2,
+      "average_score": 4000,
+      "can_furo": true
+    },
+    {
+      "yaku": "清一色",
+      "percentage": 0.94,
+      "fan": 6,
+      "average_score": 24000,
+      "can_furo": true
+    },
+    {
+      "yaku": "三暗刻",
+      "percentage": 0.76,
+      "fan": 2,
+      "average_score": 12800,
+      "can_furo": false
+    },
+    {
+      "yaku": "河底撈魚",
+      "percentage": 0.63,
+      "fan": 1,
+      "average_score": 1000,
+      "can_furo": false
+    },
+    {
+      "yaku": "純全帯ヤオ九",
+      "percentage": 0.38,
+      "fan": 3,
+      "average_score": 11600,
+      "can_furo": true
+    },
+    {
+      "yaku": "海底摸月",
+      "percentage": 0.31,
+      "fan": 1,
+      "average_score": 2000,
+      "can_furo": false
+    },
+    {
+      "yaku": "嶺上開花",
+      "percentage": 0.28,
+      "fan": 1,
+      "average_score": 2000,
+      "can_furo": false
+    },
+    {
+      "yaku": "二重立直",
+      "percentage": 0.19,
+      "fan": 2,
+      "average_score": 16000,
+      "can_furo": false
+    },
+    {
+      "yaku": "小三元",
+      "percentage": 0.15,
+      "fan": 2,
+      "average_score": 16000,
+      "can_furo": true
+    },
+    {
+      "yaku": "混老頭",
+      "percentage": 0.08,
+      "fan": 2,
+      "average_score": 8000,
+      "can_furo": true
+    },
+    {
+      "yaku": "三色同刻",
+      "percentage": 0.05,
+      "fan": 2,
+      "average_score": 9600,
+      "can_furo": true
+    },
+    {
+      "yaku": "二盃口",
+      "percentage": 0.05,
+      "fan": 3,
+      "average_score": 16000,
+      "can_furo": false
+    },
+    {
+      "yaku": "槍槓",
+      "percentage": 0.05,
+      "fan": 1,
+      "average_score": 1000,
+      "can_furo": false
+    },
+    {
+      "yaku": "四暗刻",
+      "percentage": 0.049,
+      "fan": 13,
+      "average_score": 48000,
+      "can_furo": false
+    },
+    {
+      "yaku": "国士無双",
+      "percentage": 0.043,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": false
+    },
+    {
+      "yaku": "大三元",
+      "percentage": 0.039,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": true
+    },
+    {
+      "yaku": "四喜和（大四喜/小四喜）",
+      "percentage": 0.012,
+      "fan": 13,
+      "average_score": 48000,
+      "can_furo": true
+    },
+    {
+      "yaku": "字一色",
+      "percentage": 0.008,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": true
+    },
+    {
+      "yaku": "三槓子",
+      "percentage": 0.005,
+      "fan": 2,
+      "average_score": 12800,
+      "can_furo": true
+    },
+    {
+      "yaku": "清老頭",
+      "percentage": 0.00181,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": true
+    },
+    {
+      "yaku": "地和",
+      "percentage": 0.00158,
+      "fan": 13,
+      "average_score": 48000,
+      "can_furo": false
+    },
+    {
+      "yaku": "緑一色",
+      "percentage": 0.0011,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": true
+    },
+    {
+      "yaku": "九蓮宝燈",
+      "percentage": 0.0045,
+      "fan": 13,
+      "average_score": 48000,
+      "can_furo": false
+    },
+    {
+      "yaku": "天和",
+      "percentage": 0.000303,
+      "fan": 13,
+      "average_score": 48000,
+      "can_furo": false
+    },
+    {
+      "yaku": "四槓子",
+      "percentage": 0.000234,
+      "fan": 13,
+      "average_score": 32000,
+      "can_furo": true
+    }
+  ]
+}

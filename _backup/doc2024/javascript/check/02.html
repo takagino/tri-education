@@ -1,0 +1,184 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript基礎チェック Vol.2「条件分岐（if文）」 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+  <link rel="stylesheet" href="../../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <h1 class="l-header__title-sub">JavaScript基礎チェック</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">Vol.2「条件分岐」</h2>
+      <div class="clause">
+        <p><a href="https://forms.gle/URnUgR6NMjYNZXpU6">解答用Googleフォーム</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">Q1</h3>
+        <p>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const num = 100;
+  if(num >= 50){
+    console.log('true');
+  }else{
+    console.log('false');
+  }
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>true</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q2</h3>
+        <p>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const num = 100;
+  if(num == '100'){
+    console.log('true');
+  }else{
+    console.log('false');
+  }
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>true</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q3</h3>
+        <p>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const num = 100;
+  if(num === '100'){
+    console.log('true');
+  }else{
+    console.log('false');
+  }
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>false</dd>
+          <dd>※「===」は厳密な比較のため、数値と文字列は区別される。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q4</h3>
+        <p>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const num = 100;
+  if(num &lt; 100){
+    console.log('true');
+  }else{
+    console.log('false');
+  }
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>false</dd>
+          <dd>※「&lt;」はそれ自体の数値を含めない。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q5、Q6、Q7</h3>
+        <p>変数に年齢を代入し、２０歳以上ならば「成人」、１８歳以下は「未成年」、それ以外は「それ以外」とコンソールに出るプログラムを作りたい。[]に入る適切なコードを答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+const age = 22;
+
+if ( [Q5] ) {
+  console.log('成人');
+} [Q6] ( [Q7] ) {
+  console.log('未成年');
+} else {
+  console.log('それ以外');
+}
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+const age = 22;
+
+if (age >= 20) {
+  console.log('成人');
+} else if (age &lt;= 18) {
+  console.log('未成年');
+} else {
+  console.log('それ以外');
+}
+&lt;/script&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q8、Q9、Q10</h3>
+        <p>要素をクリックする度に数字が増え、10より大きくはならないプログラムを作りたい。[]に入る適切なコードを答えなさい。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;button id="btn"&gt;カウント&lt;/button&gt;
+&lt;p id="text"&gt;0&lt;/p&gt;
+
+&lt;script&gt;
+  let num = 0;
+  const btn = document.getElementById('btn');
+  const text = document.getElementById('text');
+
+  btn.addEventListener('click', function () {
+    if ( [Q8] ) {
+      [Q9] //numを1づつ増やす式
+      [Q10].innerHTML = num;
+    }
+  });
+&lt;/script&gt;</code></pre>
+        </p>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+let num = 0;
+const btn = document.getElementById('btn');
+const text = document.getElementById('text');
+
+btn.addEventListener('click', function () {
+  if (num &lt; 10) {
+    num += 1;
+    text.innerHTML = num;
+  }
+});
+&lt;/script&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="../../assets/js/common.js"></script>
+</body>
+
+</html>

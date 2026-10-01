@@ -1,0 +1,335 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「企業研究」02_パネルディスカッション | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+  <style>
+    body {
+      overflow-x: hidden;
+    }
+
+    body.is-fixed {
+      overflow: hidden;
+    }
+
+    .l-header,
+    .chapter {
+      max-width: none;
+    }
+
+    .clause {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .clause dl {
+      width: 31%;
+      margin-bottom: 3em;
+    }
+
+    .clause dt {
+      margin-bottom: 0.8em;
+      font-size: 1.5em;
+    }
+
+    .clause dt::before {
+      content: "";
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: .2em;
+      background-color: #dbe13a;
+      border-radius: 50%;
+    }
+
+    .clause li {
+      margin-bottom: 1em;
+      padding: .5em 1em;
+      border-radius: 10px;
+      background-color: #ddd;
+      font-size: 2rem;
+      font-weight: bold;
+      line-height: 1.3;
+      cursor: pointer;
+    }
+
+    .clause .is-finished {
+      color: #eee;
+      background-color: transparent;
+      cursor: default;
+    }
+
+    #overlay {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      min-height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      #overlay {
+        /* Safari用のハック */
+        min-height: -webkit-fill-available;
+      }
+    }
+
+    #overlay.is-active {
+      z-index: 9999;
+      opacity: 1;
+    }
+
+    #overlay p {
+      margin: 0 1em;
+      color: #fff;
+      font-size: 3em;
+      font-weight: bold;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    #clock {
+      width: 200px;
+      padding: .4em .8em;
+      border-radius: 10px;
+      background-color: rgba(0, 53, 59, 0.5);
+      color: #3b0600;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+      position: fixed;
+      right: 4%;
+      top: 45px;
+    }
+
+    @media (max-width: 768px) {
+      .clause {
+        display: block;
+      }
+
+      .clause dl {
+        width: 100%;
+      }
+
+      #clock {
+        display: none;
+        right: auto;
+        left: 4%;
+        top: auto;
+        bottom: 4%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「企業研究」02_パネルディスカッション</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <div class="clause">
+        <dl>
+          <dt>授業・学校生活</dt>
+          <dd>
+            <ul>
+              <li>2年生の授業で1年生の時と変わった所は？</li>
+              <li>1年生のうちからやっておいて役に立ったことは？</li>
+              <li>1年生のうちにやっておけば良かったと思うことは？</li>
+              <li>プログラマーとして就職するために勉強した方が良い言語は？</li>
+              <li>HTML、CSS、JSの効率的な勉強方法は？</li>
+              <li>デザインの引き出しを増やすために行っていることは？</li>
+              <li>課題や作品のアイデアの出し方は？</li>
+              <li>課題以外で自主的に活動していたことは？</li>
+              <li>セミナーや勉強会には何回くらい参加した？</li>
+              <li>取得しておいたほうがいい資格は？</li>
+              <li>コンテストへの応募数・受賞数は？</li>
+              <li>名刺は配った？</li>
+              <li>業界に関係のないアルバイトとの両立は可能か？</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>就職活動全般</dt>
+          <dd>
+            <ul>
+              <li>内定が決まるまでの大まかな流れは？</li>
+              <li>いつ頃から就活を始めて、内定はいつ決まった？</li>
+              <li>就活において最初にしたことは？</li>
+              <li>1番頑張ったことは？</li>
+              <li>1番大変だったことは？</li>
+              <li>内定を勝ち取った要因は？</li>
+              <li>ユニクロのスーツはNG？</li>
+              <li>内定が決まってから始めたことは？</li>
+              <li>就活のためにどれくらい授業を休んだ？</li>
+              <li>登録した方が良い就活情報系サービスは？</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>ポートフォリオ</dt>
+          <dd>
+            <ul>
+              <li>いつごろから作り始めた？</li>
+              <li>作成するときに気をつけたことは？</li>
+              <li>作品数を増やすためには？</li>
+            </ul>
+          </dd>
+          <dd><a href="https://hirochan.chillout.jp/portfolio2/">伊藤さん</a></dd>
+          <dd><a href="https://ofs.thick.jp/portfolio/">沖山さん</a></dd>
+          <dd><a href="https://kurumismz.moo.jp/portfolio/">清水さん</a></dd>
+        </dl>
+        <dl>
+          <dt>企業研究</dt>
+          <dd>
+            <ul>
+              <li>何社受けた？</li>
+              <li>求人情報の集め方は？</li>
+              <li>受ける企業を選ぶ基準は？</li>
+              <li>自分がどの業界、職種、企業に合っているのか見極める方法は？</li>
+              <li>企業へのファーストコンタクトの取り方は？</li>
+              <li>内定が決まった企業は、いつごろから狙っていた？</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>インターン</dt>
+          <dd>
+            <ul>
+              <li>いつ、どんなインターンに参加した？</li>
+              <li>インターン情報の集め方は？</li>
+              <li>参加する意義は？</li>
+              <li>参加する際に気をつけたことは？</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>履歴書</dt>
+          <dd>
+            <ul>
+              <li>趣味・特技の書き方は？</li>
+              <li>長所・短所の書き方は？</li>
+              <li>自己PRの書き方は？</li>
+              <li>志望動機の書き方は？</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>面接</dt>
+          <dd>
+            <ul>
+              <li>一番意識したことは？</li>
+              <li>良い印象を与えるコツは？</li>
+              <li>多かった質問は？</li>
+              <li>回答に困った質問は？</li>
+              <li>予期しない質問がきた時の対処法は？</li>
+              <li>趣味や特技の答え方は？</li>
+              <li>自分のデザインの強みをどのようにアピールした？</li>
+              <li>どれくらい嘘をついた？</li>
+              <li>圧迫面接はあった？</li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+    </article>
+    <article class="chapter">
+      <div class="clause">
+        <p><a href="https://forms.gle/eQYykN5Tx1bMjAKF7">感想アンケート</a></p>
+      </div>
+    </article>
+    <p id="clock"></p>
+  </main>
+  <div id="overlay">
+    <p></p>
+  </div>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+        <pre class="line-numbers">
+          <code class="language-markup">
+            &lt; ... &gt;
+          </code>
+        </pre>
+        -->
+  <script src="../assets/js/common.js"></script>
+  <script>
+    let li = document.querySelectorAll('li');
+    let overlay = document.querySelector('#overlay');
+    let overlayP = document.querySelector('#overlay p');
+    for (let i = 0; i < li.length; i++) {
+      li[i].addEventListener('click', function () {
+        if (!this.classList.contains('is-finished')) {
+          this.classList.add('is-finished');
+
+          document.body.classList.add('is-fixed');
+
+          let val = this.innerHTML;
+          overlayP.innerHTML = val;
+          overlay.classList.add('is-active');
+
+          let _scroll = window.pageYOffset;
+          overlay.style.top = _scroll + "px";
+        }
+      });
+    }
+
+    overlay.addEventListener('click', function () {
+      if (this.classList.contains('is-active')) {
+        document.body.classList.remove('is-fixed');
+
+        overlayP.innerHTML = "";
+        this.classList.remove('is-active');
+      }
+    });
+
+    let clock = document.querySelector("#clock");
+
+    function digitalClock() {
+      let time = new Date();
+      clock.innerHTML = changeNum(time.getHours()) + ":" + changeNum(time.getMinutes()) + ":" + changeNum(time.getSeconds());
+      setTimeout(digitalClock, 1000 - time.getMilliseconds());
+    };
+
+    function changeNum(num) {
+      if (num < 10) {
+        num = "0" + num;
+      }
+      return num;
+    };
+
+    digitalClock();
+  </script>
+</body>
+
+</html>

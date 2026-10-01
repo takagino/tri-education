@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>じゃんけん</title>
+    <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css" />
+    <style>
+      .wrapper {
+        width: 90%;
+        max-width: 500px;
+        margin: 3em auto;
+        text-align: center;
+      }
+
+      .start,
+      .stop {
+        margin-bottom: 2em;
+      }
+
+      .play {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      dl {
+        width: 30%;
+      }
+
+      dt {
+        margin-bottom: 0.5em;
+      }
+
+      .result {
+        font-weight: bold;
+        color: #f36;
+      }
+
+      .player,
+      .enemy {
+        aspect-ratio: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <button class="start">スタート</button>
+      <div class="stop">
+        <button class="gu">グー</button>
+        <button class="choki">チョキ</button>
+        <button class="pa">パー</button>
+      </div>
+      <div class="play">
+        <dl>
+          <dt>自分</dt>
+          <dd>
+            <img
+              class="player"
+              src="https://trident.takagino.net/doc2024/javascript/assets/08/janken/gu.png"
+              alt=""
+            />
+          </dd>
+        </dl>
+        <dl>
+          <dt class="result">結果</dt>
+          <dd class="record">0連勝</dd>
+        </dl>
+        <dl>
+          <dt>相手</dt>
+          <dd>
+            <img
+              class="enemy"
+              src="https://trident.takagino.net/doc2024/javascript/assets/08/janken/gu.png"
+              alt=""
+            />
+          </dd>
+        </dl>
+      </div>
+    </div>
+    <script>
+      const url = "https://trident.takagino.net/doc2024/javascript/assets/08/janken/";
+      const items = ["gu", "choki", "pa"];
+      const startBtn = document.querySelector(".start");
+      const btn = document.querySelectorAll(".stop button");
+      const player = document.querySelector(".player");
+      const enemy = document.querySelector(".enemy");
+      const result = document.querySelector(".result");
+      const record = document.querySelector(".record");
+      let count = 0;
+      let random = 0;
+      let timer;
+
+      const changePic = () => {
+        const path = `${url}${files[Math.floor(Math.random() * files.length)]}`;
+        pic.setAttribute("src", path);
+        timer = setTimeout(changePic, 100);
+      };
+
+      startBtn.addEventListener("click", () => {
+        clearTimeout(timer);
+        timer = setTimeout(changePic, 100);
+      });
+
+      for (let i = 0; i < btn.length; i++) {
+        btn[i].addEventListener("click", (e) => {
+          let type = e.target.className;
+          player.setAttribute("src", `${url}${type}.png`);
+
+          let random = Math.floor(Math.random() * 3);
+          enemy.setAttribute("src", `${url}${items[random]}.png`);
+
+          if (type == items[random]) {
+            result.textContent = "あいこ";
+          } else if (type == "gu" && items[random] == "choki") {
+            result.textContent = "勝ち！";
+            count++;
+          } else if (type == "choki" && items[random] == "pa") {
+            result.textContent = "勝ち！";
+            count++;
+          } else if (type == "pa" && items[random] == "gu") {
+            result.textContent = "勝ち！";
+            count++;
+          } else {
+            result.textContent = "負け...";
+            count = 0;
+          }
+
+          record.textContent = `${count}連勝`;
+        });
+      }
+    </script>
+  </body>
+</html>

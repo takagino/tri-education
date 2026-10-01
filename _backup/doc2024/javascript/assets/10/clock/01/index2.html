@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #maru{
+            display: block;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            transform: translateX(-50%);
+            /* right: -50%;
+            top: 50vh; */
+            background-color: blue;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <span id="maru"></span>
+    <script>
+        const en=document.querySelector("#maru");
+        const center = 0, radius=100, angularSpeed=(360/60);
+        let t=0;
+
+        const moveEn = () => {
+            const d=new Date();
+            let x = (center + (Math.cos(t) * radius));
+            let y = center + (Math.sin(t) * radius);
+            en.style.top = `${x+600}px`;
+            en.style.left = `${y+600}px`;
+            const nextTimeout = 1000 - d.getMilliseconds();
+            console.log(t);
+            setTimeout(moveEn, nextTimeout);
+            t += angularSpeed;
+            console.log(x,y);
+        };
+        moveEn();
+    </script>
+</body>
+</html>

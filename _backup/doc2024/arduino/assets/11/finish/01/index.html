@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ランキング</title>
+    <style>
+        svg {
+            background-color: #fff;
+            border: #131a36 solid 2px;
+        }
+
+        button {
+            width: 100%;
+            height: 50%;
+            padding: 20px;
+            font-size: 25px;
+            color: #422015;
+            font-weight: bold;
+            background-color: #fac3dd;
+        }
+
+        button:hover {
+            background-color: #b53f76;
+            color: #fff;
+        }
+
+        .flex {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .data {
+            width: 85%;
+        }
+
+        .btn {}
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <div class="flex">
+        <div class="btn">
+            <button id="btn1" data-key="mv">MV再生回数</button>
+            <button id="btn2" data-key="spotify">Spotify人気曲</button>
+        </div>
+
+        <div id="container" class="data"></div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const width = 640;
+        const height = 430;
+        const imageW = 50;
+        const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`); //レスポンシブ対応
+
+        d3.json("./data3.json")
+            .then((dataset) => {
+                //データのスケーリング
+                const max1 = d3.max(dataset.mv, (data) => data.val);
+                const max2 = d3.max(dataset.spotify, (data) => data.val);
+                const max = Math.max(max1, max2);
+                const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+                const g = svg
+                    .selectAll(".item")
+                    .data(dataset.mv)
+                    .enter()
+                    .append("g")
+                    .classed("item", true)
+                    .attr("transform", (data, index) => `translate(20, ${index * 85 + 20})`);
+
+                const rank = g
+                    .append("text")
+                    .classed("value", true)
+                    .attr("font-size", 15)
+                    .attr("x", 0)
+                    .attr("y", 35)
+                    .text((data) => data.rank);
+
+                const rect = g
+                    .append("rect")
+                    .attr("x", imageW + 30)
+                    .attr("y", 35)
+                    .attr("width", 0)
+                    .attr("height", 15)
+                    .attr("fill", (data) => data.color);
+
+                const label = g
+                    .append("text")
+                    .classed("label", true)
+                    .attr("font-size", 10)
+                    .attr("x", (data) => imageW + 30)
+                    .attr("y", 15)
+                //.attr("fill", (data) => data.color)
+                //.text((data) => data.label);
+
+
+
+                const val = g
+                    .append("text")
+                    .classed("value", true)
+                    .attr("font-size", 12)
+                    .attr("x", imageW + 30)
+                    .attr("y", 50)
+                    .attr("fill", (data) => data.color)
+                //.text((data) => data.val + "万回");
+
+                const img = g
+                    .append("image")
+                    .attr("href", (data) => data.img)
+                    .attr("width", imageW)
+                    .attr("x", 20);
+
+                //id名「container」の要素にsvgを追加
+                container.append(svg.node());
+
+                const onChange = (key) => {
+                    rect
+                        .data(dataset[key])
+                        .transition()
+                        .duration(7000)
+                        .delay((data, index) => index * 500)
+                        .ease(d3.easeElasticOut.amplitude(1).period(0.0912))
+                        .attr("width", (data) => scale(data.val));
+
+                    val
+                        .data(dataset[key])
+                        .text((data) => data.val + "万回")
+                        .transition()
+                        .duration(7000)
+                        .delay((data, index) => index * 500)
+                        .ease(d3.easeElasticOut.amplitude(1).period(0.0912))
+                        .attr("x", (data) => imageW + 40 + scale(data.val));
+
+                    label
+                        .data(dataset[key])
+                        .text((data) => data.label)
+                        .transition()
+                        .duration(7000)
+                        .delay((data, index) => index * 500)
+                        .ease(d3.easeElasticOut.amplitude(1).period(0.0912))
+                    //.attr("x", (data) => imageW + 40 + scale(data.label));
+
+
+                    img.data(dataset[key]).attr("href", (data) => data.img);
+                };
+
+                const btn = document.querySelectorAll("button");
+
+                btn.forEach((elem) => {
+                    elem.addEventListener("click", () => {
+                        onChange(elem.dataset.key);
+                    });
+                });
+            })
+            .catch((error) => { });
+    </script>
+</body>
+
+</html>

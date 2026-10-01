@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「JavaScript基礎」08_関数とタイマー | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「JavaScript基礎」08_関数とタイマー</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 今回やること</h2>
+        <div class="clause">
+          <ul class="clause__list">
+            <li>関数（function）</li>
+            <li>タイマー（setInterval、setTimeout）</li>
+          </ul>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 関数（function）</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              <em>インプット（入力）</em
+              >を受け取り、何らかの処理を行ってから結果として<em>アウトプット（出力）</em>を返す、一連の処理のまとまりのこと。関数を使って処理をまとめることによって、同じ処理を何度も書く必要がなくなり、コードの再利用性や保守性を高めることができる。
+            </p>
+            <p><img src="./assets/08/01.png" width="600" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">// 関数の宣言
+function testFunc(){
+  console.log('関数実行！');
+}
+
+// 関数の実行
+testFunc();</code></pre>
+              </dd>
+            </dl>
+            <ul>
+              <li>※関数名は自由につけてもいいが、わかりやすい名前のキャメル記法が好ましい</li>
+            </ul>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 引数</h3>
+          <p>
+            プログラム中で関数などを呼び出すときに渡す値のこと。渡された側はその値に従って処理を行う。（<em>インプット（入力）</em>）
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">// 関数の宣言
+function testFunc(val1, val2){
+  console.log(val1 + val2);
+}
+
+// 関数の実行
+testFunc(10, 20);
+</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【引数には初期値を設定できる】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">// 関数の宣言
+function testFunc(val1 = 10, val2 = 20){
+  console.log(val1 + val2);
+}
+
+// 関数の実行
+testFunc();
+testFunc(20);
+</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. 戻り値</h3>
+          <p>
+            関数などが処理を行った結果として、呼び出し元に渡される値のこと。（<em>アウトプット（出力）</em>）
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">// 関数の宣言
+function testFunc(val1, val2){
+  return val1 + val2;
+}
+
+// 関数の実行
+let num = testFunc(10, 20);
+console.log(num);
+</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <ol>
+            <li>
+              数字を渡したら、ドルに変換して返す関数。（1ドル150円）
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let doller = changeDoller(100);
+console.log(`${doller}ドル`);
+
+function changeDoller(yen) {
+
+}</code></pre>
+            </li>
+            <li>
+              文字列を渡したら、先頭に「Hello! 」をつけて返す関数。(初期値を誰かの名前にすること)
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let text = setText("takagi");
+console.log(text);
+
+function setText() {
+
+}</code></pre>
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. 関数式</h3>
+          <div class="item">
+            <p>
+              関数の定義は、代入演算子を使って変数に対して関数式を代入することでも行うことができる。
+            </p>
+            <pre class="line-numbers"><code class="language-javascript">// 関数式の定義
+const testFunc = function(val1, val2){
+  return val1 + val2;
+}
+
+// 関数の実行
+let num = testFunc(10, 20);
+console.log(num);</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【関数宣言と関数式の違い】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    関数名の重複
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">// 関数宣言は、後から宣言された関数が上書きされて実行される。
+function sengen(){
+  console.log('最初に定義した。');
+}
+
+function sengen(){
+  console.log('後に定義した。');
+}
+
+sengen();
+
+
+// 関数式は、エラーとなる。
+const siki = function(){
+  console.log('最初に定義した。');
+}
+
+const siki = function(){
+  console.log('後に定義した。');
+}
+
+siki();</code></pre>
+                  </li>
+                  <li>
+                    実行文の記述位置
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">// 関数宣言は、宣言文よりも前に実行文を記述できる。
+sengen();
+
+function sengen(){
+  console.log('最初に定義した。');
+}
+
+
+// 関数式は、エラーとなる。
+siki();
+
+const siki = function(){
+  console.log('最初に定義した。');
+}</code></pre>
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+            <p>※エラーが出る方が安全のため、授業ではできる限り「関数式」の形で記述していく。</p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <ol>
+            <li>
+              渡された数字が1桁だった場合、先頭に「0」をつけて戻す関数。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">const getNum = function(num) {
+  if (num &lt; 10) {
+    num = '0' + num;
+  }
+  return num;
+}
+
+let val = getNum(8);
+console.log(val);</code></pre>
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-4. アロー関数</h3>
+          <p>アロー関数とは、新しく追加された関数の省略記法。授業では今後アロー関数で記述する。</p>
+          <pre class="line-numbers"><code class="language-javascript">// アロー関数の定義
+const testFunc = () => {
+  console.log("アロー関数");
+}
+
+// 引数が1つの場合は括弧を省略できる ※授業では省略しない
+const testFunc = text => {
+  console.log(text);
+}
+
+// 引数が2つ以上の場合は括弧を省略できない
+const testFunc = (val1, val2) => {
+  return val1 + val2;
+}</code></pre>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <ol>
+            <li>
+              配列で渡された値の「平均値」を出す関数。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let value = [5, 10, 15, 20, 25];</code></pre>
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let value = [5, 10, 15, 20, 25];
+const calcAverage = (list) => {
+  let num = 0;
+  for (let i = 0; i < list.length; i++) {
+    num += list[i];
+  }
+  num /= list.length
+
+  return num;
+};
+
+let average = calcAverage(value);
+console.log(`平均値：${average}`);</code></pre>
+            </li>
+          </ol>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. イベントと関数</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              マウスイベント等が発生した際に実行される処理も「関数」の形になっているため、関数名をつけて分けて書くことができる。
+            </p>
+            <pre class="line-numbers"><code class="language-javascript">//今までの書き方
+window.addEventListener("click", function(){
+  console.log("click!");
+});
+
+//関数式にした形
+const clickEvent = () => {
+  console.log("click!");
+};
+
+window.addEventListener("click", clickEvent); // 括弧をつけるとイベント発生前に実行されることに注意！</code></pre>
+          </div>
+          <dl>
+            <dt>【イベント発生時に引数を渡したい場合】</dt>
+            <dd>
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">const clickEvent = (val) => {
+  console.log(val);
+};
+
+window.addEventListener("click", () => {
+  clickEvent("window");
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. イベントオブジェクト</h3>
+          <p>
+            イベントが発生した際、引数にディフォルトで渡される値を「<em>イベントオブジェクト</em>」と呼び、イベントに関する様々な情報が格納されている。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const clickEvent = (e) => {
+  console.log(e);
+  console.log(e.target);
+};
+
+window.addEventListener("click", clickEvent);</code></pre>
+          </div>
+          <div class="item">
+            <p>※他のイベントのイベントオブジェクトもチェックしてみる。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【別の引数を同時に渡したい場合】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const clickEvent = (e, val) => {
+  console.log(e);
+  console.log(val);
+};
+
+window.addEventListener("click", (e) => {
+  clickEvent(e, "window");
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">★ 応用（btn.html）</h3>
+          <p>
+            3つの値が入った配列を用意し、数字のボタンをクリックした時はそれに対応した文字列を、ランダムのボタンを押した時にはランダムな文字列を表示する。
+          </p>
+          <p><a href="./assets/08/btn.html" target="_blank">見本</a></p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button class="number"&gt;1&lt;/button&gt;
+  &lt;button class="number"&gt;2&lt;/button&gt;
+  &lt;button class="number"&gt;3&lt;/button&gt;
+  &lt;button class="random"&gt;ランダム&lt;/button&gt;
+  &lt;p class="result"&gt;&lt;/p&gt;
+
+  &lt;script&gt;
+    //用意した配列
+      const words = ["1.apple", "2.banana", "3.orange"];
+
+      //結果を表示するp要素を取得
+      const result = document.querySelector(".result");
+
+      //使用する関数式
+      const getWord = (num) => {
+        result.innerHTML = words[num];
+      };
+
+      //ページを表示した時にランダムに値をp要素に表示する
+      let random = Math.floor(Math.random() * words.length); //randomという名前の変数を宣言して、配列の数分のランダムな数字を代入する
+      getWord(random); //変数に入っているランダムな数字を関数に渡しながら実行する
+
+      //ランダムボタンをクリックしたら、配列の中から値をランダムに表示する
+      const randomBtn = document.querySelector(".random");
+      randomBtn.addEventListener("click", () => {
+        random = Math.floor(Math.random() * words.length);
+        getWord(random);
+      });
+
+      const numberBtn = document.querySelectorAll(".number");
+      for (let i = 0; i < numberBtn.length; i++) {
+        numberBtn[i].addEventListener("click", (e) => {
+          const num = e.target.innerHTML - 1;
+          getWord(num);
+        });
+      }
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. タイマー処理</h2>
+        <div class="clause">
+          <p>一定時間ごとに処理を行うには「タイマー」を使用する。</p>
+          <dl>
+            <dt>【2種類のタイマー処理】</dt>
+            <dd>
+              <ul>
+                <li>setInterval：一定時間ごとに特定の処理を繰り返す</li>
+                <li>setTimeout：一定時間後に特定の処理をおこなう（繰り返さずに一度だけ）</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">4-1. setIntervalでのタイマー処理</h3>
+          <div class="item">
+            <dl>
+              <dt>【実行されるたびに数字が1づつ増える関数を作る】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+
+const countUp = () => {
+  console.log(count++);
+};</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【1秒(1000ミリ秒)ごとに関数を実行する】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+
+const countUp = () => {
+  console.log(count++);
+};
+
+setInterval(countUp, 1000); //括弧がいらないことに注意！</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【clearIntervalで処理を停止する】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer; //変数を宣言しておく
+
+const countUp = () => {
+  console.log(count++);
+
+  if(count > 5){
+    clearInterval(timer);
+  };
+};
+
+timer = setInterval(countUp, 1000); //変数に代入</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <ul>
+            <li>body要素の背景色が、1秒ごとにランダムで変わる。</li>
+          </ul>
+          <p><a href="./assets/08/color.html" target="_blank">見本</a></p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. setTimeoutでのタイマー処理</h3>
+          <div class="item">
+            <dl>
+              <dt>【実行されるたびに数字が1づつ増える関数を作る】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+
+const countUp = function(){
+  console.log(count++);
+};</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【1秒(1000ミリ秒)後に関数を1回だけ実行する】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+const countUp = () => {
+  console.log(count++);
+};
+
+setTimeout(countUp, 1000);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【関数内にsetTimeoutを記述し、繰り返し処理をする】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+
+const countUp = () => {
+  console.log(count++);
+
+  setTimeout(countUp, 1000);
+};
+
+setTimeout(countUp, 1000);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【clearTimeoutで処理を停止する】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  timer = setTimeout(countUp, 1000);
+  if(count > 5){
+    clearTimeout(timer);
+  };
+};
+
+timer = setTimeout(countUp, 1000);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. setIntervalとsetTimeoutの違い</h3>
+          <ol>
+            <li>
+              setIntervalは、処理にかかる時間に関係なく指定した秒数ごとに関数が実行される。setTimeoutは、処理
+              が終了してから指定した秒数後に関数が実行される。
+            </li>
+            <li>
+              setTimeoutは、即時実行できる。
+              <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  timer = setTimeout(countUp, 1000);
+  if(count > 5){
+    clearTimeout(timer);
+  };
+};
+
+countUp();</code></pre>
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">★応用（omikuji01.html, omikuji02.html）</h3>
+          <ol>
+            <li>
+              ランダムに変化する画像を、ボタンクリックで止める「おみくじ」を実装する。（<a
+                href="./assets/08/omikuji01.html"
+                target="_blank"
+                >見本</a
+              >）
+            </li>
+            <li>
+              順番に変化する画像を、ボタンクリックで止める「おみくじ」を実装する。（<a
+                href="./assets/08/omikuji02.html"
+                target="_blank"
+                >見本</a
+              >）
+            </li>
+          </ol>
+          <p><em>※「スタート」ボタンを連打されても正常に動作するように。</em></p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const url = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/';
+const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png'];</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">★応用（stop.html）</h3>
+          <ul>
+            <li><a href="./assets/08/stop.html" target="_blank">見本</a></li>
+          </ul>
+          <dl>
+            <dt>【条件】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>スタートボタンをクリックするとタイマーがスタートし、数が増えていく。</li>
+                <li>ストップボタンをクリックするとタイマーが止まる。</li>
+                <li>再度スタートボタンをクリックすると、ゼロから再スタートする。</li>
+                <li>98〜102の間でストップすると「おしい！」と表示される。</li>
+                <li>100でストップすると「すごい！」と表示される。</li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+    &lt;title&gt;ストップゲーム&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;button class="start"&gt;START&lt;/button&gt;
+    &lt;button class="stop"&gt;STOP&lt;/button&gt;
+    &lt;p class="result"&gt;0&lt;/p&gt;
+    &lt;p class="comment"&gt;おしい！&lt;/p&gt;
+
+    &lt;script&gt;
+      const startBtn = document.querySelector(".start");
+      const stopBtn = document.querySelector(".stop");
+      const resultText = document.querySelector(".result");
+      const commentText = document.querySelector(".comment");
+      let timer;
+      let count = 0;
+      commentText.innerHTML = "100を目指そう";
+
+      const countUp = () => {
+        console.log(count++);
+        resultText.innerHTML = count;
+      };
+
+      startBtn.addEventListener("click", () => {
+        count = 0;
+        commentText.innerHTML = "";
+        clearInterval(timer);
+        timer = setInterval(countUp, 50);
+      });
+
+      stopBtn.addEventListener("click", () => {
+        clearInterval(timer);
+        if (98 <= count && count <= 102) {
+          commentText.innerHTML = "おしい！";
+        }
+        if (count == 100) {
+          commentText.innerHTML = "すごい！";
+        }
+      });
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

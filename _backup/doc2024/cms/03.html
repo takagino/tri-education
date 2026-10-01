@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>「CMS集中制作」03_テーマの作成 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料" />
+  <meta name="author" content="horotaka takagi" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title">
+      <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+    </p>
+    <h1 class="l-header__title-sub">「CMS集中制作」03_テーマの作成</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. WordPressのテーマとは？</h2>
+      <div class="clause">
+        <p>
+          <em>Webサイト全体のテンプレート</em>のこと。テーマは複数のファイルの集合体でデザインや設定などが一式セットになっており、管理画面から簡単に切り替えることができる。
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. テーマを切り替えてみる</h3>
+        <div class="item">
+          <ol>
+            <li>「MAMP」を立ち上げてサーバーを起動。</li>
+            <li>
+              管理画面のURL（<a href="http://localhost/blog/wp-admin">http://localhost/blog/wp-admin</a>
+              or
+              <a href="http://localhost:8888/blog/wp-admin">http://localhost:8888/blog/wp-admin</a>）にアクセスし、ログイン。
+            </li>
+            <li>現状のデザインを確認しておく。</li>
+            <li>左側のメインメニュー『外観 > テーマ』を選択。</li>
+            <li>好きなテーマにマウスオーバーし、「有効化」をクリック。</li>
+            <li>
+              左上の「ブログタイトル」をクリックし、サイトを確認してみる。
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. テーマの保存場所</h3>
+        <div class="item">
+          <p>
+            テーマファイル一式は<em>『wp-content > themes』</em>に格納されており、自作したテーマを追加すると管理画面に表示される。
+          </p>
+          <p>ちなみに、「WordPressフォルダ内のファイル」は以下の通り。</p>
+          <table>
+            <tbody>
+              <tr>
+                <th>index.php</th>
+                <td>
+                  Webサイトにアクセスがあったとき、最初に読み込まれるファイル
+                </td>
+              </tr>
+              <tr>
+                <th>license.txt、readme.html</th>
+                <td>
+                  ライセンスについての説明などを記載したファイル。アップロードの必要はない
+                </td>
+              </tr>
+              <tr>
+                <th>wp-activate.php</th>
+                <td>ユーザーアカウントに関するファイル</td>
+              </tr>
+              <tr>
+                <th>wp-admin</th>
+                <td>管理画面に関するファイルを格納するディレクトリ</td>
+              </tr>
+              <tr>
+                <th>wp-blog-header.php</th>
+                <td>WordPressの環境に関連するファイルをロードするファイル</td>
+              </tr>
+              <tr>
+                <th>wp-comments-post.php</th>
+                <td>コメント投稿に関するファイル</td>
+              </tr>
+              <tr>
+                <th>wp-config-sample.php</th>
+                <td>
+                  インストール時にこのファイルを元に設定ファイルを作成することができるサンプルファイル。インストール後は「wp-config.php」という設定ファイルが生成される
+                </td>
+              </tr>
+              <tr>
+                <th>wp-content</th>
+                <td>
+                  テーマやプラグインなどに関するファイルを格納するディレクトリ<br /><em>※基本的には、このディレクトリのみ追加・変更する</em>
+                </td>
+              </tr>
+              <tr>
+                <th>wp-cron.php</th>
+                <td>
+                  PHPによる擬似cronジョブ（ある種のスケジューリング機能）を担うファイル
+                </td>
+              </tr>
+              <tr>
+                <th>wp-includes</th>
+                <td>
+                  WordPressのシステム全般に関するファイルを格納するディレクトリ
+                </td>
+              </tr>
+              <tr>
+                <th>wp-links-opml.php</th>
+                <td>リンクのXML出力に関するファイル</td>
+              </tr>
+              <tr>
+                <th>wp-load.php</th>
+                <td>WordPressの動作に必要なプログラムをロードするファイル</td>
+              </tr>
+              <tr>
+                <th>wp-login.php</th>
+                <td>管理画面のログインに関するファイル</td>
+              </tr>
+              <tr>
+                <th>wp-mail.php</th>
+                <td>メールによるブログ投稿用ファイル</td>
+              </tr>
+              <tr>
+                <th>wp-settings.php</th>
+                <td>WordPressを動かすための変数・関数・クラスの基本設定</td>
+              </tr>
+              <tr>
+                <th>wp-signup.php</th>
+                <td>ブログ名やユーザー名などの設定に関するファイル</td>
+              </tr>
+              <tr>
+                <th>wp-trackback.php</th>
+                <td>トラックバックとPing送信用のファイル</td>
+              </tr>
+              <tr>
+                <th>xmlrpc.php</th>
+                <td>XML-RPC通信に関するファイル</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【フォルダを辿るのが面倒臭さい人は】</dt>
+            <dd>
+              「wp-content」フォルダを、一時的にサイドバーの「よく使う項目」に追加してもOK。
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. テーマファイルの構成</h3>
+        <p>
+          『wp-content >
+          themes』のにある各テーマの、ファイル構成を覗いてみよう。
+        </p>
+        <p>
+          たくさんのファイルが入っているが、最低限必要なファイルは<em>以下の2つのみ</em>。
+        </p>
+        <ul class="clause__list">
+          <li>index.php（すべてのページの元となるテンプレート）</li>
+          <li>style.css（ページのスタイルと「テーマの詳細」を記述する）</li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 最小テーマの作成</h2>
+      <div class="clause">
+        <div class="item">
+          <p>
+            各自マークアップしてもらったデータはファイル構成が違い説明しずらいため、まずはこちらで用意したサンプルデータを使用します。
+          </p>
+          <ol>
+            <li>
+              <a href="./assets/blog-sample.zip">サンプルデータ</a>をダウンロードして解凍。
+            </li>
+            <li>
+              「index.html」をブラウザで開き、全体像を把握しておく。（一通りみたら閉じる）
+            </li>
+            <li>フォルダ一式を『wp-content > themes』に移動。</li>
+            <li>
+              管理画面にテーマが増えているか確認してみる。（現状は「壊れているテーマ」が表示される）
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【index.phpの作成】</dt>
+            <dd>
+              <ol>
+                <li>「index.html」の拡張子を「index.php」に変更。</li>
+                <li>
+                  管理画面にテーマ「blog-sample」が増えていることを確認し、「有効化」をクリック。
+                </li>
+                <li>
+                  サイトの表示を確認すると、CSSが反映されていないページが表示される。
+                </li>
+                <li>
+                  管理画面に戻る。（上部のツールバーが消えてしまうため、管理画面に戻る場合はブラウザの「戻るボタン」）
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 「テーマの詳細」を記述する</h3>
+        <p>
+          正式なテーマとして認識させるために、「style.css」の最初にコメントの形式で「テーマ詳細」を記述する必要がある。
+        </p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">/*
+Theme Name: テーマの名前（必須）
+Theme URI: テーマの説明・配布サイトのアドレス
+Author: テーマの作者名
+Author URI: 作者のWebサイトのアドレス
+Description: テーマの説明・紹介文
+Version: テーマのバージョン情報（1.0など）
+License: テーマに適応されるライセンス
+License URI: ライセンス内容が記載されたWebページのアドレス
+Tags: テーマの特徴などを示すタグ（テーマ検索時に使用）
+Text Domain: テーマを国際化（翻訳対応）する際に必要な識別用の文字列
+*/
+
+
+# 以下の情報を入力。
+
+/*
+Theme Name: blog-sample
+Theme URI:
+Author: Tarou Yamada
+Author URI:
+Description: WordPressを学んで、最初のテーマです。
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/</code></pre>
+        </div>
+        <p>
+          ※メインメニュー『外観 >
+          テーマ』から、追加したテーマをホバーし「テーマ詳細」を確認しておく。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. スクリーンショットの設定</h3>
+        <ol>
+          <li>
+            <a href="https://generative-placeholders.glitch.me/image?width=1200&height=900">ダミー画像</a>をデスクトップに保存。
+          </li>
+          <li>ファイル名を「screenshot.png」に変更。</li>
+          <li>テーマフォルダ「blog-sample」に移動。</li>
+          <li>管理画面を確認。</li>
+        </ol>
+        <p>
+          ※ディフォルとのテーマフォルダ内の「screenshot.png」を見ると、サイズ「1200
+          x 900」が無難。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のデータに反映する。</p>
+        <ul>
+          <li>※ファイル名は「style.css」が望ましい。</li>
+          <li>
+            ※「style.css」がフォルダ内にある人は、もう一つ「style.css」を新規作成しフォルダの直下に保存すること。
+          </li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. テンプレートタグの挿入</h2>
+      <div class="clause">
+        <div class="item">
+          <p>
+            テンプレートタグとは、WordPressに対して何かを表示させたい時やあるデータを取得させたい場合などに使う「<em>PHPで記述されたWordPressが定義した関数</em>」のこと。
+          </p>
+          <p>
+            <a href="https://developer.wordpress.org/reference/functions/">テンプレートタグ一覧</a><br />
+            ※WordPressは頻繁にバージョンアップされ、テンプレートタグも都度変わっていくので注意。
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【挿入方法】</dt>
+            <dd>該当の箇所にPHPブロックの形で挿入する。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">/* index.phpを開いて変更 */
+
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;&lt;?php bloginfo('name'); ?&gt;&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;link rel="stylesheet" href="./style.css"&gt;
+&lt;/head&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【便利な拡張機能】</dt>
+            <dd>
+              <a href="https://marketplace.visualstudio.com/items?itemName=tungvn.wordpress-snippet">WordPress Snippet</a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 画像とCSSファイルのパス修正</h3>
+        <div class="item">
+          <p>
+            画像とCSSについて、WordPressでは、実際のファイルの場所とURL（絶対パス）が変わってしまうため、「相対パス」で指定すると「NOT
+            FOUND」になってしまう。
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【CSSのパスを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;&lt;?php bloginfo('name'); ?&gt;&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;link rel="stylesheet" href="&lt;?php echo get_stylesheet_uri(); ?&gt;"&gt;
+&lt;/head&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>get_stylesheet_uri();</dt>
+            <dd>テーマのスタイルシートのパスを取得する</dd>
+          </dl>
+          <p>
+            ※先頭に「get」がついているタグは値を取得するだけでコード内に出力されないため、<em>別途「echo」で出力する</em>必要がある
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【更新しても変わらない時は】</dt>
+            <dd>
+              WordPressはキャッシュが残りやすいため、スーパーリロード『command
+              + shift + r』すると良い。
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【それでも変わらない時は】</dt>
+            <dd>
+              <ol>
+                <li>MAMP左上の「Preferences」アイコンをクリック。</li>
+                <li>
+                  「General」タブをクリックし、「PHP-Cache」の項目を「off」にしてOK。
+                  <img src="./assets/03/11.png" alt="" width="500" />
+                </li>
+                <li>MAMPが自動的に再起動したら完了。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画像のパスを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;article class="post"&gt;
+  &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;h2 class="post-title"&gt;記事のタイトル&lt;/h2&gt;
+  &lt;p class="post-date"&gt;2020年8月12日&lt;/p&gt;
+  &lt;div class="post-contents"&gt;
+    &lt;p&gt;本文の抜粋を20文字程度表示します。&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;a class="post-btn" href="single.html"&gt;続きを読む&lt;/a&gt;
+  &lt;div class="post-info"&gt;
+    &lt;ul&gt;
+      &lt;li class="post-category"&gt;Category: &lt;a href="#"&gt;作品&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="post-tag"&gt;Tag: &lt;a href="#"&gt;HTML&lt;/a&gt; / &lt;a href="#"&gt;CSS&lt;/a&gt; / &lt;a href="#"&gt;JavaScript&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>get_theme_file_uri();</dt>
+            <dd>テーマ内にあるファイルのURIを取得する</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. head要素内のテンプレートタグ</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html &lt;?php language_attributes(); ?&gt;"&gt;
+
+&lt;head&gt;
+  &lt;meta charset="&lt;?php bloginfo('charset'); ?&gt;"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;&lt;?php bloginfo('name'); ?&gt;&lt;/title&gt;
+  &lt;meta name="description" content="&lt;?php bloginfo('description'); ?&gt;"&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;link rel="stylesheet" href="&lt;?php echo get_stylesheet_uri(); ?&gt;"&gt;
+&lt;/head&gt;</code></pre>
+        </div>
+        <dl>
+          <dt>language_attributes()</dt>
+          <dd>言語属性を出力する</dd>
+          <dd>
+            管理画面メニュー『設定 > 一般 > サイトの言語』から変更可能
+          </dd>
+        </dl>
+        <dl>
+          <dt>bloginfo()</dt>
+          <dd>括弧内に値を指定することで、様々な情報を出力する</dd>
+          <dd>
+            ブログタイトルと説明文（キャッチフレーズ）は、管理画面メニュー『設定 > 一般』から変更可能
+          </dd>
+        </dl>
+        <p>
+          <a href="https://developer.wordpress.org/reference/functions/bloginfo/">出力出来る値</a>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. wp_head関数を記述する</h3>
+        <dl>
+          <dt>wp_head()</dt>
+          <dd>
+            「ここがhead要素ですよ」と教えるためのおまじない。<em>headの下部に必ず記述しないとエラーが出る可能性がある。</em>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html lang="&lt;?php language_attributes(); ?&gt;"&gt;
+
+&lt;head&gt;
+    .
+    .
+  &lt;link rel="stylesheet" href="&lt;?php echo get_stylesheet_uri(); ?&gt;"&gt;
+
+  &lt;?php wp_head(); ?&gt;
+&lt;/head&gt;</code></pre>
+        </div>
+        <p>
+          ★ページのソースを表示して、どんなコードが出力されているか確認しておく。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. wp_footer関数を記述する</h3>
+        <dl>
+          <dt>wp_footer()</dt>
+          <dd>
+            「ここがbody要素内の下の方ですよ」と教えるためのおまじない。<em>bodyの終了タグ直前に必ず記述しないとエラーが出る可能性がある。</em>
+          </dd>
+          <dd>
+            ログインしているときにサイト上部に表示される管理バーのコードも出力される。
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">    .
+    .
+      &lt;p&gt;&lt;small&gt;Copyright sample-blog All Rights Reserved.&lt;/small&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+
+  &lt;?php wp_footer(); ?&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+        </div>
+        <p>
+          ★ページのソースを表示して、どんなコードが出力されているか確認しておく。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. wp_body_open関数を記述する</h3>
+        <dl>
+          <dt>wp_body_open()</dt>
+          <dd>
+            「ここがbody要素内の上の方ですよ」と教えるためのおまじない。<em>bodyの開始タグ直後に記述しておくと便利だが、必須ではない。</em>
+          </dd>
+          <dd>
+            「wp_footer()」で出力された管理バーのコードがここに移動する。
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;body&gt;
+  &lt;?php wp_body_open(); ?&gt;
+  &lt;div class="inner"&gt;
+    &lt;header&gt;
+    .
+    .</code></pre>
+        </div>
+        <p>
+          ★ページのソースを表示して、どんなコードが出力されているか確認しておく。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <div class="item">
+          <p>ここまでの内容を、自分のブログデータに反映する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【注意点】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>スタイルシートが別のフォルダ内にある人は「<em>
+                    &lt;?php echo get_theme_file_uri('/css/style.css'); ?&gt;</em>」で対応すること。
+                </li>
+                <li>h1などの要素や属性自体は触らず、属性値や内容自体をテンプレートタグに変更すること。</li>
+                <li>JavaScriptを使っている人は動かなくなる場合があるが、ひとまず気にしないこと。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. WordPressループの作成</h2>
+      <div class="clause">
+        <p>
+          サンプルサイトのトップページのように、管理画面から投稿した記事をすべて表示したい場合、「<em>WordPressループ</em>」を使用する。WordPressループはWordPressの重要な機能の1つなので、しっかりと理解すること。
+        </p>
+        <p>
+          その前に、テンプレートタグを使って「body要素内」の情報を動的にしておく。
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. body要素内のテンプレートタグ</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;body &lt;?php body_class(); ?&gt;&gt;
+  &lt;?php wp_body_open(); ?&gt;
+  &lt;div class="inner"&gt;
+    &lt;header&gt;
+      &lt;h1&gt;&lt;a href="&lt;?php echo home_url('/'); ?&gt;"&gt;&lt;?php bloginfo('name'); ?&gt;&lt;/a&gt;&lt;/h1&gt;
+      &lt;nav class="nav-global"&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;a href="&lt;?php echo home_url('/'); ?&gt;"&gt;HOME&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="about.html"&gt;ABOUT&lt;/a&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;a href="contact.html"&gt;CONTACT&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;
+    &lt;/header&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>body_class()</dt>
+            <dd>ページやサイトの状態に合わせて、動的にクラス名を出力する</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># ログイン前
+&lt;body class="home blog"&gt;
+
+# ログイン後
+&lt;body class="home blog logged-in admin-bar no-customize-support"&gt;
+
+// カッコ内に指定して、任意のクラスを追加することもできる
+&lt;?php body_class('test'); ?&gt;
+&lt;body class="home blog logged-in admin-bar no-customize-support test"&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>home_url()</dt>
+            <dd>サイトのトップページのURLを返す</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php echo home_url(); ?&gt;
+# http://localhost:8888/blog
+
+&lt;?php echo home_url('/'); ?&gt;
+# 末尾に「/」を付けたい場合はカッコ内に指定する
+# http://localhost:8888/blog/
+
+&lt;?php echo home_url('/about/'); ?&gt;
+# トップページ以外のページに飛ばしたい場合もカッコ内に指定する
+# http://localhost:8888/blog/about/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <p>
+          ※「ABOUT」ページと「CONTACT」ページのリンクは、まだページ自体が存在しないので後回し。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 記事情報の取得</h3>
+        <p>
+          サンプルテーマでは、記事が3件投稿されているが、1件目のみを以下のように変更する。<br />一気に書かずに、一つづつ出力結果を確認しながら進めていきます。
+        </p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;article class="post"&gt;
+  &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+  &lt;p class="post-date"&gt;&lt;?php the_time('Y年n月j日'); ?&gt;&lt;/p&gt;
+  &lt;div class="post-contents"&gt;
+    &lt;?php the_excerpt(); ?&gt;
+  &lt;/div&gt;
+  &lt;a class="post-btn" href="&lt;?php the_permalink(); ?&gt;"&gt;続きを読む&lt;/a&gt;
+  &lt;div class="post-info"&gt;
+    &lt;ul&gt;
+      &lt;li class="post-category"&gt;Category: &lt;?php echo get_the_category_list(','); ?&gt;&lt;/li&gt;
+      &lt;li class="post-tag"&gt;Tag: &lt;?php echo get_the_tag_list('Tag: ', ' / '); ?&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>the_title()</dt>
+            <dd>記事のタイトルを表示する</dd>
+          </dl>
+          <dl>
+            <dt>the_excerpt()</dt>
+            <dd>記事の抜粋を表示する</dd>
+            <dd>
+              画像の除いた110文字までが自動的に抜粋され、それ以上の場合は文末に[...]が付く
+            </dd>
+          </dl>
+          <p>★110文字以上になるように投稿を編集してみよう。</p>
+          <dl>
+            <dt>the_permalink()</dt>
+            <dd>記事の個別ページのURLを表示する</dd>
+            <dd>
+              まだ個別ページの設定はしていないので、トップページと同じ表示になる（「5.
+              テンプレート階層」で設定します）
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>the_content()</dt>
+            <dd>記事全文を表示する</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. 記事の投稿時刻を表示する</h3>
+        <dl>
+          <dt>the_time()</dt>
+          <dd>カッコ内で指定した形式で投稿時刻を表示する</dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php the_time(); ?&gt;
+# 4:14 PM
+# 初期設定は、管理画面メニュー『設定 > 一般 > 日付形式・時刻形式』から変更可能
+
+&lt;?php the_time('Y年n月j日'); ?&gt;
+# カッコ内にフォーマットを指定することで、表示をカスタマイズできる
+# 2020年8月31日</code></pre>
+        </div>
+        <p>
+          <a href="https://ja.wordpress.org/support/article/formatting-date-and-time/">日付と時刻の書式についての解説</a>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-4. 記事が属するカテゴリーを表示する</h3>
+        <ul>
+          <li><a href="https://developer.wordpress.org/reference/functions/get_the_category_list/">get_the_category_list()</a></li>
+        </ul>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php echo get_the_category_list(); ?&gt;
+
+# 初期設定は、リンクの付いた「リスト形式」で表示される
+&lt;ul class="post-categories"&gt;
+  &lt;li&gt;&lt;a href="http://localhost:8888/blog/?cat=1" rel="category""&gt;未分類&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;?php echo get_the_category_list(','); ?&gt;
+# カッコ内に区切り方を指定することで、表示をカスタマイズできる
+&lt;a href="http://localhost:8888/blog/?cat=1" rel="category"&gt;未分類&lt;/a&gt;</code></pre>
+        </div>
+        <p>★複数のカテゴリーを設定してみる。</p>
+        <ol>
+          <li>管理画面メニュー『投稿 > カテゴリー』を選択</li>
+          <li>
+            カテゴリー名とスラッグ（半角英数字で固有のもの）を入力し、「新規カテゴリーを追加」をクリック
+            <img src="assets/03/01.png" alt="" />
+          </li>
+          <li>
+            作成済みのカテゴリーを変更したい場合は、右側の一覧から変更したいカテゴリーをクリックするか、マウスオーバーで出てくるメニューから
+            <img src="assets/03/02.png" alt="" />
+          </li>
+          <li>
+            管理画面メニュー『投稿 >
+            投稿一覧』から変更したい記事のタイトルをクリックし、カテゴリーにチェック（ついでにタグも設定しておく）
+            <img src="assets/03/03.png" alt="" />
+          </li>
+          <li>右上の「更新」ボタンをクリックして変化を確認する</li>
+        </ol>
+        <p>
+          <a href="https://komaricote.com/wordpress/category-input-output/">その他カテゴリー関連のタグ</a>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-5. 記事が属するタグを表示する</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/get_the_tag_list/">get_the_tag_list()</a></li>
+          </ul>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php">&lt;?php echo get_the_tag_list(); ?&gt;
+
+# 初期設定は、区切り文字無しのa要素で表示される
+&lt;a href="http://localhost:8888/blog/?tag=css" rel="tag"&gt;CSS&lt;/a&gt;
+&lt;a href="http://localhost:8888/blog/?tag=html" rel="tag"&gt;HTML&lt;/a&gt;
+
+&lt;?php echo get_the_tag_list('Tag: ', ' / '); ?> ?&gt;
+
+# カッコ内に、「先頭に表示する文字列」と「区切り方」を指定することで、表示をカスタマイズできる
+Tag: &lt;a href="http://localhost:8888/blog/?tag=css" rel="tag"&gt;CSS&lt;/a&gt; / &lt;a href="http://localhost:8888/blog/?tag=html" rel="tag"&gt;HTML&lt;/a&gt;</code></pre>
+          </div>
+        </div>
+        <p>
+          ※このあたりの設定方法は、要素の検証をしながら地道に試していくしか無いので、うまく検索しながら知識を積み上げていく<br />
+          例）検索キーワード「wordpress カテゴリー リンク付き」など
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">
+          4-6. WordPressループで記事を繰り返し表示する
+        </h3>
+        <div class="item">
+          <p>
+            現状、動的には最新の記事が1件しか表示されていない。すべての投稿を表示するには、WordPressループを作成する。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php">#先ほど完成させた記事1件を以下の構文で囲む
+
+&lt;?php if( have_posts() ): ?&gt;
+&lt;?php while( have_posts() ): ?&gt;
+&lt;?php the_post(); ?&gt;
+
+&lt;article class="post"&gt;
+  &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+  &lt;p class="post-date"&gt;&lt;?php the_time('Y年n月j日'); ?&gt;&lt;/p&gt;
+  &lt;div class="post-contents"&gt;
+    &lt;?php the_excerpt(); ?&gt;
+  &lt;/div&gt;
+  &lt;a class="post-btn" href="&lt;?php the_permalink(); ?&gt;"&gt;続きを読む&lt;/a&gt;
+  &lt;div class="post-info"&gt;
+    &lt;ul&gt;
+      &lt;li class="post-category"&gt;Category: &lt;?php the_category(','); ?&gt;&lt;/li&gt;
+      &lt;li class="post-tag"&gt;Tag: &lt;?php the_tags('Tag:', ' / '); ?&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/article&gt;
+
+&lt;?php endwhile; ?&gt;
+&lt;?php endif; ?&gt;</code></pre>
+          </div>
+          <dl>
+            <dt>if( have_posts() ):　〜　endif;</dt>
+            <dd>もし記事があったら（条件分岐）</dd>
+          </dl>
+          <dl>
+            <dt>while( have_posts() ):　〜　endwhile;</dt>
+            <dd>記事がある限り繰り返す</dd>
+          </dl>
+          <dl>
+            <dt>the_post();</dt>
+            <dd>記事の情報を読み込む</dd>
+          </dl>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php">#分かりやすいようにそれぞれPHPブロックで囲ったが、まとめて書いても良い。
+
+&lt;?php
+if( have_posts() ):
+while( have_posts() ):
+the_post();
+?&gt;
+
+&lt;article class="post"&gt;
+&lt;/article&gt;
+
+&lt;?php
+endwhile;
+endif;
+?&gt;</code></pre>
+          </div>
+          <p>
+            ※WordPressループはどのページにも必要な重要事項なので、定型文として覚えてしまうのが良い。
+          </p>
+          <p>
+            <em>★表示が確認できたら、残り2つの記事（article）を削除しておく。</em>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【記事がない場合の処理】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php
+if( have_posts() ):
+while( have_posts() ):
+the_post();
+?&gt;
+
+&lt;!-- 記事がある場合の処理 --&gt;
+
+&lt;?php
+endwhile;
+else:
+?&gt;
+
+&lt;!-- 記事がない場合の処理 --&gt;
+&lt;p&gt;記事がありません。&lt;/p&gt;
+
+&lt;?php
+endif;
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. ダミー記事のインポート</h2>
+      <div class="clause">
+        <div class="item">
+          <div class="item">
+            <p>
+              記事数が少ないと、今後カスタマイズする際に不便なので、今のうちにダミー記事をインポート（読み込み）しておくと良い。<br>
+              今回は簡単に機能を追加できる「<em>プラグイン</em>」を使った方法を紹介する。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    管理画面メニュー『プラグイン > 新規プラグインを追加』を選択し、「プラグインの検索」欄に「<em>fakerpress</em>」と入力。
+                    <img src="assets/03/04.png" width="600" alt="" />
+                  </li>
+                  <li>プラグインが表示されたら「インストール」をクリックし、「有効化」をクリック。</li>
+                  <li>
+                    管理画面メニューに「FakerPress」が追加されるので、『投稿』をクリック。
+                    <img src="assets/03/05.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    数量の1つ目の欄に「<em>10</em>」、日付を「<em>過去15日間</em>」、投稿者を「<em>自分のユーザー名</em>」にして「生成」をクリック。
+                    <img src="assets/03/06.png" width="700" alt="" />
+                  </li>
+                  <li>しばし待つ。生成が完了したら、管理画面メニュー『投稿 > 投稿一覧』と、サイトの表示を確認。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <dl>
+            <dt>【記事の表示数変更】</dt>
+            <dd>ディフォルトでは10件表示されている</dd>
+            <dd>
+              管理画面メニュー『設定 > 表示設定 >
+              1ページに表示する最大投稿数』から変更可能
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. 記事ごとにid名とclass名を表示する</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php
+if( have_posts() ):
+while( have_posts() ):
+the_post();
+?&gt;
+
+&lt;article id="post-&lt;?php the_ID(); ?&gt;" &lt;?php post_class('post'); ?&gt;&gt;
+  &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+  .
+  .</code></pre>
+        </div>
+        <dl>
+          <dt>the_ID()</dt>
+          <dd>投稿のIDを表示する。必ずループの中で使用する</dd>
+        </dl>
+        <dl>
+          <dt>post_class()</dt>
+          <dd>投稿の種別や状態に合わせて、動的にクラス名を出力する</dd>
+          <dd>カッコ内に指定して、任意のクラスを追加することもできる</dd>
+        </dl>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【現状のソースコード】</dt>
+            <dd>
+              <a href="https://github.com/takagino/blog-sample/blob/main/03-1_index.php">index.php</a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>
+          ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 補足</h2>
+      <section class="clause">
+        <h3 class="clause__title">6-1. 重大なエラーが出た場合</h3>
+        <div class="item">
+          <p><img src="assets/03/10.png" alt="" /></p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-php"># 原因はテンプレートタグのスペルミスの可能性大。
+
+正：&lt;?php echo get_stylesheet_uri(); ?&gt;
+誤：&lt;?php echo get_stylesheet_url(); ?&gt;
+
+正：&lt;?php while( have_posts() ): the_post(); ?&gt;
+誤：&lt;?php while( have_post() ): the_posts(); ?&gt;</code></pre>
+          </div>
+          <p>
+            <em>【重要】テンプレートタグを挿入するたびに、エラーチェックと出力チェックをすること！</em>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-2. a要素が勝手に閉じられる問題</h3>
+        <div class="item">
+          <p>WordPressでは、記事全体（articleやdiv）をa要素で囲むと「正しい書き方ではない」と判断して、a要素を勝手に閉じてしまう。その影響で、他の要素が勝手にa要素で囲われるなどレイアウトが崩れる。</p>
+          <pre class="line-numbers"><code class="language-php">&lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;
+  &lt;article class="post"&gt;
+    &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+    &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+    &lt;p class="post-date"&gt;&lt;?php the_time('Y年n月j日'); ?&gt;&lt;/p&gt;
+    &lt;div class="post-contents"&gt;
+      &lt;?php the_excerpt(); ?&gt;
+    &lt;/div&gt;
+    &lt;a class="post-btn" href="&lt;?php the_permalink(); ?&gt;"&gt;続きを読む&lt;/a&gt;
+  &lt;/article&gt;
+&lt;/a&gt;</code></pre>
+          <p><img src="./assets/03/12.png" width="600" alt=""></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【解決策01】</dt>
+            <dd>全体ではなく、個別にリンクをつける。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;article class="post"&gt;
+  &lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;
+    &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;/a&gt;
+  &lt;h2 class="post-title"&gt;
+    &lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;
+  &lt;/h2&gt;
+  &lt;p class="post-date"&gt;
+    &lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;&lt;?php the_time('Y年n月j日'); ?&gt;&lt;/a&gt;
+  &lt;/p&gt;
+  &lt;div class="post-contents"&gt;
+    &lt;a href="&lt;?php the_permalink(); ?&gt;"&gt;&lt;?php the_excerpt(); ?&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;a class="post-btn" href="&lt;?php the_permalink(); ?&gt;"&gt;続きを読む&lt;/a&gt;
+&lt;/article&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【解決策02】</dt>
+            <dd>a要素ではなく、JavaScriptでリンクを飛ばす。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># 記事要素（見本はarticle）に「カスタムデータ属性」を追加する
+
+&lt;article class="post" data-link="&lt;?php the_permalink(); ?&gt;"&gt;
+  &lt;img src="&lt;?php echo get_theme_file_uri('/images/pic_post01.jpg'); ?&gt;" alt=""&gt;
+  &lt;h2 class="post-title"&gt;&lt;?php the_title(); ?&gt;&lt;/h2&gt;
+  &lt;p class="post-date"&gt;&lt;?php the_time('Y年n月j日'); ?&gt;&lt;/p&gt;
+  &lt;div class="post-contents"&gt;
+    &lt;?php the_excerpt(); ?&gt;
+  &lt;/div&gt;
+  &lt;a class="post-btn" href="&lt;?php the_permalink(); ?&gt;"&gt;続きを読む&lt;/a&gt;
+&lt;/article&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># 「wp_footer();」の直線にJavaScriptを追加する
+
+  &lt;/footer&gt;
+
+  &lt;script&gt;
+    window.addEventListener('DOMContentLoaded', () => {
+      const post = document.querySelectorAll('[data-link]');
+      for (const element of post) {
+        element.addEventListener('click', () => {
+          location.href = element.dataset.link;
+        });
+      }
+    });
+  &lt;/script&gt;
+  &lt;?php wp_footer(); ?&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">/* CSSに「cursorプロパティ」を追加して指マークにする */
+
+[data-link] {
+  cursor: pointer;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+</html>

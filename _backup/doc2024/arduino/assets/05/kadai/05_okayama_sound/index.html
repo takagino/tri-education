@@ -1,0 +1,89 @@
+【サウンドライブラリの読み込み】
+<!DOCTYPE html>
+<html lang="ja">
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>p5.sound</title>
+      <style>
+         canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+         }
+      </style>
+   </head>
+   <body>
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+      <script>
+         let mySound;
+         let fft;
+         let img;
+
+         //事前にファイルを読み込む
+         function preload() {
+            mySound = loadSound("a.mp3");
+            img = loadImage("p.png"); // 画像のパスを指定
+         }
+
+         function setup() {
+            createCanvas(640, 480);
+            rectMode(CENTER);
+            noStroke();
+            colorMode(HSL);
+            mySound.amp(0.5); //音量の調節
+
+            fft = new p5.FFT();
+         }
+
+         function draw() {
+            background(255); // 背景を白に設定
+
+            if (mySound.isPlaying()) {
+               let vol = map(mouseY, 0, height, 0, 1);
+               vol = constrain(vol, 0, 1);
+               mySound.amp(vol);
+
+               let wave = fft.waveform(); // 変数名を変更
+               console.log(wave);
+
+               // waveの値を使用して画像のサイズを設定
+               let size = map(wave[0], -1, 1, 100, 300); // 画像のサイズを動的に変更
+
+               // 画像を中央に描画
+               image(
+                  img,
+                  width / 2 - size / 2,
+                  height / 2 - size / 2,
+                  size,
+                  size
+               );
+
+               // 経過時間に基づいてフィルターを適用
+               let elapsedTime = millis() / 1000; // 経過時間を秒単位で取得
+               let blurAmount = map(sin(elapsedTime * 10), -1, 1, 0, 5); // ぼかしの量を動的に変更
+               filter(BLUR, blurAmount);
+
+               // きらきら効果を追加
+               let thresholdAmount = map(
+                  sin(elapsedTime * 2),
+                  -1,
+                  map(wave[0], -1, 1, 0.5, 0.3),
+                  0.3,
+                  0.7
+               );
+               filter(THRESHOLD, thresholdAmount);
+            }
+         }
+
+         function keyPressed() {
+            mySound.loop(); //ループ再生したい場合は「loop()」
+         }
+
+         function keyReleased() {
+            mySound.pause();
+            clear(); //一時停止は「pause()」
+         }
+      </script>
+   </body>
+</html>

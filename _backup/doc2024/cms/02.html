@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>「CMS集中制作」02_PHPの基礎 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料" />
+  <meta name="author" content="horotaka takagi" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title">
+      <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+    </p>
+    <h1 class="l-header__title-sub">「CMS集中制作」02_PHPの基礎</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. PHPとは？</h2>
+      <div class="clause">
+        <p>
+          「PHP: Hypertext
+          Preprocessor」の略。HTML内にPHPを埋め込むことで、動的にWebページを生成することができるプログラミング言語の一つ。
+        </p>
+        <div class="item">
+          <dl>
+            <dt>【PHPで出来ること】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>ブログ</li>
+                <li>お問い合わせフォーム</li>
+                <li>検索機能</li>
+                <li>ログイン機能</li>
+                <li>SNS</li>
+                <li>ECサイト</li>
+                <li>予約システム　などなど</li>
+              </ul>
+            </dd>
+            <dd>※Webアプリケーション・Webサービスの開発に特化した言語</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【PHPの求人】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>
+                  <a href="https://xn--pckua2a7gp15o89zb.com/php%E3%81%AE%E4%BB%95%E4%BA%8B-%E6%84%9B%E7%9F%A5%E7%9C%8C?e=1">PHP関連の求人 - 求人ボックス</a>
+                </li>
+                <li>
+                  ちなみに、<a href="https://xn--pckua2a7gp15o89zb.com/javascript%E3%81%AE%E4%BB%95%E4%BA%8B-%E6%84%9B%E7%9F%A5%E7%9C%8C?e=1">Javascript関連の求人 - 求人ボックス</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. PHPの基礎</h2>
+      <div class="clause">
+        <p>
+          詳しくは2年生の授業でやりますので、基礎となる部分だけを「さらっと」勉強します。
+        </p>
+        <ol>
+          <li>「MAMP」を立ち上げてサーバーを起動</li>
+          <li>
+            前回作成した「hello.php」をエディターで開く（無い人は新規作成）
+          </li>
+        </ol>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 基本的な書き方</h3>
+        <div class="item">
+          <dl>
+            <dt>【HTMLのみで書かれたページ（静的ページ）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;PHP TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;p&gt;2+3&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+            <dd>
+              ※<em>「http://localhost:8888/hello.php」</em>にアクセスして確認。
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【PHPが埋め込まれたページ（動的ページ）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;PHP TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;p&gt;&lt;?php echo 2+3; ?&gt;&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>echo</dt>
+            <dd>文字列を出力する（WordPressでもよく使うので覚えましょう）</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. PHPの文法</h3>
+        <ul class="clause__list">
+          <li>
+            PHPは、<em>開始タグ「&lt;?php」</em>と<em>終了タグ「?&gt;」</em>の中に記述し、囲まれた部分を<em>「PHPブロック」</em>と呼ぶ。
+          </li>
+          <li>
+            基本的にすべて半角の英数字・記号で入力する。（特に全角スペースに注意）
+          </li>
+          <li>行の末尾には「;（セミコロン）」をつける。</li>
+          <li>
+            改行やスペースは無視されるが、単語（echoなど）の途中に入れてはならない。
+          </li>
+          <li>
+            「&lt;?PHP」「ECHO」などの大文字でも動作するが、紛らわしいので小文字に統一する。
+          </li>
+          <li>
+            「"（ダブルクォーテーション）」や「'（シングルクォーテーション）」で囲んだ部分は文字列として扱われる。
+          </li>
+        </ul>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. コメント</h3>
+        <p>PHPには2種類の1行コメントと、1種類のブロックコメントがある。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;?php
+// スラッシュ2つで1行コメント
+# ハッシュ記号で1行コメント
+
+/*
+スラッシュとアスタリスクで複数行コメント（ブロックコメント）
+*/
+?&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. PHPによるデータの受け渡し</h2>
+      <div class="clause">
+        <p>
+          PHPにデータを渡してやることで、同じソースコードでも違う内容を表示するWebページを作ることができる。受け渡す方法は以下の2つ。
+        </p>
+        <ul class="clause__list">
+          <li>データを見える形で受け取る「GET」</li>
+          <li>データを見えない形で受け取る「POST」</li>
+        </ul>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. GETメソッド</h3>
+        <div class="item">
+          <dl>
+            <dt>【特徴】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>データがURLで引き渡される。</li>
+                <li>少量のデータ送信に向いている。</li>
+                <li>URLが変わるため「シェア」や「ブックマーク」できる。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTMLでフォームを作る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;GET TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;フォームデータの送信&lt;/h1&gt;
+  &lt;form action="hello.php" method="get"&gt;
+    &lt;input type="text" name="comment"&gt;
+    &lt;input type="submit" value="送信"&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <p>
+            ★入力フォームに何かを入力し「送信」ボタンを押して、URLの変化を見てみよう。
+          </p>
+          <p>
+            しかし、データを送っただけではURLが変化するだけで、「動的なページ」とは言えない。
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【データを受け取る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;GET TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;フォームデータの送信&lt;/h1&gt;
+  &lt;form action="hello.php" method="get"&gt;
+    &lt;input type="text" name="comment"&gt;
+    &lt;input type="submit" value="送信"&gt;
+  &lt;/form&gt;
+  &lt;p&gt;
+    &lt;?php
+      $comment = $_GET['comment'];
+      echo $comment;
+    ?&gt;
+  &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>$_GET[ ]</dt>
+            <dd>
+              [
+              ]のなかに、受け取りたいフォームの「name属性」を指定することで、データを受け取ることができる。
+            </dd>
+          </dl>
+        </div>
+        <p>
+          ★Googleの検索エンジンや、
+          WordPressの仕組みも「GETメソッド」を利用している。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. PHPの変数</h3>
+        <p>
+          <em>「変数」</em>とは数値や文字列といったデータを格納する箱のようなもの。
+        </p>
+        <div class="item">
+          <dl>
+            <dt>【変数の定義方法】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">// 変数名の前に「$（ドル記号）」を使って定義する
+$comment
+
+/*
+1文字目にはアルファベットの小文字・大文字、もしくはアンダースコアが使用可能（「a〜z, A〜Z, _」）
+2文字目以降には、数字も使用可能
+アルファベットの小文字と大文字は区別される
+*/
+$var
+$_var
+$VAR345
+$str
+$STR
+
+# 悪い例
+$123var // 先頭が数字
+$変数 // 漢字は使用できない</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. POSTメソッド</h3>
+        <div class="item">
+          <dl>
+            <dt>【特徴】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>データがHTMLフォームで引き渡される。</li>
+                <li>大容量のデータ送信に向いている。</li>
+                <li>URLが変わらないためセキュリティが強い。（ログインなど）</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTMLでフォームを作る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;POST TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;フォームデータの送信&lt;/h1&gt;
+  &lt;form action="hello.php" method="post"&gt;
+    &lt;input type="text" name="comment"&gt;
+    &lt;input type="submit" value="送信"&gt;
+  &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <p>
+            ★入力フォームに何かを入力し「送信」ボタンを押して、URLの変化を見てみよう。
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【データを受け取る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;POST TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;フォームデータの送信&lt;/h1&gt;
+  &lt;form action="hello.php" method="post"&gt;
+    &lt;input type="text" name="comment"&gt;
+    &lt;input type="submit" value="送信"&gt;
+  &lt;/form&gt;
+  &lt;p&gt;
+    &lt;?php
+      $comment = $_POST['comment'];
+      echo $comment;
+    ?&gt;
+  &lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>$_POST[ ]</dt>
+            <dd>
+              [
+              ]のなかに、受け取りたいフォームの「name属性」を指定することで、データを受け取ることができる。
+            </dd>
+          </dl>
+        </div>
+        <p>
+          <strong>※「GETメソッド」よりセキュリティが強いとはいえ、よくわからないままお問い合わせフォームなどを作ってしまうと非常に危険なので、充分注意してください。</strong>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. データベースの操作</h2>
+      <div class="clause">
+        <p>
+          データベースからデータを取得しブラウザに表示してみましょう。ただし、だいぶ難しいので今回はサンプルコードを用いて体験だけしてみる。
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. データベースの作成</h3>
+        <ol>
+          <li>「MAMP」の「WebStart」をクリックし、スタートページを開く。</li>
+          <li>
+            上部メニュー『TOOLS &gt; PHPMYADMIN』を選択。
+            <img src="assets/01/11.png" alt="" />
+          </li>
+          <li>
+            上部タブ「データベース」をクリックし、下図のように設定し「作成」をクリック。
+            <img src="assets/02/01.png" alt="" />
+          </li>
+          <li>左側のデータベース一覧に「test」が追加されたら完了！</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. テーブルの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【テーブルとは？】</dt>
+            <dd>
+              データベース内でデータを種類ごとにまとめておくもの。（商品テーブル、顧客テーブルなど）
+            </dd>
+          </dl>
+          <p>
+            ※「Excel」で例えると、データベース自体が「Excelファイルそのもの」、テーブルが「シート」のようなもの。
+            <img src="assets/02/02.png" alt="" />
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【作成するテーブル】</dt>
+            <dd>
+              <table>
+                <caption>
+                  「goods」テーブル
+                </caption>
+                <tbody>
+                  <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>price</th>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>コーラ</td>
+                    <td>100</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>お茶</td>
+                    <td>80</td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>コーヒー</td>
+                    <td>150</td>
+                  </tr>
+                </tbody>
+              </table>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ol>
+            <li>
+              「phpMyAdmin」画面で、データベース「test」、「構造タブ」が表示されていることを確認。
+            </li>
+            <li>
+              テーブル名「goods」、カラム数「3」として「実行」をクリック。
+              <img src="assets/02/03.png" alt="" />
+            </li>
+            <li>
+              下図のように入力し、「保存」をクリック。
+              <img src="assets/02/04.png" alt="" />
+            </li>
+            <li>
+              3種類のデータを保存できるテーブルが完成。
+              <img src="assets/02/05.png" alt="" />
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. データ型とは？</h3>
+        <p>
+          プログラミング言語などが扱うデータをいくつかの種類に分類し、それぞれについて名称や特性、範囲、扱い方、表記法、メモリ上での記録方式などの規約を定めたもの。<br />
+          変数に入る値の種類を限定することで、エラーを回避したり、動作を軽くしたりすることができる。
+        </p>
+        <dl>
+          <dt>INT</dt>
+          <dd>整数データ</dd>
+        </dl>
+        <dl>
+          <dt>VARCHAR</dt>
+          <dd>文字データ（今回は最大100文字、それ以降は切り捨て）</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-4. データの追加</h3>
+        <p>
+          データを保存する場所は完成したが、まだデータが空なので、いくつか追加してみる。
+        </p>
+        <div class="item">
+          <ol>
+            <li>
+              「phpMyAdmin」画面で、データベース「test」、テーブル「goods」が選択されていることを確認。
+            </li>
+            <li>
+              「挿入」タブを選択、下図のようにデータを入力し、「実行」をクリック。
+              <img src="assets/02/06.png" alt="" />
+            </li>
+            <li>
+              「表示」タブを選択し、データが追加されたか確認する。
+              <img src="assets/02/07.png" alt="" />
+            </li>
+            <li>
+              その他2つのデータも追加する。
+              <img src="assets/02/08.png" alt="" />
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-5. データの取得</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-php">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;POST TEST&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;?php
+  // $dsn = '使用DBの種類:dbname=使用するDB;host=ホスト名'
+  $dsn = 'mysql:dbname=test;host=localhost';
+  $user = 'root';
+  $password = 'root';
+
+  try {
+    // PDOのインスタンスを生成
+    $dbh = new PDO($dsn, $user, $password);
+  } catch (PDOException $e) {
+    echo $e->getMessage();
+  }
+
+  // SQLの実行
+  $query = $dbh->query('SELECT * FROM goods');
+
+  //データの取得
+  $row = $query->fetch();
+
+  print_r($row);
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+</html>

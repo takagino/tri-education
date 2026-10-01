@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「導入教育」席替えスロット | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      div {
+        box-sizing: border-box;
+      }
+
+      .wrapper {
+        width: 80%;
+        margin: 2em auto;
+        color: #333;
+      }
+
+      #container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        border: 1px solid #333;
+      }
+
+      h1 {
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      .cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 14.28%;
+        height: 8vw;
+        padding: 1em;
+        border: 1px solid #333;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+
+      .cell-0,
+      .cell-1,
+      .cell-7,
+      .cell-8 {
+        background-color: #ffffcc;
+      }
+
+      .cell-2,
+      .cell-3,
+      .cell-9,
+      .cell-10 {
+        background-color: #ccffcc;
+      }
+
+      .cell-5,
+      .cell-6,
+      .cell-12,
+      .cell-13 {
+        background-color: #99ccff;
+      }
+
+      .cell-14,
+      .cell-15,
+      .cell-21,
+      .cell-22 {
+        background-color: #cc99ff;
+      }
+
+      .cell-16,
+      .cell-17,
+      .cell-23,
+      .cell-24 {
+        background-color: #ffcccc;
+      }
+
+      .cell-19,
+      .cell-20,
+      .cell-26,
+      .cell-27 {
+        background-color: #ffcc99;
+      }
+
+      .cell-28,
+      .cell-29,
+      .cell-30,
+      .cell-31 {
+        background-color: #ddd;
+      }
+
+      .btn {
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      button {
+        padding: 0.5em 1em;
+        border-radius: 0.5em;
+        color: #fff;
+        font-weight: bold;
+        transition: transform 0.2s;
+      }
+
+      button:hover {
+        transform: scale(1.5);
+      }
+
+      #start {
+        background-color: #333;
+      }
+
+      #stop {
+        background-color: rgb(228, 72, 72);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h1>席替えスロット</h1>
+      <div class="btn">
+        <button id="start">START</button>
+        <button id="stop">STOP</button>
+      </div>
+      <div id="container"></div>
+    </div>
+    <script>
+      const container = document.getElementById("container");
+      const start = document.getElementById("start");
+      const stop = document.getElementById("stop");
+
+      const question = [
+        "01_青島",
+        "02_秋田",
+        "03_天久",
+        "04_安藤",
+        "05_稲沢",
+        "06_大野",
+        "07_マドゥシカ",
+        "08_上水",
+        "09_ターニャ",
+        "10_川口",
+        "11_シェラーン",
+        "12_河村",
+        "13_佐藤",
+        "14_佐橋",
+        "15_澤野",
+        "16_竹尾",
+        "17_スシル",
+        "18_釣浦",
+        "19_土井",
+        "20_戸田",
+        "21_名取",
+        "22_西部",
+        "23_橋本",
+        "24_平尾",
+        "25_藤田",
+        "26_町野",
+        "27_森茂",
+        "28_山中",
+      ];
+      let flag = true;
+
+      const init = () => {
+        container.innerHTML = "";
+        const shuffle_question = shuffle(question);
+        shuffle_question.splice(4, 0, "");
+        shuffle_question.splice(11, 0, "");
+        shuffle_question.splice(18, 0, "");
+        shuffle_question.splice(25, 0, "");
+        shuffle_question.forEach((elem, index) => {
+          const cell = document.createElement("div");
+          cell.classList.add("cell", `cell-${index}`);
+          const term = document.createElement("p");
+          term.classList.add("title");
+          term.textContent = elem;
+          cell.appendChild(term);
+          container.appendChild(cell);
+        });
+
+        flag && window.requestAnimationFrame(init);
+      };
+
+      const shuffle = ([...array]) => {
+        for (let i = array.length - 1; i >= 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      };
+
+      window.addEventListener("DOMContentLoaded", () => {
+        window.requestAnimationFrame(init);
+      });
+
+      start.addEventListener("click", () => {
+        flag = true;
+        window.requestAnimationFrame(init);
+      });
+
+      stop.addEventListener("click", () => {
+        flag = false;
+      });
+    </script>
+  </body>
+</html>

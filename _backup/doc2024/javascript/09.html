@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「JavaScript基礎」09_組み込みオブジェクト | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+    <style>
+      button {
+        padding: 0.5em 1em;
+        background-color: #ddd;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「JavaScript基礎」09_組み込みオブジェクト</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 前回の復習</h3>
+          <div class="item">
+            <dl>
+              <dt>【関数】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">// 関数の宣言
+function testFunc(val1, val2){
+  return val1 + val2;
+}
+
+// 関数の実行
+let num = testFunc(10, 20);
+console.log(num);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【setInterval】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  if(count > 5){
+    clearInterval(timer);
+  };
+};
+
+timer = setInterval(countUp, 1000);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【setTimeout】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  timer = setTimeout(countUp, 1000);
+  if(count > 5){
+    clearTimeout(timer);
+  };
+};
+
+timer = setTimeout(countUp, 1000);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 今回学ぶこと</h2>
+        <div class="clause">
+          <ul class="clause__list">
+            <li>Windowオブジェクト</li>
+            <li>Mathオブジェクト</li>
+            <li>Dateオブジェクト</li>
+          </ul>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 組み込みオブジェクトとは？</h3>
+          <p>
+            <em>組み込みオブジェクト（ビルトインオブジェクト）</em
+            >とは、JavaScriptエンジンによってあらかじめ提供されている<em>オブジェクト群</em>のこと。これらのオブジェクトには、WindowオブジェクトのようにJavaScriptエンジンによってすでに<em>インスタンス化</em>済みでそのまま使えるものもあれば、開発者が<em>コンストラクタ</em>を呼び出して個別にインスタンス化を行ってから使うものもある。
+          </p>
+          <p>
+            <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects"
+              >組み込みオブジェクトの一覧</a
+            >
+          </p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. Windowオブジェクト</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              Windowオブジェクトには、開発者がブラウザを操作するための機能や値が格納されてる。Windowオブジェクトは、開発者が書いたコードが実行される前にすでにwindowという識別子（オブジェクト名）で使用可能な状態となっており、このwindowを通してブラウザを操作する。
+            </p>
+            <p>
+              <a href="https://developer.mozilla.org/ja/docs/Web/API/Window"
+                >Windowオブジェクト - MDN</a
+              >
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. ヒストリー</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;button class="back"&gt;戻る&lt;/button&gt;
+&lt;button class="back2"&gt;2つ戻る&lt;/button&gt;
+
+&lt;script&gt;
+  console.log(history);
+
+  const back = document.querySelector('.back');
+  back.addEventListener('click', () =&gt; {
+    history.back();
+  });
+
+  const back2 = document.querySelector('.back2');
+  back2.addEventListener('click', () =&gt; {
+    history.go(-2);
+  });
+&lt;/script&gt;</code></pre>
+          </div>
+          <button class="back">戻る</button>
+          <button class="back2">2つ戻る</button>
+          <script>
+            console.log(history);
+            const back = document.querySelector(".back");
+            back.addEventListener("click", () => {
+              history.back();
+            });
+
+            const back2 = document.querySelector(".back2");
+            back2.addEventListener("click", () => {
+              history.go(-2);
+            });
+          </script>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. ロケーション</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;button class="get"&gt;取得&lt;/button&gt;
+&lt;button class="set"&gt;移動&lt;/button&gt;
+
+&lt;script&gt;
+  const get = document.querySelector('.get');
+  get.addEventListener('click', () => {
+    alert(location);
+  });
+
+  const set = document.querySelector('.set');
+  set.addEventListener('click', () => {
+    location.assign("https://computer.trident.ac.jp/");
+  });
+&lt;/script&gt;</code></pre>
+          </div>
+          <button class="get">取得</button>
+          <button class="set">移動</button>
+          <script>
+            const get = document.querySelector(".get");
+            get.addEventListener("click", () => {
+              alert(location);
+            });
+
+            const set = document.querySelector(".set");
+            set.addEventListener("click", () => {
+              location.assign("https://computer.trident.ac.jp/");
+            });
+          </script>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. Mathオブジェクト</h2>
+        <div class="clause">
+          <p>
+            Mathオブジェクトには、数学的な定数と関数を提供するプロパティとメソッドが格納されている。
+          </p>
+          <p>
+            <a
+              href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Math"
+              >Mathオブジェクト - MDN</a
+            >
+          </p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">4-1. ランダム</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">//「0.0000...」から「4.9999...」までのランダムな小数を取得する
+let num = Math.random() * 5;
+
+//小数を切り捨てて、「0」から「4」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 5);
+
+//「1」をプラスすることで、「1」から「5」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 5) + 1;
+
+console.log(num);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-2. 円運動</h3>
+          <p>
+            <a href="https://qiita.com/narikei/items/9198c69eb4b3b411611b"
+              >sin・cosを使って円運動を作成する</a
+            >
+          </p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. Dateオブジェクト</h2>
+        <div class="clause">
+          <p>
+            Dateオブジェクトは、単一の瞬間の時刻をプラットフォームに依存しない形式で表す。Dateオブジェクトは協定世界時
+            (UTC) の「1970年1月1日」からの経過ミリ秒数を表す値を含んでいる。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">//現在の時間を取得する
+let date = new Date();
+console.log(date);
+
+//「1970年1月1日」からの経過ミリ秒数を取得する
+console.log(Date.now());</code></pre>
+          </div>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">//時間や分を個別に取得する
+let date = new Date();
+console.log(date.getFullYear());
+console.log(date.getMonth());
+console.log(date.getDate());
+console.log(date.getHours());
+console.log(date.getMinutes());
+console.log(date.getSeconds());</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">5-1. 実践01「デジタル時計（clock.html）」</h3>
+          <div class="item">
+            <p>
+              <a href="https://web-dev.tech/front-end/javascript/digital-clock/"
+                >CSSとJavaScriptでおしゃれなデジタル時計を実装する方法</a
+              >
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件 (三項) 演算子】</dt>
+              <dd>
+                <a
+                  href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Conditional_Operator"
+                  >条件 (三項) 演算子 - MDN</a
+                >
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-2. 実践02「ストップウォッチ」</h3>
+          <p>
+            <a href="https://tcd-theme.com/2022/06/javascript-stopwatch.html"
+              >【JavaScriptの実践】ストップウォッチの作り方</a
+            >
+          </p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">6. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>先ほど作ったデジタル時計を改造する。</p>
+            <ol>
+              <li>setTimeoutに変更し、ページ表示後すぐに動作するようにする。</li>
+              <li>
+                CSSで自分好みにデザインする。（背景、text-shadow、webフォント、アイコンフォントなど）
+              </li>
+              <li>その他、自由に改造する。</li>
+            </ol>
+          </div>
+          <div class="item">
+            <p><a href="https://forms.gle/pE6KREhBxzEE2FMo9">WF1_12月状況アンケート</a></p>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

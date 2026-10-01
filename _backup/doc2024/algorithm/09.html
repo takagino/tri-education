@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」09_配列 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」09_配列</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;配列&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 雛形</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 繰り返し処理</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">for(初期化処理; ループ継続の条件式; ループごとの最後に実行される式){
+  //ループ継続の条件式に合致している間、繰り返し処理される
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  //ランダムな場所に円を5つ描く
+  for(let i = 0; i < 5; i += 1){
+    ellipse(Math.random() * width, Math.random() * height, 50, 50);
+  }
+}
+
+function draw(){
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>
+              <a href="./assets/08/question.html" target="_blank">前回の課題</a>
+            </p>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 配列</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【任意の場所に、ランダムな大きさの円を1個描く】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = Math.random() * 50;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  clear();
+  ellipse(100, 100, d, d);
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【円を拡大縮小させる。（0から100まで）】</dt>
+              <dd>
+                <div id="sample01"></div>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = Math.random() * 50;
+let speed = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw() {
+  clear();
+  ellipse(100, 100, d, d);
+
+  d += speed;
+  if (d < 0 || d > 100) {
+    speed = -speed;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【円を2個にする】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = Math.random() * 50;
+let speed = 3;
+let d2 = Math.random() * 50;
+let speed2 = 3;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw() {
+  clear();
+
+  ellipse(100, 100, d, d);
+  d += speed;
+  if (d < 0 || d > 100) {
+    speed = -speed;
+  }
+
+  ellipse(100, 200, d2, d2);
+  d2 += speed2;
+  if (d2 < 0 || d2 > 100) {
+    speed2 = -speed2;
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 配列とは</h3>
+          <div class="clause">
+            <div class="item">
+              <p>
+                同じような値を管理するための変数が複数必要な時、その都度連番の変数を宣言していると非常に面倒くさいしカッコ悪い。<br />そんな時は「<em>配列</em>」を使用すると良い。
+              </p>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>【変数】</dt>
+                <dd>
+                  <ul class="clause__list">
+                    <li>変数の宣言をすることで、1つの値を管理できる。</li>
+                  </ul>
+                </dd>
+              </dl>
+              <p><img src="./assets/09/02.jpg" width="200" alt="" /></p>
+            </div>
+            <div class="item">
+              <dl>
+                <dt>【配列】</dt>
+                <dd>
+                  <ul class="clause__list">
+                    <li>
+                      配列の宣言をすることで、<em>複数の値</em>を管理できる。
+                    </li>
+                    <li>
+                      配列全体には、変数と同じく任意の名前をつけることができる。
+                    </li>
+                    <li>
+                      配列には、先頭のデータから順番に「0、1、2…」というように番号がついていて、この番号のことを「<em>インデックス</em>」または「<em>添字</em>」と言う。
+                    </li>
+                  </ul>
+                </dd>
+              </dl>
+              <p><img src="./assets/09/01.jpg" width="400" alt="" /></p>
+            </div>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. 配列の宣言</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const 配列 = [値1, 値2, 値3, ...];
+
+//例
+const number = [40, 10, 30, 20];
+console.log(number);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. 配列の基本操作</h3>
+          <div class="item">
+            <dl>
+              <dt>【値の取得】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [40, 10, 30, 20];
+console.log(number[0]); //インデックスを指定し値を取得する</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【値の変更】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [40, 10, 30, 20];
+number[1] = 0;
+console.log(number);
+
+//配列は「const（定数）」で宣言しているが、入っている値は後から変更できる
+//配列自体を変更しようとするとエラーになる
+number = [50, 60];</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【値の追加】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [40, 10, 30, 20];
+number[4] = 50;
+console.log(number);
+
+//空の配列を宣言し、後から値を追加することもできる
+const number = [];
+number[0] = 50;
+console.log(number);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【配列の長さ（値の数）を取得する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [40, 10, 30, 20];
+console.log(number.length);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習</h3>
+          <div class="item">
+            <p>
+              拡大縮小する円のサンプルを、配列を使用したプログラムに書き直す。
+            </p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let d = [Math.random() * 50, Math.random() * 50];
+let speed = [3, 3];
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw() {
+  clear();
+
+  ellipse(100, 100, d[0], d[0]);
+  d[0] += speed[0];
+  if (d[0] < 0 || d[0] > 100) {
+    speed[0] = -speed[0];
+  }
+
+  ellipse(100, 200, d[1], d[1]);
+  d[1] += speed[1];
+  if (d[1] < 0 || d[1] > 100) {
+    speed[1] = -speed[1];
+  }
+}</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 繰り返し処理と配列</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              配列は「<em>インデックス</em>」で値を取得し、「<em>インデックス</em>」は基本的に連番（0,1,2,3...）になっているため、繰り返し処理（for文）と相性が良い。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例01「値をすべて取り出す」】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [40, 10, 30, 20];
+
+for(let i = 0; i < number.length; i += 1){
+  console.log(number[i]);
+} </code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例02「複数の値を代入する」】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const number = [];
+
+for(let i = 0; i < 10; i += 1){
+  number[i] = Math.random() * 10;
+}
+console.log(number);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">☆練習01</h3>
+          <div class="item">
+            <p>
+              拡大縮小する円のサンプルを修正し、円を10個に増やす。（場所もランダムにする）
+            </p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let x = [];
+let y = [];
+let d = [];
+let speed = [];
+const num = 10;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  for(let i = 0; i < num; i += 1){
+    x[i] = Math.random() * width;
+    y[i] = Math.random() * height;
+    d[i] = Math.random() * 50;
+    speed[i] = 3;
+  }
+}
+
+function draw() {
+  clear();
+
+  for(let i = 0; i < num; i += 1){
+    ellipse(x[i], y[i], d[i], d[i]);
+    d[i] += speed[i];
+    if (d[i] < 0 || d[i] > 100) {
+      speed[i] = -speed[i];
+    }
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習02</h3>
+          <div class="item">
+            <p>
+              横に移動し壁に当たったら跳ね返る円を、ランダムな場所に10個描く。（幅の半分がはみ出すのは無視して良い）
+            </p>
+            <p><a href="./assets/09/sample02.html" target="_blank">見本</a></p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let x = [];
+let y = [];
+let speed = [];
+const num = 10;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  for(let i = 0; i < num; i += 1){
+    x[i] = Math.random() * width;
+    y[i] = Math.random() * height;
+    speed[i] = 3;
+  }
+}
+
+function draw() {
+  clear();
+
+  for(let i = 0; i < num; i += 1){
+    ellipse(x[i], y[i], 20, 20);
+    x[i] += speed[i];
+    if (x[i] < 0 || x[i] > width) {
+      speed[i] = -speed[i];
+    }
+  }
+}</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>下のようなプログラムを考える。</p>
+            <ul>
+              <li>
+                <a href="./assets/09/question01.html" target="_blank"
+                  >問題01〜04</a
+                >
+              </li>
+              <li>
+                <a href="./assets/09/question02.html" target="_blank"
+                  >問題05〜</a
+                >
+              </li>
+            </ul>
+            <ul>
+              <li>難易度低：01, 02, 05, 06</li>
+              <li>難易度中：03, 08</li>
+              <li>難易度高：04, 07, 09</li>
+            </ul>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <a
+                  href="https://drive.google.com/drive/folders/12HtBw-FpK4ig2MpHfPDfXSGvmH5cdrPn?usp=sharing"
+                  target="_blank"
+                  >Googleドライブ</a
+                >
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let sample01 = function (p) {
+        let d = Math.random() * 50;
+        let speed = 3;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+        };
+
+        p.draw = () => {
+          p.clear();
+          p.ellipse(100, 100, d, d);
+
+          d += speed;
+          if (d < 0 || d > 100) {
+            speed = -speed;
+          }
+        };
+      };
+      new p5(sample01, "sample01");
+    </script>
+  </body>
+</html>

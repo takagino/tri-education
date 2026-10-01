@@ -1,0 +1,7 @@
+[
+   { "year": 2016, "cases": 7742, "increase_rate": 6.9 },
+   { "year": 2017, "cases": 8314, "increase_rate": 7.4 },
+   { "year": 2018, "cases": 9040, "increase_rate": 8.6 },
+   { "year": 2019, "cases": 9519, "increase_rate": 5.3 },
+   { "year": 2020, "cases": 9875, "increase_rate": 3.7 }
+]

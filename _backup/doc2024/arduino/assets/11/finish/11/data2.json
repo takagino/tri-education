@@ -1,0 +1,78 @@
+{
+  "y2023": [
+    {
+      "label": "千葉県",
+      "val": 68.0,
+      "url": "https://fumakilla.jp/foryourlife/foryourlife_files/2022/05/%E7%94%BB%E5%83%8F2-720x720.png",
+      "color": "#73a343"
+    },
+    {
+      "label": "大阪府",
+      "val": 55.0,
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVrrekioPoa3hF_4l-GZ1FORN1wZ6VNnNOmOdsYaRTNvBSkJOuqoFJ2Xw30G_ZwzA3Sxk&usqp=CAU",
+      "color": "#e86533"
+    },
+    {
+      "label": "神奈川県",
+      "val": 44.0,
+      "url": "https://www.pref.kanagawa.jp/images/41675/map_thumb_d.png",
+      "color": "#e68032"
+    },
+    {
+      "label": "群馬県",
+      "val": 33.0,
+      "url": "https://chicodeza.com/wordpress/wp-content/uploads/gunnma-illust1.png",
+      "color": "#2DAA62"
+    },
+    {
+      "label": "埼玉県",
+      "val": 23.0,
+      "url": "https://fumakilla.jp/foryourlife/foryourlife_files/2022/04/2-720x720.png",
+      "color": "#2177FE"
+    },
+    {
+      "label": "青森県",
+      "val": 11.0,
+      "url": "https://thumb.ac-illust.com/e1/e1191b6af85bb01ff7aec8e4e5e7dbf5_t.jpeg",
+      "color": "#0E5639"
+    }
+  ],
+  "y2024": [
+    {
+      "label": "沖縄県",
+      "val": 76.0,
+      "url": "https://thumb.ac-illust.com/85/852cf0abff062d6aa1b1ea929778ee0a_t.jpeg",
+      "color": "#2d97aa"
+    },
+    {
+      "label": "青森県",
+      "val": 66.0,
+      "url": "https://thumb.ac-illust.com/e1/e1191b6af85bb01ff7aec8e4e5e7dbf5_t.jpeg",
+      "color": "#0E5639"
+    },
+    {
+      "label": "鳥取県",
+      "val": 54.0,
+      "url": "https://fumakilla.jp/foryourlife/foryourlife_files/2021/08/2.png",
+      "color": "#947823"
+    },
+    {
+      "label": "長崎県",
+      "val": 41.0,
+      "url": "https://t3.ftcdn.net/jpg/04/58/47/32/360_F_458473265_6ZS0nRztUUCuYHl4uSo29eGvks2YZxM6.jpg",
+      "color": "#5f477d"
+    },
+    {
+      "label": "島根県",
+      "val": 30.0,
+      "url": "https://illustimage.com/photo/1641.png",
+      "color": "#737275"
+    },
+    {
+      "label": "愛媛県",
+      "val": 20.0,
+      "url": "https://illustimage.com/photo/1653.png",
+      "color": "#a65b4c"
+    }
+  ]
+}

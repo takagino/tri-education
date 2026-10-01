@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>スライドインするメニュー</title>
+    <style>
+      #btn {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+
+      #menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 50px 0;
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        z-index: 9998;
+        transition: 0.5s;
+        transform: translateY(-100%);
+      }
+
+      #menu.open {
+        transform: translateY(0);
+      }
+
+      #menu ul {
+        padding-left: 0;
+        list-style: none;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn">メニュー</button>
+    <div id="menu">
+      <ul>
+        <li>HOME</li>
+        <li>ABOUT</li>
+        <li>CONTACT</li>
+      </ul>
+    </div>
+    <script>
+      const btn = document.getElementById("btn");
+      const menu = document.getElementById("menu");
+
+      btn.addEventListener("click", function () {
+        menu.classList.toggle("open");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JavaScript基礎チェック Vol.8「配列とタイマー」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+    <link rel="stylesheet" href="../../assets/css/common.css" />
+    <style>
+      dd {
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">JavaScript基礎チェック</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">Vol.8「配列とタイマー」</h2>
+        <div class="clause">
+          <p><a href="https://forms.gle/5m2MgjHNn6V7cqF59">解答用Googleフォーム</a></p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">Q1, Q2, Q3</h3>
+          <p>
+            渡された数字が1桁（9以下）だった場合、先頭に「0」をつけて返す関数を作りたい。[]に入る適切なコードを答えなさい。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">//関数式を宣言
+const [Q1] = (num)  => {
+  if ([Q2]) {
+    num = '0' + num;
+  }
+  [Q3] num; //値を返す
+}
+
+let val = getNum(8); //関数を実行して戻り値を変数に代入
+console.log(val);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q4, Q5</h3>
+          <p>
+            ブラウザをクリックしたら、マウスのX座標とY座標をコンソールに出すプログラムを作りたい。[]に入る適切なコードを答えなさい。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">const clickEvent = ([Q4]) => {
+  console.log(e.clientX, e.clientY);
+};
+
+window.addEventListener("click", [Q5]);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q6, Q7, Q8</h3>
+          <p>
+            setIntervalを使用し、1秒ごとにコンソールに「0,1,2,3」と数字を順に表示し、10で止めるプログラムを作りたい。[]に入る適切なコードを答えなさい。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  if (count > 10) {
+    [Q6]; //setIntervalをクリアする
+  }
+};
+
+timer = setInterval([Q7], [Q8]);</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Q9, Q10</h3>
+          <p>上記のプログラムをsetTimeoutで書き換えたい。[]に入る適切なコードを答えなさい。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let count = 0;
+let timer;
+
+const countUp = () => {
+  console.log(count++);
+
+  timer = [Q9]; //setTimeoutを再設定する
+
+  if (count > 10) {
+    [Q10]; //setTimeoutをクリアする
+  }
+};
+
+timer = setTimeout([Q7], [Q8]);</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="../../assets/js/common.js"></script>
+    <script>
+      let num = 0;
+      let sum = 0;
+
+      while (num <= 100) {
+        sum += num;
+        num += 1;
+      }
+      console.log(sum);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>問題04「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」問題04</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <div class="clause">
+          <div class="item">
+            <p>※毎回リロードしてください。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【補足】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeCap(SQUARE); //追加
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">Level.1</h3>
+          <div class="item">
+            <ol>
+              <li>色をランダムに変更しながら順番に線を描く。</li>
+            </ol>
+            <div id="q01"></div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>画面の上から下に線を描く。</li>
+                  <li>
+                    横方向に移動させるために変数を宣言し、x座標の値を変数に置き換える。
+                  </li>
+                  <li>draw()が実行される度にx座標の値を増やす。</li>
+                  <li>線の色相をランダムにする。</li>
+                  <li>
+                    x座標が画面幅よりも大きくなったら、それ以上は描画されないようにする。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeCap(SQUARE);
+}
+
+function draw(){
+  if (x <= width) {
+    stroke(Math.random() * 360, 50, 100);
+    line(x, 0, x, height);
+    x += 1;
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.2</h3>
+          <div class="item">
+            <ol>
+              <li>線の太さもランダムにする。</li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeCap(SQUARE);
+}
+
+function draw(){
+  if (x <= width) {
+    strokeWeight(Math.random() * 30 + 10);
+    stroke(Math.random() * 360, 50, 100);
+    line(x, 0, x, height);
+    x += 1;
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.3</h3>
+          <div class="item">
+            <ol>
+              <li>画面上下で描く方向を変える。</li>
+            </ol>
+            <div id="q03"></div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【手順】</dt>
+              <dd>
+                <ol>
+                  <li>線の座標を「0 から 画面の半分」に変更する。</li>
+                  <li>
+                    さらに「画面の半分 から 画面の高さ」に新たな線を引く。
+                  </li>
+                  <li>
+                    新たな線は画面の反対側から描画していく。（<em>新たな変数は必要ない</em>）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeCap(SQUARE);
+}
+
+function draw(){
+  if (x <= width) {
+    strokeWeight(Math.random() * 30 + 10);
+    stroke(Math.random() * 360, 50, 100);
+    line(x, 0, x, height / 2);
+    line(width - x, height / 2, width - x, height);
+    x += 1;
+  }
+}</code></pre>
+          </div> -->
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q01 = function (p) {
+        let x = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeCap(p.SQUARE);
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          if (x <= p.width) {
+            p.stroke(Math.random() * 360, 50, 100);
+            p.line(x, 0, x, p.height);
+            x += 1;
+          }
+        };
+      };
+      new p5(q01, "q01");
+
+      let q02 = function (p) {
+        let x = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeCap(p.SQUARE);
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          if (x <= p.width) {
+            p.strokeWeight(Math.random() * 30 + 10);
+            p.stroke(Math.random() * 360, 50, 100);
+            p.line(x, 0, x, p.height);
+            x += 1;
+          }
+        };
+      };
+      new p5(q02, "q02");
+
+      let q03 = function (p) {
+        let x = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeCap(p.SQUARE);
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          if (x <= p.width) {
+            p.strokeWeight(Math.random() * 30 + 10);
+            p.stroke(Math.random() * 360, 50, 100);
+            p.line(x, 0, x, p.height / 2);
+            p.line(p.width - x, p.height / 2, p.width - x, p.height);
+            x += 1;
+          }
+        };
+      };
+      new p5(q03, "q03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

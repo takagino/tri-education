@@ -1,0 +1,412 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」05_繰り返し処理 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」05_繰り返し処理</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 前回の復習</h3>
+        <div class="item">
+          <dl>
+            <dt>【条件分岐（switch文）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">switch(条件式){
+  case 値1:
+    //条件式の値が値1に一致する場合に実行される処理
+    break;
+  case 値2:
+    //条件式の値が値2に一致する場合に実行される処理
+    break;
+  default:
+    //上記のどの値にも一致しない場合に実行される処理
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ランダム】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//「0.0000...」から「9.9999...」までのランダムな小数を取得する
+let num = Math.random() * 10;
+
+//小数を切り捨てて、「0」から「9」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 10);
+
+//「1」をプラスすることで、「1」から「11」までのランダムな整数を取得する
+num = Math.floor(Math.random() * 10) + 1;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 前回の課題</h3>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 今回学ぶこと</h2>
+      <div class="clause">
+        <div class="item">
+          <ul class="clause__list">
+            <li>繰り返し処理（while文、for文）</li>
+            <li>break文</li>
+            <li>continue文</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. while文</h2>
+      <div class="clause">
+        <p>括弧内の条件式がtrueのときに処理を繰り返し、falseが取得されたときに処理を抜ける。</p>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">while(条件式){
+  whileブロック //条件式に合致している間、繰り返し処理される
+}</code></pre>
+          </p>
+          <p><img src="./assets/05/01.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let num = 0;
+
+while(num &lt; 5){
+  console.log(num);
+  num += 1;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>0から10の間で、偶数の数字（0も含む）を順番にコンソールに表示する。</li>
+          <li>0から10の間で、奇数の数字を順番にコンソールに表示する。</li>
+          <li>「りんご」と5回コンソールに表示する。</li>
+          <li>0から100までの数をすべて足した結果をコンソールに表示する。（答えは「5050」）</li>
+        </ol>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">//偶数
+let num = 0;
+while (num &lt;= 10) {
+  console.log(num);
+  num += 2;
+}
+
+//奇数
+let num = 1;
+while (num &lt;= 10) {
+  console.log(num);
+  num += 2;
+}
+
+//りんごと5回
+let num = 0;
+while (num &lt; 5) {
+  console.log('りんご');
+  num += 1;
+}
+
+//0から100までを足す
+let num = 0, sum = 0;
+while (num &lt;= 100) {
+    sum += num;
+    num += 1;
+}
+console.log(sum);</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 無限ループ</h3>
+        <p>以下のように、ずっと条件に当てはまってしまう繰り返し処理を<em>無限ループ</em>という。無限ループに陥った場合、JavaScriptの処理が終わらず、ブラウザの画面がフリーズしてしまうため、充分な注意が必要。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let num = 0;
+
+  while(num &lt; 5){
+    console.log(num);
+    //num += 1;
+  }
+&lt;/script&gt;</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用その1（count01.html）</h3>
+        <p><a href="./assets/05/count.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ul>
+              <li>「カウント」ボタンをクリックするたびに数字が増える。</li>
+              <li>「表示」ボタンをクリックするとその数字までを合計した値が表示される。</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用その2（count02.html）</h3>
+        <p><a href="./assets/05/count-down.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ul>
+              <li>「カウント」ボタンをクリックするたびに数字が増える。</li>
+              <li>「表示」ボタンをクリックすると、「5, 4, 3, 2, 1, 0」のように、カウントダウンのテキストが表示される。</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. for文</h2>
+      <div class="clause">
+        <p>括弧内に「初期化処理」「ループ継続の条件式」「ループごとの最後に実行される式」をセミコロン（;）で区切ることで、繰り返し処理を設定する。</p>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">for(初期化処理; ループ継続の条件式; ループごとの最後に実行される式){
+  forブロック //ループ継続の条件式に合致している間、繰り返し処理される
+}</code></pre>
+          </p>
+          <p><img src="./assets/05/03.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">
+for(let num = 0; num &lt; 5; num += 1){
+  console.log(num);
+}
+
+//while文と比べてみる
+let num = 0;
+while(num &lt; 5){
+  console.log(num);
+  num += 1;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <p>繰り返し処理の回数を数える変数のことを<em>ループカウンタ</em>といい、一般的に変数名に「i」が使われることが多い。（由来は「ループカウンタ i」で検索）</p>
+        <p>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">for(let i = 0; i &lt; 5; i += 1){
+  console.log(i);
+}</code></pre>
+          </dd>
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>0から20の間で、偶数の数字（0も含む）を順番にコンソールに表示する。</li>
+          <li>0から20の間で、奇数の数字を順番にコンソールに表示する。</li>
+          <li>「ばなな」と10回コンソールに表示する。</li>
+          <li>0から1000までの数をすべて足した結果をコンソールに表示する。（答えは「500500」）</li>
+        </ol>
+        <!--<div class="item">
+          <pre class="line-numbers"><code class="language-javascript">//偶数
+for (let i = 0; i &lt;= 20; i += 2) {
+  console.log(i);
+}
+
+//奇数
+for (let i = 1; i &lt;= 20; i += 2) {
+  console.log(i);
+}
+
+//ばななと10回
+for (let i = 0; i &lt; 10; i += 1) {
+  console.log('ばなな');
+}
+
+//0から1000までを足す
+let sum = 0;
+for (let i = 0; i &lt;= 1000; i += 1) {
+    sum += i;
+}
+console.log(sum);</code></pre>
+        </div>-->
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-1. インクリメント演算子、デクリメント演算子</h3>
+        <div class="item">
+          <p>インクリメント演算子（++）とデクリメント演算子（--）は、オペランドに変数を取ることで、変数が保持している値に+1（インクリメント）、または-1（デクリメント）した値を、同じ変数の新しい値として設定できる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let x = 0;
+
+x++;
+console.log(x);
+
+x--;
+console.log(x);
+
+//以下の計算式と同様
+x = x + 1;
+x += 1;</code></pre>
+          </div>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【前置と後置】</dt>
+            <dd>インクリメント演算子とデクリメント演算子には、オペランドの前方に記述する前置（++x）のパターンと後置（x++）のパターンの2種類の記述方法があり、<em>返ってくる値に違いがある</em>ので注意が必要。</dd>
+          </dl>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">//結果「a:1, b:1」
+//前置演算では先にインクリメント（またはデクリメント）を行ってから他の処理を行う
+let a = 0;
+let b = ++a;
+console.log(`a:${a}, b:${b}`);
+
+//結果「c:1, d:0」
+//後置演算では先に他の処理を行ってから最後にインクリメント（またはデクリメント）を行う
+let c = 0;
+let d = c++;
+console.log(`c:${c}, d:${d}`);
+
+//for文の中など、単独で使用する場合は動作に違いはない
+for (int i = 0; i &lt; n; ++i)
+for (int i = 0; i &lt; n; i++)</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用その3（count03.html）</h3>
+        <p><a href="./assets/05/count-up.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ul>
+              <li>「カウント」ボタンをクリックするたびに数字が増える。</li>
+              <li>「表示」ボタンをクリックすると、「0, 1, 2, 3, 4, 5」のように、カウントアップのテキストが表示される。</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. while文とfor文の使い分け</h2>
+      <div class="clause">
+        <table>
+          <tr>
+            <th>構文</th>
+            <th>用途</th>
+            <th>使い分け</th>
+            <th>WordPressの例</th>
+          </tr>
+          <tr>
+            <td>for文</td>
+            <td>指定した回数だけ繰り返す</td>
+            <td>繰り返す回数が事前に分かっている場合</td>
+            <td>新着記事を5件取得する</td>
+          </tr>
+          <tr>
+            <td>while文</td>
+            <td>条件を満たす限り繰り返す</td>
+            <td>ある結果に辿り着くまでに何回のループが必要か分からない場合</td>
+            <td>記事を全てする</td>
+          </tr>
+        </table>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. break文とcontinue文</h2>
+      <section class="clause">
+        <h3 class="clause__title">6-1. break文</h3>
+        <div class="item">
+          <p>break文を使うことで、break文を含むブロックの処理を抜けて後続の処理を行うことができる。break文は主にwhile文、for文、switch文のブロック内で使用する。</p>
+          <p><img src="./assets/05/04.png" alt="" width="500"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let num = 0;
+
+while(num &lt; 50){
+  if(num === 20){
+    break;
+  }
+  num++;
+}
+
+console.log(`${num}で終了`);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-2. continue文</h3>
+        <div class="item">
+          <p>continue文がwhile文やfor文のような繰り返し処理の中で呼び出された場合には、現在のループ中の処理を中断して、次のループをブロックの最初から実行する。</p>
+          <p><img src="./assets/05/05.png" alt="" width="500"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let num = 0;
+
+while(num &lt; 50){
+  num++;
+
+  if(num % 2 == 0){
+    continue;
+  }
+
+  console.log(num);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+        <pre class="line-numbers">
+          <code class="language-markup">
+            &lt; ... &gt;
+          </code>
+        </pre>
+        -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

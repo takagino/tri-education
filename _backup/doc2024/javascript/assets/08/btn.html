@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>指定ボタンとランダムボタン</title>
+  </head>
+  <body>
+    <button class="number">1</button>
+    <button class="number">2</button>
+    <button class="number">3</button>
+    <button class="random">ランダム</button>
+    <p class="result"></p>
+    <script>
+      const words = ["1.apple", "2.banana", "3.orange"];
+      const numberBtn = document.querySelectorAll(".number");
+      const randomBtn = document.querySelector(".random");
+      const result = document.querySelector(".result");
+
+      const getWord = (num) => {
+        result.innerHTML = words[num];
+      };
+
+      getWord(Math.floor(Math.random() * words.length));
+
+      for (let i = 0; i < numberBtn.length; i++) {
+        numberBtn[i].addEventListener("click", (e) => {
+          getWord(e.target.innerHTML - 1);
+        });
+      }
+
+      randomBtn.addEventListener("click", (e) => {
+        getWord(Math.floor(Math.random() * words.length));
+      });
+    </script>
+  </body>
+</html>

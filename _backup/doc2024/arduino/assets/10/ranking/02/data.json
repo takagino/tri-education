@@ -1,0 +1,32 @@
+[
+  {
+    "label": "APT.",
+    "val": 365999,
+    "url": "https://prcdn.freetls.fastly.net/release_image/103318/10/103318-10-5e89b107ed4675a2788a7d373cda9916-1000x1000.jpg?format=jpeg&auto=webp&fit=bounds&width=720&height=480",
+    "color": "#ffd700"
+  },
+  {
+    "label": "ライラック",
+    "val": 328730,
+    "url": "https://aop-emtg-jp.s3.amazonaws.com/prod/public/mga/contents/information/be676429bb5e74d0d05e8c425fedad2f.jpg",
+    "color": "#c0c0c0"
+  },
+  {
+    "label": "Running Wild",
+    "val": 318856,
+    "url": "https://img.news.goo.ne.jp/image_proxy/compress/q_80/picture/wowkorea/m_wowkorea-20241119wow009.jpg",
+    "color": "#cd7f32"
+  },
+  {
+    "label": "Who",
+    "val": 291157,
+    "url": "https://newsatcl-pctr.c.yimg.jp/t/amd-img/20240722-00000037-kstylens-000-1-view.jpg?exp=10800",
+    "color": "#008800"
+  },
+  {
+    "label": "ビターバカンス",
+    "val": 268920,
+    "url": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/80/71/e4/8071e497-c866-d369-1ff4-bf42d2ce099a/24UM1IM25234.rgb.jpg/1200x1200bf-60.jpg",
+    "color": "#008800"
+  }
+]

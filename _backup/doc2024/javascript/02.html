@@ -1,0 +1,702 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」02_変数 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」02_変数</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 前回の復習</h3>
+        <div class="item">
+          <ul class="clause__list">
+            <li>JavaScriptがサイト上でやっているのは、<strong>あるタイミングで、ある要素に、何かしらの変化を加える</strong>ことだけ。</li>
+            <li>JavaScript上達のコツは、とにかく<strong>「console.log()」</strong>で値を可視化・確認すること。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">//要素を指定して変数に代入
+const submit = document.getElementById('submit');
+
+//変数内に格納された要素をクリックしたら、function内の命令が実行される
+submit.addEventListener('click', function(){
+  submit.style.color = '#ff0000';
+});</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 変数とは？</h2>
+      <div class="clause">
+        <div class="item">
+          <p>なんらかの値（データ）を、名前をつけて保存しておく仕組みのこと。</p>
+          <dl>
+            <dt>【変数の使い所】</dt>
+            <dd>
+              <ol>
+                <li>同じ値が何度も出てくるとき。</li>
+                <li>値を変化させたいとき。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数の基本的な使い方】</dt>
+            <dd>
+              <ol>
+                <li>変数を宣言する。</li>
+                <li>宣言した変数に値を代入する。</li>
+                <li>必要な時に変数に保存された値を取り出す（参照）、または書き換える。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 変数宣言</h3>
+        <div class="item">
+          <p>変数を使うには、まず<em>変数の宣言</em>を行う必要がある。JavaScriptの場合は「<em>let</em>」というキーワードを使用し、宣言することによって初めて変数名で値を管理できる状態になる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let 変数名; //変数の宣言
+let 変数名 = 初期値; //宣言と同時に値を代入する
+
+//例
+let name = 'takagi';
+console.log(name);</code></pre>
+          </div>
+          <p>※プログラムにおける等号（=）は<em>代入（代入演算子）</em>を表し、数式のような左辺と右辺の値が等しいことを表すわけではないことに注意。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値の再代入】</dt>
+            <dd>letを使って宣言した変数の値は上書きすることができる。なお、変数の値を変更することを<em>値の再代入</em>と言う。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let name = 'takagi';
+console.log(name);
+
+name = 'kawaguchi';
+console.log(name);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値の再宣言】</dt>
+            <dd>同じ変数名で重複して変数宣言を行うことを<em>値の再宣言</em>と言う。letや後述するconstでは、変数の再宣言を行うとエラーになるので注意。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let name = 'takagi';
+console.log(name);
+
+let name = 'kawaguchi'; //エラーとなる
+console.log(name);</code></pre>
+            </dd>
+          </dl>
+          <p><em>※どんなエラーが出るのか確認する。</em></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. 定数（const）</h3>
+        <div class="item">
+          <p>「const」キーワードは、再代入できない変数の宣言とその変数が参照する値（初期値）を定義でき、意図せず値が変更されるのを防げるためエラーを減らすことができる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const 変数名 = 初期値;
+
+//例
+const name = 'takagi';
+console.log(name);</code></pre>
+          </div>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【宣言と同時に値を代入しないとエラーになる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const name;
+
+//Missing initializer in const declaration.（定数の初期化忘れ）</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値を再代入しようとするとエラーになる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const name = 'takagi';
+name = 'hirotaka';
+
+//Assignment to constant variable.（定数変数への割り当て）</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p>※<em>「getElementById();」</em>など指定した要素を変数に代入する場合、あとから値を変更する可能性は低いので<em>「const」</em>で宣言するのが一般的。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const submit = document.getElementById('submit');</code></pre>
+          </div>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. var</h3>
+        <div class="item">
+          <p>「var」キーワードは、値の再代入が可能な変数を宣言できる。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">var 変数名 = 初期値;
+
+//例
+var name = 'takagi';
+name = 'kawaguchi';
+console.log(name);</code></pre>
+          </div>
+        </div>
+        <dl>
+          <dt>【varの問題】</dt>
+          <dd>「var」キーワードには同じ名前の変数を再定義できてしまう問題がありエラーが起こりやすいため、<em>現在はあまり使われていない。</em>
+            <pre class="line-numbers"><code class="language-javascript">var name = 'takagi';
+var name = 'kawaguchi';
+console.log(name);</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 変数のルール</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 命名規則</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let $price; // OK: $が使用できる
+let _title; // OK: _が使用できる
+let jquery; // OK: 小文字のアルファベットが使用できる
+let TITLE; // OK: 大文字のアルファベットが使用できる
+let es2015; // OK: 数字は先頭以外なら使用できる
+let 日本語の変数名; // OK: 一部の漢字や日本語も使用できる（しかし、基本は使用しない）
+
+let na-me; // NG: -は使用できない
+let name!; // NG: !は使用できない
+let 1st; // NG: 数字から始まっている</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【複数の単語を組み合わせた変数名のパターン】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//スネークケース：単語と単語をアンダースコア(_)で結合し、すべて小文字で表現する
+let member_name = 'takagi';
+
+//キャメルケース：単語と単語を結合して、1つ目の単語は小文字で始め、2つ目以降の単語の先頭は大文字にする
+//最近の主流
+let memberName = 'takagi';
+
+//パスカルケース：キャメルケースと似ているが、一番最初の単語も大文字で始める
+//一般的に変数には使用しない
+let MemberName = 'takagi';</code></pre>
+            </dd>
+          </dl>
+          <p>※授業では「<em>キャメルケース</em>」を使用する。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. 予約語</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let var; // NG: `var`は変数宣言のために予約されているので使用できない
+let if; // NG: `if`はif文のために予約されているので使用できない</code></pre>
+        </div>
+        <p><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Lexical_grammar#%E3%82%AD%E3%83%BC%E3%83%AF%E3%83%BC%E3%83%89">予約語 - JavaScript | MDN</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 複数の変数を宣言する</h3>
+        <p>const、let、varどのキーワードも、変数同士を「,（カンマ）」で区切ることにより同時に複数の変数を定義できる。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let name = 'takagi',
+    age = '39',
+    job = '講師';
+
+console.log(job);</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. 値が未代入の場合は「undefined」となる</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let name;
+console.log(name);</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 問題</h3>
+        <p>エラーとなるのはどの変数宣言でしょうか？</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let $price = 120;
+let newCount;
+let class = 'webdesign';
+const _age01 = 40;
+const get_value;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 良い変数名とは</h3>
+        <p>「良い変数名」で検索してみる。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 演算子</h2>
+      <div class="clause">
+        <p><em>演算子</em>とは、値をもとに何らかの処理を行い、その結果を返す記号のこと。これまで使ってきた=や+の記号などがそれに当たる。そして、演算子によって処理される値は、<em>オペランド</em>と呼ぶ。</p>
+        <p><img src="https://tech.pjin.jp/wp-content/uploads/2021/09/1-6.png" alt="" width="500"></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. 算術演算子</h3>
+        <p>数値計算に使う演算子を<em>算術演算子</em>と呼び、JavaScriptで使用できる算術演算子には以下のようなものがある。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">/* 加算 a + b */
+console.log(6 + 9); //結果：15
+
+/* 減算 a - b */
+console.log(10 - 15); //結果：-5
+
+/* 乗算 a * b */
+console.log(3 * -7); //結果：-21
+
+/* 除算 a / b */
+console.log(10 / 5); //結果：2
+
+/* 剰余 a % b （aをbで割ったときの余り） */
+console.log(7 % 3); //結果：1
+
+/* べき乗 a ** b （aのb乗） */
+console.log(3 ** 2); //結果：9</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数による計算】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let x = 1;
+
+x = x + 1; //変数xの値に1を足して、変数xに再代入する
+console.log(x);
+
+x = x * 3; //変数xの値に3を掛けて、変数xに再代入する
+console.log(x);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習01（plus.html）</h3>
+        <p>+ボタンをクリックする度に数字を1ずつ増やし、コンソールに表示するプログラムを考える。</p>
+        <p><a href="./assets/02/plus.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>クリック対象である<em>「ボタン要素」を取得</em>し、<em>変数に代入</em>する。</li>
+                <li>「ボタン要素」が代入された変数に<em>「クリックイベント」を登録</em>する。</li>
+                <li>「クリックイベント」が発生したら、<em>コンソールに「何かしらの値」を表示</em>する。</li>
+                <li>「何かしらの値」を「1ずつ増える数字」に変えるため、<em>変数を用意</em>する。</li>
+                <li>「クリックイベント」が発生したら、<em>コンソールに「1ずつ増える数字」を表示</em>するように修正する。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const plusBtn = document.getElementById('plus');
+
+    plusBtn.addEventListener('click', function () {
+      num = num + 1;
+      console.log(num);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用（plus.html）</h3>
+        <p>コンソールではなくブラウザに表示する。</p>
+        <p><a href="./assets/02/plus2.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;p id="result"&gt;0&lt;/p&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【内容の操作】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const plusBtn = document.getElementById('plus');
+
+//内容の読み取り
+console.log(plusBtn.innerHTML);
+
+//内容の置き換え
+plusBtn.innerHTML = '変更しました！';</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;p id="result"&gt;0&lt;/p&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const result = document.getElementById('result');
+    const plusBtn = document.getElementById('plus');
+
+    plusBtn.addEventListener('click', function () {
+      num = num + 1;
+      result.innerHTML = num;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 自己代入演算子</h3>
+        <p><em>自己代入演算子</em>を使うと、上記のような数値計算をより簡潔に記述することができる。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">/* 加算の自己代入 */
+a += b
+
+/* 減算の自己代入 */
+a -= b
+
+/* 乗算の自己代入 */
+a *= b
+
+/* 除算の自己代入 */
+a /= b
+
+/* 剰余の自己代入 */
+a %= b
+
+/* べき乗の自己代入 */
+a **= b</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用（plus.html）</h3>
+        <ol>
+          <li>自己代入演算子の形に修正する。</li>
+          <li>クリックしたら-1するボタンを追加する。</li>
+        </ol>
+        <p><a href="./assets/02/plus3.html" target="_blank">見本</a></p>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+  &lt;button id="minus"&gt;-&lt;/button&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const result = document.getElementById('result');
+    const plusBtn = document.getElementById('plus');
+    const minusBtn = document.getElementById('minus');
+
+    plusBtn.addEventListener('click', function () {
+      num += 1;
+      result.innerHTML = num;
+    });
+
+    minusBtn.addEventListener('click', function () {
+      num -= 1;
+      result.innerHTML = num;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 文字列</h2>
+      <div class="clause">
+        <p>文字列（文字の並び）を扱う場合はシンブルクォート(')かダブルクォート(")で囲む。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let name = 'takagi';
+console.log(name);</code></pre>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. 文字列の結合</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">/* 文字列同士は、プラス（+）の演算子を使って結合できる */
+console.log('takagi' + 'hirotaka');
+
+/* 文字列と数値を結合すると、数字は文字列に変換される */
+console.log(10 + 'px');
+
+/* 文字列と変数を結合すると、変数の値によって結果は変わる */
+let val = 1;
+console.log('url(' + val + '.png)');
+
+/* 数値と数値を結合すると、加算になる */
+console.log(20 + 10);</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. テンプレートリテラル</h3>
+        <p>テンプレートリテラルを使う場合はバッククォート(`)で囲む。<br>
+          テンプレートリテラルは、文字列の中で改行をそのまま出力したり、式や変数を埋め込んだりすることができる。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">// 文字列
+console.log(`Hello world`)
+
+// 改行
+console.log(`Hello
+world`);
+
+// 式
+console.log(`2 + 5 equal ${2 + 5}`);
+
+// 変数
+const person = 'JS Taro';
+console.log(`Hello ${person}`);</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習02（fontSize.html）</h3>
+        <p>+ボタンをクリックする度にp要素のフォントサイズが大きくなる。※最初は16px</p>
+        <p><a href="./assets/02/fontSize.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;p id="result"&gt;文字が大きくなる&lt;/p&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;p id="result"&gt;文字が大きくなる&lt;/p&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+  let num = 16;
+  const result = document.getElementById('result');
+  const plusBtn = document.getElementById('plus');
+
+  plusBtn.addEventListener('click', function () {
+    num += 1;
+    result.style.fontSize = `${num}px`;
+  });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習03（move.html）</h3>
+        <p>矢印ボタンをクリックする度に、要素が移動するプログラムを考える。</p>
+        <p><a href="./assets/02/move.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="left"&gt;←&lt;/button&gt;
+    &lt;button id="center"&gt;■&lt;/button&gt;
+    &lt;button id="right"&gt;→&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;img id="monster" src="https://pbs.twimg.com/media/EXae-7lWkAANYU6.png" alt=""&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ヒント】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">//CSSでの移動
+transform: translateX(100px);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【正解】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="left"&gt;←&lt;/button&gt;
+    &lt;button id="center"&gt;■&lt;/button&gt;
+    &lt;button id="right"&gt;→&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;img id="monster" src="https://pbs.twimg.com/media/EXae-7lWkAANYU6.png" alt=""&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const monster = document.getElementById('monster');
+
+    /* 左矢印のプログラム */
+    const leftBtn = document.getElementById('left');
+    leftBtn.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num -= 5}px)`;
+    });
+
+    /* 右矢印のプログラム */
+    const rightBtn = document.getElementById('right');
+    right.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num += 5}px)`;
+    });
+
+    /* 初期位置に戻すプログラム */
+    const centerBtn = document.getElementById('center');
+    centerBtn.addEventListener('click', function () {
+      monster.style.transform = `translateX(${num = 0}px)`;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 課題</h2>
+      <section class="clause">
+        <h3 class="clause__title">★ 問題01（color.html）</h3>
+        <p>要素のテキストを取得して、body要素の背景色に適応する。</p>
+        <p><a href="./assets/02/color.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="red"&gt;ff0000&lt;/button&gt;
+    &lt;button id="green"&gt;00ff00&lt;/button&gt;
+    &lt;button id="blue"&gt;0000ff&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ヒント】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//bodyを取得する場合は「getElementById」は必要ない
+document.body.style.fontSize = '16px';</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 問題02（photo.html）</h3>
+        <ol>
+          <li>+ボタンをクリックする度に、隣のボタン内の数字を1ずつ増やす。</li>
+          <li>数字のボタンをクリックし、画像のURLと表示されているテキストを変更する。</li>
+        </ol>
+        <p><a href="./assets/02/photo.html" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="plus"&gt;+&lt;/button&gt;
+    &lt;button id="set"&gt;0&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p id="result"&gt;https://picsum.photos/400/300?image=0&lt;/p&gt;
+  &lt;img id="photo" src="https://picsum.photos/400/300?image=0"&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ 予告</h3>
+        <div class="item">
+          <dl>
+            <dt>【第1回確認テスト】</dt>
+            <dd>10月24日(木)1限目「変数と演算子」</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サンプル問題】</dt>
+            <dd>以下のプログラムを書いた時、console（コンソール）に何と表示されるか答えなさい。また、エラーがでる場合は「エラー」と解答すること。
+              <pre class="line-numbers"><code class="language-javascript">const num = 100;
+console.log(num);</code></pre>
+            </dd>
+          </dl>
+
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+  <pre class="line-numbers">
+    <code class="language-markup">
+      &lt; ... &gt;
+    </code>
+  </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

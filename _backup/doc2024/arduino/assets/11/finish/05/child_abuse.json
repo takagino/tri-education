@@ -1,0 +1,42 @@
+[
+   {
+      "year": 2016,
+      "total_children": 78502,
+      "physical_abuse": 58963,
+      "psychological_abuse": 15000,
+      "sexual_abuse": 1189,
+      "neglect": 320
+   },
+   {
+      "year": 2017,
+      "total_children": 85234,
+      "physical_abuse": 64821,
+      "psychological_abuse": 16045,
+      "sexual_abuse": 1250,
+      "neglect": 320
+   },
+   {
+      "year": 2018,
+      "total_children": 92207,
+      "physical_abuse": 70211,
+      "psychological_abuse": 17210,
+      "sexual_abuse": 1324,
+      "neglect": 346
+   },
+   {
+      "year": 2019,
+      "total_children": 98222,
+      "physical_abuse": 75427,
+      "psychological_abuse": 18035,
+      "sexual_abuse": 1395,
+      "neglect": 365
+   },
+   {
+      "year": 2020,
+      "total_children": 106991,
+      "physical_abuse": 80252,
+      "psychological_abuse": 18923,
+      "sexual_abuse": 1426,
+      "neglect": 390
+   }
+]

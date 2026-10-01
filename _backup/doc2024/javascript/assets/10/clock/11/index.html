@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clock</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+      body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* background-color: #15151e; */
+        background: linear-gradient(
+          90deg,
+          #ff0000,
+          #ff7300,
+          #ffff00,
+          #00ff00,
+          #00ffff,
+          #0000ff,
+          #ff00ff
+        );
+        background-size: 300% 300%;
+        transition: background 1s;
+        overflow: hidden;
+        font-family: "Share Tech Mono", monospace;
+      }
+
+      .rgb-box {
+        padding: 20px;
+        border: 5px solid;
+        border-image: linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            green,
+            cyan,
+            blue,
+            violet
+          )
+          1;
+        animation: rgb-border 3s linear infinite;
+        border-radius: 15px;
+        text-align: center;
+        color: #daf6ff;
+        display: inline-block;
+      }
+
+      @keyframes rgb-border {
+        0% {
+          border-image-source: linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            green,
+            cyan,
+            blue,
+            violet
+          );
+        }
+        100% {
+          border-image-source: linear-gradient(
+            450deg,
+            violet,
+            blue,
+            cyan,
+            green,
+            yellow,
+            orange,
+            red
+          );
+        }
+      }
+
+      .clock-date {
+        font-size: 25px;
+      }
+
+      .clock-time {
+        font-size: 100px;
+        margin: 0;
+        margin-top: 10px;
+      }
+
+      @media screen and (max-width: 500px) {
+        .clock-date {
+          font-size: 5vw;
+        }
+        .clock-time {
+          font-size: 20vw;
+        }
+        .rgb-box {
+          padding: 10px;
+          border-width: 3px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="rgb-box">
+      <p class="clock-date"></p>
+      <p class="clock-time"></p>
+    </div>
+
+    <script>
+      const updateDigitalClock = () => {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const date = String(now.getDate()).padStart(2, "0");
+        const day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][
+          now.getDay()
+        ];
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+
+        document.querySelector(
+          ".clock-date"
+        ).innerText = `${year}.${month}.${date} ${day}`;
+        document.querySelector(
+          ".clock-time"
+        ).innerText = `${hours}:${minutes}:${seconds}`;
+      };
+
+      const clock = () => {
+        updateDigitalClock();
+        setTimeout(clock, 1000 - new Date().getMilliseconds());
+      };
+
+      const changeBackground = () => {
+        const colors = [
+          "linear-gradient(90deg, #ff0000, #ff7300, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff)",
+          "linear-gradient(90deg, #0000ff, #00ffff, #00ff00, #ffff00, #ff7300, #ff0000)",
+          "linear-gradient(90deg, #00ffff, #0000ff, #ff00ff, #ff0000, #ffff00, #00ff00)",
+        ];
+
+        let index = 0;
+
+        setInterval(() => {
+          document.body.style.background = colors[index];
+          document.body.style.backgroundSize = "300% 300%";
+          document.body.style.transition = "background 3s ease";
+          index = (index + 1) % colors.length;
+        }, 2000);
+      };
+
+      changeBackground();
+
+      clock();
+    </script>
+  </body>
+</html>

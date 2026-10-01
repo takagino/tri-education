@@ -1,0 +1,185 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」06_固定ページの追加 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」06_固定ページの追加</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 固定ページの追加</h2>
+      <div class="clause">
+        <p>WordPressの記事形式には「投稿」と「固定ページ」の2種類がある。</p>
+        <ul>
+          <li>「投稿」：日々更新され、記事一覧ページなどで時系列に表示される。</li>
+          <li>「固定ページ」：「ABOUT（自己紹介）」「CONTACT（お問い合わせ）」のように時系列に左右されず、常にそこに固定される。</li>
+        </ul>
+        <p>※動的に増えたり減ったりはしないが、固定ページにすることで「管理画面」から内容を編集できるようになる。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 「page.php」を作成する</h3>
+        <div class="item">
+          <p><a href="https://nawate.jp/nawate/wp-content/uploads/2020/06/WordPress%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E6%A7%8B%E9%80%A0.pdf" target="_blank">一覧PDF</a></p>
+        </div>
+        <div class="item">
+          <ol>
+            <li>「single.php」を複製し、ファイル名を「page.php」に変更する。</li>
+            <li>WordPressループの中身を「the_content()」のみにし、ページ送りなどの余分なものを削除する。
+              <pre class="line-numbers"><code class="language-php"># 「page.php」を編集
+&lt;?php if( have_posts() ): ?&gt;
+&lt;?php while( have_posts() ): the_post(); ?&gt;
+
+&lt;?php the_content(); ?&gt;
+
+&lt;?php endwhile; ?&gt;
+&lt;?php endif ?&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【表示を確認する】</dt>
+            <dd>
+              <ol>
+                <li>『管理画面メニュー > 固定ページ > 固定ページ一覧』を選択。</li>
+                <li>「サンプルページ」の列にマウスオーバーで表示される「クイックメニュー」から「表示」をクリック。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. パーマリンクの設定</h3>
+        <div class="item">
+          <p>「<em>http://localhost:8888/blog/?page_id=◯</em>」の形だと管理しずらいため、「<em>http://localhost:8888/blog/about/</em>」になるように設定を変更する。</p>
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>『管理画面メニュー > 設定 > パーマリンク』を選択。</li>
+                <li>「投稿名」にチェックを入れ、「変更を保存」をクリック。
+                  <img src="./assets/06/01.png" width="800" alt="">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. ABOUTページの作成</h3>
+        <div class="item">
+          <ol>
+            <li>『管理画面メニュー > 固定ページ > 新規追加』を選択</li>
+            <li>タイトルに「ABOUT」、本文に任意の文章を入力し、パーマリンクの項目から「URLスラッグ」に「about」と入力
+              <img src="assets/06/02.png" width="800" alt="">
+            </li>
+            <li>「公開」をクリックする。</li>
+            <li>スラッグが重複した場合は、すでに存在している固定ページを「ゴミ箱に移動」する。</li>
+            <li>サイトの表示を確認する。</li>
+          </ol>
+          <p>固定ページを追加したら管理画面から内容を入力していくが、複雑なデザインの場合は難しい。<br>
+            その場合は、より優先度の高いファイルを固定ページごとに用意する。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. 「page-about.php」を作成する</h3>
+        <div class="item">
+          <p><a href="https://nawate.jp/nawate/wp-content/uploads/2020/06/WordPress%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E6%A7%8B%E9%80%A0.pdf" target="_blank">一覧PDF</a></p>
+        </div>
+        <div class="item">
+          <ol>
+            <li>「about.html」のファイル名を「page-about.php」に変更</li>
+            <li>ABOUTページを表示してみる</li>
+            <li>適切な場所に「get_header()」「get_footer()」を設定する</li>
+            <li>画像がある場合は、パスを修正する</li>
+          </ol>
+        </div>
+        <dl>
+          <dt>【グローバルメニューの修正】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-php">&lt;a href="&lt;?php echo home_url('/about/'); ?&gt;"&gt;ABOUT&lt;/a&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-5. 「page-contact.php」を作成する</h3>
+        <p>ABOUTページを参考に。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. お問合せフォームの追加</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. プラグインの導入</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://ja.wordpress.org/plugins/contact-form-7/">Contact Form 7</a></li>
+            <li><a href="https://form.run/media/contents/website-lp-creation/contact-form-7/">【完全版】Contact Form 7の基本と使い方まとめ</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ショートコードを直接埋め込む】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php echo do_shortcode('[ショートコード名]'); ?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. Googleフォームを活用する</h3>
+        <p><a href="https://tcd-theme.com/2021/07/wordpress-google-form.html">【簡単】WordPressにGoogleフォームを埋め込む方法</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. それ以外のページ</h2>
+      <div class="clause">
+        <p>404.php（ページがなかった時のテンプレート）</p>
+        <p><a href="https://www.leadplus.net/blog/404-error-pages.html">参考にしたいデザインが秀逸な404エラーページ11選！</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

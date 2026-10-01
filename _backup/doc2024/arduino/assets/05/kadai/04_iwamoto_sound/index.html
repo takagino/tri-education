@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.sound</title>
+    <style>
+      canvas {
+        background: #fff;
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+    <script>
+      let mySound;
+      let fft;
+
+      function preload() {
+        mySound = loadSound("BGM.mp3");
+      }
+
+      function setup() {
+        createCanvas(640, 480);
+        colorMode(HSL);
+        rectMode(CENTER);
+        noStroke();
+
+        fft = new p5.FFT();
+      }
+
+      function draw() {
+        mySound.amp(map(mouseY, 0, height, 0, 1));
+
+        if (mySound.isPlaying()) {
+          let spectrum = fft.analyze();
+
+          for (let i = 0; i < spectrum.length; i += 50) {
+            let hue = random(200, 280); // 青〜紫の範囲で色相をランダムに設定
+            fill(hue, 80, 60, 0.1);
+            let h = random(10, 150); // 20〜100のランダムな大きさ
+            circle(random(width), random(height), h);
+          }
+        }
+      }
+
+      function keyPressed() {
+        mySound.loop();
+      }
+
+      function keyReleased() {
+        mySound.pause();
+      }
+
+      //   let mySound;
+
+      //   function preload() {
+      //     mySound = loadSound("groove.mp3");
+      //   }
+
+      //   function setup() {
+      //     createCanvas(640, 480);
+      //     mySound.amp(0.5);
+
+      //     colorMode(HSL);
+      //     rectMode(CENTER);
+      //     angleMode(DEGREES);
+      //     noStroke();
+      //   }
+
+      //   function draw() {
+      //     if (mySound.isPlaying()) {
+      //       translate(mouseX, mouseY);
+      //       rotate(random(0, 360));
+      //       scale(0.2);
+
+      //       x = 0;
+      //       y = 0;
+      //       c = floor(random(0, 100));
+      //       d = floor(random(10, 100));
+
+      //       fill(180, 50, c, 0.3);
+
+      //       rect(x, y, d, d);
+
+      //       let vol = map(mouseY, 0, height, 0, 1);
+      //       vol = constrain(vol, 0, 1);
+      //       mySound.amp(vol);
+      //     }
+      //   }
+
+      //   function keyPressed() {
+      //     mySound.loop();
+      //   }
+
+      //   function keyReleased() {
+      //     mySound.pause();
+      //   }
+    </script>
+  </body>
+</html>

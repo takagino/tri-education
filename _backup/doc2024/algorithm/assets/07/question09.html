@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>追加問題「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」追加問題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <div class="clause">
+          <div class="item">
+            <p>※毎回リロードしてください。</p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">question09.html</h3>
+          <div class="item">
+            <ol>
+              <li>
+                ランダムな大きさ・色相の円または矩形を順番に描き、画面内に敷き詰める。
+              </li>
+              <li>
+                大きさは最小で5、最大で20とし、横縦ともに20個の図形を並べること。
+              </li>
+              <li>画面をクリックすると最初から描画される。</li>
+            </ol>
+            <div id="q09"></div>
+          </div>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let x = 0;
+let y = 0;
+let w = 20;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  noStroke();
+}
+
+function draw(){
+  if (x < width) {
+    fill(Math.random() * 360, 100, 100);
+
+    let d = Math.random() * (w - 5) + 5;
+
+    if (Math.random() < 0.5) {
+      ellipse(x + w / 2, y + w / 2, d, d);
+    } else {
+      rect(x + w / 2, y + w / 2, d, d);
+    }
+
+    x += w;
+  } else {
+    if (y < height) {
+      x = 0;
+      y += w;
+    }
+  }
+}
+
+function mouseReleased(){
+  clear();
+  x = 0;
+  y = 0;
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">question10.html</h3>
+          <div class="item">
+            <ol>
+              <li>画面の左端中央から、上下にランダムに動く線を描く。</li>
+              <li>画面をクリックすると最初から描画される。</li>
+            </ol>
+            <div id="q10"></div>
+          </div>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let x = 0;
+let y;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeWeight(6);
+  y = height / 2;
+}
+
+function draw(){
+  if (x < width) {
+    let ry = Math.random() * 20 - 10;
+    line(x, y, x += 1, y += ry);
+  }
+}
+
+function mouseReleased(){
+  clear();
+  x = 0;
+  y = height / 2;
+}</code></pre>
+          </div>
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q09 = function (p) {
+        let x = 0;
+        let y = 0;
+        let w = 20;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.noStroke();
+        };
+
+        p.draw = () => {
+          if (x < p.width) {
+            p.fill(Math.random() * 360, 100, 100);
+
+            let d = Math.random() * (w - 5) + 5;
+            if (Math.random() < 0.5) {
+              p.ellipse(x + w / 2, y + w / 2, d, d);
+            } else {
+              p.rect(x + w / 2, y + w / 2, d, d);
+            }
+            x += w;
+          } else {
+            if (y < p.height) {
+              x = 0;
+              y += w;
+            }
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+          x = 0;
+          y = 0;
+        };
+      };
+      new p5(q09, "q09");
+
+      let q10 = function (p) {
+        let x = 0;
+        let y;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeWeight(6);
+          y = p.height / 2;
+        };
+
+        p.draw = () => {
+          if (x < p.width) {
+            let ry = Math.random() * 20 - 10;
+            p.line(x, y, x += 1, y += ry);
+
+            // x += 1;
+            // y += ry;
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+          x = 0;
+          y = p.height / 2;
+        };
+      };
+      new p5(q10, "q10");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

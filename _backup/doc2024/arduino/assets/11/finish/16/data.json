@@ -1,0 +1,326 @@
+{
+  "14世代intel": [
+    {
+      "label": "Core i9-14900KS",
+      "val": 63020,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#028482"
+    },
+    {
+      "label": "Core i9-14900KF",
+      "val": 61001,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#da3000"
+    },
+    {
+      "label": "Core i9-14900K",
+      "val": 60520,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#3e63af"
+    },
+    {
+      "label": "Core i7-14700K",
+      "val": 53597,
+      "url": "https://m.media-amazon.com/images/I/618tWyaIewL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#33c1ff"
+    },
+    {
+      "label": "Core i7-14700KF",
+      "val": 53482,
+      "url": "https://m.media-amazon.com/images/I/618tWyaIewL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f39c12"
+    },
+    {
+      "label": "Core i9-14900F",
+      "val": 47942,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i9-14900",
+      "val": 47805,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i7-14700F",
+      "val": 44203,
+      "url": "https://m.media-amazon.com/images/I/618tWyaIewL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i7-14700",
+      "val": 44050,
+      "url": "https://m.media-amazon.com/images/I/618tWyaIewL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i5-14600KF",
+      "val": 39386,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    },
+    {
+      "label": "Core i5-14600K",
+      "val": 39226,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i5-14500",
+      "val": 32819,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i5-14400",
+      "val": 25799,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i5-14400F",
+      "val": 25735,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i3-14100",
+      "val": 15089,
+      "url": "https://m.media-amazon.com/images/I/414yT9+TpIL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    },
+    {
+      "label": "Core i3-14100F",
+      "val": 15052,
+      "url": "https://m.media-amazon.com/images/I/414yT9+TpIL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    }
+  ],
+  "13世代intel": [
+    {
+      "label": "Core i9-13900KS",
+      "val": 61900,
+      "url": "https://m.media-amazon.com/images/I/61-+pgXU1vL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#1abc9c"
+    },
+    {
+      "label": "Core i9-13900K",
+      "val": 59197,
+      "url": "https://m.media-amazon.com/images/I/61-+pgXU1vL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e67e22"
+    },
+    {
+      "label": "Core i9-13900KF",
+      "val": 58577,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    },
+    {
+      "label": "Core i9-13900T",
+      "val": 43748,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#95a5a6"
+    },
+    {
+      "label": "Core i9-13900",
+      "val": 47382,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2980b9"
+    },
+    {
+      "label": "Core i7-13700K",
+      "val": 46939,
+      "url": "https://m.media-amazon.com/images/I/515lU6LNpsL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i7-13700KF",
+      "val": 46556,
+      "url": "https://m.media-amazon.com/images/I/515lU6LNpsL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i9-13900T",
+      "val": 43748,
+      "url": "https://m.media-amazon.com/images/I/51DYqFGAHXL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#95a5a6"
+    },
+    {
+      "label": "Core i7-13700",
+      "val": 37782,
+      "url": "https://m.media-amazon.com/images/I/515lU6LNpsL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f39c12"
+    },
+    {
+      "label": "Core i7-13700F",
+      "val": 39270,
+      "url": "https://m.media-amazon.com/images/I/515lU6LNpsL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i5-13600K",
+      "val": 38510,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#27ae60"
+    },
+    {
+      "label": "Core i5-13600KF",
+      "val": 38447,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i7-13700T",
+      "val": 27185,
+      "url": "https://m.media-amazon.com/images/I/515lU6LNpsL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i5-12500",
+      "val": 20677,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i5-12400",
+      "val": 19896,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i5-12400F",
+      "val": 19694,
+      "url": "https://m.media-amazon.com/images/I/41J1atD0PPL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i3-13100F",
+      "val": 14653,
+      "url": "https://m.media-amazon.com/images/I/414yT9+TpIL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i3-13100",
+      "val": 14724,
+      "url": "https://m.media-amazon.com/images/I/414yT9+TpIL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    }
+  ],
+  "12世代intel": [
+    {
+      "label": "Core i9-12900KS",
+      "val": 44466,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#c0392b"
+    },
+    {
+      "label": "Core i9-12900K",
+      "val": 41613,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#16a085"
+    },
+    {
+      "label": "Core i9-12900KF",
+      "val": 41419,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i9-12900",
+      "val": 37562,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i9-12900F",
+      "val": 35847,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i7-12700K",
+      "val": 34307,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    },
+    {
+      "label": "Core i7-12700KF",
+      "val": 34059,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i9-12900T",
+      "val": 31387,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#95a5a6"
+    },
+    {
+      "label": "Core i7-12700",
+      "val": 30777,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f39c12"
+    },
+    {
+      "label": "Core i7-12700F",
+      "val": 30657,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i5-12600K",
+      "val": 27464,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#27ae60"
+    },
+    {
+      "label": "Core i5-12600KF",
+      "val": 27355,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i5-12600",
+      "val": 21925,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i7-12700T",
+      "val": 21767,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i5-12500",
+      "val": 20677,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#34495e"
+    },
+    {
+      "label": "Core i5-12400",
+      "val": 19896,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#2ecc71"
+    },
+    {
+      "label": "Core i5-12400F",
+      "val": 19694,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#f1c40f"
+    },
+    {
+      "label": "Core i3-12100F",
+      "val": 14293,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#8e44ad"
+    },
+    {
+      "label": "Core i3-12100",
+      "val": 13873,
+      "url": "https://m.media-amazon.com/images/I/71y7vGDSVHL._AC_UY436_FMwebp_QL65_.jpg",
+      "color": "#e74c3c"
+    }
+  ]
+}

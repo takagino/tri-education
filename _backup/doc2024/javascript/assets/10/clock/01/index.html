@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>組み込みオブジェクト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+  rel="stylesheet">
+    <style>
+
+/* 全体を囲うコンテナー */
+body{
+    margin: 0;
+  font-family: "Poppins", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.container1,.container2,.container3{
+  display: block;
+  position: absolute;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 0;
+}
+
+.container3{
+  background: linear-gradient(-45deg, #edee9a, #a8a1db);
+  opacity: 0;
+  transition: all .8s ease;
+}
+
+.container2{
+  background: linear-gradient(-45deg, #e1958c, #9ce0d6);
+  opacity: 0;
+  transition: all .8s ease;
+}
+.container1{
+  background: linear-gradient(-45deg, #f9c2eb, #9db6e2);
+  opacity: 1;
+  transition: all .8s ease;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: white;
+}
+
+/* 時計の共通スタイル */
+.clock {
+  font-family: "Poppins", serif;
+  font-weight: 300;
+  font-style: normal;
+  position: relative;
+  width: 430px;
+  z-index: 10;
+  font-family: 'Share Tech Mono', monospace;
+  padding: 40px;
+  padding-top: 100px;
+  color: #ef82b3;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 2px 2px 8px white;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* 日付のスタイル */
+.clock-date {
+  font-family: "Poppins", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 25px;
+}
+.clock-date::before {
+  content: " ";
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  vertical-align:middle;
+  background-color: rgb(167, 222, 236);
+}
+/* 時間のスタイル */
+.clock-time {
+  font-family: "Poppins", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 100px;
+  margin-top: 50px;
+}
+
+.wrap{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#en {
+position: absolute;
+display: block;
+width: 20px;
+height: 20px;
+transform: translateX(0),translateY(0);
+background: #333;
+border-radius: 50%;
+z-index: 100;
+}
+
+/* 文字サイズ調整 */
+@media (width< 500px) {
+  .clock-date {
+    font-size: 5vw;
+  }
+  .clock-time {
+    font-size: 20vw;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+      <div id="en"></div>
+    </div>
+    <div class="container" id="container">
+      <div class="clock">
+        <p class="clock-date"></p>
+        <p class="clock-time">12:23:34</p>
+      </div>
+    </div>
+    <div class="container1"></div>
+    <div class="container2"></div>
+    <div class="container3"></div>
+    </body>
+    <script>
+      const el = document.querySelector('#en');
+      const center = 0;
+      let radius = 400;
+      let t = 0, angularSpeed = (2 * Math.PI) / 60;// 時間の経過を計算
+
+            // 時計の表示を更新する関数
+            const clock = () => {
+              const d = new Date();
+              let year = d.getFullYear();
+              let month = d.getMonth() + 1;
+              let date = d.getDate();
+              let dayNum = d.getDay();
+              const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+              let day = weekday[dayNum];
+              let hour = d.getHours();
+              let min = d.getMinutes();
+              let sec = d.getSeconds();
+              let secN = sec;
+              if(sec==0||sec==30){
+                el.style.backgroundColor= "rgb(167, 222, 236)";
+              }else{
+                el.style.backgroundColor = "#e1639c";
+              }
+
+              // t = ((d.getSeconds()));
+
+              // 1桁の場合は0を足して2桁にする
+              month = month < 10 ? "0" + month : month;
+              date = date < 10 ? "0" + date : date;
+              hour = hour < 10 ? "0" + hour : hour;
+              min = min < 10 ? "0" + min : min;
+              sec = sec < 10 ? "0" + sec : sec;
+
+              // 文字列作成
+              let today = `${year}.${month}.${date} ${day}`;
+              let time = `${hour}:${min}:${sec}`;
+
+              // 文字列を出力
+              document.querySelector(".clock-date").textContent = today;
+              document.querySelector(".clock-time").textContent = time;
+
+
+              // 円運動
+              let t = (Math.PI / 180) * (secN * 6 - 90);
+              const x = center + (Math.cos(t) * radius);
+              const y = center + (Math.sin(t) * radius);
+              el.style.transform = `translate(${x}px,${y+20}px)`;
+              const nextTimeout = 1000 - d.getMilliseconds();
+
+              window.onload=()=>{
+                let w = window.innerWidth;
+                let h = window.innerHeight;
+                // console.log(w,h);
+              }
+
+              window.addEventListener(("resize"),()=>{
+                w=window.innerWidth;
+                h=window.innerHeight;
+                // console.log(w,h);
+                if(w<800||h<800){
+                  if(w<h){
+                    radius=w/2-40;
+                    console.log(w,radius-40);
+                  }else{
+                    radius=h/2-40;
+                    console.log(h, radius-40);
+                  }
+                }
+              });
+
+              // 次の時計の更新を1秒後に実行
+              setTimeout(clock, 1000 - d.getMilliseconds());
+            };
+
+            clock();
+
+      const container = document.querySelector(".container");
+      const body=document.querySelector("body");
+      const c1= document.querySelector(".container1");
+      const c2 = document.querySelector(".container2");
+      const c3 = document.querySelector(".container3");
+      let counter =1,before=3,opa1=1,opa2=0,i=3;
+      let classNames="container";
+
+
+      body.addEventListener(('click'),()=>{
+        counter++;
+        if(counter==4){
+          counter=1;
+          before=3;
+          c3.style.opacity=0;
+          c1.style.opacity=1;
+        }else if(before==3){
+          before=1;
+          c1.style.opacity = 0;
+          c2.style.opacity = 1;
+        }else{
+          before++;
+          c2.style.opacity=0;
+          c3.style.opacity=1;
+        }
+
+
+
+      });
+
+
+
+      </script>
+</body>
+</html>

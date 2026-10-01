@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://127.0.0.1:5502/09/index.html -->
+<html lang="ja"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル時計</title>
+    <link rel="stylesheet" href="./デジタル時計_files/sba2dyf.css">
+
+    <style>
+        /* Google Fonts 読み込み
+        @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"); */
+
+        body {
+            margin: 0;
+        }
+
+        /* 全体を囲うコンテナー */
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        /* .container:nth-child(1) {
+            background: url(./image/image1.jpg) no-repeat center center /cover;
+        } */
+
+        /* 時計の共通スタイル */
+        .clock {
+            font-family: aw-conqueror-std-stincilla, sans-serif;
+            color: #ffffff;
+            text-shadow: 0 0 30px #000;
+            line-height: 1.2;
+            text-align: center;
+            z-index: 10;
+            border: solid 1px #fff;
+            outline: solid 4px #fff;
+            outline-offset: 6px;
+            padding: 50px;
+        }
+
+        /* 日付のスタイル */
+        .clock-date {
+            font-size: 25px;
+        }
+
+        /* 時間のスタイル */
+        .clock-time {
+            font-size: 100px;
+            width: 25vw;
+        }
+
+        /* 文字サイズ調整 */
+        @media screen and (max-width: 500px) {
+            .clock-date {
+                font-size: 5vw;
+            }
+
+            .clock-time {
+                font-size: 20vw;
+            }
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* .background-image {
+            animation: fadeInOut 10s ease-in-out infinite;
+            /* 無限ループでアニメーション */
+        /* } */
+
+
+        @keyframes zoom-in {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.25);
+            }
+        }
+
+        .zoom-animation {
+            animation: zoom-in 60s linear 0s 1 normal both;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img id="background" class="background-image zoom-animation" src="./デジタル時計_files/image19.jpg" alt="背景画像">
+        <div class="clock">
+            <p class="clock-date">2025.01.08 WED</p>
+            <p class="clock-time">18:22:09</p>
+        </div>
+    </div>
+
+    <script>
+        const backgroundImg = document.getElementById('background');
+        let before = 0;
+
+        const changePic = () => {
+            backgroundImg.classList.remove('zoom-animation');
+            void backgroundImg.offsetWidth;
+            backgroundImg.classList.add('zoom-animation');
+
+            let randomIndex = Math.floor(Math.random() * 20) + 1;
+            while (before == randomIndex) {
+                randomIndex = Math.floor(Math.random() * 20) + 1;
+            }
+            before = randomIndex;
+            backgroundImg.src = `./image/image${randomIndex}.jpg`;
+        }
+
+        changePic();
+
+        setInterval(changePic, 10000);
+
+        let date = new Date();
+        console.log(date);
+
+        console.log(Date.now());
+
+        console.log(date.getFullYear());
+        console.log(date.getMonth() + 1);
+        console.log(date.getDate());
+        console.log(date.getHours());
+        console.log(date.getMinutes());
+        console.log(date.getSeconds());
+
+        const clock = () => {
+            const d = new Date();
+
+            /*年を取得*/
+            let year = d.getFullYear();
+
+            /*月を取得*/
+            let month = d.getMonth() + 1;
+
+            /*日を取得*/
+            let date = d.getDate();
+
+            /*曜日を取得*/
+            let dayNum = d.getDay();
+            const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            let day = weekday[dayNum];
+
+            /*時を取得*/
+            let hour = d.getHours();
+
+            /*分を取得*/
+            let min = d.getMinutes();
+
+            /*秒を取得*/
+            let sec = d.getSeconds();
+
+            // 1桁の場合は0を足して2桁に
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+
+            // 日付・時刻の文字列を作成
+            let today = `${year}.${month}.${date} ${day}`;
+            let time = `${hour}:${min}:${sec}`;
+
+            // 文字列を出力
+            document.querySelector(".clock-date").innerText = today;
+            document.querySelector(".clock-time").innerText = time;
+
+            /*1秒後にclock関数を呼び出す*/
+            setTimeout(clock, 1000 - d.getMilliseconds());
+        }
+
+        clock();
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+
+</body></html>

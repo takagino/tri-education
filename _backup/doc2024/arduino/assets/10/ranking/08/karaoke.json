@@ -1,0 +1,20 @@
+[
+    {
+        "label": "Vaundy - 怪獣の花唄",
+        "val": 90,
+        "url": "https://ogre.natalie.mu/media/news/music/2020/0325/Vaundy_jkt202003.jpg?imwidth=750&imdensity=1",
+        "color": "#000000"
+    },
+    {
+        "label": "Creepy Nuts - Bling-Bang-Bang-Born",
+        "val": 75,
+        "url": "https://ogre.natalie.mu/media/news/music/2024/0106/CeeprNuts_jkt202401.jpg?imwidth=750&imdensity=1",
+        "color": "#000000"
+    },
+    {
+        "label": "tuki. - 晩餐歌",
+        "val": 60,
+        "url": "https://i1.sndcdn.com/artworks-SnmfDAh5GXX6oR4y-ijBEtQ-t500x500.jpg",
+        "color": "#000000"
+    }
+]

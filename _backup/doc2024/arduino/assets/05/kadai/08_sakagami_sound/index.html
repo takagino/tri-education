@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+    <style>
+        canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+    <script>
+
+        let mySound;
+        let fft;
+
+        function preload() {
+            mySound = loadSound('iwashiro_pokemoso_battle_4.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            mySound.amp(0.5);
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            clear();
+
+            // 背景のグラデーション
+            for (let y = 0; y < height; y++) {
+                let bgColor = map(y, 0, height, 120, 180); // 草原風グリーンから青へ
+                stroke(bgColor, 50, 60);
+                line(0, y, width, y);
+            }
+
+            if (mySound.isPlaying()) {
+                let vol = map(mouseY, 0, height, 0, 1);
+                vol = constrain(vol, 0, 1);
+                mySound.amp(vol);
+
+                let data = fft.analyze();
+                console.log(data);
+
+                // エフェクトの描画
+                for (let i = 0; i < data.length; i += 10) {
+                    let r = map(data[i], 0, 255, 10, 200);
+                    let angle = map(i, 0, data.length, 0, 360);
+                    let x = width / 2 + cos(angle) * r;
+                    let y = height / 2 + sin(angle) * r;
+
+                    let hue = map(data[i], 0, 255, 0, 360); // 虹色の表現
+                    fill(hue, 70, 50, 0.6);
+                    noStroke();
+                    ellipse(x, y, r / 4, r / 4); // 丸をポケモン技の光弾のように
+                }
+
+                // 技の波動をイメージ
+                stroke(255, 50);
+                noFill();
+                for (let i = 0; i < 5; i++) {
+                    ellipse(width / 2, height / 2, frameCount % 100 + i * 20);
+                }
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+            clear();
+        }    </script>
+</body>
+
+</html>

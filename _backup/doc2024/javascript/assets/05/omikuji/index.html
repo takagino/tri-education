@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>おみくじ</title>
+</head>
+
+<body>
+  <div>
+    <button id="btn">占う</button>
+  </div>
+  <img id="img" src="#" alt="">
+
+  <script>
+    const btn = document.getElementById('btn');
+    const img = document.getElementById('img');
+
+    btn.addEventListener('click', function () {
+      let num = 0, rand = 0, count = 10;
+
+      for (let i = 0; i < count; i++) {
+        rand = Math.floor(Math.random() * 6);
+        num += rand;
+      }
+
+      console.log(num);
+      let ave = Math.floor(num / count);
+
+      switch (ave) {
+        case 0:
+          img.setAttribute('src', 'https://trident.takagino.net/doc2022/javascript/assets/03/omikuji/daikichi.png');
+          break;
+        case 1:
+          img.setAttribute('src', 'https://trident.takagino.net/doc2022/javascript/assets/03/omikuji/chuukichi.png');
+          break;
+        case 2:
+          img.setAttribute('src', 'https://trident.takagino.net/doc2022/javascript/assets/03/omikuji/syoukichi.png');
+          break;
+        case 3:
+          img.setAttribute('src', 'https://trident.takagino.net/doc2022/javascript/assets/03/omikuji/kyou.png');
+          break;
+        case 4:
+          img.setAttribute('src', 'https://trident.takagino.net/doc2022/javascript/assets/03/omikuji/daikyou.png');
+          break;
+        default:
+          console.log('画像はありません。');
+      }
+    });
+  </script>
+</body>
+
+</html>

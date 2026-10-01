@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ランダムな数字を生成</title>
+  </head>
+  <body>
+    <button id="btn">生成</button>
+    <script>
+      const btn = document.querySelector("#btn");
+      const ul = document.createElement("ul");
+      document.body.append(ul);
+
+      btn.addEventListener("click", () => {
+        const li = document.createElement("li");
+        li.innerHTML = Math.floor(Math.random() * 100);
+        ul.append(li);
+      });
+    </script>
+  </body>
+</html>

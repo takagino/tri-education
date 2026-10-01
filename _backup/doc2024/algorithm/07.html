@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」07_練習問題 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」07_練習問題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">0. 補足</h2>
+        <section class="clause">
+          <h3 class="clause__title">0-1. プログラミングのコツ</h3>
+          <ol>
+            <li>
+              実現したい動きを分析し、「<em>何のどの値がどう変化しているか</em>」を明確にする。
+            </li>
+            <li>
+              <em>手順を文章に書き起こす。</em
+              >（慣れてきたら頭の中で構築できるようになる）
+            </li>
+            <li>
+              いきなり全てを実装しようとせず、<em>簡単なことから順番にクリア</em>していく。（<a
+                href="https://patterns.hattori.dev/ja/design-pattern/working-on-small-chunk/"
+                >小さなまとまりで作業する</a
+              >）
+            </li>
+            <li>
+              「値を変化させたい場合」や「数箇所に同じ値が出てくる場合」には<em>変数</em>の使用を考える。
+            </li>
+            <li>
+              「もし〜なら」のような箇所が出てきたら<em>条件分岐（if文）</em>の使用を考える。
+            </li>
+            <li>
+              プログラムは<em>決められた命令の組み合わせ</em>でしかない。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">例）問題03「円が100個になったらそれ以上増えない」の場合
+
+if(円の数 > 100){
+  円を描かない //「◯◯を描かない」という命令は無い
+}
+
+上記のプログラムは不可能なので、以下のように文章を変換する。
+
+「円が100個になるまでは、円を描く」
+
+if(円の数 <= 100){
+  ellipse(mouseX, mouseY, 50, 50);
+}
+              </code></pre>
+            </li>
+            <li>
+              おかしいと思ったら<em>コンソールを見る。</em>（常に表示しておいても良い）
+            </li>
+            <li>
+              上記のようなパターンをたくさん<em>インプット</em>し、自分でアレンジして<em>アウトプット</em>する。
+            </li>
+            <li>
+              プログラムが書けるようになるとめちゃくちゃ楽しいので、<em
+                >諦めないこと。</em
+              >
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">0-2. よく起こるミス</h3>
+          <ol>
+            <li><em>スペルミス。</em></li>
+            <li>
+              clear(); を書く順番。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  ellipse(mouseX, mouseY, 50, 50);
+  clear(); //せっかく描いた円を消してしまう
+}</code></pre>
+            </li>
+            <li>
+              背景色（backgroud）もclear(); で消える。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  background(0); //背景色
+}
+
+function draw(){
+  clear();
+  ellipse(mouseX, mouseY, 50, 50);
+}</code></pre>
+            </li>
+            <li>
+              createCanvas()を実行してからでないと、「width」「height」は使用できない。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">//誤）エラーが起こるパターン
+let x = width / 2;
+let y = height / 2;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  clear();
+  ellipse(x, y, 50, 50);
+}
+
+//正）変数の宣言のみ行い、setupの中で値を代入する
+let x;
+let y;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  x = width / 2;
+  y = height / 2;
+}
+
+function draw(){
+  clear();
+  ellipse(x, y, 50, 50);
+}</code></pre>
+            </li>
+          </ol>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;問題01&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <section class="clause">
+            <h3 class="clause__title">1-1. setup関数とdraw関数</h3>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">function setup(){
+  //ページ読み込み時に1度だけ実行される
+}
+
+function draw(){
+  //ページを表示している間、1秒間に60回実行される
+}</code></pre>
+            </div>
+          </section>
+          <section class="clause">
+            <h3 class="clause__title">1-2. 初期設定</h3>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB); //色の設定をHSBに変更（色相：0-360、彩度：0-100、明度：0-100）
+  rectMode(CENTER); //矩形のx座標、y座標の基準を中心に変更
+}
+
+function draw(){
+  clear(); //描画したものを消す
+}</code></pre>
+            </div>
+          </section>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 変数</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              プログラムで使われる値を、名前付きで管理するラベルのようなもの。
+            </p>
+            <dl>
+              <dt>【変数の使い所】</dt>
+              <dd>
+                <ol>
+                  <li>同じ値が何度も出てくるとき。</li>
+                  <li>値を変化させたいとき。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 50;
+const y = 100; //定数
+var w = 200; //古い書き方なので使用しない
+
+ellipse(x, y, w, w);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【システム変数】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">frameCount //ページ読み込み完了時から何フレーム経過したか（1秒間に60回）
+width //描画領域の横幅 ※createCanvas(400, 400)の場合は「400」
+height //描画領域の横幅 ※createCanvas(400, 400)の場合は「400」
+mouseX //マウスのX座標の値
+mouseY //マウスのY座標の値
+pmouseX //1プレーム前のマウスのX座標の値
+pmouseY //1フレーム前のマウスのY座標の値
+mouseIsPressed //マウスがクリック状態にあるときにtrue（真）、ないときはfalse（偽）</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <!-- <article class="chapter">
+        <h2 class="chapter__title">☆問題</h2>
+        <div class="clause">
+          <p>
+            <a href="./assets/07/question01.html" target="_blank"
+              >question01.html</a
+            >
+          </p>
+        </div>
+      </article> -->
+      <article class="chapter">
+        <h2 class="chapter__title">3. 条件分岐</h2>
+        <div class="clause">
+          <div class="item">
+            <p>「もし〜なら」のように、条件によって処理を変えること。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">if(条件式){
+  //条件式に合致したときに行う処理
+}</code></pre>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">if(条件式){
+  //条件式が「true」のときに行う処理
+}else{
+  //条件式が「false」のときに行う処理
+}</code></pre>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">if(条件式A){
+  //条件式Aが「true」のときに行う処理
+}else if(条件式B){
+  //条件式Aが「false」、条件式Bが「true」のときに行う処理
+}else{
+  //上記の条件式が「false」のときに行う処理
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【等価演算子】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>演算子</th>
+                      <th>用途</th>
+                      <th>例</th>
+                      <th>結果</th>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">A == B</td>
+                      <td rowspan="2">AとBが等しいことを確認</td>
+                      <td>1 == 1</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>1 == 2</td>
+                      <td>false</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">A != B</td>
+                      <td rowspan="2">AとBが等しくないことを確認</td>
+                      <td>1 != 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>1 != 1</td>
+                      <td>false</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【関係演算子】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>演算子</th>
+                      <th>用途</th>
+                      <th>例</th>
+                      <th>結果</th>
+                    </tr>
+                    <tr>
+                      <td>A &lt; B</td>
+                      <td>AがBよりも小さいことを確認</td>
+                      <td>1 &lt; 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>A &gt; B</td>
+                      <td>AがBよりも大きいことを確認</td>
+                      <td>1 &gt; 1</td>
+                      <td>false</td>
+                    </tr>
+                    <tr>
+                      <td>A &lt;= B</td>
+                      <td>AがB以下であることを確認</td>
+                      <td>1 &lt;= 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>A &gt;= B</td>
+                      <td>AがB以上であることを確認</td>
+                      <td>1 &gt;= 1</td>
+                      <td>true</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【論理演算】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">// 論理和（OR） AまたはB
+if(条件式A || 条件式B){
+  //条件式A、条件式Bどちらかが「true」のときに行う処理
+}
+
+// 論理積（AND） AかつB
+if(条件式A && 条件式B){ //false
+  //条件式A、条件式Bどちらも「true」のときに行う処理
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <!-- <article class="chapter">
+        <h2 class="chapter__title">☆問題</h2>
+        <div class="clause">
+          <p>
+            <a href="./assets/07/question02.html" target="_blank"
+              >question02.html</a
+            >
+          </p>
+          <p>
+            <a href="./assets/07/question03.html" target="_blank"
+              >question03.html</a
+            >
+          </p>
+        </div>
+      </article> -->
+      <article class="chapter">
+        <h2 class="chapter__title">4. ランダム</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">//0.000.... 〜 0.999...の間のランダムな小数を取得する
+Math.random();
+
+//0.000.... 〜 9.999...の間のランダムな小数を取得する
+Math.random() * 10;
+
+//90.000.... 〜 99.999...の間のランダムな小数を取得する
+Math.random() * 10 + 90;
+
+//90〜99の間のランダムな整数を取得する（小数点以下切り捨て）
+Math.floor(Math.random() * 10) + 90;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <!-- <article class="chapter">
+        <h2 class="chapter__title">☆問題</h2>
+        <div class="clause">
+          <p>
+            <a href="./assets/07/question04.html" target="_blank"
+              >question04.html</a
+            >
+          </p>
+          <p>
+            <a href="./assets/07/question05.html" target="_blank"
+              >question05.html</a
+            >
+          </p>
+        </div>
+      </article> -->
+      <article class="chapter">
+        <h2 class="chapter__title">5. システム関数</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function mousePressed() {
+  //マウスを押した時に1回だけ実行される
+}
+
+function mouseReleased() {
+  //マウスを離した時に1回だけ実行される
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <!-- <article class="chapter">
+        <h2 class="chapter__title">☆問題</h2>
+        <div class="clause">
+          <p>
+            <a href="./assets/07/question06.html" target="_blank"
+              >question06.html</a
+            >
+          </p>
+          <p>
+            <a href="./assets/07/question07.html" target="_blank"
+              >question07.html</a
+            >
+          </p>
+        </div>
+      </article> -->
+      <article class="chapter">
+        <h2 class="chapter__title">6. 時間があまったら</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              変数・条件分岐・ランダム・システム関数を使って、自由に作品を創る。（question08.html）
+            </p>
+          </div>
+          <!-- <div class="item">
+            <p>
+              <a href="./assets/07/question09.html" target="_blank">追加問題</a>
+            </p>
+          </div> -->
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">7. 提出先</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【提出方法】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/15KsRIkoS8ZdXtqYLcHt2Wsr4ARbGHmQ1?usp=sharing"
+                      >Googleドライブ</a
+                    >に「出席番号_苗字」のフォルダを作成。
+                  </li>
+                  <li>
+                    課題ごとに指定のファイル名で保存し、自分のフォルダに提出。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クリックゲーム</title>
+  </head>
+  <body>
+    <h1>click game</h1>
+    <div class="monster">
+      <p class="name">名前</p>
+      <img class="pic" src="#" alt="" width="200" />
+      <p class="hp">HP:</p>
+    </div>
+    <script>
+      const obj = {
+        name: "ピンクカバ",
+        pic: "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+        hp: 10,
+        clear: () => {
+          alert("クリア！");
+        },
+      };
+
+      const name = document.querySelector(".name");
+      name.textContent = obj.name;
+
+      const pic = document.querySelector(".pic");
+      pic.src = obj.pic;
+
+      const hp = document.querySelector(".hp");
+      hp.textContent = `HP:${obj.hp}`;
+
+      pic.addEventListener("click", () => {
+        if (obj.hp > 0) {
+          hp.textContent = `HP:${--obj.hp}`;
+
+          if (obj.hp === 0) {
+            obj.clear();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル時計</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+        body {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url(./image/back.jpg)no-repeat;
+            background-size: 100%;
+        }
+
+        img {
+            transition: transform 0.3s ease;
+            /* 拡大アニメーションを滑らかに */
+        }
+
+        /* 蝶々 */
+        .pic {
+            position: absolute;
+            top: 140px;
+            left: 480px;
+        }
+
+        .pic {
+            margin: 80px auto;
+            animation: pic 3s infinite;
+        }
+
+        @keyframes pic {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .butterfly {
+            position: absolute;
+            top: 300px;
+            right: 530px;
+        }
+
+        .butterfly {
+            margin: 80px auto;
+            animation: butterfly 3s infinite;
+        }
+
+        @keyframes butterfly {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 風船ピンク */
+        .pic2 {
+            position: absolute;
+            top: -50px;
+            right: 150px;
+        }
+
+        .pic2 {
+            margin: 80px auto;
+            animation: pic2 4s infinite;
+        }
+
+        @keyframes pic2 {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .pic6 {
+            position: absolute;
+            top: -50px;
+            left: 150px;
+        }
+
+        .pic6 {
+            margin: 80px auto;
+            animation: pic6 4s infinite;
+        }
+
+        @keyframes pic6 {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+
+        /* 風船むらさき */
+        .pic3 {
+            position: absolute;
+            top: 100px;
+            right: 0;
+        }
+
+        .pic3 {
+            margin: 80px auto;
+            animation: pic3 4s infinite;
+        }
+
+        @keyframes pic3 {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .pic7 {
+            position: absolute;
+            top: 100px;
+            left: 0;
+        }
+
+        .pic7 {
+            margin: 80px auto;
+            animation: pic7 4s infinite;
+        }
+
+        @keyframes pic7 {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* 花 */
+        .pic4 {
+            position: absolute;
+            bottom: 100px;
+            left: 800px;
+        }
+
+        .pic5 {
+            position: absolute;
+            bottom: 100px;
+            left: 550px;
+        }
+
+        /* うさぎ */
+        .rabbit {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        /* ねこ */
+        .cat {
+            position: absolute;
+            bottom: -30px;
+            left: 30px;
+        }
+
+
+        /* 時計の共通スタイル */
+        .clock {
+            margin-bottom: 150px;
+            font-family: 'Elsie', cursive;
+            color: #906ab0;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        /* 日付のスタイル */
+        .clock-date {
+            font-size: 25px;
+        }
+
+        /* 時間のスタイル */
+        .clock-time {
+            margin: 0 50px;
+            font-size: 100px;
+        }
+
+        /* 文字サイズ調整 */
+        @media screen and (max-width: 500px) {
+            .clock-date {
+                font-size: 5vw;
+            }
+
+            .clock-time {
+                font-size: 20vw;
+            }
+        }
+
+        .image-container {
+            display: inline-block;
+            padding: 10px;
+            /* マウスオーバー範囲を広げる */
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.3);
+            /* 親要素のホバー時に拡大 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="clock">
+            <p class="clock-date"></p>
+            <p class="clock-time"></p>
+        </div>
+        <img class="pic" src="./image/pic.png" alt="" width="15%">
+        <img class="butterfly" src="./image/butterfly.png" alt="" width="16%">
+        <img class="pic3" src="./image/pic3.png" alt="" width="20%">
+        <img class="pic2" src="./image/pic2.png" alt="" width="15%">
+        <img class="pic4" src="./image/pic4.png" alt="" width="37%">
+        <img class="pic5" src="./image/pic4.png" alt="" width="37%">
+        <div class="image-container">
+            <img class="rabbit" src="./image/rabbit.png" alt="" width="25%">
+        </div>
+        <div class="image-container">
+            <img class="cat" src="./image/cat.png" alt="" width="23%">
+        </div>
+        <img class="pic7" src="./image/pic3.png" alt="" width="20%">
+        <img class="pic6" src="./image/pic2.png" alt="" width="15%">
+    </div>
+
+    <div class="slideshow"></div>
+
+
+
+    <script>
+        const clock = () => {
+            const d = new Date();
+
+            let year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            let date = d.getDate();
+            let dayNum = d.getDay();
+            const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            let day = weekday[dayNum];
+            let hour = d.getHours();
+            let min = d.getMinutes();
+            let sec = d.getSeconds();
+
+            // 1桁の場合は0を足して2桁に
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+
+            // 日付・時刻の文字列を作成
+            let today = `${year}.${month}.${date} ${day}`;
+            let time = `${hour}:${min}:${sec}`;
+
+            // 文字列を出力
+            document.querySelector(".clock-date").innerText = today;
+            document.querySelector(".clock-time").innerText = time;
+
+            setTimeout(clock, 1000 - d.getMilliseconds());
+        };
+
+        clock();
+
+        // JavaScriptでマウスオーバーとマウスアウトを設定
+        const images = document.querySelectorAll('img');
+
+        // マウスオーバー時の処理
+        image.addEventListener('mouseenter', () => {
+            image.style.transform = 'scale(1.5)';
+        });
+
+        // マウスアウト時の処理
+        image.addEventListener('mouseleave', () => {
+            image.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+
+</html>

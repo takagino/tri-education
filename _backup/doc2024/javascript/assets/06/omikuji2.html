@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>おみくじ</title>
+  <style>
+    #result {
+      transition: 1s;
+    }
+
+    .active {
+      transform: rotateY(360deg);
+    }
+  </style>
+</head>
+<body>
+  <button id="btn">占う</button>
+  <p><img id="result" src="https://trident.takagino.net/doc2024/javascript/assets/04/omikuji/omikuji.png" alt=""></p>
+  <p id="message">何か一言が表示されます。</p>
+  <ul id="count"></ul>
+
+  <script>
+    const btn = document.getElementById('btn');
+    const result = document.getElementById('result');
+    const message = document.getElementById('message');
+    const count = document.getElementById('count');
+
+    const path = 'https://trident.takagino.net/doc2024/javascript/assets/04/omikuji';
+    const files = ['daikichi.png', 'chuukichi.png', 'syoukichi.png', 'kyou.png', 'daikyou.png'];
+    const texts = ['買ってないのに宝くじが当たる', '何もしてないのに褒められる', '頭皮の調子が良い', 'コンタクトレンズが割れる', 'どこかの骨を折る'];
+    const labels = ['大吉', '中吉', '小吉', '凶', '大凶']
+
+    const counts = [];
+    for (let i = 0; i < labels.length; i++) {
+      counts[i] = 0;
+    }
+
+    let allCount = '';
+    for (let i = 0; i < labels.length; i++) {
+      allCount += `<li>${labels[i]}：${counts[i]}</li>`;
+    }
+    count.innerHTML = allCount;
+
+    btn.addEventListener('click', function () {
+      const random = Math.floor(Math.random() * labels.length);
+
+      result.setAttribute('src', `${path}/${files[random]}`);
+      message.innerHTML = texts[random];
+      counts[random]++;
+
+      let allCount = '';
+      for (let i = 0; i < labels.length; i++) {
+        allCount += `<li>${labels[i]}：${counts[i]}</li>`;
+      }
+      count.innerHTML = allCount;
+
+      result.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

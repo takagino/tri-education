@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>麻雀役データ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" href="/favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Yuji+Syuku&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #016b0c;
+      }
+      .bar {
+        fill: #d99b4e;
+      }
+      .bar:hover {
+        fill: orange;
+      }
+      .axis-label {
+        font-size: 20px;
+      }
+      .title {
+        font-size: 50px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-family: "Yuji Syuku", serif;
+        font-weight: 400;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        background-color: #ffffff;
+        border-radius: 6px;
+        font-family: "Yuji Syuku", serif;
+      }
+      .checkbox-label {
+        font-size: 10px;
+        display: inline-flex;
+        align-items: center;
+      }
+      .checkbox {
+        margin-left: 5px;
+      }
+      #result {
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 10px;
+        font-family: "Yuji Syuku", serif;
+      }
+
+      text {
+        color: white;
+        font-size: 20px;
+        font-family: "Yuji Syuku", serif;
+        margin-bottom: 100px;
+      }
+
+      svg {
+        margin-bottom: 40px;
+      }
+
+      rect {
+        margin-bottom: 100px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+
+      #result {
+        color: white;
+        font-size: 20px;
+        font-family: "Yuji Syuku", serif;
+      }
+
+      #chart {
+        margin: auto;
+      }
+
+      h1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "BIZ UDPGothic", sans-serif;
+        font-weight: 700;
+        font-size: 50px;
+        color: white;
+      }
+
+      span {
+        font-size: 50px;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="title">
+      <span>🀇</span><span>🀙</span><span>🀐</span><span>🀏</span><span>🀡</span
+      ><span>🀘</span> 麻雀役データ<span>🀀</span><span>🀁</span><span>🀂</span
+      ><span>🀃</span>
+    </h1>
+    <div class="buttons">
+      <button data-key="percentage">出現率</button>
+      <button data-key="fan">翻数</button>
+      <button data-key="average_score">平均得点</button>
+    </div>
+    <svg id="chart" width="900" height="1000"></svg>
+    <p id="result">選択した役の合計飜数: <span id="fan-total">0</span></p>
+
+    <script>
+      // SVGサイズ
+      const width = 1000;
+      const height = 2000;
+      const margin = { top: 10, right: 30, bottom: -10, left: 200 };
+
+      // SVG設定
+      const svg = d3
+        .select("#chart")
+        .attr("width", width)
+        .attr("height", height);
+
+      // スケール設定
+      const x = d3.scaleLinear().range([margin.left, width - margin.right]);
+      const y = d3
+        .scaleBand()
+        .range([margin.top, height - margin.bottom])
+        .padding(0.1);
+
+      // 軸描画
+      svg
+        .append("g")
+        .attr("class", "x-axis")
+        .attr("transform", `translate(0,${height - margin.bottom})`);
+      svg
+        .append("g")
+        .attr("class", "y-axis")
+        .attr("transform", `translate(${margin.left},0)`);
+
+      // データ読み込み
+      d3.json("data.json")
+        .then((data) => {
+          const roles = data.roles;
+          let currentKey = "percentage"; // 初期キー
+
+          // 更新関数
+          function update(key) {
+            // スケールのドメイン設定
+            x.domain([0, d3.max(roles, (d) => d[key])]);
+            y.domain(roles.map((d) => d.yaku));
+
+            // 軸更新
+            svg
+              .select(".x-axis")
+              .transition()
+              .duration(800)
+              .call(
+                d3
+                  .axisBottom(x)
+                  .ticks(10)
+                  .tickFormat((d) => {
+                    if (key === "percentage") return `${d}%`;
+                    return d;
+                  })
+              );
+            svg
+              .select(".y-axis")
+              .transition()
+              .duration(800)
+              .call(d3.axisLeft(y));
+
+            // 棒グラフ描画
+            const bars = svg.selectAll(".bar").data(roles, (d) => d.yaku);
+
+            bars
+              .enter()
+              .append("rect")
+              .attr("class", "bar")
+              .attr("x", x(0))
+              .attr("y", (d) => y(d.yaku))
+              .attr("height", y.bandwidth())
+              .attr("width", 0) // 初期幅は0
+              .merge(bars)
+              .transition() // アニメーション
+              .duration(800)
+              .attr("width", (d) => x(d[key]) - x(0))
+              .attr("y", (d) => y(d.yaku))
+              .attr("fill", "steelblue");
+
+            bars.exit().remove();
+
+            // ラベルとチェックボックスの追加
+            const labels = svg
+              .selectAll(".label-group")
+              .data(roles, (d) => d.yaku);
+
+            const labelEnter = labels
+              .enter()
+              .append("g")
+              .attr("class", "label-group");
+
+            labelEnter
+              .append("text")
+              .attr("class", "label")
+              .attr("x", (d) => x(d[key]) + 5)
+              .attr("y", (d) => y(d.yaku) + y.bandwidth() / 2 + 5)
+              .merge(labels.select(".label"))
+              .transition()
+              .duration(800)
+              .attr("x", (d) => x(d[key]) + 5)
+              .attr("y", (d) => y(d.yaku) + y.bandwidth() / 2 + 5)
+              .text((d) => (key === "percentage" ? `${d[key]}%` : d[key]));
+
+            labelEnter
+              .append("foreignObject")
+              .attr("x", (d) => margin.left - 200)
+              .attr("y", (d) => y(d.yaku))
+              .attr("width", 20)
+              .attr("height", y.bandwidth())
+              .html(
+                (d) =>
+                  `<div class='checkbox-label'><input type='checkbox' class='checkbox' value='${d.fan}'/></div>`
+              );
+
+            labels.exit().remove();
+          }
+
+          // 初期描画
+          update(currentKey);
+
+          // ボタンイベント設定
+          d3.selectAll("button[data-key]").on("click", function () {
+            currentKey = d3.select(this).attr("data-key");
+            update(currentKey);
+          });
+
+          // 飜数計算
+          d3.select("#chart").on("change", function () {
+            const selectedRoles = d3.selectAll(".checkbox:checked").nodes();
+            const totalFan = selectedRoles.reduce(
+              (sum, checkbox) => sum + parseInt(checkbox.value, 10),
+              0
+            );
+
+            // 役満判定
+            if (totalFan > 13) {
+              d3.select("#result").text(
+                "選択した役の合計飜数: 役満！または数え役満！"
+              );
+            } else {
+              d3.select("#result").text(`選択した役の合計飜数: ${totalFan}`);
+            }
+          });
+        })
+        .catch((error) => console.error("Error loading the data:", error));
+    </script>
+  </body>
+</html>

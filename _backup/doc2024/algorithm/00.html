@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」00_導入 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」00_導入</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 授業について</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 科目のねらい</h3>
+          <p>
+            この授業では、クリエイティブな表現とコーディングの楽しさを組み合わせたプログラミング言語「p5.js」を使用し、アイディアの視覚化や、ビジュアルアートの制作に必要なスキルを習得する。同時に、コーディングの基本原則やプログラミングの論理を理解し、これを応用してクリエイティブなプロジェクトを実現する力を養う。
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 授業概要</h3>
+          <p>
+            制御構造、変数、関数などの基本的なプログラミングの概念を学びながら、同時に
+            p5.js
+            の基本的な機能や描画命令、アニメーションの制作方法など、p5.jsの基礎を理解する。サンプルや課題制作を通じて、アートとプログラミングを融合した新しい表現手段を体験する。また、制作の進捗を共有し合い、同時にフィードバックを得て改善することで、実践的なスキル向上を図る。
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-3. 到達目標</h3>
+          <ol>
+            <li>
+              プログラミングの基本的な概念を理解し、それを実践に応用できる。
+            </li>
+            <li>
+              アート制作において発生する様々な課題に対して、クリエイティブかつ効果的な解決策を見つけることができる。
+            </li>
+            <li>
+              プログラミングを通じて独自のアートスタイルや表現手段を見つけ、自分のアイディアを独創的に表現できる。
+            </li>
+            <li>
+              講師やクラスメイトと協力しながら、他者のフィードバックを受け入れ、自らの作品をより洗練させることができる。
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-4. 評価の観点</h3>
+          <ul class="clause__list">
+            <li>出席率</li>
+            <li>授業態度</li>
+            <li>課題の完成度</li>
+          </ul>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">2-1. p5.jsとは？</h3>
+          <div class="item">
+            <p>
+              アートとビジュアルデザインのためのプログラミング言語「Processing」のJavaScript移植版。
+            </p>
+            <ul>
+              <li><a href="https://p5js.org/">公式サイト</a></li>
+              <li><a href="https://openprocessing.org/">OpenProcessing</a></li>
+            </ul>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【p5.jsを学ぶメリット】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>楽しくプログラミングの基礎が学習できる。</li>
+                  <li>HTMLやCSSがわからなくても学習できる。</li>
+                  <li>
+                    後期から始まる「JavaScript」の授業にスムーズに入れる。
+                  </li>
+                  <li>気軽に作品を制作し、Web上に公開できる。</li>
+                  <li>
+                    場合によっては高額で売れる場合も。（<a
+                      href="https://generativemasks.io/"
+                      >GENERATIVEMASKS</a
+                    >）
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. プログラミングを学ぶにあたって</h3>
+          <div class="item">
+            <ul class="clause__list">
+              <li>プログラミングができれば、それだけで就職できる。</li>
+              <li>プログラミングができれば、作りたいものを形にできる。</li>
+              <li>でも、プログラミングは難しい。</li>
+              <li>授業だけで理解するのは無理。</li>
+              <li>
+                もくもくタイム（月15:30〜18:00、木14:00〜18:00）でわからないところは聞く。
+              </li>
+              <li>
+                どうしてもわからない場合はあきらめて、デザインなり他のことに力を入れる。
+              </li>
+              <li>
+                とはいえ授業の課題は出さないと単位が取れないので、最低限は頑張る。
+              </li>
+              <li>
+                <em>一番ダメなのは学校を辞めること。</em
+                >一生ついてまわる経歴と、逃げ癖がついてしまう。
+              </li>
+              <li>
+                「時間やお金がもったいない」という学生がいるが、途中でやめたほうがその何倍ももったいない時間を過ごすことになる。
+              </li>
+              <li>絶対にWeb業界に就職しなければいけないわけではない。</li>
+              <li>学校生活を楽しんで、必ず卒業しよう。</li>
+            </ul>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ちなみに高木の経歴】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    普通科の高校を卒業後、<em>名城大学理工学部電気電子工学科</em>に入学。飲み会に明け暮れ、コミュ力と酒の強さだけを身につける。
+                  </li>
+                  <li>
+                    就活もろくに頑張らず、何となく<em>地元ケーブルテレビ局の技術部</em>に入社。クレーム対応や電柱の調査等のつまらない毎日が嫌になり、1年半で退社。
+                  </li>
+                  <li>
+                    手に職をつけるため、<em>岐阜県にあるアート系の専門学校「IAMAS」</em>に入学。寝る間も惜しんで作品制作に没頭し、講師の基盤となる技術の全てを身につける。
+                  </li>
+                  <li>
+                    卒業後、<em>美大（名古屋造形大学）の助手</em>となる。「大卒で社会人経験があること」が条件で、大学を卒業しておいて良かったとつくづく思う。
+                  </li>
+                  <li>
+                    2年間の任期終了後、実務経験を積むためWeb制作会社で働いたのち、トライデントコンピュータ専門学校Webデザイン学科講師となる。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

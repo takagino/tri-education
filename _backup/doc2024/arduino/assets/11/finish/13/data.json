@@ -1,0 +1,198 @@
+{
+    "top_goal_scorers": [
+        {
+            "label": "Cristiano Ronaldo",
+            "country": "Portugal",
+            "goals": 916,
+            "url": "https://example.com/ronaldo.jpg",
+            "color": "#C38D00"
+        },
+        {
+            "label": "Lionel Messi",
+            "country": "Argentina",
+            "goals": 850,
+            "url": "https://example.com/messi.jpg",
+            "color": "#F2B43C"
+        },
+        {
+            "label": "Pelé",
+            "country": "Brazil",
+            "goals": 762,
+            "url": "https://example.com/pele.jpg",
+            "color": "#F7D4C5"
+        },
+        {
+            "label": "Romário",
+            "country": "Brazil",
+            "goals": 756,
+            "url": "https://example.com/romario.jpg",
+            "color": "#D13729"
+        },
+        {
+            "label": "Ferenc Puskás",
+            "country": "Hungary",
+            "goals": 725,
+            "url": "https://example.com/puskas.jpg",
+            "color": "#FF5F1F"
+        },
+        {
+            "label": "Josef Bican",
+            "country": "Austria/Czechoslovakia",
+            "goals": 722,
+            "url": "https://example.com/bican.jpg",
+            "color": "#8B4D17"
+        },
+        {
+            "label": "Robert Lewandowski",
+            "country": "Poland",
+            "goals": 692,
+            "url": "https://example.com/lewandowski.jpg",
+            "color": "#3F6A47"
+        },
+        {
+            "label": "Jimmy Jones",
+            "country": "Northern Ireland",
+            "goals": 639,
+            "url": "https://example.com/jones.jpg",
+            "color": "#B5422F"
+        },
+        {
+            "label": "Gerd Müller",
+            "country": "Germany",
+            "goals": 634,
+            "url": "https://example.com/muller.jpg",
+            "color": "#9A7B47"
+        },
+        {
+            "label": "Joe Bambrick",
+            "country": "Northern Ireland",
+            "goals": 617,
+            "url": "https://example.com/bambrick.jpg",
+            "color": "#3F0D0D"
+        }
+    ],
+    "top_assist_players": [
+        {
+            "label": "Lionel Messi",
+            "assists": "Around 400+",
+            "url": "https://example.com/messi.jpg",
+            "color": "#F2B43C"
+        },
+        {
+            "label": "Juan Riquelme",
+            "assists": "High number of assists, exact figure debated",
+            "url": "https://example.com/riquelme.jpg",
+            "color": "#2F7D5A"
+        },
+        {
+            "label": "Cristiano Ronaldo",
+            "assists": "Around 270+",
+            "url": "https://example.com/ronaldo.jpg",
+            "color": "#C38D00"
+        },
+        {
+            "label": "Thierry Henry",
+            "assists": "Around 200+",
+            "url": "https://example.com/henry.jpg",
+            "color": "#F1C54B"
+        },
+        {
+            "label": "Kevin De Bruyne",
+            "assists": "Around 250+",
+            "url": "https://example.com/debruyn.jpg",
+            "color": "#00A7B7"
+        },
+        {
+            "label": "Thomas Muller",
+            "assists": "Around 250+",
+            "url": "https://example.com/muller.jpg",
+            "color": "#9A7B47"
+        },
+        {
+            "label": "Cesc Fabregas",
+            "assists": "Around 230+",
+            "url": "https://example.com/fabregas.jpg",
+            "color": "#6B5B95"
+        },
+        {
+            "label": "Xavi",
+            "assists": "Around 230+",
+            "url": "https://example.com/xavi.jpg",
+            "color": "#F4C1C1"
+        },
+        {
+            "label": "Mesut Özil",
+            "assists": "Around 250+",
+            "url": "https://example.com/ozil.jpg",
+            "color": "#DDC45D"
+        },
+        {
+            "label": "Luis Suárez",
+            "assists": "Around 200+",
+            "url": "https://example.com/suarez.jpg",
+            "color": "#FF4A4A"
+        }
+    ],
+    "most_titles": [
+        {
+            "label": "Lionel Messi",
+            "titles": 46,
+            "url": "https://example.com/messi.jpg",
+            "color": "#F2B43C"
+        },
+        {
+            "label": "Dani Alves",
+            "titles": 43,
+            "url": "https://example.com/alves.jpg",
+            "color": "#D4AF37"
+        },
+        {
+            "label": "Andrés Iniesta",
+            "titles": 37,
+            "url": "https://example.com/iniesta.jpg",
+            "color": "#FFBC00"
+        },
+        {
+            "label": "Maxwell",
+            "titles": 37,
+            "url": "https://example.com/maxwell.jpg",
+            "color": "#A5B1F7"
+        },
+        {
+            "label": "Gerard Piqué",
+            "titles": 35,
+            "url": "https://example.com/pique.jpg",
+            "color": "#FE0101"
+        },
+        {
+            "label": "Ryan Giggs",
+            "titles": 34,
+            "url": "https://example.com/giggs.jpg",
+            "color": "#F5A9A9"
+        },
+        {
+            "label": "Sergio Busquets",
+            "titles": 32,
+            "url": "https://example.com/busquets.jpg",
+            "color": "#FFD700"
+        },
+        {
+            "label": "Kenny Dalglish",
+            "titles": 32,
+            "url": "https://example.com/dalglish.jpg",
+            "color": "#D93700"
+        },
+        {
+            "label": "Carles Puyol",
+            "titles": 22,
+            "url": "https://example.com/puyol.jpg",
+            "color": "#F4A300"
+        },
+        {
+            "label": "John Terry",
+            "titles": 17,
+            "url": "https://example.com/terry.jpg",
+            "color": "#4B2F2F"
+        }
+    ]
+}

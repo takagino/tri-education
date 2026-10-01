@@ -1,0 +1,42 @@
+{
+    "soundcloud": [
+        {
+            "label": "水族館で魚見てろ",
+            "val": 552200,
+            "url": "https://i1.sndcdn.com/artworks-000545011413-oyx8ge-t500x500.jpg",
+            "color": "ff4081"
+        },
+        {
+            "label": "Cinderella",
+            "val": 363300,
+            "url": "https://images.genius.com/6946b713ea3166b14d9b8eb0c87164a0.1000x1000x1.jpg",
+            "color": "ff4081"
+        },
+        {
+            "label": "iffy",
+            "val": 541900,
+            "url": "https://i1.sndcdn.com/artworks-000306307431-znwuji-t500x500.jpg",
+            "color": "ff4081"
+        }
+    ],
+    "youtube": [
+        {
+            "label": "Fast Lane & Slow Dive",
+            "val": 4070000,
+            "url": "https://pimg.awa.io/v2/jacket/ff4a56d7cb720d9ec994.w400.h400.v1736802474.jpg",
+            "color": "ff4081"
+        },
+        {
+            "label": "Cinderella",
+            "val": 3390000,
+            "url": "https://images.genius.com/6946b713ea3166b14d9b8eb0c87164a0.1000x1000x1.jpg",
+            "color": "ff4081"
+        },
+        {
+            "label": "Ring Ring",
+            "val": 580000,
+            "url": "https://images.genius.com/6946b713ea3166b14d9b8eb0c87164a0.1000x1000x1.jpg",
+            "color": "ff4081"
+        }
+    ]
+}

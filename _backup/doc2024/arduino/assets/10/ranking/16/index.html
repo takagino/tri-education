@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>d3.js Bar Chart</title>
+    <style>
+      svg {
+        background-color: #ddd;
+      }
+
+      #container {
+        max-width: 640px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>槇原敬之売上曲ランキングTOP5</h1>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+      const width = 640;
+      const height = 480;
+      const imageW = 40; // 画像の幅
+      const margin = { top: 20, left: 20 }; // 上と左の余白
+
+      const svg = d3
+        .create("svg")
+        .attr("viewBox", `0 0 ${width + margin.left} ${height + margin.top}`);
+
+      const container = svg
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+      d3.json("data.json")
+        .then((dataset) => {
+          const max = d3.max(dataset, (data) => data.val);
+          const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+          // カラースケールを定義
+          const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+          const g = container
+            .selectAll(".item")
+            .data(dataset)
+            .enter()
+            .append("g")
+            .classed("item", true)
+            .attr("transform", (data, index) => `translate(50, ${index * 50})`);
+
+          // 画像を描画（グラフの左側に配置）
+          g.append("image")
+            .attr("href", (data) => data.url)
+            .attr("width", imageW)
+            .attr("height", 40)
+            .attr("x", -50) // バーの左側に配置
+            .attr("y", -10); // 画像を中央揃え
+
+          // バーを描画
+          g.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 0)
+            .attr("height", 20)
+            .attr("fill", (data, index) => colorScale(index)) // 各バーに異なる色を適用
+            .transition()
+            .duration(1000)
+            .delay((data, index) => index * 100)
+            .ease(d3.easeLinear)
+            .attr("width", (data) => scale(data.val));
+
+          // ラベルを描画
+          g.append("text")
+            .classed("label", true)
+            .attr("font-size", "14")
+            .attr("x", (data) => scale(data.val) + 5)
+            .attr("y", 14)
+            .text((data) => data.label);
+
+          // 値を描画
+          g.append("text")
+            .classed("val", true)
+            .attr("font-size", "14")
+            .attr("x", 0)
+            .attr("y", 14)
+            .text((data) => data.val);
+
+          document.getElementById("container").appendChild(svg.node());
+        })
+        .catch((error) => {
+          console.error("Error loading the data:", error);
+        });
+    </script>
+  </body>
+</html>

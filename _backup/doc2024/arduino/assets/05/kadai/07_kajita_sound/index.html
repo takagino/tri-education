@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound Visualization</title>
+    <style>
+        canvas {
+            background: #111;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+    <script>
+
+        let mySound;
+        let fft;
+        let img;
+        let images = [];
+
+        function preload() {
+            mySound = loadSound('downloads_Chipi Chipi Chapa Chapa Cat green screen 猫ミーム素材 .mp4');
+            img = loadImage('downloads-Chipi-Chipi-Chapa-Ch-unscreen.gif'); // 画像を読み込む
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            mySound.amp(0.5);
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            // 背景を黒に固定
+            background(0);
+
+            // 光のグラデーションを追加
+            drawLightGradient();
+
+            // 音楽が流れているときに図形を描画
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+
+                // 音楽が流れたら画像が増える
+                if (frameCount % 15 === 0) { // 画像の追加頻度を少なくする
+                    createRandomImage();
+                }
+
+                // 背景でスペクトラムを描画
+                for (let i = 0; i < spectrum.length; i += 1000) { // スペクトラム図形の数を減らす
+                    let x = random(width);
+                    let y = random(height);
+                    let d = map(spectrum[i], 0, 255, 50, 200);
+                    let hue = map(i, 0, spectrum.length, 0, 360);
+                    let brightness = map(spectrum[i], 0, 255, 40, 90);
+
+                    push();
+                    translate(x, y);
+                    rotate(random(360));
+                    fill(hue, 80, brightness, 0.8);
+                    noStroke();
+                    if (random() > 0.5) {
+                        ellipse(0, 0, d, d);
+                    } else {
+                        rect(0, 0, d, d);
+                    }
+                    pop();
+                }
+
+                // 画像を表示
+                drawImages();
+            }
+        }
+
+        function createRandomImage() {
+            let imageObj = {
+                x: random(width),
+                y: random(height),
+                size: random(100, 200),
+                alpha: 0.8 // 画像の透明度
+            };
+            images.push(imageObj);
+        }
+
+        function drawImages() {
+            for (let i = 0; i < images.length; i++) {
+                let imgObj = images[i];
+                imageMode(CENTER);
+
+                // 中央の光源を意識して画像の明度を調整
+                let distance = dist(imgObj.x, imgObj.y, width / 2, height / 2);
+                let lightFactor = map(distance, 0, width / 2, 1, 0.3); // 中心からの距離に応じて明度を調整
+
+                // 画像に光のエフェクトを追加
+                tint(255, imgObj.alpha * 255 * lightFactor); // 画像の明度を調整
+                image(img, imgObj.x, imgObj.y, imgObj.size, imgObj.size); // 画像を描画
+            }
+        }
+
+        function drawLightGradient() {
+            // 光のグラデーションを描画
+            let gradientColor1 = color(255, 255, 255, 0); // 透明
+            let gradientColor2 = color(255, 255, 255, 80); // 少し透けた白
+            let gradientColor3 = color(255, 255, 255, 200); // 強い白
+            for (let i = 0; i < width; i++) {
+                let inter = map(i, 0, width, 0, 1);
+                let c = lerpColor(gradientColor1, gradientColor2, inter);
+                stroke(c);
+                line(i, 0, i, height);
+            }
+            for (let i = 0; i < width; i++) {
+                let inter = map(i, 0, width, 0, 1);
+                let c = lerpColor(gradientColor2, gradientColor3, inter);
+                stroke(c);
+                line(i, 0, i, height);
+            }
+        }
+
+        function keyPressed() {
+            // スペースキーで音楽を開始
+            if (key === ' ') {
+                if (!mySound.isPlaying()) {
+                    mySound.loop(); // 音楽をループ再生
+                }
+            }
+        }
+
+        function keyReleased() {
+            // スペースキーが離されたときに音楽を停止
+            if (key === ' ') {
+                mySound.pause();
+                clear();
+            }
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+{
+  "y2022": [
+    {
+      "label": "1位 シナモンロール",
+      "val22": 5670000,
+      "val23": 30,
+      "val24": 40,
+      "val25": 100,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/chara_rank1.png",
+      "color": "#87cefa"
+    },
+    {
+      "label": "2位 ポチャッコ",
+      "val22": 4591020,
+      "val23": 60,
+      "val24": 40,
+      "val25": 300,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/chara_rank2.png",
+      "color": "#66cdaa"
+    },
+    {
+      "label": "3位 クロミ",
+      "val22": 4125678,
+      "val23": 90,
+      "val24": 200,
+      "val25": 120,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/chara_rank3.png",
+      "color": "#9370db"
+    },
+    {
+      "label": "4位 ポムポムプリン",
+      "val22": 4089750,
+      "val23": 30,
+      "val24": 40,
+      "val25": 100,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/pompompurin.png",
+      "color": "#028482"
+    }
+  ],
+  "y2023": [
+    {
+      "label": "1位 シナモンロール",
+      "val22": 4376064,
+      "val23": 30,
+      "val24": 40,
+      "val25": 100,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/cinnamon.png",
+      "color": "#028482"
+    },
+    {
+      "label": "2位 ポムポムプリン",
+      "val22": 3695478,
+      "val23": 30,
+      "val24": 40,
+      "val25": 100,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/pompompurin.png",
+      "color": "#da3000"
+    },
+    {
+      "label": "3位 クロミ",
+      "val22": 3566050,
+      "val23": 30,
+      "val24": 40,
+      "val25": 100,
+      "url": "https://trident.takagino.net/doc2024/arduino/assets/11/finish/15/images/kuromi%20(1).png",
+      "color": "#3e63af"
+    }
+  ]
+}

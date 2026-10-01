@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>組み込みオブジェクト</title>
+    <style>
+      @font-face {
+        font-family: zyaiann;
+        src: url(./font/GN-KillGothic-U-KanaNA.ttf);
+      }
+
+      /* Google Fonts 読み込み */
+      @import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+      body {
+        background-image: url(./a.svg);
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      /* 全体を囲うコンテナー */
+      .container {
+        width: 100%;
+        height: 100vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* 時計の共通スタイル */
+      .clock {
+        font-family: zyaiann;
+        color: #000000;
+        text-shadow: 0 0 20px #c3c3c3;
+        line-height: 1.6;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      /* 日付のスタイル */
+      .clock-date {
+        font-size: 25px;
+      }
+
+      /* 時間のスタイル */
+      .clock-time {
+        font-size: 100px;
+        margin: 0;
+      }
+
+      /* 文字サイズ調整 */
+      @media screen and (max-width: 500px) {
+        .clock-date {
+          font-size: 5vw;
+        }
+
+        .clock-time {
+          font-size: 20vw;
+        }
+      }
+
+      .heart {
+        width: 20%;
+        /* display: none; */
+        /* margin: 0 auto 0 auto; */
+      }
+
+      .heartbox {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="clock">
+        <p class="clock-date"></p>
+        <p class="clock-time"></p>
+        <div class="heartbox">
+          <img class="heart" src="./1.png" />
+          <img class="heart" src="./1.png" />
+          <img class="heart" src="./1.png" />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const clock = () => {
+        const d = new Date();
+        let year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        let date = d.getDate();
+        let dayNum = d.getDay();
+        const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        let day = weekday[dayNum];
+        let hour = d.getHours();
+        let min = d.getMinutes();
+        let sec = d.getSeconds();
+
+        // 1桁の場合は0を足して2桁に
+        month = month < 10 ? "0" + month : month;
+        date = date < 10 ? "0" + date : date;
+        hour = hour < 10 ? "0" + hour : hour;
+        min = min < 10 ? "0" + min : min;
+        sec = sec < 10 ? "0" + sec : sec;
+
+        // 日付・時刻の文字列を作成
+        let today = `${year}.${month}.${date} ${day}`;
+        let time = `${hour}:${min}:${sec}`;
+
+        // 文字列を出力
+        document.querySelector(".clock-date").innerText = today;
+        document.querySelector(".clock-time").innerText = time;
+
+        setTimeout(clock, 1000);
+
+        // document.querySelector(".clock").style.textShadow = `${sec}px 0 0 #0aafe6`;
+
+        if (min % 2 == 0) {
+          clock.style.textShadow = `0 0 50px #fff`;
+        }
+      };
+
+      clock();
+
+      // const images = document.querySelectorAll('.heart')
+      // let indexx = 0;
+
+      // function showImages() {
+      //     images.forEach(image => image.style.display = 'none');
+
+      //     if (index < images.length) {
+      //         images[index].style.display = 'block';
+      //         index++;
+      //     }
+
+      //     else {
+      //         index = 0;
+      //     }
+      // }
+
+      // setInterval(showImages, 1000);
+    </script>
+  </body>
+</html>

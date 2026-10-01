@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+    <style>
+        canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let x = 0;
+        let y = 0;
+        let d = 0;
+        let c = 0;
+
+        function preload() {
+            mySound = loadSound('Cyaegha.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            mySound.amp(0.5);
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            clear();
+            if (mySound.isPlaying()) {
+                let vol = map(mouseY, 0, height, 0, 1);
+                vol = constrain(vol, 0, 1);
+                mySound.amp(vol);
+
+                let waveform = fft.waveform(); // waveform = -1~1
+                let analyze = fft.analyze(); // analyze = 0~255
+
+                /* for (let i = 0; i < waveform.length; i++) {
+                    let x = map(i, 0, waveform.length, 0, width);
+                    let h = map(waveform[i], -1, 1, 0, height);
+                    line(x, 0, x, h);
+                } */
+
+                for (let i = 0; i < waveform.length; i++) {
+                    let x = floor(random(0, width));
+                    translate(x, x);
+                    rotate(random(0, 360));
+                    x = 0;
+                    y = 0;
+                    c = floor(random(0, 255));
+                    d = floor(random(10, 100));
+
+
+                    textSize(50);
+                    textStyle(BOLD);
+                    strokeWeight(2);
+                    stroke('red');
+                    text("Cyaegha", 100, 100);
+
+                    if (i / 2 === 0) {
+                        noStroke();
+                        fill(0, 50, c);
+                        rect(x, y, d, d);
+                    } else {
+                        noStroke();
+                        fill(255, 255, c);
+                        ellipse(x, y, d, d);
+                    }
+                }
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+            clear();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>デジタル時計 (デバッグ用)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Stardos+Stencil:wght@400;700&display=swap");
+
+        body {
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        .bg {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+            z-index: 1;
+            opacity: .3;
+        }
+
+        .clock {
+            font-family: "Stardos Stencil", serif;
+            line-height: 1.2;
+            text-align: center;
+            z-index: 99;
+        }
+
+        .clock-date {
+            font-size: 25px;
+        }
+
+        .clock-time {
+            margin-top: .5em;
+            font-size: 100px;
+            letter-spacing: .2em;
+        }
+
+        @media screen and (max-width: 500px) {
+            .clock-date {
+                font-size: 5vw;
+            }
+
+            .clock-time {
+                font-size: 20vw;
+            }
+        }
+
+        /* 昼の背景と文字色 */
+        .day {
+            background-color: #ede3b6;
+            color: #424345;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 夜の背景と文字色 */
+        .night {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-shadow: 1px 1px 4px rgba(255, 255, 255, 0.6), 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* アイコン */
+        .icon {
+            position: absolute;
+            top: 180px;
+            font-size: 100px;
+            transition: color .5s ease;
+        }
+
+        .color-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            text-align: left;
+
+            text-shadow: none;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .setting {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .setting-text {
+            font-size: 20px;
+        }
+
+        .picall {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            top: 55%;
+            left: 16%;
+            z-index: 98;
+        }
+
+        .picall img {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            animation-timing-function: linear;
+            transform-origin: center;
+            opacity: .9;
+        }
+
+        /* 歯車1 */
+        .picall img:first-child {
+            top: 10px;
+            left: 20px;
+            animation: rotateClockwise 20s infinite linear;
+        }
+
+        /* 歯車2 */
+        .picall img:last-child {
+            bottom: 10px;
+            right: 20px;
+            animation: rotateCounterClockwise 20s infinite linear;
+        }
+
+        /* 時計回りの回転 */
+        @keyframes rotateClockwise {
+            0% {
+                transform: rotate(15deg);
+            }
+
+            100% {
+                transform: rotate(375deg);
+            }
+        }
+
+        /* 反時計回りの回転 */
+        @keyframes rotateCounterClockwise {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container day">
+        <i class="icon fa"></i>
+        <div class="clock">
+            <p class="clock-date"></p>
+            <p class="clock-time"></p>
+        </div>
+        <img class="bg" src="./images/gear.svg" alt="">
+
+        <div class="color-controls">
+            <div class="flex">
+                <img class="setting" src="./images/setting.png" alt="">
+                <p class="setting-text">色を変更する</p>
+            </div>
+            <label for="bgColor">背景色: </label>
+            <input type="color" id="bgColor" value="#ede3b6">
+            <label for="textColor">文字色: </label>
+            <input type="color" id="textColor" value="#242525">
+        </div>
+        <div class="picall">
+            <img src="./images/rotate.webp" alt="">
+            <img src="./images/rotate.webp" alt="">
+        </div>
+    </div>
+    <script>
+        const clock = () => {
+            const d = new Date();
+            let year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            let date = d.getDate();
+            let dayNum = d.getDay();
+            const weekday = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+            let day = weekday[dayNum];
+
+            // 固定の時刻を設定（デバッグ用）
+            let hour = 10; // ここを変える
+            let min = d.getMinutes();
+            let sec = d.getSeconds();
+
+            // 1桁の場合は0を足して2桁に
+            month = month < 10 ? "0" + month : month;
+            date = date < 10 ? "0" + date : date;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+
+            let today = `${year}.${month}.${date} ${day}`;
+            let time = `${hour}:${min}:${sec}`;
+
+            document.querySelector(".clock-date").innerText = today;
+            document.querySelector(".clock-time").innerText = time;
+
+            // 昼・夜の背景切り替え
+            const container = document.querySelector(".container");
+            const icon = document.querySelector(".icon");
+
+            if (hour >= 6 && hour < 18) {
+                container.classList.add("day");
+                container.classList.remove("night");
+                icon.className = "icon fa fa-sun";
+                icon.style.color = "#f39c12";
+            } else {
+                container.classList.add("night");
+                container.classList.remove("day");
+                icon.className = "icon fa fa-moon";
+                icon.style.color = "#f1c40f";
+            }
+
+            // 色変更動作
+            const bgColorPicker = document.getElementById("bgColor");
+            const textColorPicker = document.getElementById("textColor");
+
+            bgColorPicker.addEventListener("input", (e) => {
+                document.querySelector(".container").style.backgroundColor = e.target.value;
+            });
+
+            textColorPicker.addEventListener("input", (e) => {
+                document.querySelector(".clock").style.color = e.target.value;
+            });
+
+            setTimeout(clock, 1000 - d.getMilliseconds());
+        }
+
+        clock();
+    </script>
+</body>
+
+</html>

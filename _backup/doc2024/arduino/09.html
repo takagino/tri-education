@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「コンテンツ制作」09_外部データの読み込み | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「コンテンツ制作」09_外部データの読み込み</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 前回の課題</h3>
+          <ul>
+            <li>
+              <a href="./assets/09/kadai/01_asano.html" target="_blank">01_asano</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/02_iida.html" target="_blank">02_iida</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/03_ito.html" target="_blank">03_ito</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/04_iwamoto.html" target="_blank">04_iwamoto</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/05_okayama.html" target="_blank">05_okayama</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/06_okiyama.html" target="_blank">06_okiyama</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/07_kajita.html" target="_blank">07_kajita</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/09_sakurai.html" target="_blank">09_sakurai</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/10_shibata.html" target="_blank">10_shibata</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/11_shimada.html" target="_blank">11_shimada</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/12_shimizu.html" target="_blank">12_shimizu</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/13_subedi.html" target="_blank">13_subedi</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/14_nagase.html" target="_blank">14_nagase</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/16_furuhashi.html" target="_blank">16_furuhashi</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/18_matuoka.html" target="_blank">18_matuoka</a>
+            </li>
+            <li>
+              <a href="./assets/09/kadai/19_yamauchi.html" target="_blank">19_yamauchi</a>
+            </li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 前回の復習</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;d3.js&lt;/title&gt;
+  &lt;style&gt;
+    svg {
+      background-color: #ddd;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="container"&gt;&lt;/div&gt;
+
+  &lt;script src="https://cdn.jsdelivr.net/npm/d3@7"&gt;&lt;/script&gt;
+  &lt;script&gt;
+   const dataset = [
+      {
+        "label": "Webデザイン",
+        "val": 30
+      },
+      {
+        "label": "CG",
+        "val": 60
+      },
+      {
+        "label": "ゲーム",
+        "val": 90
+      }
+    ];
+    const width = 640;
+    const height = 480;
+
+    //svg要素を生成
+    const svg = d3.create("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    //要素で指定する場合
+    svg.selectAll('rect')
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", (data, index) => index * 30)
+      .attr("width", (data) => data.val)
+      .attr("height", 20)
+      .attr('fill', '#ff0000');
+
+    //クラス名で指定する場合
+    svg.selectAll('.label')
+      .data(dataset)
+      .enter()
+      .append("text")
+      .classed("label", true)
+      .attr("font-size", "14")
+      .attr("x", (data) => data.val)
+      .attr("y", (data, index) => index * 30 + 14)
+      .text((data) => data.label);
+
+    //id名「container」の要素にsvgを追加
+    container.append(svg.node());
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 今回学ぶこと</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="./assets/09/11_sample.html" target="_blank">見本</a></p>
+          </div>
+          <ul class="clause__list">
+            <li>レスポンシブ対応</li>
+            <li>レイアウトしやすくするためのグループ化</li>
+            <li>外部データの読み込み</li>
+            <li>画像の表示</li>
+            <li>データのスケーリング</li>
+            <li>アニメーション</li>
+          </ul>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. レスポンシブ対応</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【SVGのレスポンシブ対応】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;svg viewBox="0 0 500 300"&gt;
+&lt;/svg&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【修正】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">//svg要素を生成
+const svg = d3.create("svg")
+  .attr("width", width)
+  .attr("height", height);
+
+  ↓
+
+const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. グループ化</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              要素が多くなるとそれぞれを配置する手間が増え、重複する記述（<strong
+                >attr("y", (data, index) => index * 30)</strong
+              >など）が増える。その場合は「<em>g要素</em>」でグループ化すると良い。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【g要素の追加】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+/*
+g要素の追加
+※複数出てくる可能性が高いのでクラス名で指定する癖をつけると良い
+*/
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true);
+
+svg.selectAll('rect')
+  .data(dataset)
+  .enter()
+  .append("rect")
+  .attr("x", 0)
+  .attr("y", (data, index) => index * 30)
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+svg.selectAll('.label')
+  .data(dataset)
+  .enter()
+  .append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", (data, index) => index * 30 + 14)
+  .text((data) => data.label);
+
+container.append(svg.node());</code></pre>
+              </dd>
+            </dl>
+            <p>※要素の検証をして、g要素が追加されていることを確認。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【g要素にrect要素を移動する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true);
+
+/*
+rect要素の修正
+1. svg要素ではなく、g要素に追加（append）する。
+2. データの照合はすでに終わっているので、いきなり追加して良い。
+*/
+g.append("rect")
+  .attr("x", 0)
+  .attr("y", (data, index) => index * 30)
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+svg.selectAll('.label')
+  .data(dataset)
+  .enter()
+  .append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", (data, index) => index * 30 + 14)
+  .text((data) => data.label);
+
+container.append(svg.node());</code></pre>
+              </dd>
+            </dl>
+            <p>※要素の検証をして、g要素の中にrect要素が移動していることを確認。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【g要素にtext要素を移動する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true);
+
+g.append("rect")
+  .attr("x", 0)
+  .attr("y", (data, index) => index * 30)
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+/*
+text要素の修正
+1. svg要素ではなく、g要素に追加（append）する。
+2. データの照合はすでに終わっているので、いきなり追加して良い。
+*/
+g.append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", (data, index) => index * 30 + 14)
+  .text((data) => data.label);
+
+container.append(svg.node());</code></pre>
+              </dd>
+            </dl>
+            <p>※要素の検証をして、g要素の中にtext要素が移動していることを確認。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【共通部分をg要素の属性に記述】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true)
+  .attr("y", (data, index) => index * 30); /* 追加 */
+
+g.append("rect")
+  .attr("x", 0)
+  .attr("y", 0) /* 修正 */
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+g.append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", 14) /* 修正 */
+  .text((data) => data.label);
+
+container.append(svg.node());</code></pre>
+              </dd>
+            </dl>
+            <p>※値はうまく反映されているが、位置の移動（y属性）が効いていない。。。</p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【transform属性で移動】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">/* まずは確認 */
+attr("y", (data, index) => index * 30);
+
+↓
+
+attr("transform", (data, index) => "translate(0, 30)");
+attr("transform", (data, index) => "translate(0, 60)");
+attr("transform", (data, index) => "translate(0, 90)");
+
+
+/* サンプルコードに適応 */
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true)
+  .attr("transform", (data, index) => `translate(0, ${index * 30})`);</code></pre>
+              </dd>
+            </dl>
+            <p>※g要素は「transform」で移動・回転・拡大縮小する。</p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>下図のようにテキスト（data.val）を追加する。</p>
+          <p><img src="./assets/09/01.png" width="600" alt="" /></p>
+          <!-- <dl>
+          <dt>【サンプルコード】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">const dataset = [
+  {
+    "label": "Webデザイン",
+    "val": 30
+  },
+  {
+    "label": "CG",
+    "val": 60
+  },
+  {
+    "label": "ゲーム",
+    "val": 90
+  }
+];
+
+const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true)
+  .attr("transform", (data, index) => `translate(0, ${index * 30})`);
+
+g.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+g.append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", 14)
+  .text((data) => data.label);
+
+g.append("text")
+  .classed("val", true)
+  .attr("font-size", "14")
+  .attr("x", 0)
+  .attr("y", 14)
+  .text((data) => data.val);
+
+container.append(svg.node());</code></pre>
+          </dd>
+        </dl> -->
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. 外部データの読み込み</h2>
+        <section class="clause">
+          <h3 class="clause__title">5-1. 事前準備</h3>
+          <p>
+            <a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer"
+              >Live Server</a
+            >でブラウザに表示すること。
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-2. JSONデータの準備</h3>
+          <ol>
+            <li>新規ファイル「data.json」を作成。</li>
+            <li>
+              以下のコードを記入し、保存。
+              <pre class="line-numbers"><code class="language-javascript">[
+  {
+    "label": "Webデザイン",
+    "val": 30
+  },
+  {
+    "label": "CG",
+    "val": 60
+  },
+  {
+    "label": "ゲーム",
+    "val": 90
+  }
+]</code></pre>
+            </li>
+            <li>html内の変数「dataset」を削除。</li>
+            <li>「Live Server」経由でブラウザに表示。</li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">5-3. JSONデータの読み込み</h3>
+          <div class="item">
+            <dl>
+              <dt>【基本形】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+  .then((dataset) => {
+    /*
+    読み込み成功時の処理
+    引数datasetにJSONデータが渡される
+    */
+
+    console.log(dataset);
+  })
+  .catch((error) => {
+    /*
+    読み込み成功時の処理
+    引数errorにエラーステータスが渡される
+    */
+  });</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【現在のソースコードに追加】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">/*
+追加したらコンソールを確認
+*/
+d3.json("./data.json")
+  .then((dataset) => {
+    console.log(dataset);
+  })
+  .catch((error) => {
+  });
+
+const svg =  d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+const g = svg.selectAll(".item")
+  .data(dataset)
+  .enter()
+  .append("g")
+  .classed("item", true)
+  .attr("transform", (data, index) => `translate(0, ${index * 30})`);
+
+g.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", (data) => data.val)
+  .attr("height", 20)
+  .attr('fill', '#ff0000');
+
+g.append("text")
+  .classed("label", true)
+  .attr("font-size", "14")
+  .attr("x", (data) => data.val)
+  .attr("y", 14)
+  .text((data) => data.label);
+
+g.append("text")
+  .classed("val", true)
+  .attr("font-size", "14")
+  .attr("x", 0)
+  .attr("y", 14)
+  .text((data) => data.val);
+
+container.append(svg.node());</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【修正】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  /*
+  ソースコードを移植
+  */
+  const svg =  d3.create("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`);
+
+
+  const g = svg.selectAll(".item")
+    .data(dataset)
+    .enter()
+    .append("g")
+    .classed("item", true)
+    .attr("transform", (data, index) => `translate(0, ${index * 30})`);
+
+  g.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", (data) => data.val)
+    .attr("height", 20)
+    .attr('fill', '#ff0000');
+
+  g.append("text")
+    .classed("label", true)
+    .attr("font-size", "14")
+    .attr("x", (data) => data.val)
+    .attr("y", 14)
+    .text((data) => data.label);
+
+  g.append("text")
+    .classed("val", true)
+    .attr("font-size", "14")
+    .attr("x", 0)
+    .attr("y", 14)
+    .text((data) => data.val);
+
+  container.append(svg.node());
+})
+.catch((error) => {
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">6. 画像の表示</h2>
+        <div class="clause">
+          <dl>
+            <dt>【JSONファイルにデータを追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">[
+  {
+    "label": "Webデザイン",
+    "val": 30,
+    "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg"
+  },
+  {
+    "label": "CG",
+    "val": 60,
+    "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg"
+  },
+  {
+    "label": "ゲーム",
+    "val": 90,
+    "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg"
+  }
+]</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>【then()内にimage要素を追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">g.append("image")
+  .attr("href", (data) => data.url)
+  .attr("width", 100);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>
+            <a href="./assets/09/11_sample.html" target="_blank">見本</a>のように位置を微調整する。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const width = 640;
+const height = 480;
+const imageW = 100;
+const svg = d3.create("svg")
+  .attr("viewBox", `0 0 ${width} ${height}`);
+
+d3.json("./data.json")
+  .then((dataset) => {
+    const g = svg
+      .selectAll(".item")
+      .data(dataset)
+      .enter()
+      .append("g")
+      .classed("item", true)
+      .attr("transform", (data, index) => `translate(20, ${index * 100 + 20})`);
+
+    //要素で指定する場合
+    g.append("rect")
+      .attr("x", imageW + 20)
+      .attr("y", 0)
+      .attr("width", (data) => data.val)
+      .attr("height", 20)
+      .attr("fill", "#ff0000");
+
+    //クラス名で指定する場合
+    g.append("text")
+      .classed("label", true)
+      .attr("font-size", "14")
+      .attr("x", (data) => data.val + imageW + 20)
+      .attr("y", 14)
+      .text((data) => data.label);
+
+    g.append("text")
+      .classed("value", true)
+      .attr("font-size", "14")
+      .attr("x", imageW + 20)
+      .attr("y", 14)
+      .text((data) => data.val);
+
+    g.append("image")
+      .attr("href", (data) => data.url)
+      .attr("width", imageW);
+
+    //id名「container」の要素にsvgを追加
+    container.append(svg.node());
+  })
+  .catch((error) => {});</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">7. データのスケーリング</h2>
+        <div class="clause">
+          <p>
+            数値にあまり差が無くわかりにくい場合や、値が大きすぎてSVGの中におさまりきらない場合は、比率は保ったまま範囲を変更する「スケーリング」を行うと良い。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  const svg =  d3.create("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`);
+
+  /*
+  domain()で変換前の範囲を、range()で変換後の範囲を指定する
+  変換した範囲を変数「scale」に代入しておく
+  */
+  const scale = d3.scaleLinear()
+    .domain([0, 90])
+    .range([0, 400]);
+
+  const g = svg.selectAll(".item")
+    .data(dataset)
+    .enter()
+    .append("g")
+    .classed("item", true)
+    .attr("transform", (data, index) => `translate(0, ${index * 30})`);
+
+  g.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", (data) => scale(data.val)) /* 設定したscaleで値をキャストする */
+    .attr("height", 20)
+    .attr('fill', '#ff0000');
+
+  g.append("text")
+    .classed("label", true)
+    .attr("font-size", "14")
+    .attr("x", (data) => scale(data.val)) /* 設定したscaleで値をキャストする */
+    .attr("y", 14)
+    .text((data) => data.label);
+
+  g.append("text")
+    .classed("val", true)
+    .attr("font-size", "14")
+    .attr("x", 0)
+    .attr("y", 14)
+    .text((data) => data.val);
+
+  g.append("image")
+    .attr("href", (data) => data.url)
+    .attr("width", 100);
+
+  container.append(svg.node());
+})
+.catch((error) => {
+});</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">7-1. 最大値と最小値を取得する</h3>
+          <p>あらかじめ入力データの範囲がわかっていない場合は、d3.max(), d3.min()関数を使う。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  const svg =  d3.create("svg")
+    .attr("viewBox", `0 0 ${width} ${height}`);
+
+  /*
+  読み込んだJSONデータの値から、最大値（d3.max）と最小値（d3.min）を取得
+  */
+  const max = d3.max(dataset, (data) => data.val);
+  const min = d3.min(dataset, (data) => data.val);
+  console.log(max, min);
+
+  const scale = d3.scaleLinear()
+    .domain([0, max]) /* 変数に変更する */
+    .range([0, 400]);
+
+  const g = svg.selectAll(".item")
+    .data(dataset)
+    .enter()
+    .append("g")
+    .classed("item", true)
+    .attr("transform", (data, index) => `translate(0, ${index * 30})`);
+
+  g.append("rect")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", (data) => scale(data.val))
+    .attr("height", 20)
+    .attr('fill', '#ff0000');
+
+  g.append("text")
+    .classed("label", true)
+    .attr("font-size", "14")
+    .attr("x", (data) => scale(data.val))
+    .attr("y", 14)
+    .text((data) => data.label);
+
+  g.append("text")
+    .classed("val", true)
+    .attr("font-size", "14")
+    .attr("x", 0)
+    .attr("y", 14)
+    .text((data) => data.val);
+
+  g.append("image")
+    .attr("href", (data) => data.url)
+    .attr("width", 100);
+
+  container.append(svg.node());
+})
+.catch((error) => {
+});</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">8. アニメーション</h2>
+        <div class="clause">
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">g.append("rect")
+  .attr("x", 0)
+  .attr("y", 0)
+  .attr("width", 0) /* 初期値に設定（設定前の記述は後で使用するのでコピペしておく） */
+  .attr("height", 20)
+  .attr('fill', '#ff0000')
+  .transition() /* アニメーションの設定を開始する合図 */
+  .duration(1000) /*何秒かけてアニメーションするか */
+  .delay(500) /*何秒遅らせるか */
+  .ease(d3.easeLinear) /*イージングの種類 */
+  .attr("width", (data) => scale(data.val)); /* アニメーション終了時の値 */</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【イージングの種類】</dt>
+              <dd>
+                <a href="https://observablehq.com/@d3/easing">Easing Graphs / D3 / Observable</a>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <div class="item">
+            <p><a href="./assets/09/11_sample.html" target="_blank">見本</a>のように修正する。</p>
+            <dl>
+              <dt>【やること】</dt>
+              <dd>
+                <ul>
+                  <li>数字もアニメーションさせる。</li>
+                  <li>グラフの色を変える。（JSONデータに16進数カラーコードを追加）</li>
+                  <li>順番にアニメーションさせる。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const width = 640;
+const height = 480;
+const imageW = 100;
+const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`);
+
+d3.json("./data.json")
+  .then((dataset) => {
+    const max = d3.max(dataset, (data) => data.val);
+    const min = d3.min(dataset, (data) => data.val);
+    const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+    const g = svg
+      .selectAll(".item")
+      .data(dataset)
+      .enter()
+      .append("g")
+      .classed("item", true)
+      .attr("transform", (data, index) => `translate(20, ${index * 100 + 20})`);
+
+    //要素で指定する場合
+    g.append("rect")
+      .attr("x", imageW + 20)
+      .attr("y", 0)
+      .attr("width", 0)
+      .attr("height", 20)
+      .attr("fill", (data) => data.color)
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 200)
+      .ease(d3.easeBounceIn)
+      .attr("width", (data) => scale(data.val));
+
+    //クラス名で指定する場合
+    g.append("text")
+      .classed("label", true)
+      .attr("font-size", "14")
+      .attr("x", 0)
+      .attr("y", 14)
+      .attr("fill", (data) => data.color)
+      .text((data) => data.label)
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 200)
+      .ease(d3.easeBounceIn)
+      .attr("x", (data) => scale(data.val) + imageW + 20);
+
+    g.append("text")
+      .classed("value", true)
+      .attr("font-size", "0")
+      .attr("x", imageW + 20)
+      .attr("y", 14)
+      .text((data) => data.val)
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 200)
+      .ease(d3.easeBounceIn)
+      .attr("font-size", "30");
+
+    g.append("image")
+      .attr("href", (data) => data.url)
+      .attr("width", imageW);
+
+    //id名「container」の要素にsvgを追加
+    container.append(svg.node());
+  })
+  .catch((error) => {});</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">9. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>前回の課題で制作したグラフに、今回学んだ機能を追加してより良く改造する。</p>
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ol>
+                  <li>データは外部ファイル（data.json）で読み込むこと。</li>
+                  <li>g要素で配置すること。</li>
+                  <li>何かしらの画像を表示すること。</li>
+                  <li>何かしらのアニメーションをつけること。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>HTMLファイルと「data.json」が入ったフォルダごと提出。</dd>
+              <dd>
+                <a
+                  href="https://drive.google.com/drive/folders/1CqYc2kt2YAQcBDvmZMqJsZEJw7DvduUP?usp=sharing"
+                  >Googleドライブ</a
+                >
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">10. ボタンに反応させる</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【body要素にボタンを追加する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;button id="start"&gt;グラフを表示&lt;/button&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ボタンにクリックイベントを登録（thenの中）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  //クリックイベントを追加
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    console.log(e);
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アニメーションしたい要素を変数に代入】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  const rect = g
+    .append("rect")
+    .attr("x", imageW + 20)
+    .attr("y", 0)
+    .attr("width", 0)
+    .attr("height", 20)
+    .attr("fill", (data) => data.color)
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val));
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    console.log(e);
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【transition()以下をクリックイベント内に移動】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  const rect = g
+    .append("rect")
+    .attr("x", imageW + 20)
+    .attr("y", 0)
+    .attr("width", 0)
+    .attr("height", 20)
+    .attr("fill", (data) => data.color);
+
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    //変数名につなげる
+    rest
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val));
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">11. 過去の最終課題作品</h2>
+        <div class="clauseq">
+          <ul>
+            <li>
+              <a
+                href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/08_hayao/"
+                target="_blank"
+                >08_hayao</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/12_soeda/"
+                target="_blank"
+                >12_soeda</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/18_fukuta/"
+                target="_blank"
+                >18_fukuta</a
+              >
+            </li>
+          </ul>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

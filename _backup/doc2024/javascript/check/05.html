@@ -1,0 +1,126 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript基礎チェック Vol.5「while文とfor文」 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+  <link rel="stylesheet" href="../../assets/css/common.css" />
+  <style>
+    dd {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <h1 class="l-header__title-sub">JavaScript基礎チェック</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">Vol.5「while文とfor文」</h2>
+      <div class="clause">
+        <p><a href="https://forms.gle/rVLLy26MnotVHEsX7">解答用Googleフォーム</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">Q1, Q2, Q3</h3>
+        <p>0から100までの数をすべて足した結果をコンソールに表示したい。[ ]に入る適切なコードを答えなさい。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let num = 0;
+let sum = 0;
+
+while ([Q1]) {
+  sum += [Q2];
+  [Q3] += 1;
+}
+console.log(sum);</code></pre>
+        </div>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">let num = 0;
+let sum = 0;
+
+while (num &lt;= 100) {
+  sum += num;
+  num += 1;
+}
+console.log(sum);</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q4, Q5, Q6</h3>
+        <p>0から100までの数をすべて足した結果をコンソールに表示したい。[ ]に入る適切なコードを答えなさい。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let sum = 0;
+
+for(let i = 0; [Q4]; [Q5]){
+  sum += [Q6];
+}
+console.log(sum);</code></pre>
+        </div>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">let sum = 0;
+
+for (let i = 0; i &lt;= 100; i++) {
+  sum += i;
+}
+console.log(sum);</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">Q7, Q8, Q9, Q10</h3>
+        <p>for文を使って、コンソールに「0, 1, 2, 3, 4, 5」と表示したい。[ ]に入る適切なコードを答えなさい。</p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">let text = 0;
+
+for(let i = [Q7]; [Q8]; [Q9]){
+  text += `[Q10]`;
+}
+console.log(text);</code></pre>
+        </div>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">let text = 0;
+
+for (let i = 1; i &lt;= 5; i++) {
+  text += `,${i}`;
+}
+console.log(text);</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="../../assets/js/common.js"></script>
+  <script>
+    let num = 0;
+    let sum = 0;
+
+    while (num <= 100) {
+      sum += num;
+      num += 1;
+    }
+    console.log(sum);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      円の座標を最初のみランダムにし、それ以降は変わらないようにする
+    </title>
+    <style>
+      canvas {
+        background: #000;
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+      let mySound;
+      let fft;
+      let shapes = []; // 複数のランダムな形を保持
+      let numShapes = 95; // 要素数を減らしてすっきり
+
+      function preload() {
+        mySound = loadSound("PerituneMaterial_Verdure3.mp3");
+      }
+
+      function setup() {
+        createCanvas(640, 480);
+        colorMode(HSL);
+        noStroke();
+        fft = new p5.FFT();
+
+        // ランダムな形状データを生成
+        for (let i = 0; i < numShapes; i++) {
+          shapes.push({
+            x: random(width),
+            y: random(height),
+            size: random(10, 30),
+            hue: random(180, 300),
+            type: random(["star", "cloud"]), // 星と雲
+            mode: random() < 0.2 ? "wild" : "gentle", // 20%だけ激しい動きに
+          });
+        }
+      }
+
+      function draw() {
+        background(240, 80, 95, 0.1);
+
+        // マウス位置で音量を調整
+        mySound.amp(map(mouseY, 0, height, 0, 1));
+
+        if (mySound.isPlaying()) {
+          let spectrum = fft.analyze();
+
+          // 各形を描画
+          for (let i = 0; i < shapes.length; i++) {
+            let s = map(spectrum[i % spectrum.length], 0, 255, 0, 50);
+            let shape = shapes[i];
+            let hue = (shape.hue + frameCount * 0.5) % 360;
+
+            fill(hue, 80, 70, 0.8);
+
+            if (shape.type === "star") {
+              drawStar(shape.x, shape.y, shape.size, shape.size + s * 0.5, 5);
+            } else if (shape.type === "cloud") {
+              drawCloud(shape.x, shape.y, shape.size + s * 0.2);
+            }
+
+            // 動きを決定
+            if (shape.mode === "gentle") {
+              // 穏やかな動き
+              shape.x += random(-1, 1);
+              shape.y += random(-1, 1);
+            } else if (shape.mode === "wild") {
+              // 激しい動き（20%だけ）
+              shape.x += random(-5, 5);
+              shape.y += random(-5, 5);
+            }
+
+            // 画面外に出たら戻す
+            if (shape.x < 0) shape.x = width;
+            if (shape.x > width) shape.x = 0;
+            if (shape.y < 0) shape.y = height;
+            if (shape.y > height) shape.y = 0;
+          }
+        }
+      }
+
+      function drawStar(x, y, radius1, radius2, npoints) {
+        let angle = TWO_PI / npoints;
+        let halfAngle = angle / 2.0;
+        beginShape();
+        for (let a = 0; a < TWO_PI; a += angle) {
+          let sx = x + cos(a) * radius2;
+          let sy = y + sin(a) * radius2;
+          vertex(sx, sy);
+          sx = x + cos(a + halfAngle) * radius1;
+          sy = y + sin(a + halfAngle) * radius1;
+          vertex(sx, sy);
+        }
+        endShape(CLOSE);
+      }
+
+      function drawCloud(x, y, size) {
+        ellipse(x, y, size, size * 0.6);
+        ellipse(x + size * 0.3, y - size * 0.2, size * 0.8, size * 0.5);
+        ellipse(x - size * 0.3, y - size * 0.2, size * 0.8, size * 0.5);
+      }
+
+      function keyPressed() {
+        mySound.loop();
+      }
+
+      function keyReleased() {
+        mySound.pause();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>d3.js</title>
+  <style>
+    svg {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script>
+    const dataset = [
+      { title: "シン・エヴァンゲリオン劇場版", num: 102.8 },
+      { title: "名探偵コナン 緋色の弾丸", num: 76.5 },
+      { title: "竜とそばかすの姫", num: 65.3 },
+      { title: "東京リベンジャーズ", num: 44.7 },
+      { title: "るろうに剣心 最終章 The Final", num: 43.4 }
+    ];
+
+    const svg = d3.select(".wrap").append("svg")
+      .attr("width", 500)
+      .attr("height", 500);
+
+    svg.selectAll('rect')
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", (data, index) => index * 70 + 20)
+      .attr("width", (data) => data.num)
+      .attr("height", 20)
+      .attr('fill', '#ffff00');
+
+    svg.selectAll('.title')
+      .data(dataset)
+      .enter()
+      .append("text")
+      .classed("title", true)
+      .attr("font-size", "14")
+      .attr("x", (data) => data)
+      .attr("y", (data, index) => index * 70 + 14)
+      .text((data, index) => `${index + 1}位 ${data.title}`); //テンプレートリテラルの書き方を覚える
+
+    svg.selectAll('.num')
+      .data(dataset)
+      .enter()
+      .append("text")
+      .classed("num", true)
+      .attr("font-size", "12")
+      .attr("x", (data) => data.num - 12)
+      .attr("y", (data, index) => index * 70 + 40)
+      .text((data) => `${data.num}億円`); //テンプレートリテラルの書き方を覚える
+  </script>
+</body>
+</html>

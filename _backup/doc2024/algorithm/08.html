@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」08_繰り返し処理 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」08_繰り返し処理</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;配列&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 雛形</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+}
+
+function draw(){
+  console.log(frameCount);
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 初期設定</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  console.log(frameCount);
+}</code></pre>
+          </div>
+        </section>
+        <div class="clause">
+          <div class="item">
+            <p><a href="./assets/07/question09.html" target="_blank">前回の追加問題</a></p>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 繰り返し処理</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>マウスをクリックする度に、ランダムに円を1個描く。</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  console.log(frameCount);
+}
+
+function mousePressed(){
+  ellipse(Math.random() * width, Math.random() * height, 50, 50);
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>マウスをクリックする度に、ランダムに円を2個描く。</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  console.log(frameCount);
+}
+
+function mousePressed(){
+  ellipse(Math.random() * width, Math.random() * height, 50, 50);
+  ellipse(Math.random() * width, Math.random() * height, 50, 50);
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>
+              さらに円を10個、20個、
+              100個描くプログラムを作ろうとしたとき、何度も同じ命令を記述するのは現実的ではない。<br />そんな時は<em>繰り返し処理（for文）</em>を使用すると良い。
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 基本形</h3>
+          <div class="item">
+            <p>
+              括弧内に「初期化処理」「ループ継続の条件式」「ループごとの最後に実行される式」をセミコロン（;）で区切ることで、繰り返し処理を設定する。
+            </p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">for(初期化処理; ループ継続の条件式; ループごとの最後に実行される式){
+  //ループ継続の条件式に合致している間、繰り返し処理される
+}</code></pre>
+            <img src="./assets/08/01.png" width="600" alt="" />
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function mousePressed(){
+  for(let i = 0; i < 5; i += 1){
+    ellipse(Math.random() * width, Math.random() * height, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+            <ol>
+              <li>変数「i」を宣言し、値「0」を代入。</li>
+              <li>
+                ループ継続の条件式（i <
+                5）を検証し、条件に当てはまっていたら中括弧内の処理を実行。
+              </li>
+              <li>ループごとの最後に実行される式（i += 1）を実行。</li>
+              <li>上記2, 3を繰り返す。</li>
+              <li>条件に当てはまらなかったら（iが6になったら）、処理終了。</li>
+            </ol>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【変数「i」は中括弧内で使用可能】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function draw(){
+  //console.log(frameCount);
+}
+
+function mousePressed(){
+  for(let i = 0; i < 5; i += 1){
+    console.log(i);
+    ellipse(Math.random() * width, Math.random() * height, 50, 50);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+            <p>※「command + option + j」でコンソールを確認。</p>
+            <p>
+              繰り返し処理の回数を数える変数のことを<em>ループカウンタ</em>といい、一般的に変数名に「i」が使われることが多い。
+            </p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習01</h3>
+          <div class="item">
+            <p>5個の円の大きさを「10, 20, 30, 40, 50」にする。</p>
+            <div id="sample01"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function mousePressed(){
+  for(let i = 0; i < 5; i += 1){
+    console.log(i);
+
+    let w = 10 * (i + 1);
+    ellipse(Math.random() * width, Math.random() * height, w, w);
+  }
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習02</h3>
+          <div class="item">
+            <ul class="clause__list">
+              <li>setup()の中に記述する。（現状のコードは消さないこと）</li>
+              <li>クリアする度にコメントアウトする。</li>
+            </ul>
+            <ol>
+              <li>
+                0から10までの数字をコンソールに表示する。
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  //0から20までの数字をコンソールに表示する
+  for(let i = 0; i < 11; i += 1){
+    console.log(i);
+  }
+
+  //または
+  for(let i = 0; i <= 10; i += 1){
+    console.log(i);
+  }
+}</code></pre>
+              </li>
+              <li>
+                5から15までの数字をコンソールに表示する。
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  //5から15までの数字をコンソールに表示する
+  for(let i = 5; i <= 15; i += 1){
+    console.log(i);
+  }
+}</code></pre> -->
+              </li>
+              <li>
+                0から10までの「奇数」の数字をコンソールに表示する。（1,3,5,7,9）
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  //0から10までの「奇数」の数字をコンソールに表示する
+  for(let i = 1; i <= 10; i += 2){
+    console.log(i);
+  }
+}</code></pre> -->
+              </li>
+              <li>
+                15から5までの数字をコンソールに表示する。
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  //5から15までの数字をコンソールに表示する
+  for(let i = 15; i >= 5; i -= 1){
+    console.log(i);
+  }
+}</code></pre> -->
+              </li>
+              <li>
+                0から1000までの数をすべて足した結果をコンソールに表示する。（答えは「500500」）
+                <!-- <pre
+                  class="line-numbers"
+                ><code class="language-javascript">//0から1000までの数をすべて足した結果をコンソールに表示する
+let num = 0;
+
+function setup(){
+  for(let i = 0; i <= 1000; i += 1){
+    num += i;
+  }
+  console.log(num);
+}</code></pre> -->
+              </li>
+            </ol>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>下のような3つのプログラムを考える。</p>
+            <dl>
+              <dt>【共通の条件】</dt>
+              <dd>
+                <ol>
+                  <li>マウスの押すと指定の図形が描画される。</li>
+                  <li>マウスを離すと消える。</li>
+                </ol>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+  //console.log(frameCount);
+}
+
+function mousePressed(){
+
+}
+
+function mouseReleased(){
+
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>question01.html</dt>
+              <dd>
+                <ol>
+                  <li>画面のランダムな場所に、5本の線を描く。</li>
+                  <li>線の太さは「10」、色はランダムとする。</li>
+                </ol>
+              </dd>
+            </dl>
+            <div id="question01"></div>
+            <div class="item">
+              <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  strokeWeight(10);
+  //noStroke(); 2,3
+}
+
+function draw(){
+  //console.log(frameCount);
+}
+
+function mousePressed(){
+  stroke(Math.random()*360, 100, 100);
+  for(){
+    stroke(Math.random()*360, 100, 100);
+    line(
+      Math.random() * width, //1点目のx座標
+      Math.random() * height, //1点目のy座標
+      Math.random() * width, //2点目のx座標
+      Math.random() * height //2点目のy座標
+    );
+  }
+}
+
+function mouseReleased(){
+  clear();
+}</code></pre>
+            </div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>question02.html</dt>
+              <dd>
+                <ol>
+                  <li>画面の高さ中央の1列に、8つの矩形を描く。</li>
+                  <li>色はランダム、線は無しとする。</li>
+                </ol>
+              </dd>
+            </dl>
+            <div id="question02"></div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>question03.html</dt>
+              <dd>
+                <ol>
+                  <li>画面の中心に8つの円を描く。</li>
+                  <li>
+                    円の大きさは「50, 100, 150, 200, 250, 300, 350,
+                    400」、色はランダム、線は無しとする。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+            <div id="question03"></div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/1LHFb65b9QWKzDVU2dWMoT2Ctz1Ip1pnD?usp=sharing"
+                      >Googleドライブ</a
+                    >
+                  </li>
+                  <li>締切：</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let sample01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < 5; i += 1) {
+            let w = 10 * (i + 1);
+            p.ellipse(Math.random() * p.width, Math.random() * p.height, w, w);
+          }
+        };
+      };
+      new p5(sample01, "sample01");
+
+      let question01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.strokeWeight(10);
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < 5; i += 1) {
+            p.stroke(Math.random() * 360, 100, 100);
+            p.line(
+              Math.random() * p.width,
+              Math.random() * p.height,
+              Math.random() * p.width,
+              Math.random() * p.height
+            );
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question01, "question01");
+
+      let question02 = function (p) {
+        let w;
+        let num = 8;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.noStroke();
+          w = p.width / num;
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 0; i < num; i += 1) {
+            p.fill(Math.random() * 360, 100, 100);
+            p.rect(w * i + w / 2, p.height / 2, w, w);
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question02, "question02");
+
+      let question03 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.noStroke();
+        };
+
+        p.draw = () => {
+          //console.log(p.ftameCount);
+        };
+
+        p.mousePressed = () => {
+          for (let i = 8; i > 0; i -= 1) {
+            p.fill(Math.random() * 360, 100, 100);
+            p.ellipse(p.width / 2, p.height / 2, 50 * i);
+          }
+        };
+
+        p.mouseReleased = () => {
+          p.clear();
+        };
+      };
+      new p5(question03, "question03");
+    </script>
+  </body>
+</html>

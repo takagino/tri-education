@@ -1,0 +1,712 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」03_条件分岐（if文） | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」03_条件分岐（if文）</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 前回の復習</h3>
+        <div class="item">
+          <dl>
+            <dt>【変数宣言】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let name = 'takagi';
+const age = 41; //定数（後から変更できない変数）
+var blood = 'B'; //古い書き方なので今は使わない</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【命名規則】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let $; // OK: $が使用できる
+let _title; // OK: _が使用できる
+let jquery; // OK: 小文字のアルファベットが使用できる
+let TITLE; // OK: 大文字のアルファベットが使用できる
+let es2015; // OK: 数字は先頭以外なら使用できる
+let 日本語の変数名; // OK: 一部の漢字や日本語も使用できる（しかし、基本は使用しない）
+
+let na-me; // NG: -は使用できない
+let name!; // NG: !は使用できない
+let 1st; // NG: 数字から始まっている
+let 123; // NG: 数字のみで構成されている</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 前回の課題</h3>
+        <div class="item">
+          <dl>
+            <dt>【問題01（color.html）】</dt>
+            <dd>要素のテキストを取得して、body要素の背景色に適応する。</dd>
+          </dl>
+          <p><a href="./assets/02/color.html" target="_blank">見本</a></p>
+        </div>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="red"&gt;ff0000&lt;/button&gt;
+  &lt;button id="green"&gt;00ff00&lt;/button&gt;
+  &lt;button id="blue"&gt;0000ff&lt;/button&gt;
+
+  &lt;script&gt;
+    const redBtn = document.getElementById('red');
+    redBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${redBtn.innerHTML}`;
+    });
+
+    const greenBtn = document.getElementById('green');
+    greenBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${greenBtn.innerHTML}`;
+    });
+
+    const blueBtn = document.getElementById('blue');
+    blueBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${blueBtn.innerHTML}`;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【問題02（photo.html）】</dt>
+            <dd>
+              <ol>
+                <li>+ボタンをクリックする度に、隣のボタン内の数字を1ずつ増やす。</li>
+                <li>数字のボタンをクリックし、画像のURLと表示されているテキストを変更する。</li>
+              </ol>
+            </dd>
+          </dl>
+          <p><a href="./assets/02/photo.html" target="_blank">見本</a></p>
+        </div>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="plus"&gt;+&lt;/button&gt;
+    &lt;button id="set"&gt;0&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;p id="result"&gt;https://picsum.photos/400/300?image=0&lt;/p&gt;
+  &lt;img id="photo" src="https://picsum.photos/400/300?image=0"&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const url = 'https://picsum.photos/400/300?image=';
+
+    const plusBtn = document.getElementById('plus');
+    const setBtn = document.getElementById('set');
+    const result = document.getElementById('result');
+    const photo = document.getElementById('photo');
+
+    photo.setAttribute('src', url + num);
+
+    plusBtn.addEventListener('click', function () {
+      num += 1;
+      setBtn.innerHTML = num;
+    });
+
+    setBtn.addEventListener('click', function () {
+      result.innerHTML = url + num;
+      photo.setAttribute('src', url + num);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 今回学ぶこと</h2>
+      <div class="clause">
+        <div class="item">
+          <ul class="clause__list">
+            <li>条件分岐（if文）</li>
+            <li>クラスの操作</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>条件分岐</dt>
+            <dd>プログラムの重要な制御構造の一つ。<br>
+              ある条件を指定すると、実行時にこれを評価し、条件が満たされている場合に実行するコードと、満たされていない場合に実行するコードに分岐させることができる。</dd>
+          </dl>
+          <p><img src="https://kenko-keep.com/wp-content/uploads/images/if_sample.png" alt=""></p>
+          <p>
+            <strong>つまり、
+              「もし〜なら」のように、条件によって処理を変えること。</strong>
+          </p>
+          <p>多くのプログラミング言語では<em>if文</em>や<em>switch文</em>などの条件文が用いられる。</p>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. if文</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 基本形</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">if(条件式){
+  ifブロック //条件式に合致したときに行う処理
+}</code></pre>
+          </p>
+          <p><img src="assets/03/01.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'りんご';
+
+if(fruit == 'りんご'){
+  console.log('りんごがあります。');
+}
+
+if(fruit == 'ばなな'){
+  console.log('ばなながあります。');
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【条件式の結果をコンソールに表示してみる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'りんご';
+
+console.log(fruit == 'りんご');
+console.log(fruit == 'ばなな');</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. 真偽値</h3>
+        <p>真偽値は、<em>true（真）</em>または<em>false（偽）</em>という値を取り、if文などの条件式と合わせて使われる。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">if(true){
+  console.log('条件式はtrueです。');
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 比較演算子</h3>
+        <p>条件分岐のカッコ内「<em>条件式</em>」 を設定するには、「<em>比較演算子</em>」を理解しておく必要がある。</p>
+        <div class="item">
+          <dl>
+            <dt>【等価演算子】</dt>
+            <dd>
+              <table>
+                <tr>
+                  <th>演算子</th>
+                  <th>用途</th>
+                  <th>例</th>
+                  <th>結果</th>
+                </tr>
+                <tr>
+                  <td rowspan="2">A == B</td>
+                  <td rowspan="2">AとBが等しいことを確認</td>
+                  <td>1 == 1</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>1 == '1'</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">A === B</td>
+                  <td rowspan="2">AとBが厳密に等しいことを確認</td>
+                  <td>1 === 1</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>1 === '1'</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">A != B</td>
+                  <td rowspan="2">AとBが等しくないことを確認</td>
+                  <td>1 != 2</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>1 != '1'</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td rowspan="2">A !== B</td>
+                  <td rowspan="2">AとBが厳密に等しくないことを確認</td>
+                  <td>1 !== 2</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>1 !== '1'</td>
+                  <td>true</td>
+                </tr>
+              </table>
+            </dd>
+          </dl>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">if (1 == '1') {
+  console.log('厳密には等しくないけど「true」');
+}
+
+if (1 === '1') {
+  console.log('厳密には等しくないから「false」');
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【関係演算子】</dt>
+            <dd>
+              <table>
+                <tr>
+                  <th>演算子</th>
+                  <th>用途</th>
+                  <th>例</th>
+                  <th>結果</th>
+                </tr>
+                <tr>
+                  <td>A &lt; B</td>
+                  <td>AがBよりも小さいことを確認</td>
+                  <td>1 &lt; 2</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>A &gt; B</td>
+                  <td>AがBよりも大きいことを確認</td>
+                  <td>1 &gt; 1</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>A &lt;= B</td>
+                  <td>AがB以下であることを確認</td>
+                  <td>1 &lt;= 2</td>
+                  <td>true</td>
+                </tr>
+                <tr>
+                  <td>A &gt;= B</td>
+                  <td>AがB以上であることを確認</td>
+                  <td>1 &gt;= 1</td>
+                  <td>true</td>
+                </tr>
+              </table>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>変数に西暦を代入し、「令和」だった場合にコンソールに「令和！」と表示するプログラムを考える。<br>
+          ※2018年までが平成、2019年から令和</p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let year = 2024;
+
+if(){
+
+}</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let year = 2024;
+
+if (year >= 2019) {
+  console.log(`令和！`);
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用</h3>
+        <p>変数に西暦を代入し、「令和」だった場合にコンソールに「令和◯年！」と表示するプログラムを考える。<br>
+          ※2019年が令和1年</p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let year = 2024;
+
+if (year > 2018) {
+  console.log(`令和${year - 2018}年！`);
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. if...else文</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">if(条件式){
+  ifブロック //条件式に合致したときに行う処理
+}else{
+  elseブロック //条件式に合致しないときに行う処理
+}</code></pre>
+          </p>
+          <p><img src="assets/03/03.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'りんご';
+
+if(fruit == 'ばなな'){
+  console.log('ばなながあります。');
+}else{
+  console.log('ばなな以外があります。');
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>変数に任意の数字を代入し、「偶数」だった場合にコンソールに「偶数！」、それ以外だった場合に「奇数！」と表示するプログラムを考える。</p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let num = 10;
+
+if(){
+
+}else{
+
+}</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let num = 7;
+
+if (num % 2 == 0) {
+  console.log(`偶数！`);
+} else {
+  console.log(`奇数！`);
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. if...else文のチェーン</h3>
+        <p>if...else文をチェーン（鎖）のようにつなげて記述することで、複数の条件式を使った分岐を作成できる。</p>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">if(条件式A){
+  ifブロック //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  else ifブロック //条件式Bに合致しないときに行う処理
+}else if(条件式C){
+  else ifブロック //条件式Cに合致しないときに行う処理
+}
+
+//最後にelseブロックを追加することも可能
+if(条件式A){
+  ifブロック //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  else ifブロック //条件式Bに合致しないときに行う処理
+}else{
+  elseブロック //上記の条件式全てに合致しないときに行う処理
+}</code></pre>
+          </p>
+          <p><img src="assets/03/05.png" alt="" width="600"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let fruit = 'みかん';
+
+if(fruit == 'ばなな'){
+  console.log('ばなながあります。');
+}else if(fruit == 'りんご'){
+  console.log('りんごがあります。');
+}else if(fruit){
+  console.log('フルーツがあります。');
+}else{
+  console.log('フルーツがありません。');
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>変数に西暦を代入し、「令和◯年！」「平成◯年！」「昭和◯年！」「大昔！」「未来！」と表示するプログラムを考える。</p>
+        <ul>
+          <li>大昔：〜1925</li>
+          <li>昭和：1926〜1989</li>
+          <li>平成：1990〜2018</li>
+          <li>令和：2019〜2024</li>
+          <li>未来：2025〜</li>
+        </ul>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let year = 2024;
+
+if(){
+
+}</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">let year = 1925;
+
+if (year &lt;= 1925) {
+  console.log(`大昔！`);
+} else if (year &lt;= 1989) {
+  console.log(`昭和${year - 1925}年！`);
+} else if (year &lt;= 2018) {
+  console.log(`平成${year - 1989}年！`);
+} else if (year &lt;= 2024) {
+  console.log(`令和${year - 2018}年！`);
+} else {
+  console.log(`未来！`);
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用「クリックゲーム（click.html）」</h3>
+        <p><a href="./assets/03/click/" target="_blank">見本</a></p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ul>
+              <li>画像をクリックする度にHPが減る</li>
+              <li>HPが「0」になったら終了、それ以上は減らない</li>
+            </ul>
+          </dd>
+        </dl>
+        <dl>
+          <dt>【画像】</dt>
+          <dd>
+            <ul>
+              <li><a href="assets/03/monster.png" target="_blank">モンスター</a></li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">const monster = document.getElementById('monster');
+const hp = document.getElementById('hp');
+
+let count = 10;
+hp.innerHTML = `HP:${count}`;
+
+monster.addEventListener('click', function () {
+    if (count &gt; 0) {
+        hp.innerHTML = `HP:${count -= 1}`;
+    }
+});</code></pre>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用「クリックゲームその2（click2.html）」</h3>
+        <div class="item">
+          <p><a href="assets/03/click2/" target="_blank">見本</a></p>
+          <dl>
+            <dt>【条件】</dt>
+            <dd>
+              <ul>
+                <li>画像をクリックする度に数字が増える</li>
+                <li>10回クリックするたびに「○回達成、おめでとう！」にテキストを変更する</li>
+                <li>30回クリックすると「30回クリア！おめでとう！」にテキストを変更し、それ以上は数字が増えない</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>「A % B」を使った書き方</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const monster = document.getElementById('monster');
+const hp = document.getElementById('hp');
+
+let count = 0;
+let clear = 30; //クリックできる上限
+hp.innerHTML = `${count}回`;
+
+monster.addEventListener('click', function () {
+  if (count &lt; clear) {
+    count += 1;
+    if (count == clear) {
+      hp.innerHTML = `${count}回クリア、おめでとう！`;
+    } else if (count % 10 == 0) {
+      hp.innerHTML = `${count}回達成、おめでとう！`;
+    } else {
+      hp.innerHTML = `${count}回`;
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. クラスの操作</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/03/click3/" target="_blank">見本</a></p>
+          <dl>
+            <dt>【やっていること】</dt>
+            <dd>
+              <ul>
+                <li>HPが「0」になったら、モンスターの画像（img要素）にクラス名「finish」を付与する。
+                  <pre class="line-numbers"><code class="language-css">#monster {
+    transition: .5s;
+}
+
+.finish {
+    transform: rotate(720deg) scale(0);
+}</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <p><em>※要素の検証をして、見て確認する。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスの情報を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p id="sample" class="hoge fuga"&gt;ほげ&lt;/p&gt;
+
+&lt;script&gt;
+  const sample = document.getElementById('sample');
+  console.log(sample.classList);
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/API/Element/classList">classList - mdn web docs</a></p>
+          <p><a href="https://ja.wikipedia.org/wiki/%E3%83%A1%E3%82%BF%E6%A7%8B%E6%96%87%E5%A4%89%E6%95%B0">メタ構文変数</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスの操作】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p id="sample" class="hoge fuga"&gt;ほげ&lt;/p&gt;
+
+&lt;script&gt;
+  const sample = document.getElementById('sample');
+  console.log(sample.classList);
+
+  //クラス名を追加する
+  sample.classList.add('piyo');
+
+  //クラス名を削除する
+  sample.classList.remove('hoge');
+
+  //クラス名を置き換える
+  sample.classList.replace('fuga', 'hogera');
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>「click.html」を<a href="./assets/03/click3/" target="_blank">見本</a>と同じ動きをするように改造する。</p>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【クラスの追加・削除を交互に行う】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p id="sample" class="hoge fuga"&gt;ほげ&lt;/p&gt;
+
+&lt;script&gt;
+  const sample = document.getElementById('sample');
+  console.log(sample.classList);
+
+  //クリックする度にクラスの追加・削除する
+  sample.addEventListener('click', function () {
+    sample.classList.toggle('piyo');
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラス名を含むかどうか調べる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p id="sample" class="hoge fuga"&gt;ほげ&lt;/p&gt;
+
+&lt;script&gt;
+  const sample = document.getElementById('sample');
+
+  console.log(sample.classList.contains('hoge'));
+
+  //if文と組み合わせて使うことが多い
+  if(sample.classList.contains('hoge')){
+    console.log('クラス名を含む');
+  }
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">★実践「スライドインするメニュー（slidemenu.html）」</h3>
+        <p><a href="./assets/03/slidemenu/" target="_blank">見本</a></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="btn"&gt;メニュー&lt;/button&gt;
+  &lt;div id="menu"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;HOME&lt;/li&gt;
+      &lt;li&gt;ABOUT&lt;/li&gt;
+      &lt;li&gt;CONTACT&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/body&gt;</code></pre>
+        </div>
+        <p>※要素の検証をしながら考えてみよう。（if文を使用しなくても実装可能）</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 課題</h2>
+      <div class="clause">
+        <p>上記の「スライドインするメニュー（slidemenu.html）」を以下の条件で改造する。</p>
+        <dl>
+          <dt>【条件】</dt>
+          <dd>
+            <ol>
+              <li>「classList.toggle()」を使わない。</li>
+              <li>メニューが表示されたら、ボタンのテキストを「閉じる」に変える。</li>
+            </ol>
+          </dd>
+        </dl>
+        <p><a href="./assets/03/slidemenu2/" target="_blank">見本</a></p>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

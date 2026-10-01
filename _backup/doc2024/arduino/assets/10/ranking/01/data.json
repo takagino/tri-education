@@ -1,0 +1,37 @@
+[
+    {
+        "label": "プードル",
+        "val": 8,
+        "rank": 1,
+        "url": "./image/dog_1.webp",
+        "color": "#b87006"
+    },
+    {
+        "label": "チワワ",
+        "val": 4.8,
+        "rank": 2,
+        "url": "./image/dog_2.webp",
+        "color": "#b87006"
+    },
+    {
+        "label": "ダックスフンド",
+        "val": 2.9,
+        "rank": 3,
+        "url": "./image/dog_3.webp",
+        "color": "#b87006"
+    },
+    {
+        "label": "ポメラニアン",
+        "val": 2,
+        "rank": 4,
+        "url": "./image/dog_4.webp",
+        "color": "#b87006"
+    },
+    {
+        "label": "シュナウザー",
+        "val": 1.4,
+        "rank": 5,
+        "url": "./image/dog_5.jpeg",
+        "color": "#b87006"
+    }
+]

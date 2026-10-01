@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「JavaScript基礎」07_練習問題 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「JavaScript基礎」07_練習問題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 今までの復習</h3>
+          <div class="item">
+            <ul class="clause__list">
+              <li>
+                JavaScriptがサイト上でやっているのは、<strong>あるタイミングで、ある要素に、何かしらの変化を加える</strong>ことだけ。
+              </li>
+              <li>
+                JavaScript上達のコツは、とにかく<strong>「console.log()」</strong>で値を可視化・確認すること。
+              </li>
+            </ul>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">/* 要素を指定して変数に代入 */
+const submit = document.getElementById('submit');
+
+/* 変数内に格納された要素をクリックしたら、function内の命令が実行される */
+submit.addEventListener('click', function(){
+  submit.style.color = '#ff0000';
+});
+
+/* 属性値の取得・変更 */
+let value = submit.getAttribute('value'); //取得
+submit.setAttribute('value', '変更する'); //変更
+
+/* 内容の取得・変更 */
+let text = submit.innerHTML;  //取得
+submit.innerHTML = '変更しました！'; //変更
+
+/* クラス名の操作 */
+submit.classList.contains; //含むかどうか調べる（true, false）
+submit.classList.add('hoge'); //追加
+submit.classList.remove('piyo'); //削除
+submit.classList.replace('fuga', 'hogera'); //置き換え
+submit.classList.toggle('hoge'); //追加と削除を繰り返す</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【変数】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">let name = 'takagi';
+const age = 41; //定数（後から変更できない変数）
+var blood = 'B'; //古い書き方なので今は使わない
+
+/* 命名規則 */
+let $; // OK: $が使用できる
+let _title; // OK: _が使用できる
+let jquery; // OK: 小文字のアルファベットが使用できる
+let TITLE; // OK: 大文字のアルファベットが使用できる
+let es2015; // OK: 数字は先頭以外なら使用できる
+let 日本語の変数名; // OK: 一部の漢字や日本語も使用できる（しかし、基本は使用しない）
+
+let na-me; // NG: -は使用できない
+let name!; // NG: !は使用できない
+let 1st; // NG: 数字から始まっている
+let 123; // NG: 数字のみで構成されている</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【文字列】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/* 文字列同士は、プラス（+）の演算子を使って結合できる */
+console.log('takagi' + 'hirotaka'); //takagihirotaka
+
+/* 文字列と数値を結合すると、数字は文字列に変換される */
+console.log(10 + 'px'); //10px
+
+/* テンプレートリテラル */
+const person = 'JavaScript';
+console.log(`Hello ${person} !`); //Hello JavaScript !</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件分岐（if文）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">if(条件式){
+  //条件式に合致したときに行う処理
+}
+
+if(条件式){
+  //条件式に合致したときに行う処理
+}else{
+  //条件式に合致しないときに行う処理
+}
+
+if(条件式A){
+  //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  //条件式Bに合致しないときに行う処理
+}else if(条件式C){
+  //条件式Cに合致しないときに行う処理
+}
+
+if(条件式A){
+  //条件式Aに合致したときに行う処理
+}else if(条件式B){
+  //条件式Bに合致しないときに行う処理
+}else{
+  //上記の条件式全てに合致しないときに行う処理
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件分岐（switch文）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">switch(条件式){
+  case 値1:
+    //条件式の値が値1に一致する場合に実行される処理
+    break;
+  case 値2:
+    //条件式の値が値2に一致する場合に実行される処理
+    break;
+  default:
+    //上記のどの値にも一致しない場合に実行される処理
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【繰り返し（while文）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">while(条件式){
+  //条件式に合致している間、繰り返し処理される
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【繰り返し（for文）】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">for(初期化処理; ループ継続の条件式; ループごとの最後に実行される式){
+  //ループ継続の条件式に合致している間、繰り返し処理される
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【配列】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">
+/* 配列の宣言 */
+const fruits = ['apple', 'banana', 'orange'];
+
+/* 配列の要素を取得 */
+console.log(fruits[0]); // apple
+
+/* 配列の要素を変更 */
+fruits[1] = 'peach';
+
+/* 配列の要素の数を取得 */
+console.log(fruits.length);</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ランダム】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/*「0.0000...」から「9.9999...」までのランダムな小数を取得する */
+let num = Math.random() * 10;
+
+/* 小数を切り捨てて、「0」から「9」までのランダムな整数を取得する */
+num = Math.floor(Math.random() * 10);
+
+/* 「1」をプラスすることで、「1」から「11」までのランダムな整数を取得する */
+num = Math.floor(Math.random() * 10) + 1;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【要素の指定】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">document.getElementsByTagName('要素名');
+document.getElementById('id名');
+document.getElementsByClassName('class名');
+document.querySelector('セレクタ');
+document.querySelectorAll('セレクタ');</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 練習問題</h2>
+        <section class="clause">
+          <h3 class="clause__title">変数の復習問題（plus.html）</h3>
+          <p><a href="./assets/07/plus.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>+ボタンをクリックする度に数字を1ずつ増やし、p要素に表示する。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;p id="result"&gt;0&lt;/p&gt;
+  &lt;button id="plus"&gt;+&lt;/button&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">文字列の復習問題（move.html）</h3>
+          <p><a href="./assets/07/move.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>矢印ボタンをクリックする度に、画像が右に10pxずつ移動する。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div&gt;
+    &lt;button id="right"&gt;→&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;img id="monster" src="https://pbs.twimg.com/media/EXae-7lWkAANYU6.png" alt=""&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">if文の復習問題（click.html）</h3>
+          <p><a href="./assets/07/click.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>画像をクリックする度にHPが減り、「0」よりは小さくならない。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;img id="monster" src="https://trident.takagino.net/doc2022/javascript/assets/03/monster.png"&gt;
+  &lt;p id="hp"&gt;&lt;/p&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">クラス操作の復習問題（slide.html）</h3>
+          <p><a href="./assets/07/slide.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    ボタンをクリックしたら、要素にクラス名を追加しメニューをスライドインさせる。もう一度クリックしたら元に戻る。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  #btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+  }
+
+  #menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 50px 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    z-index: 9998;
+    transition: 0.5s;
+    transform: translateY(-100%);
+  }
+
+  #menu.open {
+    transform: translateY(0);
+  }
+
+  #menu ul {
+    padding-left: 0;
+    list-style: none;
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;button id="btn"&gt;メニュー&lt;/button&gt;
+  &lt;div id="menu"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;HOME&lt;/li&gt;
+      &lt;li&gt;ABOUT&lt;/li&gt;
+      &lt;li&gt;CONTACT&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">ランダムと配列の復習問題（random.html）</h3>
+          <p><a href="./assets/07/random.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    ユーモアをもらうボタンをクリックすると、配列に設定された「ウケる一言」の中からランダム1つ選び、p要素に表示する。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="btn"&gt;ユーモアをもらう&lt;/button&gt;
+  &lt;p id="result"&gt;ウケる一言が表示されます。&lt;/p&gt;
+  &lt;script&gt;
+    const words = [
+      "LINEで特に何も送られて来てないのに「ごめん寝てた」って送るとウケます。",
+      "ちょっと揉めそうになってるタイミングで「あ、じゃあそこ試合決定ですね」って言うとウケます。",
+      "ボーリング行って名前決めるとき「みんなお母さんの名前にしない？」って提案するとウケます。",
+      "お腹がなった時「通知きた」って言うとウケます。",
+      "ジャンケンであいこが続いているところにタオルを投げ込むとウケます。",
+      "友達が自分の家に忘れ物した時「メルカリで売っとくわ」と言うとウケます。",
+      "美味い飯屋に行って「美味すぎる。店出した方がいい」って言うとウケます。",
+      "髪を切って、「カッコよくなったね」と言われた時に、「じゃあ明日も切ろうかな」って言うとウケます。",
+      "海で遊んだ後、「じゃあ帰るわ」と言って海に入っていくとウケます。",
+      "遊園地でジェットコースターの順番待ちしている時に「混んでいるから座れないかもよ」と言うとウケます。",
+    ];
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">配列とfor文の復習問題</h3>
+          <p>
+            <a href="https://trident.takagino.net/doc2024/javascript/06.html" target="_blank"
+              >課題「クリックゲーム（06_click.html）</a
+            >
+          </p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 実践問題</h2>
+        <section class="clause">
+          <h3 class="clause__title">フォントサイズの変更（fontsize.html）</h3>
+          <p><a href="./assets/07/fontsize.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    ボタンをクリックしたら内包しているテキストを取得し、body要素のフォントサイズに設定する。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+    &lt;div&gt;
+      &lt;button class="btn"&gt;0.5rem&lt;/button&gt;
+      &lt;button class="btn"&gt;1rem&lt;/button&gt;
+      &lt;button class="btn"&gt;1.5rem&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;h1&gt;見出しです。&lt;/h1&gt;
+    &lt;p&gt;本文です。&lt;/p&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">別ウィンドウで開く（blank.html）</h3>
+          <p><a href="./assets/07/blank.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    リンク先が絶対パス（https）から始まっているa要素に、自動的に別ウィンドウで開く属性「target=_blank」を付与する。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;ul&gt;
+    &lt;li&gt;
+      &lt;a href="https://computer.trident.ac.jp/courses/game_science/"&gt;ゲームサイエンス学科&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+      &lt;a href="https://computer.trident.ac.jp/courses/cg_specialist/"&gt;CGスペシャリスト学科&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li&gt;&lt;a href="https://computer.trident.ac.jp/courses/web_design/"&gt;Web学科&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a href="https://groworks.jp/blog/6266"
+                      >CSSセレクタ基礎知識：属性セレクタを使ったリンクのスタイル設定</a
+                    >
+                  </li>
+                </ul>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const link = document.querySelectorAll('a[href^="https"]');</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">スクロール量を取得する（scroll.html）</h3>
+          <p><a href="./assets/07/scroll.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    スクロール量が300よりも大きくなったらボタンにクラス名「active」を追加し、ボタンを表示する。
+                  </li>
+                  <li>
+                    スクロール量が300以下になったらクラス名「active」を削除し、ボタンを非表示にする。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  body {
+    height: 3000px;
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+  }
+
+  #toTop {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 50px;
+    height: 50px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    cursor: pointer;
+    display: none;
+  }
+
+  #toTop.active {
+    display: block;
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;button id="toTop"&gt;↑&lt;/button&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/* スクロールイベントとスクロール量の取得 */
+window.addEventListener("scroll", function(){
+  console.log(window.scrollY);
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">ウィンドウサイズを取得する（resize.html）</h3>
+          <p><a href="./assets/07/resize.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>ブラウザのサイズを変更すると、ブラウザの横幅と高さをp要素に表示する。</li>
+                  <li>ブラウザの高さが400以下になったら、p要素の文字色を赤にする。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">
+&lt;body&gt;
+  &lt;p id="result"&gt;ブラウザのサイズが表示されます。&lt;/p&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/* リサイズイベントとウィンドウサイズの取得 */
+window.addEventListener("resize", function () {
+  console.log(window.innerWidth, window.innerHeight);
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">マウスの座標を取得する（cursor.html）</h3>
+          <p><a href="./assets/07/cursor.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    マウスを動かすたびにカーソルの座標を取得し、鉛筆アイコンのCSSプロパティ「top」「left」を座標の値に設定する。
+                  </li>
+                  <li>マウスを押すとアイコンが1.5倍に大きくなり、マウスを離すと元に戻る。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  html {
+    cursor: none;
+  }
+
+  #icon {
+    width: 50px;
+    position: absolute;
+    transition: transform 0.2s;
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;img id="icon" src="https://www.svgrepo.com/show/489642/pencil.svg" alt="" /&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/* mousemoveイベント（マウスを動かした時）とマウス座標の取得 */
+document.addEventListener("mousemove", function(e){
+  console.log(e.clientX, e.clientY);
+});
+
+/* mousedownイベント（マウスを押した時） */
+document.addEventListener("mousedown", function(){
+
+});
+
+/* mouseupイベント（マウスを離した時） */
+document.addEventListener("mouseup", function(){
+
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">クラス名で絞り込む（category.html）</h3>
+          <p><a href="./assets/07/category.html" target="_blank">DEMO</a></p>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul>
+                  <li>ボタンをクリックしたらid名を取得する。</li>
+                  <li>取得したid名と同じクラス名のarticle要素のみ表示する。</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【サンプルコード】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+ .btnall {
+    margin-bottom: 10px;
+  }
+  .postall {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  article {
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 0.7rem;
+  }
+  .html {
+    background-color: #f00;
+  }
+  .css {
+    background-color: #0f0;
+  }
+  .javascript {
+    background-color: #00f;
+  }
+  .php {
+    background-color: #ff0;
+  }
+&lt;/style&gt;
+
+&lt;body&gt;
+  &lt;div class="btnall"&gt;
+    &lt;button class="btn" id="html"&gt;HTML&lt;/button&gt;
+    &lt;button class="btn" id="css"&gt;CSS&lt;/button&gt;
+    &lt;button class="btn" id="javascript"&gt;JavaScript&lt;/button&gt;
+    &lt;button class="btn" id="php"&gt;PHP&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class="postall"&gt;
+    &lt;article class="html"&gt;
+      &lt;h2&gt;HTML&lt;/h2&gt;
+    &lt;/article&gt;
+    &lt;article class="css"&gt;
+      &lt;h2&gt;CSS&lt;/h2&gt;
+    &lt;/article&gt;
+    &lt;article class="javascript"&gt;
+      &lt;h2&gt;JavaScript&lt;/h2&gt;
+    &lt;/article&gt;
+    &lt;article class="php"&gt;
+      &lt;h2&gt;PHP&lt;/h2&gt;
+    &lt;/article&gt;
+    &lt;article class="html"&gt;
+      &lt;h2&gt;HTML02&lt;/h2&gt;
+    &lt;/article&gt;
+    &lt;article class="css"&gt;
+      &lt;h2&gt;CSS02&lt;/h2&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">/* for文を入れ子にする時のカウンタ変数は「j」が一般的 */
+for (let i = 0; i < btns.length; i++) {
+
+  for (let j = 0; j < posts.length; j++) {
+
+  }
+
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

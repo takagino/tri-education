@@ -1,0 +1,66 @@
+{
+  "y2023": [
+    {
+      "label": "Special Kiss",
+      "val": 2682,
+      "url": "https://i.ytimg.com/vi/X6qwcqtvPXk/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDy7IG0-Mho6cOI8ERy6mzh45XvXQ",
+      "color": "#d3a3ff"
+    },
+    {
+      "label": "I Wish",
+      "val": 2300,
+      "url": "https://i.ytimg.com/vi/78aFPj1CAxg/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD23Na-n_86RDoOmCsXx2z-5CmW1A",
+      "color": "#ffa3f9"
+    },
+    {
+      "label": "Poppin' Hoppin' Lovin'",
+      "val": 1884,
+      "url": "https://i.ytimg.com/vi/8KXbNShp8rs/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLCwI1YRyjMGjnLWsrIZ_eVnnbDBNQ",
+      "color": "#8cd493"
+    },
+    {
+      "label": "青春ラプソディ",
+      "val": 1509,
+      "url": "https://i.ytimg.com/vi/q2ekMmjvOZI/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAttoIL_vM8rwWOh3y1mTHlnDpPsA",
+      "color": "#a3c8ff"
+    },
+    {
+      "label": "Make Up Day",
+      "val": 1006,
+      "url": "https://i.ytimg.com/vi/0UfJLVmrChw/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLARmXIE1mbLaeFN9CApR3VSCucWKA",
+      "color": "#ffd7a3"
+    }
+  ],
+  "y2024": [
+    {
+      "label": "初心LOVE [Debut Tour 2022 1st Love]",
+      "val": 1228,
+      "url": "https://i.ytimg.com/vi/PW42qpS4tAg/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLDIskkT-uMBmeBsIK1QbFUGunY9nA",
+      "color": "#028482"
+    },
+    {
+      "label": "ちゅきちゅきハリケーン [Debut Tour 2022 1st Love]",
+      "val": 1148,
+      "url": "https://i.ytimg.com/vi/fskZ1ffuDnc/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAgIKIavUiMXYzbCqdqFIoO_3ljzg",
+      "color": "#da3000"
+    },
+    {
+      "label": "The Answer [Debut Tour 2022 1st Love]",
+      "val": 1090,
+      "url": "https://i.ytimg.com/vi/RxeNV7EyYuk/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLC11901mS6adpQtedbWPzl4ZwIMXg",
+      "color": "#3e63af"
+    },
+    {
+      "label": "NANDE?! [Debut Tour 2022 1st Love]",
+      "val": 942,
+      "url": "https://i.ytimg.com/vi/R-QddMyJ1Ag/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLApF3PgjJLIHr0zIz_sOZN0EUYghQ",
+      "color": "#da3000"
+    },
+    {
+      "label": "Poppin' Hoppin' Lovin' [ LIVE TOUR 2023 POPMALL]",
+      "val": 617,
+      "url": "https://i.ytimg.com/vi/jH_r9eq_ERw/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAzltksMNfQfuxmBE-K_4P324R8pA",
+      "color": "#da3000"
+    }
+  ]
+}

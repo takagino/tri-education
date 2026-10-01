@@ -1,0 +1,27 @@
+[
+    {
+        "label": "Dude Perfect",
+        "val": 58000000,
+        "url": "./img/5.webp"
+    },
+    {
+        "label": "CarryMinati",
+        "val": 48500000,
+        "url": "./img/4.jpg"
+    },
+    {
+        "label": "IShowSpeed",
+        "val": 33800000,
+        "url": "./img/2.jpg"
+    },
+    {
+        "label": "Sidemen",
+        "val": 18500000,
+        "url": "./img/3.jpg"
+    },
+    {
+        "label": "CR7horaa",
+        "val": 7000000,
+        "url": "./img/1.jpg"
+    }
+]

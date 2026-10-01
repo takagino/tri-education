@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「コンテンツ制作」10_複数のデータを扱う | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「コンテンツ制作」10_複数のデータを扱う</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 前回の課題</h3>
+          <ul>
+            <li>
+              <a href="./assets/10/ranking/01/" target="_blank">01_asano</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/02/" target="_blank">02_iida</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/03/" target="_blank">03_ito</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/04/" target="_blank">04_iwamoto</a>
+            </li>
+            <!-- <li>
+              <a href="./assets/10/ranking/05_okayama.html" target="_blank">05_okayama</a>
+            </li> -->
+            <li>
+              <a href="./assets/10/ranking/06/" target="_blank">06_okiyama</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/07/" target="_blank">07_kajita</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/08/" target="_blank">08_sakagami</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/09/" target="_blank">09_sakurai</a>
+            </li>
+            <!-- <li>
+              <a href="./assets/10/ranking/10/" target="_blank">10_shibata</a>
+            </li> -->
+            <li>
+              <a href="./assets/10/ranking/11/" target="_blank">11_shimada</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/12/" target="_blank">12_shimizu</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/13/" target="_blank">13_subedi</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/14/" target="_blank">14_nagase</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/16/" target="_blank">16_furuhashi</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/17/" target="_blank">17_hori</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/18/" target="_blank">18_matuoka</a>
+            </li>
+            <li>
+              <a href="./assets/10/ranking/19/" target="_blank">19_yamauchi</a>
+            </li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 前回の復習</h3>
+          <div class="item">
+            <dl>
+              <dt>data.json</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">[
+  {
+    "label": "Webデザイン",
+    "val": 30,
+    "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+    "color": "#f00"
+  },
+  {
+    "label": "CG",
+    "val": 60,
+    "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+    "color": "#0f0"
+  },
+  {
+    "label": "ゲーム",
+    "val": 90,
+    "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+    "color": "#00f"
+  }
+]</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>index.html</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;d3.js&lt;/title&gt;
+  &lt;style&gt;
+    svg {
+      background-color: #ddd;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="container"&gt;&lt;/div&gt;
+
+  &lt;script src="https://cdn.jsdelivr.net/npm/d3@7"&gt;&lt;/script&gt;
+  &lt;script&gt;
+   const width = 640;
+  const height = 480;
+  const imageW = 100;
+  const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`); //レスポンシブ対応
+
+  d3.json("./data.json")
+    .then((dataset) => {
+      //データのスケーリング
+      const max = d3.max(dataset, (data) => data.val);
+      const min = d3.min(dataset, (data) => data.val);
+      const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+      const g = svg
+        .selectAll(".item")
+        .data(dataset)
+        .enter()
+        .append("g")
+        .classed("item", true)
+        .attr("transform", (data, index) => `translate(20, ${index * 100 + 20})`); //グループは「transform」で操作
+
+      //要素で指定する場合
+      g.append("rect")
+        .attr("x", imageW + 20)
+        .attr("y", 35)
+        .attr("width", 0) //値を初期値にする
+        .attr("height", 20)
+        .attr("fill", (data) => data.color)
+        .transition() //アニメーションの設定
+        .duration(1000)
+        .delay((data, index) => index * 200)
+        .ease(d3.easeBounceIn)
+        .attr("width", (data) => scale(data.val));
+
+      //クラス名で指定する場合
+      g.append("text")
+        .classed("label", true)
+        .attr("font-size", 15)
+        .attr("x", (data) => imageW + 20)
+        .attr("y", 15)
+        .attr("fill", (data) => data.color)
+        .text((data) => data.label);
+
+      g.append("text")
+        .classed("value", true)
+        .attr("font-size", 15)
+        .attr("x", imageW + 20)
+        .attr("y", 50)
+        .text((data) => data.val)
+        .transition()
+        .duration(1000)
+        .delay((data, index) => index * 200)
+        .ease(d3.easeBounceIn)
+        .attr("x", (data) => imageW + 20 + scale(data.val));
+
+      g.append("image")
+        .attr("href", (data) => data.url)
+        .attr("width", imageW);
+
+      //id名「container」の要素にsvgを追加
+      container.append(svg.node());
+  })
+  .catch((error) => {});
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-3. 今後のスケジュール</h3>
+          <ul>
+            <li>1/9(木)：複数のデータを扱う</li>
+            <li>1/16（木）、1/23(木)：最終課題制作</li>
+            <li>1/30（木）：発表、その他</li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-4. 最終課題</h3>
+          <p>勉強したことをふまえ、自由にデータビジュアライゼーション作品を制作する。</p>
+          <dl>
+            <dt>【過去の作品】</dt>
+            <dd>
+              <ul>
+                <li>
+                  <a
+                    href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/08_hayao/"
+                    target="_blank"
+                    >08_hayao</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/12_soeda/"
+                    target="_blank"
+                    >12_soeda</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://trident.takagino.net/doc2020/contents01/assets/04/kadai/18_fukuta/"
+                    target="_blank"
+                    >18_fukuta</a
+                  >
+                </li>
+              </ul>
+              <ul>
+                <li>
+                  <a
+                    href="https://trident.takagino.net/doc2021/contents01/assets/04/visual/01_akahoshi/"
+                    target="_blank"
+                    >01_akahoshi</a
+                  >
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 今回学ぶこと</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="./assets/10/sample/" target="_blank">見本</a></p>
+            <ul class="clause__list">
+              <li>ボタンに反応させる</li>
+              <li>データを切り替える</li>
+              <li>簡潔に書く</li>
+            </ul>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【現状のソースコード】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a href="https://github.com/takagino/trident-doc-d3js/tree/main/0109">Github</a>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. ボタンに反応させる</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【body要素にボタンを追加する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;button id="start"&gt;グラフを表示&lt;/button&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ボタンにクリックイベントを登録（thenの中）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  //クリックイベントを追加
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    console.log(e);
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アニメーションしたい要素を変数に代入】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  const rect = g
+    .append("rect")
+    .attr("x", imageW + 20)
+    .attr("y", 35)
+    .attr("width", 0)
+    .attr("height", 20)
+    .attr("fill", (data) => data.color)
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val));
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    console.log(e);
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【transition()以下をクリックイベント内に移動】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  .
+  .
+  .
+
+  const rect = g
+    .append("rect")
+    .attr("x", imageW + 20)
+    .attr("y", 35)
+    .attr("width", 0)
+    .attr("height", 20)
+    .attr("fill", (data) => data.color);
+
+  .
+  .
+  .
+
+  container.append(svg.node());
+
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    //変数名につなげる
+    rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val));
+  });
+})
+.catch((error) => {});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>他の要素も同様に修正する。</p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-1. SVGの要素をボタンにする</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">/* ボタンの追加 */
+const btn = svg.append("rect")
+  .attr("width", 50)
+  .attr("height", 20)
+  .attr("x", 450)
+  .attr("y", 280)
+  .attr("fill", "#f00");
+
+/*「aaddEventListener」ではなく「on」 */
+btn.on('click', (e) => {
+
+  rect.transition()
+    rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val));
+});</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. データを切り替える</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【データの追加】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">[
+  {
+    "label": "Webデザイン",
+    "val23": 30,
+    "val24": 40,
+    "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+    "color": "#028482"
+  },
+  {
+    "label": "CG",
+    "val23": 60,
+    "val24": 40,
+    "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+    "color": "#da3000"
+  },
+  {
+    "label": "ゲーム",
+    "val23": 90,
+    "val24": 200,
+    "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+    "color": "#3e63af"
+  }
+]</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【最大値・最小値の修正】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const max = d3.max(dataset, (data) => data.val);
+const min = d3.min(dataset, (data) => data.val);
+
+  ↓
+
+const max = d3.max(dataset, (data) => Math.max(data.val23, data.val24));
+const min = d3.min(dataset, (data) => Math.min(data.val23, data.val24));</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【「val」を「val23」に修正】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">const val = g
+  .append("text")
+  .classed("value", true)
+  .attr("font-size", 15)
+  .attr("x", imageW + 20)
+  .attr("y", 50)
+  .text((data) => data.val23); //変更
+
+  .
+  .
+  .
+
+  const startBtn = document.querySelector("#start");
+  startBtn.addEventListener("click", (e) => {
+    rect
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 200)
+      .ease(d3.easeBounceIn)
+      .attr("width", (data) => scale(data.val23)); //変更
+
+    val
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 200)
+      .ease(d3.easeBounceIn)
+      .attr("x", (data) => imageW + 20 + scale(data.val23)); //変更
+  });</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ボタンを追加】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="btn23"&gt;2023&lt;/button&gt;
+  &lt;button id="btn24"&gt;2024&lt;/button&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const btn23 = document.querySelector("#btn23");
+btn23.addEventListener("click", (e) => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val23));
+
+  val
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data.val23));
+});
+
+const btn24 = document.querySelector("#btn24");
+btn24.addEventListener("click", (e) => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val24));
+
+  val
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data.val24));
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【テキストの変更】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const btn23 = document.querySelector("#btn23");
+btn23.addEventListener("click", (e) => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val23));
+
+  val
+    .text((data) => data.val23) //追加
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data.val23));
+});
+
+const btn24 = document.querySelector("#btn24");
+btn24.addEventListener("click", (e) => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val24));
+
+  val
+    .text((data) => data.val24) //追加
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data.val24));
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">⭐️ 練習</h3>
+          <p>値をもう1つ増やす。</p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="btn23"&gt;2023&lt;/button&gt;
+  &lt;button id="btn24"&gt;2024&lt;/button&gt;
+  &lt;button id="btn25"&gt;2025&lt;/button&gt;
+&lt;/body&gt;</code></pre>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 簡潔に書く</h2>
+        <section class="clause">
+          <h3 class="clause__title">4-1. 関数にする</h3>
+          <div class="item">
+            <dl>
+              <dt>【クリックイベントの中身を取り出し、関数に】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">const onChange = () => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data.val23));
+
+  val
+    .text((data) => data.val23)
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data.val23));
+};</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【引数を追加し汎用性を持たせる】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const onChange = (key) => {
+  rect
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("width", (data) => scale(data[key])); //「data.val23」を「data[key]」に変更
+
+  val
+    .text((data) => data[key]) //「data.val23」を「data[key]」に変更
+    .transition()
+    .duration(1000)
+    .delay((data, index) => index * 200)
+    .ease(d3.easeBounceIn)
+    .attr("x", (data) => imageW + 20 + scale(data[key])); //「data.val23」を「data[key]」に変更
+};</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【クリックで関数を実行】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const btn23 = document.querySelector("#btn23");
+btn23.addEventListener("click", (e) => {
+  onChange("val23");
+});
+
+const btn24 = document.querySelector("#btn24");
+btn24.addEventListener("click", (e) => {
+  onChange("val24");
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-2. カスタムデータ属性で制御</h3>
+          <div class="item">
+            <dl>
+              <dt>【カスタムデータ属性を追加】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;button id="btn23" data-key="val23"&gt;2023&lt;/button&gt;
+  &lt;button id="btn24" data-key="val24"&gt;2024&lt;/button&gt;
+&lt;/body&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【forEachで回す】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const btn = document.querySelectorAll("button");
+
+btn.forEach(elem => {
+  elem.addEventListener('click', () => {
+    onChange(elem.dataset.key);
+  });
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. 複数のデータを一括で切り替える</h2>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">{
+  "y2023": [
+    {
+      "label": "Webデザイン",
+      "val": 20,
+      "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+      "color": "#028482"
+    },
+    {
+      "label": "CG",
+      "val": 50,
+      "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+      "color": "#da3000"
+    },
+    {
+      "label": "ゲーム",
+      "val": 120,
+      "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+      "color": "#3e63af"
+    }
+  ],
+  "y2024": [
+    {
+      "label": "CAD",
+      "val": 30,
+      "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+      "color": "#028482"
+    },
+    {
+      "label": "サイバー",
+      "val": 60,
+      "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+      "color": "#da3000"
+    },
+    {
+      "label": "情報処理",
+      "val": 90,
+      "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+      "color": "#3e63af"
+    }
+  ]
+}</code></pre>
+        </div>
+        <!-- <div class="item">
+          <pre class="line-numbers"><code class="language-javascript">d3.json("./data.json")
+.then((dataset) => {
+  const max20 = d3.max(dataset.y2020, (data) => data.val);
+  const max21 = d3.max(dataset.y2021, (data) => data.val);
+  const max = Math.max(max20, max21);
+  const scale = d3.scaleLinear()
+    .domain([0, max])
+    .range([0, 300]);
+
+  const svg = d3.select("body")
+    .append("svg")
+    .attr("viewBox", "0 0 500 300");
+
+  const g = svg.selectAll(".item")
+    .data(dataset.y2020)
+    .enter()
+    .append("g")
+    .classed("item", true)
+    .attr("transform", (data, index) => `translate(0, ${index * 90})`);
+
+  const rect = g.append("rect")
+    .attr("width", 0)
+    .attr("height", 20)
+    .attr("x", 110)
+    .attr("y", 35);
+
+  const val = g.append("text")
+    .classed("val", true)
+    .attr("font-size", "14px")
+    .attr("x", 110)
+    .attr("y", 50);
+
+  const label = g.append("text")
+    .classed("label", true)
+    .attr("font-size", "14px")
+    .attr("x", 110)
+    .attr("y", 20);
+
+  const img = g.append("image")
+    .attr("width", 100);
+
+  const btn = document.querySelectorAll("button");
+
+  btn.forEach(elem => {
+    elem.addEventListener('click', () => {
+      onChange(elem.dataset.key);
+    });
+  });
+
+  const onChange = (key) => {
+    rect.data(dataset[key])
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 500)
+      .ease(d3.easeExpIn)
+      .attr("fill", (data) => data.color)
+      .attr("width", (data) => scale(data.val));
+
+    val.data(dataset[key])
+      .text((data) => data.val)
+      .transition()
+      .duration(1000)
+      .delay((data, index) => index * 500)
+      .ease(d3.easeExpIn)
+      .attr("x", (data) => 110 + scale(data.val));
+
+    label.data(dataset[key])
+      .text((data) => data.label);
+
+    img.data(dataset[key])
+      .attr("href", (data) => data.url);
+  }
+})
+.catch((error) => {
+});</code></pre>
+        </div> -->
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

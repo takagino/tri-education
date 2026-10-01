@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+    <style>
+        canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+
+        function preload() {
+            mySound = loadSound('MusMus-BGM-078.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            mySound.amp(0.5);
+            fft = new p5.FFT();
+        }
+
+
+        function draw() {
+            clear();
+
+            if (mySound.isPlaying()) {
+                let vol = map(mouseY, 0, height, 0, 1);
+                vol = constrain(vol, 0, 1);
+                mySound.amp(vol);
+
+                let data = fft.analyze();
+                console.log(data);
+
+                for (let i = 0; i < data.length; i++) {
+                    let c = map(data[i], 0, 255, 0, 360);
+                    fill(c, random(50, 250), random(50, 250), 0.8);
+                    ellipse(160, 240, data[i], data[i]);
+                    let d = map(data[i], 0, 255, 0, 360);
+                    fill(random(0, 255), random(0, 250), random(0, 255), 0.3);
+
+                    ellipse(random(360, 640), random(0, 480), data[i], data[i ]);
+                }
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+            clear();
+        }
+
+    </script>
+</body>
+
+</html>

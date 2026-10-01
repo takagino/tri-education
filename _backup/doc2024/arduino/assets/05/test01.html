@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>オーディオビジュアライザー</title>
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+  <script>
+    let mySound;
+    let fft;
+
+    function preload() {
+      mySound = loadSound('power.mp3');
+    }
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      noStroke();
+
+      fft = new p5.FFT();
+    }
+
+    function draw() {
+      clear();
+
+      if (mySound.isPlaying()) {
+        let wf = fft.waveform();
+        console.log(wf);
+
+        for (let i = 0; i < wf.length; i++) {
+          let x = map(i, 0, wf.length, 0, width);
+          let h = map(wf[i], -1, 1, 0, height);
+          rect(x, 0, width / wf.length, h);
+        }
+      }
+    }
+
+    function keyPressed() {
+      mySound.loop();
+    }
+
+    function keyReleased() {
+      mySound.pause();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>背景色を変化させる</title>
+</head>
+<body>
+  <button id="red" class="btn">aa3333</button>
+  <button id="green" class="btn">33aa33</button>
+  <button id="blue" class="btn">3333aa</button>
+
+  <script>
+    const redBtn = document.getElementById('red');
+    redBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${redBtn.innerHTML}`;
+    });
+
+    const greenBtn = document.getElementById('green');
+    greenBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${greenBtn.innerHTML}`;
+    });
+
+    const blueBtn = document.getElementById('blue');
+    blueBtn.addEventListener('click', function () {
+      document.body.style.backgroundColor = `#${blueBtn.innerHTML}`;
+    });
+  </script>
+</body>
+</html>

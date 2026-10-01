@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>偏差値ランキング</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        text-align: center;
+        background: linear-gradient(135deg, #fef3f9, #ffe6ef);
+        margin: 0;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        color: #ff69b4;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      button {
+        background-color: #ff69b4;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        border-radius: 25px;
+        padding: 10px 20px;
+        margin: 8px;
+        cursor: pointer;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #ff85c1;
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      svg {
+        background-color: #ffffff;
+        margin-top: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .label {
+        font-size: 0.7rem;
+        fill: #333;
+        font-weight: 500;
+      }
+
+      .value {
+        font-size: 0.9rem;
+        fill: #555;
+        font-weight: bold;
+      }
+
+      #container {
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>偏差値ランキング</h1>
+    <button id="btn23">大学</button>
+    <button id="btn24">高校</button>
+    <div id="container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+      const width = 600;
+      const height = 500;
+      const imageW = 150;
+      const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`);
+
+      d3.json("./data.json")
+        .then((dataset) => {
+          const max = d3.max(dataset, (data) =>
+            Math.max(data.val23 ?? 0, data.val24 ?? 0)
+          );
+          const scale = d3.scaleLinear().domain([0, max]).range([0, 400]);
+
+          function renderBars(dataKey) {
+            svg.selectAll("*").remove();
+
+            const filteredData = dataset
+              .filter((d) => d[dataKey] !== null)
+              .slice(0, 10);
+
+            const g = svg
+              .selectAll(".item")
+              .data(filteredData)
+              .enter()
+              .append("g")
+              .classed("item", true)
+              .attr(
+                "transform",
+                (data, index) => `translate(20, ${index * 50 + 20})`
+              );
+
+            g.append("rect")
+              .classed("bar", true)
+              .attr("x", imageW + 20)
+              .attr("y", 10)
+              .attr("width", 0)
+              .attr("height", 20)
+              .attr("fill", (data) => data.color)
+              .transition()
+              .duration(800)
+              .delay((data, index) => index * 100)
+              .ease(d3.easeCubicOut)
+              .attr("width", (data) => scale(data[dataKey] ?? 0));
+
+            g.append("text")
+              .classed("value", true)
+              .attr("font-size", 14)
+              .attr("x", imageW + 20)
+              .attr("y", 25)
+              .text((data) => data[dataKey] ?? 0);
+
+            g.append("text")
+              .classed("label", true)
+              .attr("font-size", 10)
+              .attr("x", 0)
+              .attr("y", 25)
+              .text((data) => data.name);
+
+            document.querySelector("#container").appendChild(svg.node());
+          }
+
+          document.querySelector("#btn23").addEventListener("click", () => {
+            renderBars("val23");
+          });
+
+          document.querySelector("#btn24").addEventListener("click", () => {
+            renderBars("val24");
+          });
+
+          renderBars("val23"); // 初期表示は大学
+        })
+        .catch((error) => {
+          console.error("データの読み込みに失敗:", error);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,37 @@
+[
+  {
+    "station": "新宿駅",
+    "passengers": 2945119,
+    "prefecture": "東京都",
+    "color": "#FF5733",
+    "url": "https://www.livable.co.jp/l-note/wp/wp-content/uploads/2022/02/shinjuku-1.jpg"
+  },
+  {
+    "station": "渋谷駅",
+    "passengers": 2803542,
+    "prefecture": "東京都",
+    "color": "#33FF57",
+    "url": "https://tokyorent.jp/images/area/shibuya-sta/pict_228.jpg"
+  },
+  {
+    "station": "池袋駅",
+    "passengers": 2308170,
+    "prefecture": "東京都",
+    "color": "#1FF",
+    "url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/East_entrance_of_Ikebukuro_Station_2023-11-09.jpg"
+  },
+  {
+    "station": "横浜駅",
+    "passengers": 1962409,
+    "prefecture": "神奈川県",
+    "color": "#FF33A6",
+    "url": "https://madream.jp/yomimono/images/88/title1662443361.jpg"
+  },
+  {
+    "station": "北千住駅",
+    "passengers": 1388227,
+    "prefecture": "東京都",
+    "color": "#F0FF33",
+    "url": "https://www.chintaistyle.jp/article/wp-content/uploads/2021/01/pixta_75529942_M.jpg"
+  }
+]

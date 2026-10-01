@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.sound</title>
+    <style>
+      canvas {
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.1/lib/addons/p5.sound.js"></script>
+  </body>
+
+  <script>
+    let mySound;
+    let imageMario;
+    let backimage;
+    let fft;
+
+    function preload() {
+      mySound = loadSound("superMarioUnder.mp3");
+      imageMario = loadImage("mario.png");
+      backimage = loadImage("mariounder.avif");
+    }
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      rectMode(CENTER);
+      mySound.amp(0.5);
+      fft = new p5.FFT();
+    }
+
+    function draw() {
+      clear(); // 画面をクリア
+      image(backimage, 0, 0, width, height);
+
+      // 音量をマウスのY位置で制御
+      mySound.amp(map(mouseY, 0, height, 0, 1));
+
+      if (mySound.isPlaying()) {
+        let waveform = fft.analyze();
+
+        // 波形の可視化
+        for (let i = 0; i < waveform.length; i++) {
+          let x = map(i, 0, waveform.length, 0, width); // X座標を波形データに対応
+          let h = map(waveform[i], 0, 255, 0, height / 2); // 振幅を高さにマッピング
+          stroke(180, 100, 50); // 波形の線の色
+          line(x, height / 2, x, height / 2 - h); // 波形の線を描画
+        }
+
+        let avgWave =
+          waveform.reduce((sum, val) => sum + val, 0) / waveform.length;
+        let size = map(avgWave, 0, 255, 1, 300); //
+
+        for (let i = 0; i < 100; i++) {
+          let randomX = random(width);
+          let randomY = random(height);
+          image(imageMario, randomX, randomY, size, size);
+        }
+      }
+    }
+
+    function keyPressed() {
+      mySound.loop(); // 音楽をループ再生
+    }
+
+    function keyReleased() {
+      mySound.pause(); // 音楽を一時停止
+    }
+  </script>
+</html>

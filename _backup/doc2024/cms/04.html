@@ -1,0 +1,630 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」04_テンプレート階層 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」04_テンプレート階層</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. テンプレート階層</h2>
+      <div class="clause">
+        <div class="item">
+          <p>前回の授業資料で、記事一覧部分の設定は完了したので、次は記事詳細ページの設定をしていく。<br>
+            「single.html」を修正していきますが、その前に「テンプレート階層」について理解する必要がある。</p>
+          <dl>
+            <dt>【テンプレート階層とは？】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://webgaku.net/jp/wordpress/template-hierarchy/">WordPressのテンプレート階層とは？ページ種類別の優先順位</a></li>
+                <li><a href="https://nawate.jp/nawate/wp-content/uploads/2020/06/WordPress%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E6%A7%8B%E9%80%A0.pdf">一覧PDF</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul class="clause__list">
+            <li>ファイル名を「single.php」にすると、記事詳細ページ（個別投稿ページ）として優先的に読み込まれる。</li>
+            <li>テーマフォルダ内に「single.php」が存在しない場合は「index.php」が読み込まれる。</li>
+          </ul>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 記事詳細ページの設定</h3>
+        <div class="item">
+          <ol>
+            <li>「single.html」の拡張子を「single.php」に変更。</li>
+            <li>実際のサイトで「記事詳細ページ」に飛ぶか確認しておく。</li>
+            <li>「index.php」と全く同じように、テンプレートタグを挿入していく。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【index.phpとの違い】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>「the_excerpt()」を「the_content()」に変更する</li>
+                <li>「続きを読む」ボタンを削除</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 補足</h3>
+        <dl>
+          <dt>【「single.php」にWordPressループは必要なのか？】</dt>
+          <dd>無くても記事の情報は取得できる。ただし、テンプレートタグによっては取得できないものもあるので、書いておくほうが無難。</dd>
+        </dl>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【現状のソースコード】</dt>
+            <dd>
+              <a href="https://github.com/takagino/blog-sample/blob/main/04-1_single.php">single.php</a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. テンプレートの分割</h2>
+      <div class="item">
+        <p>テンプレートファイルが増えてくると、同じ内容の部分が増えてくる。変更があった際に全てのファイルを修正するのは手間なので、別ファイルに分割しておくと便利。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 「header.php」を作成する</h3>
+        <ol>
+          <li>エディタで新規ファイルを作成し、ファイル名「header.php」でテーマフォルダ内に保存する</li>
+          <li>「index.php」を開き、1行目から「&lt;/header&gt;」までの共通部分を「header.php」にコピペする</li>
+          <li>「index.php」のコピペした部分を削除し、以下のテンプレートタグを挿入する
+            <pre class="line-numbers"><code class="language-php">&lt;?php get_header(); ?&gt;
+&lt;main&gt;
+  &lt;div class="contents"&gt;
+    .
+    .</code></pre>
+          </li>
+          <li>同様に、「single.php」の共通部分も削除し、テンプレートタグを挿入する</li>
+        </ol>
+        <ul>
+          <li>※トップページと記事詳細ページでファーストビューのデザインがガラッと違う場合は、「head要素まで」でも良い。（<em>まとめる範囲は自由</em>）</li>
+        </ul>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. 「footer.php」を作成する</h3>
+        <ol>
+          <li>エディタで新規ファイルを作成し、ファイル名「footer.php」でテーマフォルダ内に保存する</li>
+          <li>「index.php」を開き、「&lt;footer&gt;」から最後の行までの共通部分を「footer.php」にコピペする</li>
+          <li>「index.php」のコピペした部分を削除し、以下のテンプレートタグを挿入する
+            <pre class="line-numbers"><code class="language-php">  .
+  .
+  &lt;/main&gt;
+&lt;?php get_footer(); ?&gt;</code></pre>
+          </li>
+          <li>同様に、「single.php」の共通部分も削除し、テンプレートタグを挿入する</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 「sidebar.php」を作成する</h3>
+        <div class="item">
+          <ol>
+            <li>エディタで新規ファイルを作成し、ファイル名「sidebar.php」でテーマフォルダ内に保存する</li>
+            <li>「index.php」を開き、「&lt;div class="sidebar"&gt;」の中身（aside3つ）を「sidebar.php」にコピペする</li>
+            <li>「index.php」のコピペした部分を削除し、以下のテンプレートタグを挿入する
+              <pre class="line-numbers"><code class="language-php">&lt;div class="sidebar"&gt;
+  &lt;?php get_sidebar(); ?&gt;
+&lt;/div&gt;</code></pre>
+            </li>
+            <li>同様に、「single.php」の共通部分も削除し、テンプレートタグを挿入する</li>
+          </ol>
+        </div>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【現状のソースコード】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-2_header.php">header.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-2_footer.php">footer.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-2_sidebar.php">sidebar.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-2_index.php">index.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-2_single.php">single.php</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. その他の設定</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 「single.php」にページ送りを表示する</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/previous_post_link/">previous_post_link()</a></li>
+            <li><a href="https://developer.wordpress.org/reference/functions/next_post_link/">next_post_link()</a></li>
+          </ul>
+          <pre class="line-numbers"><code class="language-php">&lt;div class="nav-page"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;?php previous_post_link(); ?&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="&lt;?php echo home_url('/'); ?&gt;"&gt;一覧に戻る&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;?php next_post_link(); ?&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <dl>
+          <dt>【設定例】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-php">&lt;?php previous_post_link('←'); ?&gt;
+&lt;?php previous_post_link('%link'); ?&gt;
+&lt;?php previous_post_link('%link', '←前の記事'); ?&gt;
+&lt;?php previous_post_link('←%link', '前の記事'); ?&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. 「index.php」にページ送りを表示する</h3>
+        <p>サンプルサイトでは、ページネーション（1,2,3,4...）が想定されてるが、まずはシンプルな形で設定してみる。<br>
+          <em>ページネーションのHTMLは削除せず</em>に、以下のソースコードを追加する。
+        </p>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/previous_posts_link/">previous_posts_link()</a></li>
+            <li><a href="https://developer.wordpress.org/reference/functions/next_posts_link/">next_posts_link()</a></li>
+          </ul>
+          <pre class="line-numbers"><code class="language-php">&lt;div class="nav-page"&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;?php previous_posts_link(); ?&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;?php next_posts_link(); ?&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <dl>
+          <dt>【設定例】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-php">&lt;?php previous_posts_link('新しい記事へ'); ?&gt;
+&lt;?php next_posts_link('古い記事へ'); ?&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 「index.php」にページネーションを表示する</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/the_posts_pagination/">the_posts_pagination()</a></li>
+          </ul>
+          <pre class="line-numbers"><code class="language-php">&lt;div class="nav-page"&gt;
+  &lt;?php the_posts_pagination(); ?&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php the_posts_pagination(array('prev_text' => '&lt;', 'next_text' => '&gt;')); ?&gt;
+&lt;?php the_posts_pagination(array('prev_text' => '&lt;', 'next_text' => '&gt;', 'type' => 'list')); ?&gt;
+
+# 見やすいように改行しておくと良い
+&lt;?php
+the_posts_pagination(
+  array(
+    'prev_text' => '&lt;',
+    'next_text' => '&gt;',
+    'type' => 'list'
+  )
+);
+?&gt;
+
+# 条件を変数に代入しておくと、より見やすくなる（argument = 引数）
+&lt;?php
+$arg = array(
+  'prev_text' => '&lt;',
+  'next_text' => '&gt;',
+  'type' => 'list'
+);
+the_posts_pagination($arg);
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【出力したページネーションをデザインに合わせる】</dt>
+            <dd>
+              <ul>
+                <li>要素の検証で、出力された「要素」「クラス名」「CSS」を確認しながら、自作のCSSを変更していく。</li>
+                <li>※「現在のページ」にはクラス名「current」が付いている。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <div class="item">
+          <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+        </div>
+        <dl>
+          <dt>【現状のサンプルデータ】</dt>
+          <dd><a href="./assets/04/blog-sample.zip">blog-sample</a></dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. 「sidebar.php」にカテゴリー一覧を表示する</h3>
+        <p><em>元々記述してある「静的なカテゴリー一覧」は削除せず</em>に、その下にテンプレートタグを追加する。</p>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/wp_list_categories/">wp_list_categories()</a></li>
+          </ul>
+          <pre class="line-numbers"><code class="language-php">&lt;aside class="side-category"&gt;
+  &lt;h2 class="side-title"&gt;category&lt;/h2&gt;
+  &lt;ul class="side-list"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;日常生活&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;読書&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;作品&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;?php wp_list_categories(); ?&gt;
+&lt;/aside&gt;</code></pre>
+        </div>
+        <dl>
+          <dt>【設定例】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-php">&lt;?php
+$arg = array(
+  'title_li' => '',
+  'show_count' => '1',
+);
+wp_list_categories($arg);
+?&gt;
+
+# サンプルと同様の表示設定
+&lt;ul class="side-list"&gt;
+  &lt;?php
+  $arg = array(
+    'title_li' => ''
+  );
+  wp_list_categories($arg);
+  ?&gt;
+&lt;/ul&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 「sidebar.php」にアーカイブ一覧を表示する</h3>
+        <p><em>元々記述してある「静的なアーカイブ一覧」は削除せず</em>に、その下にテンプレートタグを追加する。</p>
+        <div class="item">
+          <ul>
+            <li><a href="https://developer.wordpress.org/reference/functions/wp_get_archives/">wp_get_archives()</a></li>
+          </ul>
+          <pre class="line-numbers"><code class="language-php">&lt;aside class="side-archive"&gt;
+  &lt;h2 class="side-title"&gt;archive&lt;/h2&gt;
+  &lt;ul class="side-list"&gt;
+    &lt;li&gt;&lt;a href="#"&gt;2020年9月&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;2020年8月&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;2020年7月&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;?php wp_get_archives(); ?&gt;
+&lt;/aside&gt;</code></pre>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php
+$arg = array(
+  'type' => 'yearly',
+  'show_post_count' => '1',
+);
+wp_get_archives($arg);
+?&gt;
+
+# サンプルと同様の表示設定
+&lt;ul class="side-list"&gt;
+  &lt;?php wp_get_archives(); ?&gt;
+&lt;/ul&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【現状のソースコード】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-3_sidebar.php">sidebar.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-3_index.php">index.php</a></li>
+                <li><a href="https://github.com/takagino/blog-sample/blob/main/04-3_single.php">single.php</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. アーカイブページの追加</h2>
+      <div class="clause">
+        <p>だいたいのブログには、「特定の月に投稿された記事だけを表示する」「特定のカテゴリーに属した記事だけを表示する」など、記事を絞り込んで表示するページが存在する。WordPressでは、それぞれのページについても「テンプレート階層」の仕組みを使って、ファイル名で判別・表示することができる。</p>
+        <p><a href="https://nawate.jp/nawate/wp-content/uploads/2020/06/WordPress%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88%E6%A7%8B%E9%80%A0.pdf">一覧PDF</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. 「archive.php」を作成する</h3>
+        <ol>
+          <li>「index.php」を複製し、ファイル名を「archive.php」に変更する</li>
+          <li>違いを出すために、以下のソースコードを追加する
+            <pre class="line-numbers"><code class="language-php">&lt;div class="post-all"&gt;
+  &lt;?php the_archive_title(); ?&gt;
+
+  &lt;?php
+  if( have_posts() ):
+  while( have_posts() ):
+  the_post();
+  ?&gt;
+    .
+    .</code></pre>
+          </li>
+        </ol>
+        <p><a href="https://developer.wordpress.org/reference/functions/the_archive_title/">the_archive_title()</a>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. より細かく設定する方法</h3>
+        <div class="item">
+          <p>より細かく設定したい、もしくはアーカイブごとにデザインを変えたい場合は、「テンプレート階層」にしたがってそれぞれテンプレートを用意する。</p>
+          <ol>
+            <li>「archive.php」を複製し、ファイル名を「category.php」に変更する</li>
+            <li>ソースコードを修正する
+              <pre class="line-numbers"><code class="language-php">&lt;div class="post-all"&gt;
+  &lt;?php single_cat_title(); ?&gt;
+
+  &lt;?php
+  if( have_posts() ):
+  while( have_posts() ):
+  the_post();
+  ?&gt;
+    .
+    .</code></pre>
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <ul class="clause__list">
+            <li>タグアーカイブ／tag.php - 「single_tag_title()」</li>
+            <li>日付アーカイブ／date.php - 「single_month_title()」</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【日付のフォーマットを変更したい場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;div class="post-all"&gt;
+  &lt;?php echo get_the_date('Y年n月'); ?&gt;
+
+  &lt;?php
+  if( have_posts() ):
+  while( have_posts() ):
+  the_post();
+  ?&gt;
+    .
+    .</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. WordPressの条件分岐タグ</h3>
+        <div class="item">
+          <p>細かく設定したいが、1行のためだけにファイルを増やすのが面倒くさい人は<em>条件分岐タグ</em>を使用する。</p>
+          <p><a href="https://saruwakakun.com/html-css/wordpress/if_is">便利なWordPressの条件分岐16パターン：カスタマイズで活躍するものを厳選！</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設定例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php"># archive.php
+
+&lt;p&gt;
+  &lt;?php if (is_category()) : ?&gt;
+    カテゴリー「&lt;?php single_cat_title(); ?&gt;」に属する記事一覧
+  &lt;?php elseif (is_tag()) : ?&gt;
+    タグ「&lt;?php single_tag_title(); ?&gt;」が設定された記事一覧
+  &lt;?php elseif (is_date()) : ?&gt;
+    「&lt;?php echo get_the_date('Y年n月'); ?&gt;」に投稿された記事一覧
+  &lt;?php else: ?&gt;
+    「&lt;?php the_archive_title(); ?&gt;」に関する記事一覧
+  &lt;?php endif; ?&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <div class="item">
+          <dl>
+            <dt>【別々のCSSを読み込んでいるけど「header.php」にまとめたい場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php if ( is_single() ) : ?&gt;
+  &lt;link rel="stylesheet" href="&lt;?php echo get_theme_file_uri('/css/single.css'); ?&gt;"&gt;
+&lt;?php else: ?&gt;
+  &lt;link rel="stylesheet" href="&lt;?php echo get_stylesheet_uri(); ?&gt;"&gt;
+&lt;?php endif; ?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+        <p><strong>※移行作業の中でレイアウトが崩れた場合は、要素の検証をしながら少しづつCSSを修正していくしか方法はない。</strong></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. サブループの設定</h2>
+      <div class="clause">
+        <p>前述した「WordPressループ」は、テンプレートの種類によって出力される記事が決まっている。このループのことを「<em>メインループ</em>」という。<br>
+          それに対し、自分で条件や表示場所を自由に設定できるループのことを「<em>サブループ</em>」という。</p>
+        <dl>
+          <dt>【サブループの基本形】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-php">&lt;?php
+$args = array(
+  # 出力したい記事の条件を記述
+);
+$the_query = new WP_Query($args); #設定した条件でサブループを作成
+
+if ( $the_query->have_posts() ): #サブループの条件に合う記事があったら
+while ( $the_query->have_posts() ): #記事があるだけ繰り返す
+$the_query->the_post(); #記事の情報を読み込む
+?&gt;
+
+&lt;article class="post"&gt;
+&lt;/article&gt;
+
+&lt;?php
+endwhile;
+endif;
+wp_reset_postdata(); #サブループをリセットする
+?&gt;</code></pre>
+          </dd>
+        </dl>
+        <p><a href="https://notnil-creative.com/blog/archives/1288">WP_Queryの使い方をPHPコードにまとめた便利なコード・スニペット</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. 出力例</h3>
+        <div class="item">
+          <dl>
+            <dt>【特定のカテゴリーに属する記事を3件表示したい】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php
+$args = array(
+  'category_name' => 'design',
+  'posts_per_page' => 3
+);
+$the_query = new WP_Query($args);
+
+if ( $the_query->have_posts() ):
+while ( $the_query->have_posts() ):
+$the_query->the_post();
+?&gt;
+
+&lt;article class="post"&gt;
+&lt;/article&gt;
+
+&lt;?php
+endwhile;
+endif;
+wp_reset_postdata();
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【記事をランダムに6件表示したい】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php
+$args = array(
+  'orderby' => 'rand',
+  'posts_per_page' => 6
+);
+$the_query = new WP_Query($args);
+
+if ( $the_query->have_posts() ):
+while ( $the_query->have_posts() ):
+$the_query->the_post();
+?&gt;
+
+&lt;article class="post"&gt;
+&lt;/article&gt;
+
+&lt;?php
+endwhile;
+endif;
+wp_reset_postdata();
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 記事取得時のカスタマイズ</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【最初の記事だけデザインを変えたい】</dt>
+            <dd>「wordpress 最初の記事だけ」で検索。</dd>
+            <dd><a href="https://note.spiqa.design/wordpress-loop/">【WordPress】記事一覧のループで最初と最後だけ違う処理をする方法</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【カテゴリーごとにデザインを変えたい】</dt>
+            <dd>「wordpress カテゴリーごと クラス名」で検索。</dd>
+            <dd><a href="https://kakedashiweb.site/archives/1161">WordPressカテゴリスラッグを取得し、classとして使う方法</a></dd>
+          </dl>
+          <p>※授業資料「<a href="https://trident.takagino.net/doc2024/cms/03.html">03_テーマの作成</a> - 5-1.記事ごとにid名とclass名を表示する」の方法でもOK。</p>
+        </div>
+        <div class="item"></div>
+        <dl>
+          <dt>【記事詳細ページに関連記事（同じカテゴリーの記事）を表示したい】</dt>
+          <dd>「wordpress 関連記事」で検索。</dd>
+          <dd><a href="https://plusers.jp/blog/wordpress-related-posts">WordPressの投稿記事にプラグインなしで関連記事を出力する</a></dd>
+        </dl>
+      </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+      <pre class="line-numbers">
+        <code class="language-markup">
+          &lt; ... &gt;
+        </code>
+      </pre>
+      -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,485 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript基礎」01_JavaScriptの基礎 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript基礎」01_JavaScriptの基礎</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. JavaScriptとは？</h2>
+      <div class="clause">
+        <div class="item">
+          <p>
+            JavaScript（ジャバスクリプト）とは、プログラミング言語のひとつである。<em>Javaと名前が似ているが、全く異なるプログラミング言語</em>である。ウェブブラウザ上で動作し動的なウェブサイト構築やリッチインターネットアプリケーションの開発に用いられる。また、2010年以降はnode.jsなどのサーバサイドJavaScript実行環境や各種ライブラリの充実により、Web開発の全ての領域で活用されるようになってきている。
+          </p>
+          <p><a href="https://zenn.dev/naoki_mochizuki/articles/46928ccb420ee733f78f">JavaScriptが辿った変遷</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Webを支える3大プログラミング言語の役割】</dt>
+            <dd>
+              <ul>
+                <li>HTML : ブラウザ上に表示する内容と文書構造</li>
+                <li>CSS : ブラウザ上に表示する内容のレイアウトと装飾</li>
+                <li>JavaScript : ブラウザ上に表示した内容に動きをもたせる</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【目指せる職業】</dt>
+            <dd>
+              <ul>
+                <li>HTML+CSS : マークアップエンジニア</li>
+                <li>HTML+CSS+JavaScript : フロントエンドエンジニア</li>
+                <li>HTML+CSS+JavaScript+PHP : サーバーサイドエンジニア</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 具体的に何が起こっているのか？</h3>
+        <div class="item">
+          <p>JavaScriptがサイト上でやっていることは、</p>
+          <p><strong>あるタイミングで、ある要素に、何かしらの変化を加える</strong></p>
+          <p>基本的にはこれだけ！</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変化を見てみよう】</dt>
+            <dd>
+              <ol>
+                <li><a href="https://computer.trident.ac.jp/">トライデントコンピュータ専門学校</a>のサイトを開く。</li>
+                <li>右クリックメニュー「検証」を選択し、「Elements」タブを表示。</li>
+                <li>スライドショー部分のソースコードを表示して変化を見てみる。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p>後期の授業が終わるまでに、全員が出来るようになって欲しいことは、</p>
+          <ul class="clause__list">
+            <li>自分が実現したい動きが「<em>どのタイミングで、どの要素が、どのように変化しているのか</em>」をイメージできるようになること。</li>
+            <li>「<em>どのように変化しているのか</em>」をプログラムで書けるようになること。</li>
+        </div>
+        <p>まずこの単元では詳しい内容は省き、プログラムを一通り実行して全体像を把握します。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. JavaScriptの書き方</h2>
+      <div class="clause">
+        <ol>
+          <li>任意の場所に新規フォルダを作成。</li>
+          <li>「Visual Studio Code」を立ち上げ、作成したフォルダを開く。</li>
+          <li>新規ファイル「sample.html」を作成。</li>
+          <li>以下のコードを記述し、ブラウザで開く。
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;sample&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script&gt;
+    alert('Hello World!');
+  &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </li>
+          <li>「Hello World!」とメッセージが表示されたら成功。</li>
+        </ol>
+        <div class="item">
+          <dl>
+            <dt>alert();</dt>
+            <dd>警告ダイアログを表示する</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/API/Window/alert">window.alert - MDN</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【windowオブジェクト】</dt>
+            <dd>「window.」とはブラウザそのもの。（ブラウザが持っている機能の中から「alert」を実行します。という意味）</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/API/Window">Window - MDN</a></dd>
+          </dl>
+          <p>※「window.」は、ほとんどの場合省略できる。</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 基本文法</h3>
+        <div class="item">
+          <ol>
+            <li>HTMLファイル内に記述する場合は、script要素の間に記述する。</li>
+            <li>文の最後に「;（セミコロン）」をつける。（省略も可）</li>
+            <li>スペースや改行は自由にいれても良いが、単語の途中には入れない。</li>
+            <li>大文字と小文字は区別される。</li>
+            <li>文字列（文字の並び）を扱う場合はシンブルクォート(')かダブルクォート(")で囲む。</li>
+            <li>文字列以外の箇所に「全角文字（空白）」は使用しない。</li>
+          </ol>
+          <p>※HTMLでは属性値をダブルクォート(")で囲む場合が多いので、この授業では文字列をシンブルクォート(')で囲みます。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【会社ごとにルールを決めている】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://google.github.io/styleguide/jsguide.html">Google JavaScript Style Guide</a></li>
+                <li><a href="https://mitsuruog.github.io/javascript-style-guide/">Airbnb JavaScript スタイルガイド</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. エラーの見方</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  al ert('Hello World!');
+&lt;/script&gt;</code></pre>
+        </div>
+        <div class="item">
+          <p>エラーなどの表示は「<em>console（コンソール）</em>」という機能を使用する。</p>
+          <ol>
+            <li>Chromeディベロッパーツールを開き「Console」タブを選択する
+              <img src="assets/01/01.png" width="500" alt="">
+            </li>
+          </ol>
+          <p>ショートカットは「command + option + j」</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【エラー一覧】</dt>
+            <dd>
+              <a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Errors">JavaScript エラーリファレンス</a>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. コメントアウト</h3>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+//1行のコメント
+
+/* 複数行のコメント
+----------------*/
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 変更を加えたい要素を指定する</h2>
+      <div class="clause">
+        <div class="item">
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;sample&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p&gt;変化させたい要素&lt;/p&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <p>例えば、p要素をクリックした時に何かを変化させるプログラムを書く場合、まずはその対象を指定する必要がある。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素の指定方法、主要6種類】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">getElementsByTagName('要素名');
+getElementById('id名');
+getElementsByClassName('class名');
+getElementsByName('name属性値');
+querySelector('セレクタ'); //「.btn」など（cssセレクタと同じ書き方）
+querySelectorAll('セレクタ');</code></pre>
+            </dd>
+          </dl>
+          <ul>
+            <li>※「Element」と「Elements」の違いに注意（複数ある可能性がある時は「Elements」）</li>
+            <li>※大文字と小文字の違いに注意（単語の先頭を大文字にする記法のことを<em>「キャメルケース」</em>と呼ぶ）</li>
+          </ul>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. id名で指定する</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;p id="elem"&gt;変化させたい要素&lt;/p&gt; &lt;!--「elem」は「element（要素）」の略 --&gt;
+
+&lt;script&gt;
+  alert( document.getElementById('elem') );
+&lt;/script&gt;</code></pre>
+          </p>
+          <p><img src="assets/01/02.png" alt="" width="500"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【documentオブジェクト】</dt>
+            <dd>「document.」とはWebサイトのドキュメント（内容）全体のこと。（内容全体の中から「任意のid名を持つ要素」を指定します。という意味）</dd>
+            <dd>
+              <a href="https://developer.mozilla.org/ja/docs/Web/API/Document">Document - MDN</a>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. コンソールに表示する</h3>
+        <div class="item">
+          <p>指定した要素を確認する際、毎回アラートで表示するのは煩わしいので「console（コンソール）」に表示すると便利。</p>
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  console.log( document.getElementById('elem') );
+&lt;/script&gt;</code></pre>
+          </p>
+          <ol>
+            <li>Chromeディベロッパーツールを開き、「Console」タブを選択する。
+              <img src="assets/01/03.png" alt="" width="500">
+            </li>
+          </ol>
+          <p>※JavaScript上達のコツは、とにかく<em>「console.log()」</em>で値を可視化・確認すること。</p>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/API/Window/console">window.console - MDN</a></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 何かしらの変化を加える</h2>
+      <div class="clause">
+        <p>様々な変更方法があらかじめ用意されているが、よく使用される代表的なものが「CSSの操作」「属性の操作」「内容（テキスト）の操作」の3つ。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. CSSの操作</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  document.getElementById('elem').style.color = '#ff0000';
+  document.getElementById('elem').style.backgroundColor = '#00ff00';
+  //単語の途中でハイフンは使えないため「キャメルケース」で記述する（計算式の「マイナス」と認識されてしまう）
+&lt;/script&gt;</code></pre>
+        </p>
+        <p>複数のCSSを変更する際、「document.getElementById('elem')」をなんども記述するのは面倒くさい。その場合は「変数」を使うと便利。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 変数とは？</h3>
+        <p>あとで利用するために、値（データ）に名前をつけて保存しておく仕組みのこと。</p>
+        <div class="item">
+          <ol>
+            <li>「let 変数名」で変数を宣言（新規作成）する。</li>
+            <li>「変数名 = 〇〇」で変数にデータを入れておく（代入する）。</li>
+            <li>その後は、変数名を書くと代入した値が適応される。</li>
+          </ol>
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let elem = document.getElementById('elem');
+  elem.style.color = '#ff0000';
+  elem.style.backgroundColor = '#00ff00';
+&lt;/script&gt;</code></pre>
+          </p>
+          <p>※「let」などの詳しい話は後日。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数の値をコンソールに表示する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let elem = document.getElementById('elem');
+  console.log(elem); //変数は文字列ではないためシングルクォート「'」はいらない
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 練習</h3>
+        <ol>
+          <li>「p要素」の上に「h1要素」を追加し、CSSを変更する。（※変数に代入すること）</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. タイミングを設定する</h2>
+      <div class="clause">
+        <p>まずは、以下の形をおぼえましょう。（このあたりから「括弧」や「ドット」が増えるので落ち着いて書いてください。）</p>
+        <p><em>※エラーを無くすコツは、括弧を書いたらすぐに閉じること！</em></p>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let elem = document.getElementById('elem');
+
+  elem.addEventListener('click', function(){
+    elem.style.color = '#ff0000';
+  });
+&lt;/script&gt;</code></pre>
+        </p>
+        <div class="item">
+          <dl>
+            <dt>addEventListener（アドイベントリスナー）</dt>
+            <dd>要素に、イベント(Event)を監視する役割(Listener)を追加(add)する。</dd>
+          </dl>
+          <dl>
+            <dt>function(){}</dt>
+            <dd>イベントが発生した時に実行される命令のかたまり。（関数）</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/Events">イベントリファレンス - MDN</a></p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 練習</h3>
+        <ol>
+          <li>p要素にマウスを乗せたら、フォントサイズが大きくなる。</li>
+          <li>p要素からマウスを離したら、フォントサイズが元に戻る。</li>
+          <li>p要素にマウスを乗せたら、h1要素のフォントサイズが大きくなる。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. さらに変更を加える</h2>
+      <div class="clause">
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;!--画像を追加する--&gt;
+  &lt;img id="image" src="https://picsum.photos/200/300?image=0"&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">6-1. 属性の操作</h3>
+        <div class="item">
+          <dl>
+            <dt>【属性値の変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let image = document.getElementById('image');
+  image.setAttribute('src', 'https://picsum.photos/200/300?image=100');
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/API/Element/setAttribute">setAttribute - MDN</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【属性値の取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let image = document.getElementById('image');
+  let src = image.getAttribute('src');
+
+  console.log(src);
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/API/Element/getAttribute">getAttribute - MDN</a></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 練習</h3>
+        <ol>
+          <li>p要素にマウスを乗せたら画像が切り替わり、マウスを離したら元の画像に戻る。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-2. 内容（テキスト）の操作</h3>
+        <div class="item">
+          <dl>
+            <dt>【内容の取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let elem = document.getElementById('elem');
+  let text = elem.innerHTML;
+  console.log(text);
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【内容の変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let elem = document.getElementById('elem');
+  elem.innerHTML = '変更しました！';
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/API/Element/innerHTML">innerHTML - MDN</a></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. まとめ</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【JavaScriptがサイト上でやっていること】</dt>
+            <dd>あるタイミングで、ある要素に、何かしらの変化を加える。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【JavaScript上達のコツ】</dt>
+            <dd>
+              <ol>
+                <li><em>「console.log()」</em>で値を可視化すること。</li>
+                <li>エラーが出た時は、該当の箇所と原因を把握し素早く対処すること。（<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Errors" target="_blank">JavaScript エラーリファレンス</a>）</li>
+                <li>繰り返しソースコードを書いて「括弧」「ドット」「カンマ」に慣れること。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+        <pre class="line-numbers">
+          <code class="language-markup">
+            &lt; ... &gt;
+          </code>
+        </pre>
+        -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

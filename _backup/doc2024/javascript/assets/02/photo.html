@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>画像を変更する</title>
+</head>
+<body>
+  <div>
+    <button id="plus">+</button>
+    <button id="set">0</button>
+  </div>
+  <p id="result">https://picsum.photos/400/300?image=0</p>
+  <img id="photo" src="https://picsum.photos/400/300?image=0">
+
+  <script>
+    let num = 0;
+    const url = 'https://picsum.photos/400/300?image=';
+
+    const plusBtn = document.getElementById('plus');
+    const setBtn = document.getElementById('set');
+    const result = document.getElementById('result');
+    const photo = document.getElementById('photo');
+
+    photo.setAttribute('src', url + num);
+
+    plusBtn.addEventListener('click', function () {
+      num += 1;
+      setBtn.innerHTML = num;
+    });
+
+    set.addEventListener('click', function () {
+      result.innerHTML = url + num;
+      photo.setAttribute('src', url + num);
+    });
+  </script>
+</body>
+</html>

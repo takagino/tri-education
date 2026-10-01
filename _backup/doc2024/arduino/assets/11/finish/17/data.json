@@ -1,0 +1,67 @@
+[
+  { "name": "東京大学", "val23": 79.5, "val24": null, "color": "#ff9999" },
+  { "name": "一橋大学", "val23": 79.0, "val24": null, "color": "#ffcc99" },
+  { "name": "東京科学大学", "val23": 69.0, "val24": null, "color": "#ffff99" },
+  { "name": "関西学院大学", "val23": 69.5, "val24": null, "color": "#ccff99" },
+  { "name": "国際教養大学", "val23": 77.0, "val24": null, "color": "#99ff99" },
+  { "name": "早稲田大学", "val23": 73.5, "val24": null, "color": "#99ccff" },
+  { "name": "京都大学", "val23": 74.0, "val24": null, "color": "#9999ff" },
+  { "name": "慶応義塾大学", "val23": 73.5, "val24": null, "color": "#cc99ff" },
+  { "name": "上智大学", "val23": 70.0, "val24": null, "color": "#ff99ff" },
+  {
+    "name": "国際基督教大学",
+    "val23": 79.0,
+    "val24": null,
+    "color": "#ff9999"
+  },
+  { "name": "灘高等学校", "val23": null, "val24": 78.0, "color": "#ff9999" },
+  {
+    "name": "お茶の水女子大学附属高等学校",
+    "val23": null,
+    "val24": 77.0,
+    "color": "#ffcc99"
+  },
+  {
+    "name": "筑波大学附属高等学校",
+    "val23": null,
+    "val24": 77.0,
+    "color": "#ffff99"
+  },
+  {
+    "name": "筑波大学附属駒場高等学校",
+    "val23": null,
+    "val24": 77.0,
+    "color": "#ccff99"
+  },
+  { "name": "開成高等学校", "val23": null, "val24": 77.0, "color": "#99ff99" },
+  {
+    "name": "ラ・サール高等学校",
+    "val23": null,
+    "val24": 77.0,
+    "color": "#99ccff"
+  },
+  {
+    "name": "慶應義塾女子高等学校",
+    "val23": null,
+    "val24": 76.0,
+    "color": "#9999ff"
+  },
+  {
+    "name": "膳所高等学校理数科",
+    "val23": null,
+    "val24": 76.0,
+    "color": "#cc99ff"
+  },
+  {
+    "name": "慶應義塾志木高等学校",
+    "val23": null,
+    "val24": 75.0,
+    "color": "#ff99ff"
+  },
+  {
+    "name": "早稲田大学本庄高等学院",
+    "val23": null,
+    "val24": 75.0,
+    "color": "#ff9999"
+  }
+]

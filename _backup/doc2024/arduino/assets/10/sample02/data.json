@@ -1,0 +1,42 @@
+{
+  "y2020": [
+    {
+      "label": "Webデザイン",
+      "val": 20,
+      "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+      "color": "#028482"
+    },
+    {
+      "label": "CG",
+      "val": 50,
+      "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+      "color": "#da3000"
+    },
+    {
+      "label": "ゲーム",
+      "val": 120,
+      "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+      "color": "#3e63af"
+    }
+  ],
+  "y2021": [
+    {
+      "label": "CAD",
+      "val": 30,
+      "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+      "color": "#028482"
+    },
+    {
+      "label": "サイバー",
+      "val": 60,
+      "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+      "color": "#da3000"
+    },
+    {
+      "label": "情報処理",
+      "val": 90,
+      "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+      "color": "#3e63af"
+    }
+  ]
+}

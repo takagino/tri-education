@@ -1,0 +1,298 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」10_開発環境を整える | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」10_開発環境を整える</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. ターミナルの操作</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. ターミナルとは？</h3>
+        <p><a href="https://support.apple.com/ja-jp/guide/terminal/welcome/mac">ターミナルユーザガイド</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 主なコマンド</h3>
+        <div class="item">
+          <table>
+            <tbody>
+              <tr>
+                <th>コマンド</th>
+                <th>説明</th>
+              </tr>
+              <tr>
+                <td>pwd</td>
+                <td>
+                  「print working directory」の略。<br>現在のフォルダ（<em>カレントディレクトリ</em>）のパスを表示。
+                </td>
+              </tr>
+              <tr>
+                <td>ls</td>
+                <td>
+                  「list」の略。<br>カレントディレクトリにあるファイルを表示。
+                </td>
+              </tr>
+              <tr>
+                <td>cd</td>
+                <td>
+                  「change directory」の略。<br>指定したファイルに移動。
+                  <pre class="line-numbers"><code class="language-bash">cd xxx # xxxというファイルへ移動
+cd ~/ # ホームディレクトリへ移動 [$ cd] や [$ cd ~] だけでも可能
+cd .. # 一つ上の階層のファイルへ移動
+cd ./ # 現在いるディレクトリ階層へ移動
+cd ../.. # 今より２つ上の階層へ移動
+
+cd Desktop # デスクトップへ移動（%の前に現在のフォルダが表示される）</code></pre>
+                  ※「cd
+                  」の後にファイルをドラッグ・アンド・ドロップすることで、そのファイルまでのパスを表示できる。
+                </td>
+              </tr>
+              <tr>
+                <td>touch</td>
+                <td>
+                  中身が空のファイルを作成する。
+                  <pre class="line-numbers"><code class="language-bash">touch xxx.js # xxx.jsという空ファイルを作成</code></pre>
+                </td>
+              </tr>
+              <tr>
+                <td>mkdir</td>
+                <td>
+                  「make directory」の略。<br>ディレクトリ（フォルダ）を作成する。
+                  <pre class="line-numbers"><code class="language-bash">mkdir xxx # xxxというフォルダを作成</code></pre>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="item">
+          <ul>
+            <li><a href="https://www.sejuku.net/blog/124853">その他のコマンド</a></li>
+          </ul>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. Homebrewの導入</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. Homebrewとは？</h3>
+        <p><a href="https://www.kikagaku.co.jp/kikagaku-blog/homebrew-install-howto/">【インストール方法から使い方まで】Homebrew についてわかりやすく解説！よく使うコマンドも</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. 関連項目</h3>
+        <div class="item">
+          <dl>
+            <dt>【不可視ファイルの表示】</dt>
+            <dd>ショートカット「command + shift + .」</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考サイト】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://zenn.dev/d0ne1s/articles/1f435463551ac2">「PATHを通す」とは何か、改めてまとめてみた</a></li>
+                <li><a href="https://developers-book.com/2024/08/22/1229/">.zshrcと.zprofileの違い</a></li>
+                <li><a href="https://note.com/88gram/n/n4ead3a677b83">VSCodeをターミナルから開く方法（codeコマンドの活用）</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. パッケージのインストール</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://zenn.dev/ianchen0419/articles/deb4c621c43242">Unrarを使ってMacで.rarファイルを解凍</a></li>
+            <li><a href="https://zenn.dev/toono_f/articles/54799288c3cdcb">Macのターミナルをカスタマイズしよう（Starshipの導入）</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【パッケージがインストールされる場所】</dt>
+            <dd></dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. Node.jsのインストール</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://qiita.com/non_cal/items/a8fee0b7ad96e67713eb">Node.jsとはなにか？なぜみんな使っているのか？</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インストール済みかどうかの確認】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-bash"># 以下を入力して「Enter」
+node -v
+
+# 以下を入力して「Enter」
+npm -v</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インストールされていない場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-bash"># 以下を入力して「Enter」
+brew install node</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. Githubの設定</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. Githubとは？</h3>
+        <ul>
+          <li><a href="https://www.sejuku.net/blog/73468">GitHubの使い方を画像つきで徹底解説！初心者でもすぐ使える</a></li>
+        </ul>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. Githubの登録</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://yakiimosan.com/github-account-create/">【2024年1月最新】GitHubアカウント作成方法を3ステップで簡単解説！</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Github Educationの登録】</dt>
+            <dd><a href="https://zenn.dev/iizuka0000/articles/how-to-apply-for-github-education">Github Education の申請方法</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【学校の存在証明を求められる場合】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://www.nicjp.niad.ac.jp/en/institute/senmon0444.html?lang=en&data%5BschoolSearch%5D%5Btext%5D=%E3%83%88%E3%83%A9%E3%82%A4%E3%83%87%E3%83%B3%E3%83%88%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E5%B0%82%E9%96%80%E5%AD%A6%E6%A0%A1&data%5BschoolSearch%5D%5Bquery%5D=part">Trident College of Information Technology</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. VSCodeとの連携</h3>
+        <div class="item">
+          <dl>
+            <dt>【gitがインストールされているかの確認】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-bash"># 以下を入力して「Enter」
+git --version</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インストールされていない場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-bash"># 以下を入力して「Enter」
+brew install git</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul>
+            <li><a href="https://zenn.dev/ameyo/articles/1b58281341771f">開発環境を整える(VSCode + Git)</a></li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. VSCodeでの操作</h3>
+        <div class="item">
+          <dl>
+            <dt>【便利な拡張機能】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph">Git Graph</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul>
+            <li><a href="https://pengi-n.co.jp/column/design/vscode-github/">【VSCode×GitHub】使い方から連携手順まで完全解説！</a></li>
+          </ul>
+        </div>
+        <p><em>※挙動がおかしい場合は「.git」と「Githubのレポジトリ」を削除し、最初からやり直したほうが早い。</em></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. その他</h3>
+        <div class="item">
+          <dl>
+            <dt>【見栄えをよくする】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://github.com/Iidaaaaaa">2年生の飯田くんのGithub</a></li>
+                <li><a href="https://qiita.com/shun198/items/c983c713452c041ef787">全プロジェクトで重宝されるイケてるREADMEを作成しよう！</a></li>
+                <li><a href="https://zenn.dev/aiq_dev/articles/8386b812d7e384">GitHubのプロフィールをかっこよくカスタマイズする方法</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Github Pages】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://qiita.com/snow_swallow/items/631bbceabbb953da2646">Github Pagesの使い方まとめ</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 時間が余ったら</h2>
+      <div class="clause">
+        <p><a href="https://www.sikaku.gr.jp/web/wc/contents/prepare/sample/1/">Webクリエイター能力試験模擬問題</a> or 履歴書の練習</p>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+      <pre class="line-numbers">
+        <code class="language-markup">
+          &lt; ... &gt;
+        </code>
+      </pre>
+      -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

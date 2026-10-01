@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ランダムな画像</title>
+  </head>
+  <body>
+    <img id="pic" src="https://picsum.photos/id/100/500/300" alt="" />
+
+    <script>
+      const pic = document.querySelector("#pic");
+
+      const randomNum = Math.floor(Math.random() * 100);
+      //pic.src = `https://picsum.photos/id/${randomNum}/500/300`;
+      pic.setAttribute("src", `https://picsum.photos/id/${randomNum}/500/300`);
+    </script>
+  </body>
+</html>

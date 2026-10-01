@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>問題06「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」問題06</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <section class="clause">
+          <h3 class="clause__title">Level.1</h3>
+          <div class="item">
+            <ol>
+              <li>真ん中に円を描画する。</li>
+              <li>クリックした場所に徐々に移動する。</li>
+            </ol>
+            <div id="q01"></div>
+          </div>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let x;
+let y;
+let dx;
+let dy;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  x = width / 2;
+  y = height / 2;
+  dx = width / 2;
+  dy = height / 2;
+}
+
+function draw(){
+  clear();
+  ellipse(dx, dy, 50, 50);
+  dx += (x - dx) * 0.1;
+  dy += (y - dy) * 0.1;
+}
+
+function mouseReleased(){
+  x = mouseX;
+  y = mouseY;
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.2</h3>
+          <div class="item">
+            <ol>
+              <li>マウスに追従するように修正する。</li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <!-- <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">let dx;
+let dy;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  dx = width / 2;
+  dy = height / 2;
+}
+
+function draw() {
+  clear();
+  ellipse(dx, dy, 50, 50);
+  dx += (mouseX - dx) * 0.1;
+  dy += (mouseY - dy) * 0.1;
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.3</h3>
+          <div class="item">
+            <ol>
+              <li>円を5つに増やす。</li>
+            </ol>
+            <div id="q03"></div>
+          </div>
+          <!-- <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">const dx = [];
+const dy = [];
+const num = 5;
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  for (let i = 0; i < num; i += 1) {
+    dx[i] = width / 2;
+    dy[i] = height / 2;
+  }
+}
+
+function draw() {
+  clear();
+
+  ellipse(dx[0], dy[0], 50, 50);
+  dx[0] += (mouseX - dx[0]) * 0.1;
+  dy[0] += (mouseY - dy[0]) * 0.1;
+
+  for (let i = 1; i < num; i += 1) {
+    ellipse(dx[i], dy[i], 50, 50);
+    dx[i] += (dx[i - 1] - dx[i]) * 0.1;
+    dy[i] += (dy[i - 1] - dy[i]) * 0.1;
+  }
+}</code></pre>
+          </div> -->
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q01 = function (p) {
+        let x;
+        let y;
+        let dx;
+        let dy;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+
+          x = p.width / 2;
+          y = p.height / 2;
+          dx = p.width / 2;
+          dy = p.height / 2;
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(dx, dy, 50, 50);
+          dx += (x - dx) * 0.1;
+          dy += (y - dy) * 0.1;
+        };
+
+        p.mouseReleased = () => {
+          x = p.mouseX;
+          y = p.mouseY;
+        };
+      };
+      new p5(q01, "q01");
+
+      let q02 = function (p) {
+        let dx;
+        let dy;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+
+          dx = p.width / 2;
+          dy = p.height / 2;
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(dx, dy, 50, 50);
+          dx += (p.mouseX - dx) * 0.1;
+          dy += (p.mouseY - dy) * 0.1;
+        };
+      };
+      new p5(q02, "q02");
+
+      let q03 = function (p) {
+        const dx = [];
+        const dy = [];
+        const num = 5;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+
+          for (let i = 0; i < num; i += 1) {
+            dx[i] = p.width / 2;
+            dy[i] = p.height / 2;
+          }
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          p.ellipse(dx[0], dy[0], 50, 50);
+          dx[0] += (p.mouseX - dx[0]) * 0.1;
+          dy[0] += (p.mouseY - dy[0]) * 0.1;
+
+          for (let i = 1; i < num; i += 1) {
+            p.ellipse(dx[i], dy[i], 50, 50);
+            dx[i] += (dx[i - 1] - dx[i]) * 0.1;
+            dy[i] += (dy[i - 1] - dy[i]) * 0.1;
+          }
+        };
+      };
+      new p5(q03, "q03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

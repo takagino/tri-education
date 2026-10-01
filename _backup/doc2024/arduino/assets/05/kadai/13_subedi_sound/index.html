@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>DancingBubble</title>
+    <style>
+        canvas {
+            background: #000;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let amp;
+        let particles = [];
+
+        function preload() {
+            mySound = loadSound('music.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            noStroke();
+            fft = new p5.FFT();
+            amp = new p5.Amplitude();
+
+            for (let i = 0; i < 400; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function draw() {
+            background(0, 0.2);
+
+            let spectrum = fft.analyze();
+            let level = amp.getLevel();
+            let bass = fft.getEnergy("bass");
+            let treble = fft.getEnergy("treble");
+            let mid = fft.getEnergy("mid");
+            let volumeFactor = map(level, 0, 1, 1, 20);
+
+            for (let p of particles) {
+                p.update(bass, mid, treble, volumeFactor);
+                p.display();
+            }
+        }
+
+        class Particle {
+            constructor() {
+                this.pos = createVector(random(width), random(height));
+                this.vel = p5.Vector.random2D();
+                this.acc = createVector(0, 0);
+                this.hue = random(360);
+                this.size = random(5, 15);
+            }
+
+            update(bass, mid, treble, volumeFactor) {
+                let bassInfluence = map(bass, 0, 255, 0.5, 3);
+                let trebleInfluence = map(treble, 0, 255, 0.5, 2);
+                let midInfluence = map(mid, 0, 255, 0.5, 2);
+
+                this.acc = p5.Vector.random2D().mult(bassInfluence);
+                this.vel.add(this.acc);
+                this.vel.limit(volumeFactor * 2);
+                this.pos.add(this.vel);
+
+                this.size = map(mid, 0, 255, 5, 20);
+                this.hue = (this.hue + trebleInfluence) % 360;
+
+                if (this.pos.x > width) this.pos.x = 0;
+                if (this.pos.x < 0) this.pos.x = width;
+                if (this.pos.y > height) this.pos.y = 0;
+                if (this.pos.y < 0) this.pos.y = height;
+            }
+
+            display() {
+                fill(this.hue, 80, 60, 0.8);
+                ellipse(this.pos.x, this.pos.y, this.size);
+            }
+        }
+
+        function keyPressed() {
+            mySound.jump(19); // Start the song at 19 seconds
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+    </script>
+</body>
+
+</html>

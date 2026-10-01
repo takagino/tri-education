@@ -1,0 +1,32 @@
+[
+    {
+        "label": "村上宗隆",
+        "color": "#073170",
+        "val": 33,
+        "url": "https://p.npb.jp/players_photo/2024/180/s/055_41845136.jpg"
+    },
+    {
+        "label": "岡本和真",
+        "color": "#FF7820",
+        "val": 27,
+        "url": "https://p.npb.jp/players_photo/2024/180/g/025_11515130.jpg"
+    },
+    {
+        "label": "オースティン",
+        "color": "#0052CD",
+        "val": 25,
+        "url": "https://p.npb.jp/players_photo/2024/180/db/003_73375151.jpg"
+    },
+    {
+        "label": "牧秀悟",
+        "color": "#0052CD",
+        "val": 23,
+        "url": "https://p.npb.jp/players_photo/2024/180/db/002_13115153.jpg"
+    },
+    {
+        "label": "細川成也",
+        "color": "#003595",
+        "val": 23,
+        "url": "https://p.npb.jp/players_photo/2024/180/d/055_31835134.jpg"
+    }
+]

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」11_座標変換 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」11_座標変換</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">0. はじめに</h2>
+        <div class="clause">
+          <dl>
+            <dt>【今後のスケジュール】</dt>
+            <dd>
+              <ul>
+                <li>7/29(月)：座標変換</li>
+                <li>8/5(月)：最終課題</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;文字列&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 雛形</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+}
+
+function draw(){
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 文字列</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  textSize(50); //フォントサイズ
+  textAlign(CENTER); //行揃え
+  text("p5.js", 20, 20); //テキストの表示
+}
+
+function draw(){
+}
+
+function keyPressed(){
+  text(key, 200, 200); //キーボード入力値の表示
+}
+
+function keyReleased(){
+  clear();
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-3. テンプレートリテラル</h3>
+          <pre class="line-numbers"><code class="language-javascript">// 文字列
+console.log(`Hello world`)
+
+// 改行
+console.log(`Hello
+world`);
+
+// 式
+console.log(`2 + 5 equal ${2 + 5}`);
+
+// 変数
+const person = 'JS Taro';
+console.log(`Hello ${person}`);</code></pre>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 座標変換</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【例）画面中央に矩形を描画】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  rect(width / 2, height / 2, 50, 50);
+}
+
+function draw(){
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>上記プログラムを改造し、矩形を回転させたい。</p>
+            <p><img src="./assets/11/01.png" width="400" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【CSSの場合】</dt>
+              <dd>
+                <a href="https://pengi-n.co.jp/column/design/css-transform/"
+                  >transformプロパティ解説！CSSアニメーションの基礎をおさえよう！</a
+                >
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【p5.jsの場合】</dt>
+              <dd>
+                <a href="https://p5js.org/reference/#Transform"
+                  >Transform - p5.js Reference</a
+                >
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【注意点】</dt>
+              <dd>
+                p5.jsは、「canvas要素」に図形を描画することしかできず、一度描画したものを変形することはできない。<br />図形を変形するには、<strong
+                  >あらかじめ、座標空間を変換してから図形を描画する。</strong
+                >
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. translate（移動）</h3>
+          <div class="item">
+            <dl>
+              <dt>【準備】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【画面中央に原点を移動させる】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  translate(width / 2, height / 2); //移動
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【矩形の描画】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+
+  translate(width / 2, height / 2);
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+
+  rect(0, 0, 50, 50); //矩形の描画
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. rotate（回転）</h3>
+          <div class="item">
+            <dl>
+              <dt>【単位を度数にする】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES); //単位を度数に変換
+
+  translate(width / 2, height / 2);
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+
+  rect(0, 0, 50, 50);
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【座標を45度回転する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  translate(width / 2, height / 2);
+  rotate(45); //回転
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+
+  rect(0, 0, 50, 50);
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. scale（拡大・縮小）</h3>
+          <div class="item">
+            <dl>
+              <dt>【座標空間を2倍にする】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  translate(width / 2, height / 2);
+  rotate(45);
+  scale(2); //拡大
+  line(0, 0, width, 0);
+  line(0, 0, 0, height);
+
+  rect(0, 0, 50, 50);
+}
+
+function draw() {
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p><em>※変換する順番に注意すること。</em></p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <ul>
+              <li>
+                <a href="./assets/11/question01.html" target="_blank">練習01</a>
+              </li>
+              <li>
+                <a href="./assets/11/question02.html" target="_blank">練習02</a>
+              </li>
+            </ul>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 座標空間の保存・復元</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【例）矩形をランダムに回転する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  translate(width / 2, height / 2);
+  rotate(Math.random() * 360);
+  rect(0, 0, 50, 50);
+}
+
+function draw(){
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>
+              上記プログラムを改造し、回転していない矩形をもう1つ描画したい。
+            </p>
+            <p><img src="./assets/11/02.png" width="400" alt="" /></p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>push();</dt>
+              <dd>現在の変形状態やスタイル設定を保存する。</dd>
+            </dl>
+            <dl>
+              <dt>pop();</dt>
+              <dd>保存した設定に復元する。</dd>
+            </dl>
+            <p>
+              <a href="https://p5js.org/reference/p5/push/"
+                >保存される設定一覧</a
+              >
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【回転していない矩形をもう1つ描画する】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(DEGREES);
+
+  translate(width / 2, height / 2);
+
+  push(); //設定の保存
+  rotate(Math.random() * 360);
+  rect(0, 0, 50, 50);
+
+  pop(); //設定の復元
+  rect(0, 0, 50, 50);
+}
+
+function draw(){
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <ul>
+              <li>
+                <a href="./assets/11/question03.html" target="_blank"
+                  >練習03、練習04</a
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script></script>
+  </body>
+</html>

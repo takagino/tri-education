@@ -1,0 +1,144 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>JavaScript基礎チェック Vol.4「Switch文」 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+  <link rel="stylesheet" href="../../assets/css/common.css" />
+  <style>
+    dd {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <h1 class="l-header__title-sub">JavaScript基礎チェック</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">Vol.4「Switch文」</h2>
+      <section class="clause">
+        <h3 class="clause__title">Q1〜Q10</h3>
+        <p>ボタンをクリックしたら、ボタンのテキストに「名作コピー」がランダムに表示されるプログラムを作りたい。[ ]に入る適切なコードを答えなさい。</p>
+        <p><button id="btn">名作コピーを見る</button></p>
+        <div class="item">
+          <pre class="line-numbers"><code class="language-markup">&lt;button id="btn"&gt;名作コピーを見る&lt;/button&gt;
+
+&lt;script&gt;
+  const btn = document.getElementById('[Q1]');
+
+  btn.addEventListener('click', function () {
+    const random = Math.[Q2]([Q3].random() * [Q4]);
+    let copy;
+
+    switch ([Q5]) {
+      [Q6] 0:
+        copy = 'そうだ 京都、行こう。';
+        [Q7];
+      [Q6] 1:
+        copy = 'NO MUSIC, NO LIFE.';
+        [Q7];
+      [Q6] 2:
+        copy = 'インテル入ってる';
+        [Q7];
+      [Q6] 3:
+        copy = '愛は食卓にある。';
+        [Q7];
+      [Q6] 4:
+        copy = 'ココロも満タンに';
+        [Q7];
+      [Q8]:
+        console.log('どれも一致しません');
+    }
+
+    btn.[Q9] = [Q10];
+  });
+&lt;/script&gt;</code></pre>
+        </div>
+        <dl>
+          <dt>【正解】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;button id="btn"&gt;名作コピーを見る&lt;/button&gt;
+
+&lt;script&gt;
+  const btn = document.getElementById('btn');
+
+  btn.addEventListener('click', function () {
+    const random = Math.floor(Math.random() * 5);
+    let copy;
+
+    switch (random) {
+      case 0:
+        copy = 'そうだ 京都、行こう。';
+        break;
+      case 1:
+        copy = 'NO MUSIC, NO LIFE.';
+        break;
+      case 2:
+        copy = 'インテル入ってる';
+        break;
+      case 3:
+        copy = '愛は食卓にある。';
+        break;
+      case 4:
+        copy = 'ココロも満タンに';
+        break;
+      default:
+        console.log('どれも一致しません');
+    }
+
+    btn.innerHTML = copy;
+  });
+&lt;/script&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="../../assets/js/common.js"></script>
+  <script>
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('click', function () {
+      const random = Math.floor(Math.random() * 5);
+      let copy;
+
+      switch (random) {
+        case 0:
+          copy = 'そうだ 京都、行こう。';
+          break;
+        case 1:
+          copy = 'NO MUSIC, NO LIFE.';
+          break;
+        case 2:
+          copy = 'インテル入ってる';
+          break;
+        case 3:
+          copy = '愛は食卓にある。';
+          break;
+        case 4:
+          copy = 'ココロも満タンに';
+          break;
+      }
+
+      btn.innerHTML = copy;
+    });
+  </script>
+</body>
+
+</html>

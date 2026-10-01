@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」04_条件分岐 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」04_条件分岐</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;変数&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      function setup(){
+        createCanvas(400, 400);
+      }
+
+      function draw(){
+        console.log(frameCount);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <section class="clause">
+            <h3 class="clause__title">1-1. 変数とは？</h3>
+            <div class="item">
+              <p>
+                プログラムで使われる値を、名前付きで管理するラベルのようなもの。
+              </p>
+              <dl>
+                <dt>【変数の使い所】</dt>
+                <dd>
+                  <ol>
+                    <li>同じ値が何度も出てくるとき。</li>
+                    <li>値を変化させたいとき。</li>
+                  </ol>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let x = 50;
+const y = 100; //定数
+var w = 200; //古い書き方なので使用しない
+
+circle(x, y, w, 100);</code></pre>
+            </div>
+          </section>
+          <section class="clause">
+            <h3 class="clause__title">1-2. setup関数とdraw関数</h3>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">//ページ読み込み時に1度だけ実行される
+function setup(){
+  createCanvas(400, 400);
+}
+
+//ページを表示している間、1秒間に60回実行される
+function draw(){
+  console.log(frameCount);
+}</code></pre>
+            </div>
+          </section>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. マウスに反応させる</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  console.log(mouseX, mouseY);
+
+  clear();
+  line(mouseX, 0, mouseX, 400);
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>mouseX</dt>
+              <dd>マウスのX座標の値を取得する。</dd>
+            </dl>
+            <dl>
+              <dt>mouseY</dt>
+              <dd>マウスのY座標の値を取得する。</dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【補足】</dt>
+              <dd>
+                console.log()は変数をカンマ区切りで指定すると、複数の値をスペース区切りで表示できる。
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  console.log(mouseX, mouseY);
+
+  //clear();
+  line(mouseX, mouseY, pmouseX, pmouseY);
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>pmouseX</dt>
+              <dd>1プレーム前の、マウスのX座標の値を取得する。</dd>
+            </dl>
+            <dl>
+              <dt>pmouseY</dt>
+              <dd>1フレーム前の、マウスのY座標の値を取得する。</dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  console.log(mouseX, mouseY);
+
+  //clear();
+
+  //追加
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  line(mouseX, mouseY, pmouseX, pmouseY);
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>dist()</dt>
+              <dd>2点間の距離を計算する。</dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p><a href="https://p5js.org/reference/">reference | p5.js</a></p>
+          </div>
+          <p>
+            上記のサンプルを改造し、「マウスをクリックしている間だけ線が描ける」ようにしたい。そのような「もし〜なら」を実現するためには「<em>条件分岐</em>」の知識が必要になる。
+          </p>
+          <div id="mouse01"></div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 条件分岐</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              プログラムの重要な制御構造の一つで、ある条件を指定すると実行時にこれを評価し、条件が満たされている場合に実行するコードと、満たされていない場合に実行するコードに分岐させることができる。
+            </p>
+            <p>
+              <strong
+                >つまり、
+                「もし〜なら」のように、条件によって処理を変えること。</strong
+              >
+            </p>
+            <p>
+              多くのプログラミング言語では<em>if文</em>や<em>switch文</em>などの条件文が用いられる。
+            </p>
+            <p><img src="./assets/04/01.png" width="400" alt="" /></p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">3-1. 基本形</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">if(条件式){
+  //条件式に合致したときに行う処理
+}</code></pre>
+            <img src="./assets/04/02.png" width="600" alt="" />
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  console.log(mouseX, mouseY, mouseIsPressed); //追加
+
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  //if文に変更
+  if(mouseIsPressed){
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>mouseIsPressed</dt>
+              <dd>
+                マウスがクリック状態にあるとき<em>true（真）</em>を返し、マウスがクリックされていないときは<em>false（偽）</em>を返す。
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【真偽値】</dt>
+              <dd>
+                <p>
+                  真偽値は、<em>true（真）</em>または<em>false（偽）</em>という値を取り、if文などの条件式と合わせて使われる。
+                </p>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">if(true){
+  line(mouseX, mouseY, pmouseX, pmouseY);
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-2. 比較演算子</h3>
+          <p>
+            条件分岐のカッコ内「<em>条件式</em>」
+            を設定するには、「<em>比較演算子</em>」を理解しておく必要がある。
+          </p>
+          <div class="item">
+            <dl>
+              <dt>【等価演算子】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>演算子</th>
+                      <th>用途</th>
+                      <th>例</th>
+                      <th>結果</th>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">A == B</td>
+                      <td rowspan="2">AとBが等しいことを確認</td>
+                      <td>1 == 1</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>1 == 2</td>
+                      <td>false</td>
+                    </tr>
+                    <tr>
+                      <td rowspan="2">A != B</td>
+                      <td rowspan="2">AとBが等しくないことを確認</td>
+                      <td>1 != 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>1 != 1</td>
+                      <td>false</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【関係演算子】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>演算子</th>
+                      <th>用途</th>
+                      <th>例</th>
+                      <th>結果</th>
+                    </tr>
+                    <tr>
+                      <td>A &lt; B</td>
+                      <td>AがBよりも小さいことを確認</td>
+                      <td>1 &lt; 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>A &gt; B</td>
+                      <td>AがBよりも大きいことを確認</td>
+                      <td>1 &gt; 1</td>
+                      <td>false</td>
+                    </tr>
+                    <tr>
+                      <td>A &lt;= B</td>
+                      <td>AがB以下であることを確認</td>
+                      <td>1 &lt;= 2</td>
+                      <td>true</td>
+                    </tr>
+                    <tr>
+                      <td>A &gt;= B</td>
+                      <td>AがB以上であることを確認</td>
+                      <td>1 &gt;= 1</td>
+                      <td>true</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  console.log(1 == 1, mouseX > 200); //変更
+
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  if(mouseIsPressed){
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習</h3>
+          <div class="item">
+            <p>サンプルのコードを改造し、線の太さを30以内に制限する。</p>
+            <dl>
+              <dt>【プログラムを考えるコツ】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    まずは文章で考えてみる。（もし、変数「weight」の値が30以上なら、変数「weight」に30を代入する）
+                  </li>
+                  <li>
+                    現状の変数の値をコンソールに表示する。（console.log(weight);）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+
+  //現状の変数の値をコンソールに表示する
+  console.log(weight);
+
+  //線の太さを30以内に制限
+  if (weight > 30) {
+    weight = 30;
+  }
+
+  strokeWeight(weight);
+
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆練習2</h3>
+          <div class="item">
+            <p>
+              サンプルのコードを改造し、「何も描かずに3秒経過したら描画した線が消える」ようにする。
+            </p>
+            <dl>
+              <dt>【ヒント】</dt>
+              <dd>
+                <ol>
+                  <li>何がどうなったら3秒経過したことになるのかを考える。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  if (weight > 30) {
+    weight = 30;
+  }
+  strokeWeight(weight);
+
+  //3秒経過したら描画した線を消す
+  if (frameCount > 180) {
+    clear();
+  }
+
+  if (mouseIsPressed) {
+    frameCount = 0; //線を描画しはじめたらframeCountを0に戻す
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. if...else文</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">if(条件式){
+  //条件式が「true」のときに行う処理
+}else{
+  //条件式が「false」のときに行う処理
+}</code></pre>
+            <img src="./assets/04/03.png" width="600" alt="" />
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  //追加
+  if (mouseX > 200) {
+    stroke(255, 0, 0);
+  } else {
+    stroke(0, 0, 255);
+  }
+
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">3-3. if...else文のチェーン</h3>
+          <div class="item">
+            <p>
+              if...else文をチェーン（鎖）のようにつなげて記述することで、複数の条件式を使った分岐を作成できる。
+            </p>
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">if(条件式A){
+  //条件式Aが「true」のときに行う処理
+}else if(条件式B){
+  //条件式Aが「false」、条件式Bが「true」のときに行う処理
+}else if(条件式C){
+  //条件式A・Bが「false」、条件式Cが「true」のときに行う処理
+}
+
+//最後にelseブロックを追加することも可能
+if(条件式A){
+  //条件式Aが「true」のときに行う処理
+}else if(条件式B){
+  //条件式Aが「false」、条件式Bが「true」のときに行う処理
+}else{
+  //上記の条件式が「false」のときに行う処理
+}</code></pre>
+            <img src="./assets/04/04.png" width="600" alt="" />
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【例】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  //変更
+  if (mouseX > 300) {
+    stroke(255, 0, 0);
+  } else if (mouseX > 200) {
+    stroke(0, 255, 0);
+  } else if (mouseX > 100) {
+    stroke(0, 0, 255);
+  } else {
+    stroke(255, 255, 0);
+  }
+
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件式の順番に注意】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+  let weight = dist(mouseX, mouseY, pmouseX, pmouseY);
+  strokeWeight(weight);
+
+  //変更
+  if (mouseX > 100) {
+    stroke(255, 0, 0);
+  } else if (mouseX > 200) {
+    stroke(0, 255, 0);
+  } else if (mouseX > 300) {
+    stroke(0, 0, 255);
+  } else {
+    stroke(255, 255, 0);
+  }
+
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>下のようなプログラムを考える。</p>
+            <div id="mouse02"></div>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ol>
+                  <li>マウスの軌跡に円を描画する。</li>
+                  <li>クリックしている間のみ描画する。</li>
+                  <li>マウスを動かす速さに応じて円の大きさを変える。</li>
+                  <li>領域に上半分と下半分で線の色を変える。</li>
+                  <li>3秒間なにも描画しないと消える。</li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/1W-CGtWMtUfhdrlRHK09b0rNPC_f7ahXy?usp=sharing"
+                      >Googleドライブ</a
+                    >
+                  </li>
+                  <li>締切：</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let sketch01 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+        };
+
+        p.draw = () => {
+          //clear();
+          let weight = p.dist(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
+          p.strokeWeight(weight);
+
+          if (p.mouseIsPressed) {
+            p.line(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
+          }
+        };
+      };
+      new p5(sketch01, "mouse01");
+
+      let sketch02 = function (p) {
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.noFill();
+        };
+
+        p.draw = () => {
+          let w = p.dist(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
+
+          if (p.frameCount > 180) {
+            p.clear();
+          }
+
+          if (p.mouseY > 200) {
+            p.stroke(255, 0, 0);
+          } else {
+            p.stroke(0, 0, 255);
+          }
+
+          if (p.mouseIsPressed) {
+            p.frameCount = 0;
+            p.ellipse(p.mouseX, p.mouseY, w, w);
+          }
+        };
+      };
+      new p5(sketch02, "mouse02");
+    </script>
+  </body>
+</html>

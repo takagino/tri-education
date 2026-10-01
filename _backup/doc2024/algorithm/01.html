@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」01_p5.jsの基礎 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」01_p5.jsの基礎</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. p5.jsの実行方法</h3>
+          <ol>
+            <li>OpenProcessingで書く。</li>
+            <li>
+              「<a href="https://editor.p5js.org/">p5.js Web Editor</a
+              >」で書く。
+            </li>
+            <li><em>パソコン上にp5.jsを読み込んで書く。</em></li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 事前準備</h3>
+          <p>デスクトップが綺麗な人は、仕事が早い！</p>
+          <ol>
+            <li>
+              任意の場所に「アルゴリズム」用のフォルダを作成する。（command +
+              shift + n）
+            </li>
+            <li>
+              コマごとにデータをフォルダ分けする。（番号、日付、単元名などをフォルダ名にする「アルゴリズム
+              / 01_p5.jsの基礎」）
+              <img src="assets/01/01.png" width="500" alt="" />
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. HTMLファイルの準備</h3>
+          <div class="item">
+            <ol>
+              <li>
+                「Visual Studio
+                Code」を立ち上げる。「ようこそ」などが開いている人は閉じておく。
+              </li>
+              <li>
+                先ほど作成したこの単元用のフォルダを、マウスでドラッグ&ドロップ。もしくは、メニュー『ファイル
+                > フォルダーを開く...』でフォルダを選択。
+              </li>
+              <li>
+                「作成者を信頼しますか？」と聞かれたら、「親フォルダーすべてを信頼します」にチェックを入れ、「はい、作成者を信頼します」をクリック。
+              </li>
+              <li>
+                画面左側にマウスカーソルを移動すると下図のようなアイコンが表示されるので、「新規ファイル」をクリック。
+                <img src="assets/01/02.png" width="400" alt="" />
+              </li>
+              <li>
+                「sample.html」と入力して「returnキー」を押す。
+                <img src="assets/01/03.png" width="400" alt="" />
+              </li>
+              <li>
+                フォルダ内にファイルが作成されていることを確認して、準備完了！
+              </li>
+            </ol>
+            <ul>
+              <li>
+                ※ネット上に公開するファイルは、<em>すべてアルファベットで保存する</em>こと。（文字化けや読み込みエラーの原因になる）
+              </li>
+            </ul>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【HTMLの基本構造】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;p5.jsの基礎&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-3. p5.jsの読み込み</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;p5.jsの基礎&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+    &lt;!-- ここから追加 --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+    &lt;/script&gt;
+    &lt;!-- ここまで追加 --&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【スニペットの登録】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    VSCode左下の歯車アイコンをクリックし「ユーザー
+                    スニペット」を選択。
+                    <img src="assets/01/04.png" width="400" alt="" />
+                  </li>
+                  <li>
+                    画面上部に入力欄が表示されたら、一覧の中から「html.json」を選択。
+                    <img src="assets/01/05.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    一覧に「html.josn」が無い人は、入力欄に「html」と入力して選択。
+                    <img src="assets/01/06.png" width="500" alt="" />
+                  </li>
+                  <li>
+                    以下のソースコードをコピペ。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">{
+  "Syntax Highlighter": {
+    "prefix": "p5",
+    "scope": "html",
+    "body": [
+      "&lt;script src=\"https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js\"&gt;&lt;/script&gt;"
+      "&lt;script&gt;"
+      "&lt;/script&gt;"
+    ]
+  }
+}</code></pre>
+                  </li>
+                  <li>
+                    sample.htmlに戻り、「p5」と入力して「return（Enter）」を押してみる。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. p5.jsの基本構造</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;p5.jsの基礎&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      function setup() {
+        createCanvas(400, 400); //プログラム実行結果を描画するためのステージを生成する
+      }
+    &lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【CSSで動作確認】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;p5.jsの基礎&lt;/title&gt;
+
+      &lt;!-- CSSの追加 --&gt;
+      &lt;style&gt;
+        canvas{
+          border: 1px solid;
+        }
+      &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      function setup() {
+        createCanvas(400, 400);
+      }
+    &lt;/script&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. JavaScriptのコメント</h3>
+          <pre
+            class="line-numbers"
+          ><code class="language-javascript">//1行のコメント
+
+/*
+複数行のコメント
+「*」はアスタリスクと読む
+*/</code></pre>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. ミスしないために</h3>
+          <ul class="clause__list">
+            <li>こまめに保存しブラウザで確認すること。</li>
+            <li>
+              「.」カンマ、「,」ピリオド、「:」コロン、「;」セミコロン、の違いを理解し適切に使用すること。
+            </li>
+            <li>
+              「()」括弧、「{}」中括弧、の違いを理解し適切に使用すること。
+            </li>
+            <li>
+              考えながらコードを書くこと。（<em>ただただ写しているとスペルミスが起こる</em>）
+            </li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. 座標系の確認</h3>
+          <p>
+            <img
+              src="https://thinkit.co.jp/sites/default/files/articles/6013.gif"
+              width="500"
+              alt=""
+            />
+          </p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 図形の描画</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+
+  //点を描く point(x座標, y座標);
+  point(100, 100);
+
+  //線を描く line(始点のx座標, 始点のy座標, 終点のx座標, 終点のy座標);
+  line(20, 20, 50, 100);
+
+  //矩形を描く rect(左上のx座標, 左上のy座標, 幅, 高さ);
+  rect(50, 200, 50, 100);
+
+  //円を描く ellipse(中心のx座標, 中心のy座標, 幅, 高さ);
+  ellipse(200, 50, 50, 100);
+
+  //三角形を描く triangle(1つ目のx座標, 1つ目のy座標, 2つ目のx座標, 2つ目のy座標, 3つ目のx座標, 3つ目のy座標);
+  triangle(200, 200, 250, 200, 250, 150);
+}</code></pre>
+          </div>
+          <div class="item">
+            <p>
+              <a href="https://p5js.org/reference/"
+                >p5.js - reference（2D Primitives）</a
+              >
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">☆練習</h3>
+          <p>
+            以下の画像を参考に2つの国旗を描く。（色は無し）<br />
+            ※今までのソースコードはコメントアウトしておく。
+          </p>
+          <ol>
+            <li>矩形と円で「日本」の国旗を描く。</li>
+            <li>矩形3つで「フランス」の国旗を描く。</li>
+          </ol>
+          <p><img src="./assets/01/07.png" width="400" alt="" /></p>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">//日本の国旗
+rect(100, 50, 200, 120);
+ellipse(200, 110, 60, 60);
+
+//フランスの国旗
+rect(100, 200, 200, 40);
+rect(100, 240, 200, 40);
+rect(100, 280, 200, 40);</code></pre>
+          </div> -->
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 配色</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">//背景色の設定
+background(0); //値は0〜255
+
+rect(100, 50, 200, 120);
+ellipse(200, 110, 60, 60);
+
+//図形を描いた後に背景色を設定すると消えることに注意
+background(0);</code></pre>
+          </div>
+          <div class="item">
+            <p>
+              <a href="https://p5js.org/reference/#/p5/background"
+                >様々な設定方法</a
+              >
+            </p>
+          </div>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">background(150);
+
+noStroke(); //線なし
+stroke(0, 0, 255); //線の色
+strokeWeight(6); //線の太さ
+
+noFill(); //塗りなし
+fill(255); //塗りの色
+rect(100, 50, 200, 120);
+
+fill(255, 0, 0); //設定した後に描いた図形全てに適応される
+ellipse(200, 110, 60, 60);
+
+
+rect(100, 200, 200, 40);
+rect(100, 240, 200, 40);
+rect(100, 280, 200, 40);</code></pre>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">☆練習</h3>
+          <p>フランスの国旗に色をつける。</p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>新規ファイルを作成し、以下のような「おでん」を描く。</p>
+            <p><img src="assets/01/08.png" width="400" alt="" /></p>
+            <dl>
+              <dt>【注意点】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>色は大体でOK。値は「#ffffff」で検索する。</li>
+                  <li>描く大きさ、位置は大体でOK。</li>
+                </ul>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/1JyKFIgWORsjCyo3xgUJTMJCu-zAgq5n4?usp=sharing"
+                      >Googleドライブ</a
+                    >
+                  </li>
+                  <li>締切：</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">background(200);
+strokeWeight(6);
+
+//たまご
+fill(240, 200, 140);
+ellipse(200, 200, 100, 100);
+
+//こんにゃく
+fill(140, 130, 110);
+triangle(120, 150, 280, 150, 200, 80);
+
+//ちくわ
+fill(240, 230, 200);
+rect(120, 250, 160, 70);
+
+//串
+line(200, 320, 200, 360);</code></pre>
+          </div> -->
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

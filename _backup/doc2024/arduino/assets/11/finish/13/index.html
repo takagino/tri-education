@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>サッカー選手の統計</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+            background: linear-gradient(45deg, #0a0a0a, #111);
+        }
+
+        h1 {
+            margin-top: 40px;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #00aaff;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        button {
+            margin: 20px;
+            padding: 15px 30px;
+            font-size: 18px;
+            background-color: #222;
+            color: #fff;
+            border: 2px solid #00aaff;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #00aaff;
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.6);
+        }
+
+        #chart {
+            margin: 40px auto;
+            width: 80%;
+            height: 600px;
+            padding: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            overflow: auto;
+        }
+
+        .player-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            background-color: #222;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .player-name {
+            font-size: 18px;
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-right: 20px;
+            text-transform: uppercase;
+        }
+
+        .player-stats {
+            font-size: 16px;
+            color: #bbb;
+            margin-left: 10px;
+            font-weight: 300;
+        }
+
+        .player-image {
+            width: 200%;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>サッカー選手ランキング</h1>
+    <div>
+        <button id="goalsBtn">ゴール数</button>
+        <button id="assistsBtn">アシスト数</button>
+        <button id="titlesBtn">タイトル数</button>
+    </div>
+    <div id="chart"></div>
+
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script>
+        const topGoalScorers = [
+            { label: "Cristiano Ronaldo", country: "Portugal", goals: 919, url: "./img/ronaldo.jpg", color: "#C38D00" },
+            { label: "Lionel Messi", country: "Argentina", goals: 850, url: "./img/messi.jpg", color: "#F2B43C" },
+            { label: "Pelé", country: "Brazil", goals: 762, url: "./img/pele.jpg", color: "#F7D4C5" },
+            { label: "Romário", country: "Brazil", goals: 756, url: "./img/romario.jpg", color: "#D13729" },
+            { label: "Ferenc Puskás", country: "Hungary", goals: 725, url: "./img/puskas.jpg", color: "#FF5F1F" },
+            { label: "Josef Bican", country: "Austria/Czechoslovakia", goals: 722, url: "./img/bican.jpg", color: "#8B4D17" },
+            { label: "Robert Lewandowski", country: "Poland", goals: 659, url: "./img/lemon.jpg", color: "#3F6A47" },
+            { label: "Jimmy Jones", country: "Northern Ireland", goals: 639, url: "./img/jimmy.jpg", color: "#B5422F" },
+            { label: "Gerd Müller", country: "Germany", goals: 634, url: "./img/gerd.jpg", color: "#9A7B47" },
+            { label: "Joe Bambrick", country: "Northern Ireland", goals: 626, url: "./img/joe.jpg", color: "#3F0D0D" }
+        ];
+
+        const topAssistPlayers = [
+            { label: "Ferenc Puskás", assists: 404, url: "./img/puskas.jpg", color: "#F2B43C" },
+            { label: "Lionel Messi", assists: 377, url: "./img/messi.jpg", color: "#DDC45D" },
+            { label: "Pele", assists: 369, url: "./img/pele.jpg", color: "#00A7B7" },
+            { label: "Johan Cruyff", assists: 358, url: "./img/johan.jpg", color: "#9A7B47" },
+            { label: "Thomas Muller", assists: 302, url: "./img/muller.jpg", color: "#F4C1C1" },
+            { label: "Luis Suarez", assists: 293, url: "./img/luis.jpg", color: "#6B5B95" },
+            { label: "Luis Figo", assists: 283, url: "./img/figo.jpg", color: "#2F7D5A" },
+            { label: "Ryan Giggs", assists: 277, url: "./img/gigs.jpg", color: "#C38D00" },
+            { label: "Cristiano Ronaldo", assists: 268, url: "./img/ronaldo.jpg", color: "#FF4A4A" },
+            { label: "Angel Di Maria", assists: 259, url: "./img/maria.jpg", color: "#F1C54B" }
+        ];
+
+        const mostTitles = [
+            { label: "Lionel Messi", titles: 46, url: "./img/messi.jpg", color: "#F2B43C" },
+            { label: "Dani Alves", titles: 44, url: "./img/dani.jpg", color: "#D4AF37" },
+            { label: "Hossam Hassan", titles: 41, url: "./img/hassan.jpg", color: "#FFBC00" },
+            { label: "Hossam Ashour", titles: 39, url: "./img/Ashour.jpg", color: "#A5B1F7" },
+            { label: "Sergio Busquets", titles: 37, url: "./img/busquet.jpg", color: "#FE0101" },
+            { label: "Maxwell", titles: 37, url: "./img/maxwell.jpg", color: "#F5A9A9" },
+            { label: "Andres Iniesta", titles: 37, url: "./img/inista.jpg", color: "#FFD700" },
+            { label: "Gerard Pique", titles: 37, url: "./img/pique.jpg", color: "#D93700" },
+            { label: "Cristiano Ronaldo", titles: 36, url: "./img/ronaldo.jpg", color: "#F4A300" },
+            { label: "Ryan Giggs", titles: 34, url: "./img/gigs.jpg", color: "#4B2F2F" }
+        ];
+
+
+
+
+        let mode = "goals"; // Default mode
+
+        // Render chart
+        function renderChart(data) {
+            const max = d3.max(data, d => d[mode]);
+            const scale = d3.scaleLinear().domain([0, max]).range([0, 700]);
+
+            const svg = d3.select("#chart")
+                .html("") // Clear previous chart
+                .append("svg")
+                .attr("width", 900)
+                .attr("height", data.length * 100);
+
+            const g = svg.selectAll("g")
+                .data(data)
+                .enter()
+                .append("g")
+                .attr("transform", (d, i) => `translate(0, ${i * 100})`);
+
+            g.append("rect")
+                .attr("width", 0) // Start with no width for animation
+                .attr("height", 30)
+                .attr("x", 150)
+                .attr("y", 35)
+                .attr("fill", "#00aaff")
+                .transition()
+                .duration(1000)
+                .attr("width", d => scale(d[mode])) // Animate the width
+                .ease(d3.easeElastic);
+
+            g.append("text")
+                .text(d => d[mode].toLocaleString())
+                .attr("x", d => 150 + scale(d[mode]) + 10)
+                .attr("y", 55)
+                .attr("fill", "#fff")
+                .attr("font-size", "18px")
+                .attr("font-weight", "bold");
+
+            g.append("image")
+                .attr("xlink:href", d => d.url)
+                .attr("width", 90) // Width set to 90
+                .attr("height", 90) // Height set to 90
+                .attr("x", 55) // Adjusted X position for alignment
+                .attr("y", 15) // Adjusted Y position
+                .attr("clip-path", "circle(45px at 45px 45px)"); // Adjusted circle size and position
+
+
+
+
+            g.append("text")
+                .text(d => d.label)
+                .attr("x", 120)
+                .attr("y", 30)
+                .attr("fill", "#fff")
+                .attr("font-size", "16px")
+                .attr("font-weight", "bold")
+                .attr("text-anchor", "start")
+                .attr("letter-spacing", "1px")
+                .text(d => d.label.toUpperCase());
+        }
+
+
+        // Event listeners for buttons
+        document.getElementById("goalsBtn").addEventListener("click", () => {
+            mode = "goals";
+            renderChart(topGoalScorers);
+        });
+
+        document.getElementById("titlesBtn").addEventListener("click", () => {
+            mode = "titles";
+            renderChart(mostTitles);
+        });
+
+        document.getElementById("assistsBtn").addEventListener("click", () => {
+            mode = "assists";
+            renderChart(topAssistPlayers);
+        });
+
+        // Initial chart rendering
+        renderChart(topGoalScorers);
+    </script>
+</body>
+
+</html>

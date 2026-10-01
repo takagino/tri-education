@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
+    <title>d3.js</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #222;
+            margin: 0;
+            padding: 0;
+            /* border: #CD3A1C solid 10px; */
+            font-family: "Noto Sans JP", "Dela Gothic One", serif;
+        }
+
+        svg {
+            background-color: #222;
+        }
+
+        .title {
+            color: #CD3A1C;
+            font-size: 40px;
+            text-align: center;
+            margin-top: 56px;
+        }
+
+        .subtitle {
+            color: #fff;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .name,
+        .scoreue {
+            -ms-writing-mode: tb-rl;
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+        }
+
+        button {
+            background-color: transparent;
+            border: #CD3A1C solid 2px;
+            color: #CD3A1C;
+            padding: 8px 32px;
+            font-size: 24px;
+            display: block;
+            margin: 0 0.5%;
+            font-weight: 500;
+            transition: .5s ease;
+            cursor: pointer;
+
+        }
+
+        button:hover {
+            background-color: #CD3A1C;
+            color: #222;
+        }
+
+        .button-flex {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 80px;
+        }
+
+        #container {
+            overflow-x: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">M1 GRAND-PRIX</h1>
+    <p class="subtitle">-Result-</p>
+
+    <div class="button-flex">
+        <button id="btn21" data-key="y2021">2021</button>
+        <button id="btn22" data-key="y2022">2022</button>
+        <button id="btn23" data-key="y2023">2023</button>
+    </div>
+
+
+    <div id="container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script>
+        const width = 2000;
+        const height = 500;
+        const imageW = 100;
+        const svg = d3.create("svg")
+            //.attr("viewBox", `0 0 ${width} ${height}`); //レスポンシブ対応
+            .attr("width", width)
+            .attr("height", height)
+
+        d3.json("./data2.json")
+            .then((dataset) => {
+                //データのスケーリング
+                const max21 = d3.max(dataset.y2021, (data) => data.score);
+                const max22 = d3.max(dataset.y2022, (data) => data.score);
+                const max23 = d3.max(dataset.y2023, (data) => data.score);
+                const max = Math.max(max21, max22, max23,);
+                const scale = d3.scaleLinear().domain([600, max]).range([0, 400]);
+
+                const g = svg
+                    .selectAll(".item")
+                    .data(dataset.y2023)
+                    .enter()
+                    .append("g")
+                    .classed("item", true)
+                    .attr("transform", (data, index) => `translate(${index * 180 - 40},20)`);
+
+                const rect = g
+                    .append("rect")
+                    .attr("x", imageW + 20)
+                    .attr("y", height)
+                    .attr("width", 6)
+                    .attr("height", 0)
+                    .attr("fill", '#a8a8a8');
+
+                const name = g
+                    .append("text")
+                    .classed("name", true)
+                    .attr("font-size", 26)
+                    .attr("font-weight", "bold")
+                    .attr("x", (data) => 165)
+                    .attr("y", 90)
+                    .attr("fill", (data) => data.color)
+                    .text((data) => data.name);
+
+                const score = g
+                    .append("text")
+                    .classed("scoreue", true)
+                    .attr("font-size", 19)
+                    .attr("fill", "#ddd")
+                    .attr("x", (data) => 85)
+                    .attr("y", 100)
+                    .text((data) => data.score + '点');
+
+                const ranking = g
+                    .append("text")
+                    .classed("ranking", true)
+                    .attr("font-size", 20)
+                    .attr("font-weight", "bold")
+                    .attr("fill", (data) => data.rankingColor)
+                    .attr("x", 118)
+                    .attr("y", height - 10)
+                    .text((data) => data.ranking);
+
+                const manzai = g
+                    .append("image")
+                    .attr("href", (data) => data.manzai)
+                    .attr("x", 108)
+                    .attr("y", height - 10)
+                    .attr("width", "30px");
+
+
+                //id名「container」の要素にsvgを追加
+                container.append(svg.node());
+
+                const onChange = (key) => {
+                    rect
+                        .data(dataset[key])
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeQuadIn)
+                        .attr("height", (data) => scale(data.score))
+                        .attr("y", (data) => height - scale(data.score));
+
+                    score
+                        .data(dataset[key])
+                        .text((data) => data.score + '点')
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeQuadIn)
+                    // .attr("x", (data) => imageW + 20 + scale(data.score));
+
+
+                    ranking
+                        .data(dataset[key])
+                        .text((data) => data.ranking)
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeQuadIn)
+                        .attr("y", (data) => height - scale(data.score) - 10);
+
+
+                    manzai
+                        .data(dataset[key])
+                        .text((data) => data.ranking)
+                        .transition()
+                        .duration(1000)
+                        .delay((data, index) => index * 200)
+                        .ease(d3.easeQuadIn)
+                        .attr("y", (data) => height - scale(data.score));
+
+
+
+                    name.data(dataset[key]).text((data) => data.name);
+
+                };
+
+                const btn = document.querySelectorAll("button");
+
+                btn.forEach((elem) => {
+                    elem.addEventListener("click", () => {
+                        onChange(elem.dataset.key);
+                    });
+                });
+            })
+            .catch((error) => { });
+
+
+
+
+    </script>
+</body>
+
+</html>

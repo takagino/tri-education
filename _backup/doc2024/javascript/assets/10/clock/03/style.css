@@ -1,0 +1,68 @@
+/* Google Fonts 読み込み */
+@import url("https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap");
+
+/* 全体を囲うコンテナー */
+.container {
+    width: 90%;
+    height: 100vh;
+    background-color: #15151e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* 時計の共通スタイル */
+.clock {
+    font-family: '瀞ノグリッチ明朝 H1', monospace;
+    color: #daf6ff;
+    text-shadow: 0 0 20px #b700ff;
+    line-height: 1.2;
+    text-align: center;
+}
+
+/* 日付のスタイル */
+.clock-date {
+    font-size: 25px;
+}
+
+/* 時間のスタイル */
+.clock-time {
+    font-size: 100px;
+}
+
+/* 文字サイズ調整 */
+@media screen and (max-width: 500px) {
+    .clock-date {
+        font-size: 5vw;
+    }
+
+    .clock-time {
+        font-size: 20vw;
+    }
+}
+
+
+.custom-blink {
+    animation: blink-fast 1s linear infinite;
+}
+
+@keyframes blink-fast {
+    0% {
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+    }
+
+    10% {
+        opacity: 0.2;
+    }
+
+    20% {
+        opacity: 1;
+    }
+}

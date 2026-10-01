@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>問題03「アルゴリズム」 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link
+      rel="stylesheet"
+      href="https://trident.takagino.net/doc2024/assets/css/common.css"
+    />
+
+    <style>
+      canvas {
+        border: 1px solid;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="l-header">
+      <h1 class="l-header__title-sub">「アルゴリズム」問題03</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <div class="clause">
+          <p>※毎回リロードしてください。</p>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">Level.1</h3>
+          <div class="item">
+            <ol>
+              <li>マウスをクリックしている間、マウスの位置に円を描く。</li>
+              <li>円が増えるたびに大きくなる。</li>
+              <li>円が100個になったらそれ以上増えない。</li>
+            </ol>
+            <div id="q01"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let num = 0;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw(){
+  if (mouseIsPressed && num < 100) {
+    ellipse(mouseX, mouseY, num, num);
+    num += 1;
+  }
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.2</h3>
+          <div class="item">
+            <ol>
+              <li>
+                円を100個描き終わってから3秒経過すると消え、もう一度100個描くことが出来る。
+              </li>
+            </ol>
+            <div id="q02"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let num = 0;
+
+function setup(){
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw(){
+  if (mouseIsPressed && num < 100) {
+    frameCount = 0;
+    ellipse(mouseX, mouseY, num, num);
+    num += 1;
+  }
+
+  if (frameCount > 180 && num >= 100) {
+    clear();
+    num = 0;
+  }
+}</code></pre>
+          </div> -->
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Level.3</h3>
+          <div class="item">
+            <ol>
+              <li>画面のどこかに「現在の円の個数」を表示する。</li>
+            </ol>
+            <div id="q03"></div>
+          </div>
+          <!-- <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let num = 0;
+let x = [];
+let y = [];
+let d = [];
+
+function setup() {
+  createCanvas(400, 400);
+  colorMode(HSB);
+  rectMode(CENTER);
+  angleMode(p.DEGREES);
+}
+
+function draw() {
+  clear();
+
+  if (mouseIsPressed && num < 100) {
+    frameCount = 0;
+    x[num] = mouseX;
+    y[num] = mouseY;
+    d[num] = num;
+    num += 1;
+  }
+
+  for (let i = 0; i < x.length; i += 1) {
+    ellipse(x[i], y[i], d[i], d[i]);
+  }
+
+  text(num, 20, height - 20);
+
+  if (frameCount > 180 && num >= 100) {
+    clear();
+    num = 0;
+    x = [];
+    y = [];
+    d = [];
+  }
+}</code></pre>
+          </div> -->
+        </section>
+      </article>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"></script>
+    <script>
+      let q01 = function (p) {
+        let num = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          if (p.mouseIsPressed && num < 100) {
+            p.ellipse(p.mouseX, p.mouseY, num, num);
+            num += 1;
+          }
+        };
+      };
+      new p5(q01, "q01");
+
+      let q02 = function (p) {
+        let num = 0;
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          //p.clear();
+
+          if (p.mouseIsPressed && num < 100) {
+            p.frameCount = 0;
+            p.ellipse(p.mouseX, p.mouseY, num, num);
+            num += 1;
+          }
+
+          if (p.frameCount > 180 && num >= 100) {
+            p.clear();
+            num = 0;
+          }
+        };
+      };
+      new p5(q02, "q02");
+
+      let q03 = function (p) {
+        let num = 0;
+        let x = [];
+        let y = [];
+        let d = [];
+
+        p.setup = () => {
+          p.createCanvas(400, 400);
+          p.colorMode(p.HSB);
+          p.rectMode(p.CENTER);
+          p.angleMode(p.DEGREES);
+        };
+
+        p.draw = () => {
+          p.clear();
+
+          if (p.mouseIsPressed && num < 100) {
+            p.frameCount = 0;
+            x[num] = p.mouseX;
+            y[num] = p.mouseY;
+            d[num] = num;
+            num += 1;
+          }
+
+          for (let i = 0; i < x.length; i += 1) {
+            p.ellipse(x[i], y[i], d[i], d[i]);
+          }
+
+          p.text(num, 20, p.height - 20);
+
+          if (p.frameCount > 180 && num >= 100) {
+            num = 0;
+            x = [];
+            y = [];
+            d = [];
+          }
+        };
+      };
+      new p5(q03, "q03");
+    </script>
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+  </body>
+</html>

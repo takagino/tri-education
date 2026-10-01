@@ -1,0 +1,168 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」12_独自ドメインの設定 | 2020年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="../assets/css/prism.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2020年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」12_独自ドメインの設定</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. はじめに</h2>
+      <div class="clause">
+        <p>以下の手順で進めても、エラーが出たり、最悪WordPressのインスールからやり直さないといけなくなる可能性もあります。不安な人は授業が始まってから学校で作業しましょう。</p>
+        <p><em>※なお、独自ドメインの設定が完了した人は、GmailかSlackで新しいURLを教えてください。</em></p>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. ドメインの契約</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1.ムームドメインの登録</h3>
+        <p>後々面倒くさいので、先にムームードメインに登録しユーザー情報を入力しておくことをお勧めする。</p>
+        <ol>
+          <li><a href="https://muumuu-domain.com/">ムームードメイン</a>右上の「ログイン」をクリック</li>
+          <li>「新規登録」をクリックし、認証コード設定など指示通り進める</li>
+          <li>登録が完了すると、先程の「ログイン」が人のアイコンに変わるので、そこから「コントロールパネル」を選択</li>
+          <li>「お客様情報（弊社管理用）」の必須項目を入力して「更新」をクリック</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2.ドメインの契約</h3>
+        <ol>
+          <li>トップページ、もしくは『ドメイン取得・移管 > ドメイン取得』から、欲しいドメインを検索（長いドメイン、日本語・記号・数字が入ったドメイン、あまりにふざけたドメインは避ける）
+          </li>
+          <li>好きなドメインを選んで「カートに追加」をクリック</li>
+          <li>「お申込みへ」をクリック</li>
+          <li>ドメイン設定の画面に移行したら、「ネームサーバ(DNS)」を「ロリポップ！」に変更。オプションサービスは追加せず、お支払い方法を任意に選択して「次のステップへ」をクリック
+            <img src="assets/12/03.png" alt="">
+          </li>
+          <li>利用規約に目を通し、同意するにチェックを入れたら「取得する」をクリック</li>
+          <li>取得完了！</li>
+        </ol>
+        <p><em>※「ドメイン情報認証のお願い」のメールが届くので、必ず確認して指示に從って認証すること</em></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. ドメインの設定</h2>
+      <div class="clause">
+        <ol>
+          <li><a href="https://user.lolipop.jp/">ロリポップ</a>にログイン</li>
+          <li>『サーバーの管理・設定 > 独自ドメイン設定』を選択</li>
+          <li>取得したドメイン、公開フォルダ（詳細は後述します）を入力し、「独自ドメインをチェックする」をクリック
+            <img src="assets/12/04.png" alt="">
+          </li>
+          <li>最終確認をして「設定」をクリック
+            <img src="assets/12/05.png" alt="">
+          </li>
+        </ol>
+        <p>※設定から反映までに３０分ほどかかるので、後述の「3. 独自SSLの導入」を参考に、無料SSLの設定をしておく。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1.公開フォルダの設定</h3>
+        <p>サーバー上のどのフォルダに独自ドメインを適応させるかを設定します。</p>
+        <div class="item">
+          <dl>
+            <dt>【公開フォルダを空欄にした場合】</dt>
+            <dd>FTPソフトでサーバーにアクセスした最初の画面（ルートディレクトリ）が独自ドメインに設定されます。</dd>
+            <dd>独自ドメインが「takagino.net」、サーバー内の状態が下図の場合
+              <img src="assets/12/06.png" alt="">
+            </dd>
+            <dd>
+              <ul>
+                <li>「welcome.html」は「http://takagino.net/welcome.html」</li>
+                <li>「blog」フォルダ内のデータは「http://takagino.net/blog/」</li>
+                <li>「portfolio」フォルダ内のデータは「http://takagino.net/portfolio/」</li>
+              </ul>
+              でアクセスできる。
+            </dd>
+          </dl>
+          <p><em>※特別な理由がない限り、この方法で設定しておくのが無難。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【「独自ドメインのURL」を「ブログのURL」にしたい場合】</dt>
+            <dd>公開フォルダ欄を「blog」に設定すれば、ブログ自体のURLが独自ドメインとなります。<br>ただし、その後融通が聞かなくなるので、<a
+                href="https://ja.wordpress.org/support/article/giving-wordpress-its-own-directory/">「WordPressの設定」</a>で対応することをお勧めします。
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ブログとポートフォリオを別々の独自ドメインにしたい場合】</dt>
+            <dd>それぞれ独自ドメインにしたい場合は、公開フォルダ欄を「blog」に設定しておき、別途ポートフォリオのドメインをムームードメインで契約する。</dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 独自SSLの導入</h2>
+      <div class="clause">
+        <ol>
+          <li>ロリポップ管理画面の『セキュリティ > 独自SSL証明書導入』を選択</li>
+          <li>下図のように、両ドメインにチェックを入れて、「独自SSL（無料）を設定する」をクリック
+            <img src="assets/12/07.png" alt="">
+          </li>
+          <li>10分ほど待ち、表示が有効になったら完了
+            <img src="assets/12/08.png" alt="">
+          </li>
+          <li>「https://独自ドメイン」にアクセスして表示確認（例えば「https://takagino.site」）</li>
+        </ol>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. WordPressの設定</h2>
+      <div class="clause">
+        <div class="item">
+          <p>「https://独自ドメイン」の形式で自分のブログにアクセスすると、ページが見つからないか、CSS等が反映されない状態になると思います。<br>
+            以下の手順でWordPress側のURLを修正します。</p>
+          <ol>
+            <li>独自ドメイン・無料SSL設定前の管理画面URLにアクセス（例えば「http://takagino.sub.jp/blog/wp-admin」）</li>
+            <li>ログイン後、『設定 > 一般』の下図の部分を新しいアドレスに設定
+              <img src="assets/12/09.png" alt="">
+            </li>
+            <li>「変更を保存」をクリック</li>
+            <li>その後エラーページになった人は、上記で設定したブログURLに再度アクセス</li>
+            <li>念の為、管理画面にログインし、『設定 > パーマリンク設定』を選択し、何も変更せずに「変更を保存」をクリック</li>
+            <li>サイトのリンクなどをチェックし、問題がなければ完了！</li>
+          </ol>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="../assets/js/prism.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

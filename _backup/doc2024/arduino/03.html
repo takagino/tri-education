@@ -1,0 +1,266 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」03_Scratchとの連携 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」03_Scratchとの連携</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 準備</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 「Scrattino Desktop」のダウンロード</h3>
+        <p><a href="https://github.com/yokobond/scrattino3-desktop/releases">こちらのページ</a>から「Scrattino.Desktop-0.2.0-mac.dmg
+          」をダウンロード＆インストール。
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. Scratchとは？</h3>
+        <p><a href="https://trident.takagino.net/doc2022/algorithm/01.html" target="_blank">2022年度「アルゴリズム」01_Scratchの基礎</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. Arduino側の準備</h3>
+        <div class="item">
+          <ol>
+            <li>Arduino本体とPCをつなぐ。</li>
+            <li>Arduino IDE を立ち上げ、メニュー『File（ファイル） &gt; Examples（スケッチ例） &gt; Firmata &gt; StandardFirmata』を開く。</li>
+            <li>検証して書き込む。</li>
+            <li>書き込みが完了したらArduinoのソフトウェアは使用しないので終了する。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Firmata が無い場合】</dt>
+            <dd>
+              <ol>
+                <li>メニュー『Tools（ツール） &gt; Manage Libraries（ライブラリを管理…）』を開く。</li>
+                <li>検索窓に「firmata」と入力し、出てきた候補の最初のライブラリをインストールする。
+                  <img src="assets/03/01.png" width="300" alt="">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. 「Scrattino Desktop」とArduinoの接続</h3>
+        <ol>
+          <li>先ほどインストールした「Scrattino Desktop」を立ち上げる。</li>
+          <li>左下のボタンをクリック。
+            <img src="assets/03/02.png" width="500" alt="">
+          </li>
+          <li>拡張機能の中から「scrattiono」を選択。
+            <img src="assets/03/03.png" width="500" alt="">
+          </li>
+          <li>Arduinoが認識されたら「接続する」をクリック。
+            <img src="assets/03/04.png" width="500" alt="">
+          </li>
+          <li>「エディターへ行く」をクリック。</li>
+          <li>Arduinoと連携するためのブロックが追加される。
+            <img src="assets/03/05.png" width="400" alt="">
+          </li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. アナログ入力</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd><img src="assets/03/06.png" width="600" alt=""></dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. センサの値を読み取る</h3>
+        <div class="item">
+          <dl>
+            <dt>【変数の表示】</dt>
+            <dd>
+              <ol>
+                <li>「変数ブロック」の中から「変数を表示する」をクリックし、ステージに「変数」を表示する。
+                  <img src="assets/03/07.png" width="400" alt="">
+                  <img src="assets/03/08.png" width="400" alt="">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ネコにプログラムを追加する】</dt>
+            <dd>
+              <ol>
+                <li>以下のようにスクリプトを作る。
+                  <img src="assets/03/09.png" width="400" alt="">
+                </li>
+                <li>「旗アイコン」をクリックし、スクリプトを動作させる。</li>
+                <li>距離センサに手を近づけて、値が変化することを確認。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>距離センサの値に合わせてネコを回転させる。
+            <img src="assets/03/15.png" width="400" alt="">
+          </li>
+          <li>距離センサがある一定の値以上になったらネコが横に動き、壁に当たったら跳ね返る。
+            <img src="assets/03/16.png" width="400" alt="">
+          </li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. デジタル入力</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd><img src="assets/03/10.png" width="600" alt=""></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スクリプト】</dt>
+            <dd>
+              <ol>
+                <li>以下のようにスクリプトを作る。
+                  <img src="assets/03/11.png" width="400" alt="">
+                </li>
+                <li>「旗アイコン」をクリックし、スクリプトを動作させる。</li>
+                <li>スイッチを押して値の変化を確認。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>スイッチを押すとネコが大きくなり、離すと小さくなる。</li>
+        </ol>
+        <p><img src="assets/03/14.png" width="400" alt=""></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. スイッチを増やす</h3>
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd><img src="assets/03/13.png" width="600" alt=""></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スクリプト】</dt>
+            <dd><img src="assets/03/12.png" width="400" alt=""></dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 応用</h2>
+      <div class="clause">
+        <div class="item">
+          <ul>
+            <li><a href="https://trident.takagino.net/doc2022/algorithm/10.html" target="_blank">2022年度「アルゴリズム」10_クローン</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <ol>
+            <li>弾の発射をスイッチに変更。
+              <img src="assets/03/19.png" width="400" alt="">
+            </li>
+            <li>ロケットの移動を距離センサに変更。
+              <img src="assets/03/20.png" width="400" alt="">
+            </li>
+          </ol>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>「距離センサー」および「スイッチ」を使った作品（できれば何かしらのゲーム的なもの）を自由に制作する。</p>
+          <ul class="clause__list">
+            <li>「scratch シューティング」「scratch アクション」などで検索し、ある程度は参考にして良い。（丸パクリはNG）</li>
+            <li><em>キャラクターや背景などは、出来る限り自作すること。</em></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd>
+              <img src="assets/03/06.png" width="500" alt="">
+              <img src="assets/03/10.png" width="600" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スケジュール】</dt>
+            <dd>
+              <ul>
+                <li>10/31(木)：制作</li>
+                <li>11/7(木)：制作</li>
+                <li>11/14(木)：3限開始すぐに試遊</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <dl>
+          <dt>【提出方法】</dt>
+          <dd>
+            <ol>
+              <li>『ファイル > コンピュータに保存する』から、ファイル名「出席番号_苗字（00_takagi.sb3）」で保存。</li>
+              <li><a href="https://drive.google.com/drive/folders/17pL4FHafkjzd8WoKQ4pjWHxHivr-6iCF?usp=sharing">Googleドライブ</a>に提出。</li>
+            </ol>
+          </dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

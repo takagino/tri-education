@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「JavaScript基礎」10_要素の関係性・追加・削除 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「JavaScript基礎」10_要素の関係性・追加・削除</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. はじめに</h2>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 前回の課題</h3>
+          <ul>
+            <li><a target="_blank" href="./assets/10/clock/01/">01_aoshima</a></li>
+            <li><a target="_blank" href="./assets/10/clock/02/">02_akita</a></li>
+            <li><a target="_blank" href="./assets/10/clock/03/">03_ameku</a></li>
+            <li><a target="_blank" href="./assets/10/clock/04/">04_andou</a></li>
+            <li><a target="_blank" href="./assets/10/clock/05/">05_inazawa</a></li>
+            <li><a target="_blank" href="./assets/10/clock/07/">07_hashini</a></li>
+            <li><a target="_blank" href="./assets/10/clock/08/">08_kamimizu</a></li>
+            <li><a target="_blank" href="./assets/10/clock/10/">10_kawaguchi</a></li>
+            <li><a target="_blank" href="./assets/10/clock/11/">11_dinesh</a></li>
+            <li><a target="_blank" href="./assets/10/clock/12/">12_koumura</a></li>
+            <li><a target="_blank" href="./assets/10/clock/13/">13_satou</a></li>
+            <li><a target="_blank" href="./assets/10/clock/14/">14_sahashi</a></li>
+            <li><a target="_blank" href="./assets/10/clock/16/">16_takeo</a></li>
+            <li><a target="_blank" href="./assets/10/clock/17/">17_sushil</a></li>
+            <li><a target="_blank" href="./assets/10/clock/18/">18_tsuriura</a></li>
+            <li><a target="_blank" href="./assets/10/clock/19/">19_doi</a></li>
+            <li><a target="_blank" href="./assets/10/clock/20/">20_toda</a></li>
+            <li><a target="_blank" href="./assets/10/clock/21/">21_natori</a></li>
+            <li><a target="_blank" href="./assets/10/clock/22/">22_nishibu</a></li>
+            <li><a target="_blank" href="./assets/10/clock/23/">23_hashimoto</a></li>
+            <li><a target="_blank" href="./assets/10/clock/24/">24_hirao</a></li>
+            <li><a target="_blank" href="./assets/10/clock/25/">25_fujita</a></li>
+            <li><a target="_blank" href="./assets/10/clock/26/">26_machino</a></li>
+            <li><a target="_blank" href="./assets/10/clock/27/">27_morimo</a></li>
+            <li><a target="_blank" href="./assets/10/clock/28/">28_yamanaka</a></li>
+          </ul>
+          <p><a href="https://forms.gle/CSY2ZhYqnHpB9QY36">アンケート</a></p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. 今後のスケジュール</h3>
+          <ul>
+            <li>1/9(木)：要素の関係性・追加・削除</li>
+            <li>1/16（木）：オブジェクト</li>
+            <li>1/23(木)：補足</li>
+            <li>1/30（木）：2年前期クラス分け確認テスト</li>
+          </ul>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. 今回やること</h2>
+        <div class="clause">
+          <ul class="clause__list">
+            <li>DOM（ドキュメントオブジェクトモデル）</li>
+            <li>要素の関係性・追加・削除</li>
+          </ul>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 要素の指定</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">document.getElementsByTagName('要素名');
+document.getElementById('id名');
+document.getElementsByClassName('class名');
+document.querySelector('セレクタ');
+document.querySelectorAll('セレクタ');</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【使用例】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;要素の取得&lt;/title&gt;
+  &lt;style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;!-- コメント --&gt;
+  &lt;h1&gt;見出し1&lt;/h1&gt;
+  &lt;p&gt;これは段落です。&lt;/p&gt;
+
+  &lt;script&gt;
+    const p = document.querySelectorAll('p');
+    console.log(p);
+
+    //出力結果：NodeList
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <p>
+            この後、要素の操作方法についてより詳しく勉強していくが、その前に「<em>Node（ノード）</em>」の意味と、前提となる「<em>DOM（ドキュメントオブジェクトモデル）</em>」についてある程度理解する必要がある。
+          </p>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. DOM（ドキュメントオブジェクトモデル）</h2>
+        <div class="clause">
+          <p>
+            <a href="https://tsudoi.org/weblog/5165/"
+              >【JS入門】DOMについて Vol.1（DOM、インターフェース）</a
+            >
+          </p>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">5. 要素の関係性</h2>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【親子関係を表すプロパティ】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>プロパティ</th>
+                      <th>戻り値のタイプ</th>
+                      <th>説明</th>
+                    </tr>
+                    <tr>
+                      <td>parentElement</td>
+                      <td>Element</td>
+                      <td>親の要素を返す</td>
+                    </tr>
+                    <tr>
+                      <td>parentNode</td>
+                      <td>Node</td>
+                      <td>親のノードを返す</td>
+                    </tr>
+                    <tr>
+                      <td>children</td>
+                      <td>HTMLCollection</td>
+                      <td>子要素を含む配列風オブジェクトを返す</td>
+                    </tr>
+                    <tr>
+                      <td>childNodes</td>
+                      <td>NodeList</td>
+                      <td>子ノードを含む配列風オブジェクトを返す</td>
+                    </tr>
+                    <tr>
+                      <td>firstElementChild</td>
+                      <td>Element</td>
+                      <td>childrenで取得される配列風オブジェクトの最初の要素を返す</td>
+                    </tr>
+                    <tr>
+                      <td>firstChild</td>
+                      <td>Node</td>
+                      <td>childNodesで取得される配列風オブジェクトの最初のノードを返す</td>
+                    </tr>
+                    <tr>
+                      <td>lastElementChild</td>
+                      <td>Element</td>
+                      <td>childrenで取得される配列風オブジェクトの最後の要素を返す</td>
+                    </tr>
+                    <tr>
+                      <td>lastChild</td>
+                      <td>Node</td>
+                      <td>childNodesで取得される配列風オブジェクトの最後のノードを返す</td>
+                    </tr>
+                    <tr>
+                      <td>previousElementSibling</td>
+                      <td>Element</td>
+                      <td>自要素と兄弟関係にある（隣接する）1つ前の要素を返す</td>
+                    </tr>
+                    <tr>
+                      <td>previousSibling</td>
+                      <td>Node</td>
+                      <td>自要素と兄弟関係にある（隣接する）1つ前のノードを返す</td>
+                    </tr>
+                    <tr>
+                      <td>nextElementSibling</td>
+                      <td>Element</td>
+                      <td>自要素と兄弟関係にある（隣接する）1つ後の要素を返す</td>
+                    </tr>
+                    <tr>
+                      <td>nextSibling</td>
+                      <td>Node</td>
+                      <td>自要素と兄弟関係にある（隣接する）1つ後のノードを返す</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【親子関係を表すメソッド】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>メソッド</th>
+                      <th>戻り値のタイプ</th>
+                      <th>説明</th>
+                    </tr>
+                    <tr>
+                      <td>element.closest(selector)</td>
+                      <td>Element</td>
+                      <td>
+                        自要素（element）の祖先要素をさかのぼって検索したときに、最初にセレクタ文字列（selector）に一致する要素を返す
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">5-1. 要素とノードの違い</h3>
+          <div class="item">
+            <dl>
+              <dt>【子要素を全て取得する（children）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const elements = document.body.children;
+  console.log(elements);
+  console.log(elements[0]);
+&lt;/script&gt;</code></pre>
+              </dd>
+              <dd><img src="./assets/10/01.png" width="400" alt="" /></dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【子ノードを全て取得する（childNodes）】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const nodes = document.body.childNodes;
+  console.log(nodes);
+  console.log(nodes[0]);
+&lt;/script&gt;</code></pre>
+              </dd>
+              <dd><img src="./assets/10/02.png" width="400" alt="" /></dd>
+            </dl>
+            <p>※「text」は改行。</p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <p>
+              アコーディオンメニュー（<a href="./assets/10/accordion01.html" target="_blank">見本</a
+              >）
+            </p>
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;アコーディオンメニュー&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      margin: 0;
+    }
+
+    .faq {
+      max-width: 800px;
+      margin: 3em auto;
+    }
+
+    .faq__q {
+      padding: 0.5em 1em;
+      background-color: #39c;
+      cursor: pointer;
+    }
+
+    .faq__a {
+      margin-left: 0;
+      padding: 0 1em;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;dl class="faq"&gt;
+    &lt;div class="faq__item"&gt;
+      &lt;dt class="faq__q"&gt;2022年11月分の料金はいつ引き落としされますか？&lt;/dt&gt;
+      &lt;dd class="faq__a"&gt;お客さまの締め日によって異なり、毎月6日、16日、26日の引き落とし日に分かれます。&lt;/dd&gt;
+    &lt;/div&gt;
+    &lt;div class="faq__item"&gt;
+      &lt;dt class="faq__q"&gt;前月分の料金が確定するのはいつですか？&lt;/dt&gt;
+      &lt;dd class="faq__a"&gt;お客さまの締め日から10日後が料金確定日の目安です。&lt;/dd&gt;
+    &lt;/div&gt;
+    &lt;div class="faq__item"&gt;
+      &lt;dt class="faq__q"&gt;請求書が届きました。「PayPay」で支払うことはできますか？&lt;/dt&gt;
+      &lt;dd class="faq__a"&gt;「PayPay」でお支払いできます。&lt;/dd&gt;
+    &lt;/div&gt;
+  &lt;/dl&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【parentElementの例】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let active = 0;
+  const q = document.querySelectorAll('.faq__q');
+
+  for (let i = 0; i &lt; q.length; i++) {
+    q[i].addEventListener('click', (e) => {
+      q[active].parentElement.classList.remove('active');
+      active = i;
+      q[active].parentElement.classList.add('active');
+    });
+  }
+&lt;/script&gt;</code></pre>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  .faq__a {
+    height: 0;
+    margin-left: 0;
+    padding: 0 1em;
+    overflow: hidden;
+  }
+
+  .active .faq__a {
+    height: auto;
+    padding: 0.5em 1em;
+  }
+&lt;/style&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【nextElementSiblingの例】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let active = 0;
+  const q = document.querySelectorAll('.faq__q');
+
+  for (let i = 0; i &lt; q.length; i++) {
+    q[i].addEventListener('click', (e) => {
+      q[active].nextElementSibling.classList.remove('active');
+      active = i;
+      q[active].nextElementSibling.classList.add('active');
+    });
+  }
+&lt;/script&gt;</code></pre>
+                <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  .faq__a {
+    height: 0;
+    margin-left: 0;
+    padding: 0 1em;
+    overflow: hidden;
+  }
+
+  /* 複数クラス */
+  .faq__a.active {
+    height: auto;
+    padding: 0.5em 1em;
+  }
+&lt;/style&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">6. 要素の追加</h2>
+        <div class="clause">
+          <ol>
+            <li>document.createElementメソッドを使う。</li>
+            <li>ダミーの要素のinnerHTMLに作成したいHTMLを挿入する。</li>
+            <li>templateタグを使う。</li>
+          </ol>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">6-1. document.createElementメソッド</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const ul = document.createElement('ul');
+  ul.classList.add('sample');
+  ul.innerHTML = `サンプル`;
+
+  console.log(ul);
+&lt;/script&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【要素の追加】</dt>
+              <dd>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>メソッド</th>
+                      <th>説明</th>
+                      <th>挿入場所</th>
+                    </tr>
+                    <tr>
+                      <td>element.append</td>
+                      <td>要素内の最後の子要素としてノードを挿入する</td>
+                      <td>
+                        <pre class="line-numbers"><code class="language-markup">&lt;div&gt;
+  &lt;p&gt;&lt;/p&gt;
+  &lt;!-- ここに挿入 --&gt;
+&lt;/div&gt;</code></pre>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>element.prepend</td>
+                      <td>要素内の最初の子要素としてノードを挿入する</td>
+                      <td>
+                        <pre class="line-numbers"><code class="language-markup">&lt;div&gt;
+  &lt;!-- ここに挿入 --&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>element.before</td>
+                      <td>要素の直前の要素としてノードを挿入する</td>
+                      <td>
+                        <pre
+                          class="line-numbers"
+                        ><code class="language-markup">&lt;!-- ここに挿入 --&gt;
+&lt;div&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>element.after</td>
+                      <td>要素の直後の要素としてノードを挿入する</td>
+                      <td>
+                        <pre class="line-numbers"><code class="language-markup">&lt;div&gt;
+  &lt;p&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;!-- ここに挿入 --&gt;</code></pre>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </dd>
+            </dl>
+            <p>
+              ※その他にも、<a href="https://developer.mozilla.org/ja/docs/Web/API/Node/insertBefore"
+                >insertBefore()</a
+              >、<a
+                href="https://developer.mozilla.org/ja/docs/Web/API/Element/insertAdjacentElement"
+                >insertAdjacentElement()</a
+              >など、複数存在する。
+            </p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <ol>
+            <li>
+              ランダムな数字を生成する。（<a href="./assets/10/random.html" target="_blank">見本</a
+              >）
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;ランダムな数字を生成&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="btn"&gt;生成&lt;/button&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </li>
+            <li>
+              ランダムに画像を生成する。
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  /* 配列に画像URLを入れておく */
+  const url = [
+    "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_hippo_02.png",
+    "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_mantis_01.png",
+    "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png",
+    "https://dotown.maeda-design-room.net/wp-content/uploads/2022/01/thing_gorilla_01.png"
+  ];
+&lt;/script&gt;</code></pre>
+            </li>
+            <li>1秒ごとにランダムに画像を生成する。</li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-2. innerHTMLで挿入する</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  btn.addEventListener('click', () => {
+    const li = `&lt;li&gt;${Math.floor(Math.random() * 100)}&lt;/li&gt;`;
+    ul.innerHTML = li;
+  });
+&lt;/script&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【innerHTMLとtextContent】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  /* innerHTML：HTMLタグが解釈される */
+  li.innerHTML = `トライ&lt;br&gt;デント`;
+
+  /* textContent：HTMLタグが文字列として扱われる */
+  li.textContent = `トライ&lt;br&gt;デント`;
+&lt;/script&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <dl>
+            <dt>【モーダルウィンドウ】</dt>
+            <dd><a href="./assets/10/modal01.html" target="_blank">見本</a></dd>
+          </dl>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">6-3. templateタグを使う</h3>
+          <p><a href="./assets/10/modal02.html" target="_blank">見本</a></p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">7. 要素の削除</h2>
+        <p>
+          <a href="https://gray-code.com/javascript/remove-specified-html-element/"
+            >指定したHTML要素を削除する</a
+          >
+        </p>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+          <pre class="line-numbers">
+            <code class="language-markup">
+              &lt; ... &gt;
+            </code>
+          </pre>
+          -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

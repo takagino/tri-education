@@ -1,0 +1,130 @@
+{
+    "y2023": [
+        {
+            "label": "ヴィラン",
+            "val": 4414,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "ザムザ",
+            "val": 1518,
+            "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "デビル",
+            "val": 329,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "修羅薔薇",
+            "val": 318,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "オノマトペテン師",
+            "val": 153,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        }
+    ],
+    "y2024": [
+        {
+            "label": "命の行方",
+            "val": 1600,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "Caffeine",
+            "val": 1124,
+            "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_02.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "足りない",
+            "val": 1059,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "CULT",
+            "val": 787,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "STIGMA",
+            "val": 604,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        }
+    ],
+    "y2025": [
+        {
+            "label": "snoze",
+            "val": 2481,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "ジェヘナ",
+            "val": 2309,
+            "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_02.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "シャンティ",
+            "val": 1367,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "マフィア",
+            "val": 677,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "DOGMA",
+            "val": 626,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        }
+    ],
+    "y2026": [
+        {
+            "label": "劣等上等",
+            "val": 6221,
+            "url": "https://computer.trident.ac.jp/courses/game_science/images/img_point_01.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "Ready Steady",
+            "val": 1923,
+            "url": "https://computer.trident.ac.jp/courses/cg_specialist/images/img_point_02.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "CH4NGE",
+            "val": 1754,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "ガッチュー！",
+            "val": 1185,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        },
+        {
+            "label": "Beyond the way",
+            "val": 995,
+            "url": "https://computer.trident.ac.jp/courses/web_design/images/img_point_03.jpg",
+            "color": "#000"
+        }
+    ]
+}

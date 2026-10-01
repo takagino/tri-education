@@ -1,0 +1,37 @@
+[
+    {
+        "label": "KING",
+        "name": "葛葉",
+        "val": 51314714,
+        "url": "image/maxresdefault.jpg",
+        "color": "#d80007"
+    },
+    {
+        "label": "DOGLAND",
+        "name": "VACHSS",
+        "val": 34965714,
+        "url": "image/hq720.jpg",
+        "color": "#5D6BEB"
+    },
+    {
+        "label": "フォニイ",
+        "name": "町田ちま",
+        "val": 27116113,
+        "url": "image/maxresdefault (1).jpg",
+        "color": "#7FC8EF"
+    },
+    {
+        "label": "Hope in the dark",
+        "name": "Luxiem",
+        "val": 26082485,
+        "url": "image/hq720 (1).jpg",
+        "color": "#d1b69e"
+    },
+    {
+        "label": "神っぽいな",
+        "name": "ローレン・イロアス",
+        "val": 24820512,
+        "url": "image/hq720 (2).jpg",
+        "color": "#af231f"
+    }
+]

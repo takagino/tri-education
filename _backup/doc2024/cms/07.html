@@ -1,0 +1,298 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「CMS集中制作」07_その他機能の追加 | 2024年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css" />
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css" />
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2024年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「CMS集中制作」07_その他機能の追加</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. コメントの追加</h2>
+      <div class="clause">
+        <p>コメントは設定が難しいので、無理に設置する必要はない。どうしても付けたい場合は、要素の検証をしながら地道にCSSを書くこと。</p>
+        <dl>
+          <dt>【管理画面での設定】</dt>
+          <dd>
+            <ol>
+              <li>『管理画面メニュー > 設定 > ディスカッション』を選択。</li>
+              <li>必要に応じて設定を変更。
+                <img src="assets/07/06.png" width="900" alt="">
+              </li>
+            </ol>
+          </dd>
+        </dl>
+        <p>※記事ごとに設定もでき、サンプル記事によっては表示されない場合があるので注意。</p>
+        <p><img src="assets/07/01.png" width="500" alt=""></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. ディフォルトのコメント機能の追加</h3>
+        <div class="item">
+          <ol>
+            <li>エディタで「single.php」を開く</li>
+            <li>記事内容とページ送りの間に、以下のテンプレートタグを追加する（WordPressループ内でも外でもどちらでも良い）
+              <pre class="line-numbers"><code class="language-php"># 「single.php」を編集
+
+&lt;?php comments_template(); ?&gt;</code></pre>
+            </li>
+            <li>コメントがついた記事を探して詳細ページを表示する。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ログイン時とログアウト時の違い】</dt>
+            <dd>
+              <ul>
+                <li><img src="assets/07/02.png" width="500" alt=""></li>
+                <li><img src="assets/07/03.png" width="500" alt=""></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. テンプレートファイルでのカスタマイズ</h3>
+        <p>コメント用のテンプレートファイルを用意することで、カスタマイズが可能。</p>
+        <div class="item">
+          <ol>
+            <li>エディタで新規ファイルを作成し、ファイル名「comments.php」でテーマフォルダ内に保存する</li>
+            <li>以下のソースコードを記述する
+              <pre class="line-numbers"><code class="language-php">&lt;div class="comment"&gt;
+  &lt;div class="comment-form"&gt;
+    &lt;?php comment_form(); ?&gt;
+  &lt;/div&gt;
+
+  &lt;div class="comments-list"&gt;
+    &lt;?php if( have_comments() ): ?&gt;
+    &lt;h3&gt;コメント&lt;/h3&gt;
+    &lt;ol&gt;
+      &lt;?php wp_list_comments(); ?&gt;
+    &lt;/ol&gt;
+    &lt;?php endif; ?&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【フォームの設定】</dt>
+            <dd><a href="https://developer.wordpress.org/reference/functions/comment_form/">comment_form()</a>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">&lt;?php
+$args = array(
+  'title_reply' =&gt; 'コメントする',
+  'comment_notes_before' =&gt; '&lt;p&gt;コメント記入欄の上に表示するメッセージ&lt;/p&gt;',
+  'comment_notes_after'  =&gt; '&lt;p&gt;コメント記入欄の下に表示するメッセージ&lt;/p&gt;',
+
+  #削除する場合は値を空に
+  'comment_notes_after' =&gt; '',
+
+  'fields' =&gt; array(
+    'author' =&gt;
+    '&lt;p class="comment-form-author"&gt;&lt;label for="author"&gt;名前&lt;/label&gt;&lt;input id="author" name="author" type="text" value="" autocomplete="name"&gt;&lt;/p&gt;',
+    'email' =&gt;
+    '&lt;p class="comment-form-email"&gt;&lt;label for="email"&gt;メール&lt;/label&gt;&lt;input id="email" name="email" type="email" value="" aria-describedby="email-notes" autocomplete="email"&gt;&lt;/p&gt;',
+    'url' =&gt;
+    '&lt;p class="comment-form-url"&gt;&lt;label for="url"&gt;サイト&lt;/label&gt;&lt;input id="url" name="url" type="url" value="" autocomplete="url"&gt;&lt;/p&gt;',
+
+    #削除する場合は値を空に
+    'url' =&gt; '',
+  ),
+  'comment_field' =&gt;
+  '&lt;p class="comment-form-comment"&gt;&lt;label for="comment"&gt;コメント &lt;span class="required"&gt;※&lt;/span&gt;&lt;/label&gt;&lt;textarea id="comment" name="comment" cols="45" rows="8" required=""&gt;&lt;/textarea&gt;&lt;/p&gt;',
+  'submit_button' =&gt;
+  '&lt;input name="submit" type="submit" id="submit" class="submit" value="コメントを送信"&gt;',
+);
+comment_form($args);
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【名前のみ必須項目にする】</dt>
+            <dd>
+              <a href="https://worklog.be/archives/2038">WordPressのコメントフォームで名前のみを必須にする
+              </a>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【送信ボタンに画像やフォントアイコンを設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">
+# アイコンフォント
+&lt;?php
+$args = array(
+  'submit_button' =&gt;
+  '&lt;button name="submit" type="submit" id="submit" class="submit"&gt;
+    送信 &lt;i class="fa-solid fa-paper-plane"&gt;&lt;/i&gt;
+  &lt;/button&gt;',
+);
+comment_form($args);
+?&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-php">
+# 画像
+&lt;?php
+$args = array(
+  'submit_button' =&gt;
+  '&lt;button name="submit" type="submit" id="submit" class="submit"&gt;
+    &lt;img src=' . get_theme_file_uri("/images/btn.svg") . ' alt="送信する"&gt;
+  &lt;/button&gt;',
+);
+comment_form($args);
+?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【コメントリストの設定】</dt>
+            <dd><a href="https://developer.wordpress.org/reference/functions/wp_list_comments/">wp_list_comments()</a>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. functions.phpでのカスタマイズ</h3>
+        <p>「wordpress コメント カスタマイズ」で検索。</p>
+        <ul>
+          <li><a href="https://kagesai.net/wordpress-comment_customization/">WordPressのコメント欄をカスタマイズする方法</a></li>
+        </ul>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. プラグインでのカスタマイズ</h3>
+        <div class="item">
+          <p>プラグインとは、ファイル一式をインストールしてWordPressの機能を拡張するためのツール。管理画面から簡単に有効化・無効化をすることができる。</p>
+          <p>今回は、コメントをキレイに拡張してくれるプラグイン「comments – wpDiscuz」を追加してみる。</p>
+        </div>
+        <div class="item">
+          <ol>
+            <li>『管理画面メニュー > プラグイン > 新規追加』を選択
+              <img src="assets/07/04.png" alt="">
+            </li>
+            <li>検索フォームに「wpdiscuz」と入力し、表示された候補の中から「Comments – wpDiscuz」を今すぐインストール
+              <img src="assets/07/05.png" alt="">
+            </li>
+            <li>ボタンが有効化に変わったら、「有効化」をクリック</li>
+            <li>『管理画面メニュー > プラグイン > インストール済みプラグイン』を選択し、一覧にプラグインが追加されていることを確認</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【wpDiscuz の設定】</dt>
+            <dd>
+              <ol>
+                <li>『管理画面メニュー > wpDiscuz > Settings』を選択</li>
+                <li>指示に従って「Next Step」をクリック（基本的には初期設定でOK）</li>
+                <li>ボタンが有効化に変わったら、「有効化」をクリック</li>
+                <li>サイト表示を確認</li>
+              </ol>
+            </dd>
+          </dl>
+          <p>※より詳しい説明は、「wpdiscuz　使い方」で検索。</p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 検索フォームの追加</h2>
+      <div class="clause">
+        <div class="item">
+          <ol>
+            <li>エディタで「sidebar.php」を開く</li>
+            <li>最上段に、以下のテンプレートタグを追加する
+              <pre class="line-numbers"><code class="language-php"># 「sidebar.php」を編集
+
+&lt;?php get_search_form(); ?&gt;</code></pre>
+            </li>
+            <li>動作確認をする</li>
+          </ol>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 検索フォームのカスタマイズ</h3>
+        <p>検索フォーム用のテンプレートファイルを用意することで、カスタマイズが可能。</p>
+        <div class="item">
+          <ol>
+            <li>エディタで新規ファイルを作成し、ファイル名「searchform.php」でテーマフォルダ内に保存する</li>
+            <li>以下のソースコードを記述する
+              <pre class="line-numbers"><code class="language-php">&lt;form method="get" id="searchform" action="&lt;?php echo home_url('/'); ?&gt;"&gt;
+  &lt;input type="text" name="s" id="s" placeholder="SEARCH" /&gt; &lt;!--「name="s"」は必須 --&gt;
+  &lt;button type="submit"&gt;検索する&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. アーカイブページ「search.php」を作成する</h3>
+        <div class="item">
+          <ol>
+            <li>「archive.php」を複製し、ファイル名を「search.php」に変更する</li>
+            <li>「the_archive_title();」を、以下のソースコードに変更する
+              <pre class="line-numbers language-php"><code class="language-php">「&lt;?php echo get_search_query(); ?&gt;」の検索結果です。</code></pre>
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【条件分岐タグで設定する場合】</dt>
+            <dd>「<em>index.php</em>」に以下のソースコードを挿入。
+              <pre class="line-numbers language-php"><code class="language-php">&lt;?php if (is_search()) : ?&gt;
+  &lt;p&gt;「&lt;?php echo get_search_query(); ?&gt;」の検索結果&lt;/p&gt;
+&lt;?php endif; ?&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">⭐️ 作業</h3>
+        <p>ここまでの内容を、自分のブログデータに反映する。（出来る範囲で）</p>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-php.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+      <pre class="line-numbers">
+        <code class="language-markup">
+          &lt; ... &gt;
+        </code>
+      </pre>
+      -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

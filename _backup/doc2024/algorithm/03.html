@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「アルゴリズム」03_値の更新 | 2024年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="hirotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2024年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「アルゴリズム」03_値の更新</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">1. 準備と復習</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;変数&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      function setup(){
+        createCanvas(400, 400);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【スニペットの登録】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">{
+  "p5.js CDN": {
+    "prefix": "p5",
+    "scope": "html",
+    "body": [
+      "&lt;script src=\"https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js\"&gt;&lt;/script&gt;"
+      "&lt;script&gt;"
+      "&lt;/script&gt;"
+    ]
+  }
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <section class="clause">
+            <h3 class="clause__title">1-1. 変数とは？</h3>
+            <div class="item">
+              <p>
+                プログラムで使われる値を、名前付きで管理するラベルのようなもの。
+              </p>
+              <dl>
+                <dt>【変数の使い所】</dt>
+                <dd>
+                  <ol>
+                    <li>同じ値が何度も出てくるとき。</li>
+                    <li>値を変化させたいとき。（<em>今日はこちら</em>）</li>
+                  </ol>
+                </dd>
+              </dl>
+            </div>
+            <div class="item">
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">let x = 50;
+const y = 100; //定数
+var w = 200; //古い書き方なので使用しない
+
+circle(x, y, w, 100);</code></pre>
+            </div>
+          </section>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. setup関数とdraw関数</h2>
+        <div class="clause">
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;変数&lt;/title&gt;
+    &lt;style&gt;
+      canvas{
+        border: 1px solid;
+      }
+    &lt;/style&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.9.2/lib/p5.js"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      //ページ読み込み時に1度だけ実行される
+      function setup(){
+        createCanvas(400, 400);
+      }
+
+      //ページを表示している間、1秒間に60回実行される
+      function draw(){
+        console.log(frameCount);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>frameCount</dt>
+              <dd>
+                プログラムの開始以降に表示されたフレームの数（draw関数の実行回数）が格納されている。
+              </dd>
+            </dl>
+            <p>
+              ※p5.jsに初めから定義されている変数を<em>システム変数</em>という。
+            </p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 値の更新</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">let x = 0; //変数宣言
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  x = x + 1; //変数xに1を足して、xに再代入する
+  ellipse(x, 100, 50, 50);
+}</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【描画した図形を消す】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  background(255); //背景色で塗りつぶす
+  clear(); //色を考慮しなくて良いので、こちらのほうが楽
+
+  x = x + 1;
+  ellipse(x, 100, 50, 50);
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 変数を宣言する場所に注意</h3>
+          <div class="item">
+            <p>draw関数の中で宣言すると、毎回別の変数として宣言される。</p>
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  clear();
+
+  let x = 0;
+  x = x + 1;
+  ellipse(x, 100, 50, 50);
+}</code></pre>
+          </div>
+          <div class="item">
+            <p>setup関数の中で宣言するとエラーとなる。</p>
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">function setup() {
+  createCanvas(400, 400);
+  let x = 0;
+}
+
+function draw() {
+  clear();
+
+  x = x + 1;
+  ellipse(x, 100, 50, 50);
+}</code></pre>
+          </div>
+          <p>
+            <strong
+              >※letとconstは、宣言したブロック内（{}内）でしか使用できない。</strong
+            >
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. 自己代入演算子</h3>
+          <p>
+            <em>自己代入演算子</em
+            >を使うと、数値計算をより簡潔に記述することができる。
+          </p>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">x += 10;   //x = x + 10; と同じ
+x -= 10;  //x = x - 10; と同じ
+x *= 10;  //x = x * 10; と同じ
+x /= 10;  //x = x / 10; と同じ
+x %= 10;  //x = x % 10; と同じ
+x **= 10;  //x = x ** 10; と同じ</code></pre>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <dl>
+              <dt><img src="./assets/03/01.gif" width="400" alt="" /></dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+
+  line(x, 0, x, 400);
+  x += 1;
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt><img src="./assets/03/02.gif" width="400" alt="" /></dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let d = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  clear();
+
+  ellipse(200, 200, d, d);
+  d += 1;
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              次の画像のような結果になるプログラムを描き、それぞれのファイル名で保存し提出する。
+            </p>
+            <dl>
+              <dt>program01.html</dt>
+              <dd>
+                <img src="./assets/03/03.png" width="400" alt="" />
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+let y = 0;
+let w = 40;
+
+function setup() {
+  createCanvas(400, 400);
+  background(0);
+}
+
+function draw() {
+  //clear();
+
+  rect(x, y, w, w);
+  x += w;
+  y += w;
+}</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>program02.html</dt>
+              <dd>
+                <img src="./assets/03/04.png" width="400" alt="" />
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 360;
+let y = 0;
+let w = 40;
+
+function setup() {
+  createCanvas(400, 400);
+  background(0);
+}
+
+function draw() {
+  //clear();
+
+  rect(x, y, w, w);
+  x -= w;
+  y += w;
+}</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>program03.html</dt>
+              <dd>
+                <img src="./assets/03/05.png" width="400" alt="" />
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+let y = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+
+  line(x, 0, x, 400);
+  line(0, y, 400, y);
+  x += 10;
+  y += 10;
+}</code></pre>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let s = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+
+  line(s, 0, s, 400);
+  line(0, s, 400, s);
+  s += 10;
+}</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>program04.html</dt>
+              <dd>
+                <img src="./assets/03/06.png" width="400" alt="" />
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+let y = 0;
+
+function setup() {
+  createCanvas(400, 400);
+  noStroke();
+}
+
+function draw() {
+  //clear();
+
+  fill(255, 0, 0);
+  rect(0, y, 400, 20);
+  fill(0, 0, 255);
+  rect(x, 0, 20, 400);
+  x += 40;
+  y += 40;
+}</code></pre>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let s = 0;
+
+function setup() {
+  createCanvas(400, 400);
+  noStroke();
+}
+
+function draw() {
+  //clear();
+
+  fill(255, 0, 0);
+  rect(0, s, 400, 20);
+  fill(0, 0, 255);
+  rect(s, 0, 20, 400);
+  s += 40;
+}</code></pre>
+              </dd>
+            </dl>
+            <dl>
+              <dt>program05.html</dt>
+              <dd>
+                <img src="./assets/03/07.png" width="400" alt="" />
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(400, 400);
+}
+
+function draw() {
+  //clear();
+
+  stroke((x / 400) * 255);
+  line(x, 0, x, 400);
+  x += 1;
+}</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【注意点】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>解く順番は自由。</li>
+                  <li>
+                    提出時は「出席番号_苗字」のフォルダを作成し、そこにアップする。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <a
+                      href="https://drive.google.com/drive/folders/1C7K1nd_DqidtxU1dPV6gYrJYlVGTRV95?usp=sharing"
+                      >Googleドライブ</a
+                    >
+                  </li>
+                  <li>締切：</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+    -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>
