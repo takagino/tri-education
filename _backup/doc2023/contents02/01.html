@@ -1,0 +1,635 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」01_Arduinoの基礎 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」01_Arduinoの基礎</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. Arduinoとは？</h2>
+      <div class="clause">
+        <div class="item">
+          <p>Arduino（アルディーノ）とは、
+          <ul class="clause__list">
+            <li>AVRマイコン（ATMEL社がリリースしているマイクロコントローラ）</li>
+            <li>I/O（入出力）ポートを備えた基板</li>
+            <li>C言語風のArduino言語による統合開発環境</li>
+          </ul>
+          から構成された一つのシステムのこと。
+        </p>
+        </div>
+        <dl>
+          <dt>【Arduinoのダウンロード】</dt>
+          <dd>
+            <ol>
+              <li><a href="https://www.arduino.cc/">公式サイト</a>にアクセス。</li>
+              <li>「SOFTWARE」ページに移動し、「macOS」をクリック。</li>
+              <li>「JUST DOWNLOAD」をクリック。</li>
+            </ol>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 何ができるのか？</h3>
+        <p>Bluetoothモジュール 、イーサネットシールド 、wifiシールド、赤外線センサー、温度センサー、超音波距離センサーなど多様なセンサーからのインプット情報をもとに、モーターを動かす、音声を出力する、Twitterに投稿するなど、様々なアウトプットが可能。</p>
+        <dl>
+          <dt>【作品例】</dt>
+          <dd>
+            <ul>
+              <li><a href="https://vimeo.com/40904471">Interactive Light Painting</a></li>
+              <li><a href="https://vimeo.com/38796545">NOISY JELLY</a></li>
+              <li><a href="https://vimeo.com/104899925">the Abovemarine</a></li>
+              <li><a href="https://vimeo.com/16558492">One Hundred and Eight</a></li>
+              <li><a href="https://vimeo.com/68027494">TACTILU</a></li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 関連情報</h3>
+        <div class="item">
+          <dl>
+            <dt>【Web業界との関連】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://whatever.co/">whatever</a></li>
+                <li><a href="https://www.aquaring.co.jp/wonderwall/">株式会社アクアリング</a></li>
+                <li><a href="https://ideacloud.co.jp/">株式会社アイデアクラウド</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【コンテスト・イベント】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://gugen.jp/">GUGEN</a></li>
+                <li><a href="https://makezine.jp/event/">Maker Faire Tokyo</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【その他】</dt>
+            <dd>
+              <ul>
+                <li><a href="http://osu-ameyoko.co.jp/">大須アメ横ビル</a></li>
+                <li><a href="http://www.cre8.nagoya/">クリエイトベースカナヤマ</a></li>
+                <li><a href="https://fabcafe.com/jp/nagoya/">FabCafe Nagoya</a></li>
+              </ul>
+              <ul>
+                <li><a href="https://fujiwaram.com/">藤原麻里菜</a></li>
+                <li><a href="https://finders.me/articles.php?id=1577">ギャル電</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 動作確認</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. キットの確認</h3>
+        <div class="item">
+          <dl>
+            <dt>【Arduino本体】</dt>
+            <dd>※人によって多少異なります。</dd>
+            <dd><img src="assets/01/arduino.png" alt=""></dd>
+          </dl>
+          <dl>
+            <dt>電源（+5V、+3.3V）</dt>
+            <dd>電流が流れる入り口。回路によって大きさを使い分ける。</dd>
+          </dl>
+          <dl>
+            <dt>GND（同じ働きのものが3箇所）</dt>
+            <dd>「グラウンド」と読む。電流の出口。</dd>
+          </dl>
+          <dl>
+            <dt>デジタル入出力（D0-D13）</dt>
+            <dd>デジタル信号を入出力できる。</dd>
+          </dl>
+          <dl>
+            <dt>アナログ入力（A0-A5）</dt>
+            <dd>アナログ信号を入力できる。</dd>
+          </dl>
+          <dl>
+            <dt>アナログ出力（PWM）</dt>
+            <dd>アナログ信号を出力できる。</dd>
+          </dl>
+          <dl>
+            <dt>パワーインジケータ</dt>
+            <dd>Arduinoに電源は入っている（PCに接続されている）ときに点灯する。</dd>
+          </dl>
+          <dl>
+            <dt>インジケータ「L」「TX」「RX」</dt>
+            <dd>L…「DIGITAL 13番PIN」から電圧が出力されているときに点灯する。</dd>
+            <dd>TX…データを送信しているときに点灯する。</dd>
+            <dd>RX…データを受信しているときに点灯する。</dd>
+          </dl>
+          <p><a href="https://www.arduino.cc/en/Main/Products">Arduinoの種類</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ブレッドボード】</dt>
+            <dd><img src="assets/01/board.png" alt=""></dd>
+          </dl>
+          <p>ソケット（穴）に部品を挿し込むだけで電子回路の試作・実験ができるたいへん便利なもの。各ソケットは図の水色の帯びで記してあるように内部でつながっており、電気が流れる（導通している）。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ジャンプワイヤ】</dt>
+            <dd>長いものが10本、短いものが10本</dd>
+            <dd><img src="https://d2air1d4eqhwg2.cloudfront.net/images/2294/500x500/2e5beab0-778f-4fa3-a4ac-d51e6d8c9741.jpg" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【抵抗器】</dt>
+            <dd>200Ω1本、330Ω2本、1KΩ1本、1MΩ1本</dd>
+            <dd><img src="https://m.media-amazon.com/images/I/61M5lVkhcEL._SX342_.jpg" alt="" width="270"></dd>
+          </dl>
+          <p>電流を流れにくくするパーツ。LEDやセンサーなどのパーツに流しても良い電流の上限値が決まっており、抵抗を挟んでいないと、LEDに大きな電流が流れ猛烈に発熱し焦げ臭いにおいとともにLEDが焼き切れたり、センサーが動かなくなったりする。最悪の場合、Arduino本体まで壊してしまう場合もあるので、勝手に回路を組んで電流を流さないように！</p>
+          <p><a href="http://kakikukeko.sakura.ne.jp/blog/wp-content/uploads/2016/03/resister_label_large.pdf" target="_blank">抵抗値とカラーコード</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【LED】</dt>
+            <dd>赤、黄色、緑、各1個</dd>
+            <dd><img src="https://www.my-craft.jp/img/aboutled/led_kyokusei_nagaihou.JPG" alt="" width="270"></dd>
+          </dl>
+          <p>足の長いほうが「+」、短いほうが「-」。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【距離センサ】</dt>
+            <dd><a href="https://akizukidenshi.com/catalog/g/gI-02551/">シャープ測距モジュール　GP2Y0A21YK</a></dd>
+            <dd><img src="https://akizukidenshi.com/img/goods/C/I-02551.jpg" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【明るさセンサ】</dt>
+            <dd><a href="https://akizukidenshi.com/catalog/g/gI-00110/">CdSセル</a></dd>
+            <dd><img src="https://akizukidenshi.com/img/goods/C/I-00110.jpg" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【圧電スピーカ】</dt>
+            <dd><a href="https://akizukidenshi.com/catalog/g/gP-04228/">圧電スピーカー（圧電サウンダ）SPT15</a></dd>
+            <dd><img src="https://akizukidenshi.com/img/goods/L/P-04228.jpg" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サーボモーター】</dt>
+            <dd><img src="https://item-shopping.c.yimg.jp/i/n/shimoyana_12031364642_1" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【振動モーター】</dt>
+            <dd><img src="http://cdn-ak.f.st-hatena.com/images/fotolife/w/wasan/20140920/20140920071849.jpg" alt="" width="270"></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【その他】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>USBケーブル</li>
+                <li>スイッチ2個</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. サンプルコードの実行</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>ArduinoとPCをつなぐ。</li>
+                <li>アプリケーションフォルダから「Arduino IDE」を立ち上げる。</li>
+                <li>「Select Board」をクリックし「Arduino Uno」を選択する。</li>
+                <li>「File」メニューの「Examples」-「01.Basics」-「Blink」を選択。</li>
+                <li>左上の「チェックアイコン」をクリックし、ソースコードにエラーがないか検証する。（<em>※これをしないと本体が壊れる可能性があるので、毎回必ず行うこと</em>）</li>
+                <li>隣の「矢印アイコン」をクリックし、マイコンボードにプログラムを書き込む。</li>
+                <li>Arduinoの「L」の部分がチカチカ点滅すれば動作確認完了！</li>
+                <li>サンプルファイルは、あやまって書き換えないように閉じておく。</li>
+              </ol>
+            </dd>
+            <ul>
+              <li>※書き込んだプログラムは永久に保存され、次回からはPCにつなげるだけでプログラムが実行される。</li>
+            </ul>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 回路を組む</h3>
+        <div class="item">
+          <p>下図のように回路を組み、LEDを光らせてみる。</p>
+          <p><img src="assets/01/kairo01.png" alt=""></p>
+          <ul>
+            <li>※「5V > 抵抗器 > LED > GND」へと流れる電流の道筋を意識すること。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スイッチを付けてみる】</dt>
+            <dd><img src="assets/01/kairo02.png" alt=""></dd>
+          </dl>
+          <p>※現状では、電源（USB）から流れる電流をそのまま受けとってLEDを光らせているだけ。プログラムで入出力を制御したい場合は、番号がついたピンを使う。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【デジタル出力】</dt>
+            <dd>5Vに挿さっているジャンプワイヤをD12へ変更し、以下のプログラムを新規ファイルに書き込む。（<em>※検証を忘れずに</em>）</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//LEDに接続したピンの番号
+int ledPin = 12;
+
+//setupは最初に1度だけ実行される
+void setup(){
+  //LEDに接続したピンのモードをOUTPUT(出力)に設定
+  pinMode(ledPin, OUTPUT);
+}
+
+//loopはArduinoボードの電源がオンであるかぎり、繰り返し実行される
+void loop(){
+  //LEDに接続したピンの値をHIGHにセットしてLEDを点灯
+  digitalWrite(ledPin, HIGH);
+  //1000ms(1s)待つ
+  delay(1000);
+  //LEDに接続したピンの値をLOWにセットしてLEDを消灯
+  digitalWrite(ledPin, LOW);
+  //1000ms(1s)待つ
+  delay(1000);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【アナログ出力】</dt>
+            <dd>ジャンプワイヤをD9へ変更し、以下のプログラムを書き込む。（<em>※検証を忘れずに</em>）</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int ledPin = 9;
+int value = 0;
+int set = 1;
+
+void setup(){
+  //アナログの場合は入力と出力の穴が違うのでpinModeの設定は不要
+}
+
+void loop(){
+  value += set;
+
+  if(value > 255){
+    set = -1;
+  }else if(value < 0){
+    set = 1;
+  }
+
+  //LEDに接続したピンの値にセットする
+  analogWrite(ledPin, value);
+  //30ms(0.03s)待つ
+  delay(30);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <ul>
+          <li><a href="http://www.lapis-semi.com/jp/common/miconlp/tips/2-10-%E3%82%A2%E3%83%8A%E3%83%AD%E3%82%B0%E4%BF%A1%E5%8F%B7%E3%81%A8%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E4%BF%A1%E5%8F%B7%E3%81%A8%E3%81%AF/" target="_blank">アナログ信号とデジタル信号とは</a></li>
+          <li><a href="http://www.lapis-semi.com/jp/common/miconlp/tips/2-15-pwm%E3%81%A8%E3%81%AF/" target="_blank">PWMとは</a></li>
+        </ul>
+        <p><a href="https://www.arduino.cc/reference/en/" target="_blank">Arduino - Language Reference</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. シリアルモニタで値を確認する</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">int ledPin = 9;
+int value = 0;
+int set = 1;
+
+void setup(){
+  //シリアル通信のデータ転送レートを指定する。単位はbps(ビット/秒)
+  Serial.begin(9600);
+}
+
+void loop(){
+  value += set;
+
+  if(value > 255){
+    set = -1;
+  }else if(value < 0){
+    set = 1;
+  }
+
+  analogWrite(ledPin, value);
+
+  //シリアルポートに値を出力する
+  Serial.println(value);
+  delay(30);
+}</code></pre>
+        </p>
+        <p>※Arduinoの右上にある「虫眼鏡アイコン」からシリアルモニターを表示し、値を確認する。</p>
+        <p><a href="http://www.lapis-semi.com/jp/common/miconlp/tips/2-16-%E3%82%B7%E3%83%AA%E3%82%A2%E3%83%AB%E9%80%9A%E4%BF%A1%E3%81%A8%E3%81%AF/">シリアル通信とは</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. センサの認識</h2>
+      <div class="clause">
+        <p>今回は「明るさセンサ」を使って動作確認をします。「明るさセンサ」に+-の向きはありません。</p>
+        <div class="item">
+          <dl>
+            <dt>【センサの値を読み取る（アナログ入力）】</dt>
+            <dd><img src="assets/01/ar04.png" alt=""></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int sensorPin = 0;
+int value = 0;
+
+void setup(){
+  Serial.begin(9600);
+}
+
+void loop(){
+  value = analogRead(sensorPin);
+
+  Serial.print("val=");
+  Serial.println(value);
+  delay(30);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【センサの値を出力する（アナログ出力）】</dt>
+            <dd><img src="assets/01/vol5-1024x527.png" alt="" width="400"></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int sensorPin = 0;
+int ledPin = 3;
+int value = 0;
+
+void setup(){
+  Serial.begin(9600);
+}
+
+void loop(){
+  value = analogRead(sensorPin);
+
+  Serial.print("val=");
+  Serial.println(value);
+
+  analogWrite(ledPin,value/4);
+  delay(30);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. サーボモーター</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd><img src="assets/02/servo.png" width="600" alt=""></dd>
+            <dd>※実際の回路は「オレンジ」が <em>9ピン</em>、「赤」が5V、「茶色」が GND。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本のコード】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//外部ファイル「Servo.h」を読み込む
+#include &lt;Servo.h&gt;
+
+//「Servo.h」内に定義されている「Servo」クラスからコピーを作り、
+//データ型「Servo」、変数名「myservo」の変数を宣言する
+Servo myservo;
+
+void setup() {
+  //値を書き込み先を「9ピン」に設定
+  myservo.attach(9);
+
+  //値（角度）を書き込む
+  //設定できる角度は「0〜180」
+  myservo.write(0);
+}
+
+void loop() {
+}</code></pre>
+            </dd>
+          </dl>
+          <p>★「myservo.write(0);」の値を、「90」「180」「360」に変えて動作確認する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【徐々に角度を変える】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+Servo myservo;
+
+//データ型「int（整数）」の変数を宣言し、初期値「0」を代入する
+int angle = 0;
+
+void setup() {
+  myservo.attach(9);
+  myservo.write(0);
+}
+
+void loop() {
+  angle++;
+  myservo.write(angle);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【角度変化を繰り返す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+Servo myservo;
+
+int angle = 0;
+
+//変化量を変数に代入
+int add = 1;
+
+void setup() {
+  myservo.attach(9);
+  myservo.write(0);
+}
+
+void loop() {
+  angle += add;
+  if(angle  > 180 || 0 >= angle){
+    add = -add;
+  }
+  myservo.write(angle);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※loop処理が早すぎて、0度や180度にならない。また、高速で処理をさせすぎるとパーツが壊れる可能性大。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【処理を遅らせる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+Servo myservo;
+
+int angle = 0;
+int add = 1;
+
+void setup() {
+  myservo.attach(9);
+  myservo.write(0);
+}
+
+void loop() {
+  angle += add;
+  if(angle  > 180 || 0 >= angle){
+    add = -add;
+  }
+  myservo.write(angle);
+
+  //delay(ミリ秒)で処理を遅延させる
+  delay(15);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. センサーで制御する</h3>
+        <div class="item">
+          <dl>
+            <dt>【回路図】</dt>
+            <dd><img src="assets/03/01.png" width="700" alt=""></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【シリアルモニタに値を表示する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">void setup() {
+  //シリアル通信を使う準備をする
+  Serial.begin(9600);
+}
+
+void loop() {
+  //0ピンから値を読み取り、変数に代入
+  int val = analogRead(0);
+
+  //シリアルモニタにメッセージを表示する
+  Serial.println(val);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サーボモーターに送る適切な値に変換する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int val = analogRead(0);
+
+  //map(変換したい値, 変換前の最小値, 変換前の最大値, 変換後の最小値, 変換後の最大値);
+  //事前に変換前の最小値と最大値を調べておくこと
+  int angle = map(val, 50, 650, 0, 180);
+
+  //「print」→ メッセージを表示、「println」→ メッセージを表示して改行
+  Serial.print(val);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サーボモーターに送る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+Servo myservo;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(9);
+}
+
+void loop() {
+  int val = analogRead(0);
+  int angle = map(val, 50, 650, 0, 180);
+
+  myservo.write(angle);
+  delay(15);
+
+  Serial.print(val);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

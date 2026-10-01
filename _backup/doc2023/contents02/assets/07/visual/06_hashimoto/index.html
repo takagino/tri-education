@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>各頂点をつないで一つの塊にする</title>
+    <style>
+        canvas {
+            background: #000;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let num = 1024;
+        let obj = [];
+
+        function preload() {
+            mySound = loadSound('be_me.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            stroke(255);
+            noFill();
+
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            clear();
+            mySound.amp(map(mouseY, 0, height, 0, 1));
+
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+                let angle = 10000000  / spectrum.length;
+
+                push();
+                translate(width / 2 , height / 2);
+
+                beginShape();
+                for (let i = 0; i < spectrum.length; i++) {
+                    let h = map(spectrum[i], min(spectrum), max(spectrum), 0, height / 2);
+                    let sx = cos(angle * i + 90 ) * h;
+                    let sy = sin(angle * i + 90) * h;
+                    vertex(sx, sy);
+                }
+                endShape(CLOSE);
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }
+    </script>
+</body>
+
+</html>

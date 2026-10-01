@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js</title>
+    <style>
+        canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.js"></script>
+    <script>
+        let obj = {
+            c: 0,
+            r: 0,
+            s: 0
+        };
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            noStroke();
+        }
+
+        function draw() {
+            console.log('draw!');
+        }
+
+        function draw() {
+            if (mouseIsPressed) {
+
+                obj.c = floor(random(100));
+                obj.r = floor(random(360));
+                obj.s = random(0.5, 2);
+
+                push();
+
+                translate(mouseX, mouseY);
+                rotate(obj.r);
+                scale(obj.s);
+
+                fill(180, 50, obj.c, 0.5);
+                rect(0, 0, 50, 50);
+
+                pop();
+            }
+        }
+
+        function keyReleased() {
+            if (keyCode == 32) {
+                clear();
+            }
+        }
+    </script>
+</body>
+
+</html>

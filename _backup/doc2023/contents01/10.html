@@ -1,0 +1,1117 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」10_Canvasの応用 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」10_Canvasの応用</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. その他作業</h2>
+      <div class="clause">
+        <dl>
+          <dt>【卒業制作の話】</dt>
+          <dd><a href="https://trident.takagino.net/doc2022/graduate/00.html" target="_blank">2022年度</a></dd>
+        </dl>
+        <dl>
+          <dt>【7,8月状況アンケート】</dt>
+          <dd><a href="https://forms.gle/e1WV5q1hz6hz6c3G9">Googleフォーム</a></dd>
+        </dl>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. 復習</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Canvas&lt;/title&gt;
+
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;!-- canvas要素を記述 --&gt;
+  &lt;canvas id='example' width='640' height='480'&gt;
+    &lt;!-- 代替コンテンツを設定する --&gt;
+    Canvas not supported.
+  &lt;/canvas&gt;
+
+  &lt;script&gt;
+  //グローバル変数の宣言
+  let canvas, ctx;
+
+  //ページの読み込みが完了したら、init関数を実行する
+  window.addEventListener('load', () => {
+    init();
+  });
+
+  const init = ()  => {
+    //canvas要素を抽出し、変数canvasに格納する
+    canvas = document.querySelector('#example');
+
+    //canvasに対応していないブラウザ用にエラー処理をほどこす
+    if (!canvas || !canvas.getContext) {
+      return false;
+    }
+
+    //getContext('2d')を呼び出して「グラフィックコンテキスト」を取得する
+    //dは必ず小文字
+    ctx = canvas.getContext('2d');
+
+    //キャンバスに描画を行う
+    ctx.fillText("Hello Canvas", 50, 50);
+  }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【矩形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.fillRect(x座標, y座標, 幅, 高さ);
+ctx.strokeRect(x座標, y座標, 幅, 高さ);
+ctx.clearRect(x座標, y座標, 幅, 高さ);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【直線や多角形（パス）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//直線
+ctx.beginPath();
+ctx.moveTo(x座標, y座標);
+ctx.lineTo(x座標, y座標);
+ctx.stroke();
+
+//三角形
+ctx.beginPath();
+ctx.moveTo(x座標, y座標);
+ctx.lineTo(x座標, y座標);
+ctx.lineTo(x座標, y座標);
+ctx.closePath();
+ctx.fill();</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【円弧】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.beginPath();
+ctx.arc(中心のx座標, 中心のy座標, 半径, 始まりの角度, 終わりの角度, 回転の方向);
+ctx.stroke();
+
+//角度の書き方
+度数 * Math.PI / 180</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dt>【その他】</dt>
+          <dd>
+            <ul>
+              <li><a href="https://developer.mozilla.org/ja/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors">スタイルと色の適用</a></li>
+            </ul>
+          </dd>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 連続した描画</h2>
+      <div class="clause">
+        <p>命令を連続して実行するには、「<em>setInterval()</em>」「<em>setTimeout()</em>」「<em>requestAnimationFrame()</em>」などのメソッドがある。<br>
+          今回は「<em>requestAnimationFrame()</em>」を使用する。</p>
+        <div class="item">
+          <dt>【requestAnimationFrame() の特徴】</dt>
+          <dd>フレームを描画する準備ができた時にシステムがアニメーションフレームを呼び出すことで、よりスムーズで効率的な方法でアニメーションを提供する。通常、コールバック回数は 1 秒あたり 60 回となり、バックグラウンドタブで実行している場合は、レートが低くなることがある。</dd>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Canvas&lt;/title&gt;
+
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;canvas id='example' width='640' height='480'&gt;
+    Canvas not supported.
+  &lt;/canvas&gt;
+
+  &lt;script&gt;
+  let canvas, ctx;
+  window.addEventListener('load', () => {
+    init();
+  });
+
+  const init = ()  => {
+    canvas = document.querySelector('#example');
+    if (!canvas || !canvas.getContext) {
+      return false;
+    }
+    ctx = canvas.getContext('2d');
+
+    //メソッドを実行
+    window.requestAnimationFrame(draw);
+  }
+
+  const draw = () => {
+    console.log("draw!");
+
+    //再び自関数を呼び出す（再帰関数）
+    window.requestAnimationFrame(draw);
+  }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <dl>
+            <dt>【ランダムな場所に矩形を描画する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  //変更
+  ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 50, 50);
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul class="clause__list">
+            <li>半透明にする。
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  //追加
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 50, 50);
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </li>
+            <li>矩形のサイズをランダムにする。
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  //追加
+  let size = Math.random() * 45 + 5;
+
+  //変更
+  ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, size, size);
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </li>
+            <li>色をランダムにする。
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  let size = Math.random() * 45 + 5;
+
+  //追加
+  ctx.fillStyle = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`;
+
+  ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, size, size);
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ちなみに】</dt>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/CSS/color_value/hsl">hsl()</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【微調整】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  let size = Math.random() * 45 + 5;
+
+  //変更
+  ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
+  ctx.fillRect(Math.random() * canvas.width - size / 2, Math.random() * canvas.height - size / 2, size, size);
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ul class="clause__list">
+          <li>図形を円に変更する。</li>
+          <li>図形を三角形に変更する。（後で解説します）</li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 座標変換</h2>
+      <div class="clause">
+        <p>上記応用のように、複雑な（値が複数ある）図形をランダムな場所に描画する場合、それぞれの値を計算するよりも、座標空間の状態を変更してから描画した方が楽な場合が多い。</p>
+        <div class="item">
+          <dl>
+            <dt>【座標変換前】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  //追加
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 0);
+  ctx.lineTo(50, 70);
+  ctx.closePath();
+  ctx.fill();
+
+  //コメントアウト
+  // window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【座標変換後】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  //追加
+  ctx.translate(100, 100);
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 0);
+  ctx.lineTo(50, 70);
+  ctx.closePath();
+  ctx.fill();
+
+  // window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>移動</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.translate(x方向の距離, y方向の距離);</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>回転</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.rotate(角度); //角度はMath.PI/180</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>拡大縮小</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.scale(x方向の拡大率, y方向の拡大率);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <dl>
+            <dt>【ランダムな場所に三角形を描画する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
+  ctx.translate(Math.random() * canvas.width, Math.random() * canvas.height);
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 0);
+  ctx.lineTo(50, 70);
+  ctx.closePath();
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※上記のサンプルコードでは、フレームが描画される度に座標が変更されてしまうため、意図した動きにならない。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 座標空間の保存</h3>
+        <div class="item">
+          <dl>
+            <dt>【修正】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+  ctx.globalAlpha = 0.5;
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
+  //追加
+  ctx.save();
+
+  ctx.translate(Math.random() * canvas.width, Math.random() * canvas.height);
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(100, 0);
+  ctx.lineTo(50, 70);
+  ctx.closePath();
+  ctx.fill();
+
+  //追加
+  ctx.restore();
+
+  window.requestAnimationFrame(draw);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>座標空間の状態を保存する</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.save();</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>保存した状態に戻す</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">ctx.restore();</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ul class="clause__list">
+          <li>上記サンプルを改造し、三角形をランダムに回転させる。</li>
+          <li>さらに改造し、三角形の大きさをランダムにする。</li>
+        </ul>
+        <p><a href="./assets/10/rotate.html" target="_blank">見本</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 実践「跳ね返るボール」</h2>
+      <div class="clause">
+        <p><a href="./assets/10/ball.html" target="_blank">見本</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. まずは1つで考える</h3>
+        <p><a href="./assets/10/ball-single.html" target="_blank">見本</a></p>
+        <div class="item">
+          <dl>
+            <dt>【必要な値】</dt>
+            <dd>
+              <ul>
+                <li>円のx座標</li>
+                <li>円のy座標</li>
+                <li>x方向の移動スピード</li>
+                <li>y方向の移動スピード</li>
+                <li>円の大きさ</li>
+                <li>円の色</li>
+              </ul>
+            </dd>
+          </dl>
+          <p>以上の値にそれぞれ変数を宣言するのは無駄なので「<em>オブジェクト形式</em>」で宣言する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;跳ね返るボール&lt;/title&gt;
+
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;canvas id='example' width='640' height='480'&gt;
+    Canvas not supported.
+  &lt;/canvas&gt;
+
+  &lt;script&gt;
+  let canvas, ctx;
+  window.addEventListener('load', () => {
+    init();
+  });
+
+  const init = ()  => {
+    canvas = document.querySelector('#example');
+    if (!canvas || !canvas.getContext) {
+      return false;
+    }
+    ctx = canvas.getContext('2d');
+
+    window.requestAnimationFrame(draw);
+  }
+
+  const draw = () => {
+    window.requestAnimationFrame(draw);
+  }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト形式で値を設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+//追加
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【円を描画する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  //円の描画
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【円を動かす】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  //値の更新
+  param.x += param.speedX;
+  param.y += param.speedY;
+
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【描画した円を消す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  //追加
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  param.x += param.speedX;
+  param.y += param.speedY;
+
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【canvas内で跳ね返す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  param.x += param.speedX;
+  param.y += param.speedY;
+
+  //跳ね返す
+  if (param.x &lt; 0 || param.x > canvas.width) {
+    param.speedX *= -1.0;
+  }
+  if (param.y &lt; 0 || param.y > canvas.height) {
+    param.speedY *= -1.0;
+  }
+
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 数を増やす</h3>
+        <div class="item">
+          <dl>
+            <dt>【空の配列を宣言する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+//追加
+const num = 100;
+const array = [];
+
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  param.x += param.speedX;
+  param.y += param.speedY;
+
+  if (param.x &lt; 0 || param.x > canvas.width) {
+    param.speedX *= -1.0;
+  }
+  if (param.y &lt; 0 || param.y > canvas.height) {
+    param.speedY *= -1.0;
+  }
+
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト形式のパラメータを配列に push する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const num = 100;
+const array = [];
+
+/* init関数内に移植
+const param = {
+  x: 320,
+  y: 240,
+  speedX: Math.random() * 8 - 4,
+  speedY: Math.random() * 8 - 4,
+  size: Math.random() * 8 + 1,
+  color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+};
+*/
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  //移植
+  for (let i = 0; i &lt; num; i++) {
+    array.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      speedX: Math.random() * 8 - 4,
+      speedY: Math.random() * 8 - 4,
+      size: Math.random() * 8 + 1,
+      color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    });
+  }
+  console.log(array);
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  param.x += param.speedX;
+  param.y += param.speedY;
+
+  if (param.x &lt; 0 || param.x > canvas.width) {
+    param.speedX *= -1.0;
+  }
+  if (param.y &lt; 0 || param.y > canvas.height) {
+    param.speedY *= -1.0;
+  }
+
+  ctx.fillStyle = param.color;
+  ctx.beginPath();
+  ctx.arc(param.x, param.y, param.size, 0, Math.PI * 2, true);
+  ctx.fill();
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【配列の値を用いて円を量産する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let canvas, ctx;
+const num = 100;
+const array = [];
+
+window.addEventListener('load', () => {
+  init();
+});
+
+const init = ()  => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  for (let i = 0; i &lt; num; i++) {
+    array.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      speedX: Math.random() * 8 - 4,
+      speedY: Math.random() * 8 - 4,
+      size: Math.random() * 8 + 1,
+      color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    });
+  }
+
+  window.requestAnimationFrame(draw);
+}
+
+const draw = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //変更（「param」を「array[i]」に）
+  for (var i = 0; i &lt; num; i++) {
+    array[i].x += array[i].speedX;
+    array[i].y += array[i].speedY;
+
+    if (array[i].x &lt; 0 || array[i].x > canvas.width) {
+      array[i].speedX *= -1.0;
+    }
+    if (array[i].y &lt; 0 || array[i].y > canvas.height) {
+      array[i].speedY *= -1.0;
+    }
+
+    ctx.fillStyle = array[i].color;
+    ctx.beginPath();
+    ctx.arc(array[i].x, array[i].y, array[i].size, 0, Math.PI * 2, true);
+    ctx.fill();
+  }
+
+  window.requestAnimationFrame(draw);
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. フルスクリーン表示</h3>
+        <p>結論から言うと、完璧にフルスクリーン表示させるのは難しい。</p>
+        <div class="item">
+          <dl>
+            <dt>【CSSで実装する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">body {
+  margin: 0;
+}
+
+canvas {
+  background: #fff;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【JSで実装する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//resizeイベントを登録
+window.addEventListener('resize', () => {
+  resize();
+});
+
+const init = () => {
+  canvas = document.querySelector('#example');
+  if (!canvas || !canvas.getContext) {
+    return false;
+  }
+  ctx = canvas.getContext('2d');
+
+  //関数を実行
+  resize();
+
+  for (let i = 0; i &lt; num; i++) {
+    array.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      speedX: Math.random() * 8 - 4,
+      speedY: Math.random() * 8 - 4,
+      size: Math.random() * 8 + 1,
+      color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+    });
+  }
+
+  window.requestAnimationFrame(draw);
+}
+
+//リサイズ時の関数を定義
+const resize = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>完成したサンプルを出来る限り改造する。</p>
+          <ol>
+            <li>背景色や各種値を良い感じに調整する。</li>
+            <li>マウスをクリックしている間だけアニメーションする。（<a href="./assets/10/ball01.html" target="_blank">見本</a>）</li>
+            <li>スペースキーを押したら再描画する。（<a href="./assets/10/ball02.html" target="_blank">見本</a>）</li>
+            <li>円が跳ね返るたびに数が増える。※重くならないように数を制限すること（<a href="./assets/10/ball03.html" target="_blank">見本</a>）</li>
+            <li>残像を残す。（<a href="./assets/10/ball04.html" target="_blank">見本</a>）</li>
+            <li>その他、自由に改造する。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <ul>
+            <li>提出先：<a href="https://drive.google.com/drive/folders/1se7eKJKBz1khaSXM6ymrGX8kTdCr2-jt?usp=sharing">Googleドライブ</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+              -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.sound Waveform Visualization</title>
+    <style>
+      canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+      let mySound;
+      let fft;
+
+      function preload() {
+        mySound = loadSound('Trick_style.mp3');
+      }
+
+      function setup() {
+        createCanvas(640, 480);
+        colorMode(HSL);
+        fft = new p5.FFT();
+      }
+
+      function draw() {
+        clear();
+        mySound.amp(map(mouseY, 0, height, 0, 1));
+
+        if (mySound.isPlaying()) {
+          let waveform = fft.waveform();
+
+          // 可視化：波形を線で描画
+          beginShape();
+          stroke(0, 255, 100); // 線の色を変更（例：緑色）
+          noFill();
+          for (let i = 0; i < waveform.length; i++) {
+            let x = map(i, 0, waveform.length, 0, width);
+            let y = map(waveform[i], -1, 1, 0, height);
+            vertex(x, y);
+          }
+          endShape();
+        }
+      }
+
+      function keyPressed() {
+        mySound.loop();
+      }
+
+      function keyReleased() {
+        mySound.pause();
+      }
+    </script>
+  </body>
+</html>

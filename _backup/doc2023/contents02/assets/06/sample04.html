@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>p5.js</title>
+  <style>
+    canvas {
+      background-color: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
+  <script>
+    let obj = {
+      x: 0,
+      y: 0,
+      c: 0,
+      r: 0,
+      s: 0
+    };
+
+    function setup() {
+      createCanvas(640, 480);
+      rectMode(CENTER);
+      colorMode(HSL);
+    }
+
+    function draw() {
+      // clear();
+
+      obj.x = Math.floor(Math.random() * 200);
+      obj.c = Math.floor(Math.random() * 100);
+      obj.r = Math.floor(Math.random() * 360);
+
+      push();
+      translate(320, 240);
+      rotate(obj.r);
+      stroke(180, 50, obj.c, 0.5);
+      line(0, 0, obj.x, 0);
+      pop();
+    }
+  </script>
+</body>
+</html>

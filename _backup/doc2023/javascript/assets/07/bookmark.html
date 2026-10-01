@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmark</title>
+  <style>
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <form name="bookmark">
+    <div>
+      <label>タイトル:<input type="text" id="title" name="title"></label>
+    </div>
+    <div>
+      <label>URL:<input type="url" id="url" name="url"></label>
+    </div>
+  </form>
+  <button id="add">追加</button>
+  <ul id="list">
+    <!-- <li><a href="https://computer.trident.ac.jp/">https://computer.trident.ac.jp/</a></li> -->
+  </ul>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, query, orderBy, getDocs, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkUKZMaNfuLkzsp1tJKOSeraCFMIt_zZ8",
+      authDomain: "test-f409a.firebaseapp.com",
+      projectId: "test-f409a",
+      storageBucket: "test-f409a.appspot.com",
+      messagingSenderId: "792442032377",
+      appId: "1:792442032377:web:acf53bb803f06c268ad228"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const list = document.querySelector('#list');
+    const addBtn = document.querySelector('#add');
+    const titleField = document.querySelector('#title');
+    const urlField = document.querySelector('#url');
+
+    const createItem = (title, url) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = "_blank";
+      a.textContent = title;
+      li.append(a);
+
+      list.append(li);
+    }
+
+    addBtn.addEventListener('click', async () => {
+      let titleValue = titleField.value;
+      let urlValue = urlField.value;
+
+      if (urlValue === "") {
+        return;
+      }
+      if (titleValue === "") {
+        titleValue = urlValue;
+      }
+
+      createItem(titleValue, urlValue);
+      titleField.value = '';
+      urlField.value = '';
+
+      const colRef = collection(db, "bookmark");
+      const data = {
+        title: titleValue,
+        url: urlValue,
+        timestamp: serverTimestamp()
+      }
+      await addDoc(colRef, data);
+    });
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      const q = query(collection(db, "bookmark"), orderBy('timestamp'));
+      const docSnap = await getDocs(q);
+
+      docSnap.forEach((doc) => {
+        createItem(doc.data().title, doc.data().url);
+      });
+    });
+  </script>
+</body>
+</html>

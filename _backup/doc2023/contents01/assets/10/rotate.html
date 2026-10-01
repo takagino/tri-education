@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Canvas</title>
+
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id='example' width='640' height='480'>
+    Canvas not supported.
+  </canvas>
+
+  <script>
+    let canvas, ctx;
+    window.addEventListener('load', () => {
+      init();
+    });
+
+    const init = () => {
+      canvas = document.querySelector('#example');
+      if (!canvas || !canvas.getContext) {
+        return false;
+      }
+      ctx = canvas.getContext('2d');
+      ctx.globalAlpha = 0.5;
+
+      window.requestAnimationFrame(draw);
+    }
+
+    const draw = () => {
+      ctx.fillStyle = `hsl(${Math.random() * 360}, 50%, 50%)`;
+
+      ctx.save();
+
+      ctx.translate(Math.random() * canvas.width, Math.random() * canvas.height);
+      ctx.rotate(Math.random() * 360 * Math.PI / 180);
+
+      let size = Math.random() * 2 + 0.5;
+      ctx.scale(size, size);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(100, 0);
+      ctx.lineTo(50, 70);
+      ctx.closePath();
+      ctx.fill();
+
+      ctx.restore();
+
+      window.requestAnimationFrame(draw);
+    }
+  </script>
+</body>
+</html>

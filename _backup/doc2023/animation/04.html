@@ -1,0 +1,403 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「インタラクションアニメ」04_様々な機能 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「インタラクションアニメ」04_様々な機能</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. モーショントゥイーンのコツ</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>作り始める前に、全体像とシンボルの構成を想定しておく。</li>
+          <li>1パーツ1レイヤーが基本。</li>
+          <li>アニメーションさせたいモノ（自分で描いたシェイプや読み込んだ画像）は、<em>シンボル</em>に変換する。</li>
+          <li>アニメーションをつける前に、タイムラインを右クリック「<em>モーショントゥイーンの作成</em>」をする。</li>
+          <li>アニメーションをつける前に、<em>変形点</em>（回転や伸縮の基準）を設定しておく。</li>
+          <li>「<em>レイヤーをシンボルに変換</em>」で、こまめにシンボル化しておく。</li>
+          <li>シンボルの中身を編集する時は、ライブラリパネルからシンボルを複製し、バックアップをとっておく。</li>
+          <li>ほぼ全ての動きに<em>イージング</em>をつける。</li>
+          <li>失敗した時は「command + z」で元に戻す。</li>
+          <li>こまめに保存する。</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. モーションパス</h2>
+      <div class="clause">
+        <div class="item">
+          <p>蝶々が飛ぶアニメーションを作成しながら、「モーションパス」の編集について勉強していきます。</p>
+          <ul>
+            <li><img src="assets/04/butterfly01.gif" alt=""></li>
+          </ul>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 蝶々のシンボルを作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>Adobe Animate を立ち上げ、新規ファイルを作成。（キャラクターアニメーション > SVG > 作成）
+                  <img src="assets/04/01.png" alt="" width="600">
+                </li>
+                <li>以下のようにレイヤーを準備し、忘れないうちに保存しておく。
+                  <img src="assets/04/02.png" alt="" width="600">
+                </li>
+                <li>ブラシツールで、それぞれのレイヤーにパーツを描画する。
+                  <img src="assets/04/03.png" alt="" width="400">
+                </li>
+                <li>それぞれのパーツを<em>シンボル</em>に変換する。
+                  <img src="assets/04/04.png" alt="" width="400">
+                </li>
+                <li>自由変形ツールに持ち替え、左右の羽の<em>変形点</em>を移動する。
+                  <img src="assets/04/05.png" alt="" width="400">
+                </li>
+                <li>左右の羽のフレームを右クリックし、モーショントゥイーンを作成。</li>
+                <li>羽が伸縮するアニメーションを作成する。<em>この時、30フレーム目を選択し、『F6』でキーフレームを打っておくと良い。</em>
+                  <img src="assets/04/07.png" alt="" width="600">
+                </li>
+                <li>レイヤーを全て選択し、右クリック「レイヤーをシンボルに変換」、名前を付けて「OK」。</li>
+              </ol>
+            </dd>
+          </dl>
+          <p>※羽の動きのスピードを変えたい場合は微調整。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【線を伸縮させない方法】</dt>
+            <dd>
+              <ol>
+                <li>ペンツールで描画する。</li>
+                <li>描画した線を選択し、プロパティパネルの「伸縮」をなしにする。
+                  <img src="assets/04/06.png" alt="" width="400">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. 蝶々を移動させる</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>メインのタイムラインに戻り、蝶々レイヤーにモーショントゥイーンを作成。</li>
+                <li>30フレーム目を選択し、自由に移動する。</li>
+                <li>この時、画面に表示される線（パス）を、「<em>モーションパス</em>」という。
+                  <img src="assets/04/08.png" alt="" width="400">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. モーションパスの編集</h3>
+        <div class="item">
+          <ul class="clause__list">
+            <li>選択ツールで選択し、そのまま移動できる。</li>
+            <li>選択していない状態でパスにマウスを近づけドラッグすると、曲線に変形できる。</li>
+            <li>ダイレクト選択ツールでベジェハンドルを編集できる。</li>
+          </ul>
+        </div>
+        <dl>
+          <dt>【シンボルの向きを変える】</dt>
+          <dd>
+            <ol>
+              <li>モーションパスを選択する。</li>
+              <li>プロパティパネルから「パスに沿って回転」にチェックを入れる。
+                <img src="assets/04/09.png" alt="" width="400">
+              </li>
+            </ol>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. モーションパスの変換</h3>
+        <div class="item">
+          <p>より複雑な動きをさせたい場合は、ペンツールで軌跡を描画し、モーションパスに置き換えると便利。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>新規レーやーを作成。</li>
+                <li>レイヤーの1フレーム目を選択し、ペンツールで自由に線を描く。
+                  <img src="assets/04/10.png" alt="" width="400">
+                </li>
+                <li>選択ツールで線を選択し、コピー。</li>
+                <li>モーションパスを選択し、ペースト。</li>
+                <li>線を描いたレイヤーは削除し、微調整して完成。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. マスク</h2>
+      <div class="clause">
+        <div class="item">
+          <p>花が咲くアニメーションを作成しながら、「マスク」について勉強していきます。</p>
+          <ul>
+            <li><img src="assets/04/butterfly02.gif" alt=""></li>
+          </ul>
+          <dl>
+            <dt>【マスクとは？】</dt>
+            <dd>マスクレイヤーを使用して、下にあるレイヤーを見せるためのマスク形状を作成すると、スポットライトやトランジションの効果を出すことができる。</dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 画像の読み込み</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>下の画像をライブラリパネルに読み込む。
+                  <img src="assets/04/flower.png" width="300" alt="">
+                </li>
+                <li>ステージに置いたら、位置や大きさを調整して「グラフィックシンボル」に変換する。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. マスクの設定</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>花のレイヤーの上に、マスク用のレイヤーを追加する。
+                  <img src="assets/04/15.png" width="400" alt="">
+                </li>
+                <li>ブラシツールを選択し、試しに花の一部分を描画する。
+                  <img src="assets/04/16.png" width="400" alt="">
+                </li>
+                <li>マスクレイヤーを右クリック「マスク」を選択。</li>
+                <li>レイヤーが下画像のように変化する。
+                  <img src="assets/04/17.png" width="400" alt="">
+                </li>
+                <li>描画した部分だけに花が表示される。
+                  <img src="assets/04/18.png" width="400" alt="">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <p>見本のGIFアニメーションのように、花を徐々に表示させる。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. カメラ</h2>
+      <div class="clause">
+        <div class="item">
+          <p>次のアニメーションのように、画面全体をズームしたり移動したりさせたい場合、「カメラ機能」を使用すると便利。</p>
+          <p><img src="assets/04/butterfly03.gif" alt=""></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>タイムライン内のカメラアイコンをクリックし、カメラレイヤーを表示する。
+                  <img src="assets/04/19.png" alt="" width="400">
+                </li>
+                <li>カメラレイヤーのタイムライン上で右クリックし「モーショントゥイーンを作成」。</li>
+                <li>ステージに表示されたスライダーと、プロパティパネルの数値を調整し、カメラの動作を設定する。
+                  <img src="assets/04/20.png" alt="" width="400">
+                  <img src="assets/04/21.png" alt="" width="300">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. テキスト</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>テキストを選択した状態で『修正 &gt; 分解（command + b）』で、1文字づつのテキストに分解できる。</li>
+          <li>さらに『修正 &gt; 分解（command + b）』で、塗り（シェイプ）に変換できる。</li>
+          <li>テキストをアニメーションする際にも<em>シンボル</em>に変換すること。</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>以下の素材を使用し、トライデントコンピュータ専門学校「冬の特別イベント」特設サイトのオープニングアニメーションを制作する。</p>
+          <p><a href="https://forms.gle/29xDKWoDbDeqZeTB6">アンケート</a></p>
+          <dl>
+            <dt>【作品一覧】</dt>
+            <dd>
+              <ul>
+                <li><a href="./assets/04/canvas/01_asano/" target="_blank">01_浅野</a></li>
+                <li><a href="./assets/04/canvas/02_iida/" target="_blank">02_飯田</a></li>
+                <li><a href="./assets/04/canvas/03_ito/" target="_blank">03_伊藤</a></li>
+                <li><a href="./assets/04/canvas/04_iwamoto/" target="_blank">04_岩本</a></li>
+                <li><a href="./assets/04/canvas/06_okayama.gif" target="_blank">06_岡山（※gif形式）</a></li>
+                <li><a href="./assets/04/canvas/07_okiyama/" target="_blank">07_沖山</a></li>
+                <li><a href="./assets/04/canvas/08_kajita/" target="_blank">08_梶田</a></li>
+                <li><a href="./assets/04/canvas/10_sakagami/" target="_blank">10_坂上</a></li>
+                <li><a href="./assets/04/canvas/11_sakurai/" target="_blank">11_櫻井</a></li>
+                <li><a href="./assets/04/canvas/12_sibata/" target="_blank">12_柴田</a></li>
+                <li><a href="./assets/04/canvas/13_shimada.gif" target="_blank">13_島田（※gif形式）</a></li>
+                <li><a href="./assets/04/canvas/14_shimizu/" target="_blank">14_清水</a></li>
+                <li><a href="./assets/04/canvas/15_subedi/" target="_blank">15_スベディ</a></li>
+                <li><a href="./assets/04/canvas/16_nagase.gif" target="_blank">16_長瀬（※gif形式）</a></li>
+                <li>17_野々垣</li>
+                <li><a href="./assets/04/canvas/18_hashimoto/" target="_blank">18_橋本</a></li>
+                <li><a href="./assets/04/canvas/20_hanafusa/" target="_blank">20_花房</a></li>
+                <li><a href="./assets/04/canvas/22_furuhashi/" target="_blank">22_古橋</a></li>
+                <li>23_堀</li>
+                <li><a href="./assets/04/canvas/24_matsuoka/" target="_blank">24_松岡</a></li>
+                <li><a href="./assets/04/canvas/25_yamauchi.gif" target="_blank">25_山内（※gif形式）</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="ittem">
+          <dl>
+            <dt>【素材】</dt>
+            <dd><a href="https://drive.google.com/drive/folders/1wagoXAUCVOxWMesBP1Y2j3BnIzjT07aa?usp=sharing">Googleドライブ</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://about.mercari.com/unleash/">Mercari’s 10th Anniversary</a></li>
+                <li><a href="https://universe.kaonavi.jp/">kaonavi universe｜カオナビの個性が集う場所</a></li>
+                <li><a href="https://rara.ritsumei.ac.jp/">立命館先進研究アカデミー | RARA</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【条件】</dt>
+            <dd>
+              <ol>
+                <li>最初の画面は、プレゼントボックス1つのみとすること。</li>
+                <li>最後の画面には、トライデントコンピュータ専門学校のロゴと、「Happy Winter Day!」の文言を表示すること。（大文字小文字は自由）</li>
+                <li>最後の画面で3秒ほど停止させること。</li>
+                <li>ロゴとボックスを除いて、10個以上の素材を使用すること。</li>
+                <li>全てのシンボルにイージングをつけること。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【提出】</dt>
+            <dd><a href="https://drive.google.com/drive/folders/1cGBTmCKu-vmQAE9ALbPkR41gVQLdVIk6?usp=sharing">Googleドライブ</a></dd>
+            <dd>締切：11/22(水) 1限開始時まで</dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. Canvasの設定</h3>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>Adobe Animate を立ち上げ、新規ファイルを作成。（Web &gt; 高(960 x 640) &gt; 作成）
+                  <img src="assets/04/11.png" alt="" width="600">
+                </li>
+                <li>忘れないうちに名前をつけて保存。</li>
+                <li>箱の素材はライブラリパネルにドラックアンドドロップ。</li>
+                <li>下のようなウィンドウが出てきたら、そのまま「OK」をクリック。
+                  <img src="assets/04/12.png" alt="" width="500">
+                </li>
+                <li>ライブラリパネルに「<em>シンボル</em>」が追加されるので、ステージに配置してアニメーションをつけていく。 ※アセットは削除しないこと。
+                  <img src="assets/04/13.png" alt="" width="400">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Canvasデータの書き出し】</dt>
+            <dd>
+              <ol>
+                <li>Animateメニュー『ファイル &gt; パブリッシュ設定...』を選択。</li>
+                <li>「ステージを中央に表示」「レスポンシブにする」「表示領域いっぱいに拡大・縮小」にチェック入れ、「パブリッシュ」をクリック。<img src="assets/04/14.png" alt="" width="500"></li>
+                <li>「◯◯.html」「◯◯.js」「images」が生成されるので、htmlをブラウザにてチェック。</li>
+                <li>フォルダにまとめて<a href="https://drive.google.com/drive/folders/1cGBTmCKu-vmQAE9ALbPkR41gVQLdVIk6">Googleドライブ</a>に提出。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. 課題を作る時のコツ</h3>
+        <ul class="clause__list">
+          <li>SVGは読み込み時点でシンボルになっている。テキストは自分でシンボルに変換する。</li>
+          <li>最終的な配置を先に作ってしまうと良い。その状態をシンボルに変換しておくか、<em>先にキーフレームを打っておくとなお良い。</em></li>
+          <li>レイヤーのロック・非表示をこまめに切り替えながら作業をすると良い。</li>
+        </ul>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-3. アニメーションの基本原則</h3>
+        <p><a href="https://liclog.net/12-principal-of-animation/">【アニメーションの12の原則】ディズニーから学ぶ映像作品の表現方法</a></p>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

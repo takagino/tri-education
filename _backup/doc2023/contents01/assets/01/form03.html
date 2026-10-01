@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>フォーム | vue.js</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+
+    em {
+      font-size: 2em;
+      font-style: normal;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <form>
+      <input type="email" v-model="text">
+    </form>
+    <p v-cloak><a :href="url">リンク</a></p>
+    <button @click="setUrl">設定</button>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const text = Vue.ref();
+        const url = Vue.ref();
+        const setUrl = () => {
+          url.value = text.value;
+        }
+
+        return {
+          text,
+          url,
+          setUrl
+        }
+      }
+    });
+
+    app.mount("#app");
+  </script>
+</body>
+</html>

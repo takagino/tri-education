@@ -1,0 +1,854 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」06_p5.jsの基礎 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」06_p5.jsの基礎</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後のスケジュール（予定）</h2>
+      <div class="clause">
+        <ul>
+          <li>11/20：p5.jsの基礎、<em>課題「センサーで模様を描く」制作</em></li>
+          <li>11/27：課題の試遊、p5.js の応用 ※授業見学</li>
+          <li>12/04：p5.js の応用</li>
+          <li>12/11：<em>課題「オーディオビジュアライザー」制作</em></li>
+          <li>12/18：課題の試遊、p5.js の応用</li>
+          <li>01/15：p5.js の応用</li>
+          <li>01/22：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>01/29：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>02/05：課題の試遊、まとめと補足 ※時間が余ったら他授業の課題</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. p5.jsとは？</h2>
+      <div class="clause">
+        <div class="item">
+          <p>Javaをベースに作られた「Processing」と言う電子アートのプログラミング言語をJavaScriptで使用できるようにしたライブラリ。</p>
+          <ul>
+            <li><a href="https://p5js.org//">公式サイト</a></li>
+            <li><a href="https://openprocessing.org/discover/#/trending">OpenProcessing</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【前期授業】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://trident.takagino.net/doc2023/contents01/09.html" target="_blank">09_Canvasの基礎</a></li>
+                <li><a href="https://trident.takagino.net/doc2023/contents01/10.html" target="_blank">10_Canvasの応用</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 始め方</h3>
+        <div class="item">
+          <ol>
+            <li><a href="https://editor.p5js.org/">エディター</a></li>
+            <li><a href="https://p5js.org/download/">ダウンロードまたはCDNで読み込む</a></li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;p5.js&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    //ページ読み込み時に1度だけ実行される関数
+    function setup() {
+      //canvas要素の生成
+      createCanvas(640, 480);
+    }
+
+    //ページを表示している間、ずっと繰り返し実行される関数
+    function draw() {
+      console.log('draw!');
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">//素のCanvasの場合
+&lt;body&gt;
+  &lt;canvas id='example' width='640' height='480'&gt;
+    Canvas not supported.
+  &lt;/canvas&gt;
+
+  &lt;script&gt;
+  let ctx;
+  window.addEventListener('load', () => {
+    init();
+  });
+
+  const init = ()  => {
+    const canvas = document.querySelector('#example');
+
+    if (!canvas || !canvas.getContext) {
+      return false;
+    }
+    ctx = canvas.getContext('2d');
+    requestAnimationFrame(update);
+  };
+
+  const update = () => {
+    requestAnimationFrame(update);
+  };
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 図形の描画</h2>
+      <div class="clause">
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+
+  //点の描画：point( X座標, Y座標 );
+  point( 100, 200 );
+
+  //線の描画：line( X座標始点, Y座標始点, X座標終点, Y座標終点 );
+  line( 10, 10, 200, 180 );
+
+  //矩型の描画：rect( X座標, Y座標, 幅, 高さ );
+  rect( 10, 10, 200, 180 );
+
+  //楕円の描画：ellipse( X座標, Y座標, 幅, 高さ );
+  ellipse( 10, 10, 200, 180 );
+}</code></pre>
+        </p>
+        <dl>
+          <dt>【その他の図形】</dt>
+          <dd><a href="https://p5js.org//reference/">リファレンスの「Shape」</a></dd>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 色の指定</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+
+  //背景色
+  background(0, 0, 0);
+
+  //グレースケール（白〜黒）の場合は値1個に省略できる
+  //background(0);
+
+  //塗りの色
+  fill(255, 0, 0);
+
+  //線の色
+  stroke(0, 0, 255);
+
+  //16進数コードでもOK
+  //stroke("#0000ff");
+
+  ellipse( 10, 10, 200, 180 );
+}</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【透明度】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+
+  //値を1個追加することで、透明度を設定できる
+  background(0, 200);
+  fill(255, 0, 0, 100);
+
+  ellipse( 10, 10, 200, 180 );
+
+  //16進数の書き方では無理っぽい
+  //stroke("#0000ff", 100);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【その他】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+
+  //カラーモードの変更：RGB、HSB、HSL
+  colorMode(HSL);
+  fill(180, 50, 50);
+  ellipse( 10, 10, 200, 180 );
+
+  //塗りなし
+  noFill();
+  ellipse(100, 100, 200, 180);
+
+  //線なし
+  noStroke();
+  fill(90, 50, 50);
+  ellipse(200, 200, 200, 180);
+
+  //線の太さ・形状
+  strokeCap(ROUND);
+  strokeWeight(6);
+  stroke(90, 50, 50);
+  line(300, 300, 400, 400);
+}</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://techis.jp/guide/css/css_colors_hsl">CSS HSL カラー</a></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習「おでん」</h3>
+        <div class="item">
+          <p><img src="assets/06/01.png" width="300" alt=""></p>
+          <p>
+        <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+  strokeWeight(8);
+
+  //たまご
+  fill("#e7c5a8");
+  ellipse(320, 240, 100, 100);
+
+  //ちくわ
+  fill("#feecd3");
+  rect(250, 290, 140, 80);
+
+  //こんにゃく
+  fill("#838383");
+  triangle(320, 120, 250, 190, 390, 190);
+
+  //串
+  line(320, 370, 320, 420);
+}</code></pre>
+        </p>
+        </div>
+        <dl>
+          <dt>【補足】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+  strokeWeight(8);
+
+  //矩型の基準点を変更
+  rectMode(CENTER);
+
+  //たまご
+  fill("#e7c5a8");
+  ellipse(320, 240, 100, 100);
+
+  //ちくわ
+  fill("#feecd3");
+  //rect(250, 290, 140, 80);
+  rect(320, 330, 140, 80);
+
+  //こんにゃく
+  fill("#838383");
+  triangle(320, 120, 250, 190, 390, 190);
+
+  //串
+  line(320, 370, 320, 420);
+}</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. アニメーションさせる</h2>
+      <div class="clause">
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+}
+
+function draw() {
+  x++;
+  rect(x, 25, 50, 50);
+}</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【描画したモノを消す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let x = 0;
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+}
+
+function draw() {
+  //描画したモノを削除
+  clear();
+
+  x++;
+  rect(x, 25, 50, 50);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ランダムにする】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://p5js.org/reference/#/p5/random">random()</a></li>
+                <li><a href="https://p5js.org/reference/#/p5/floor">floor()</a></li>
+              </ul>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//オブジェクトの形に変更
+let obj = {
+  x: 0,
+  y: 0
+};
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+}
+
+function draw() {
+  clear();
+
+  obj.x++;
+
+  //ランダムな値を取得
+  obj.y = floor(random(25, 50));
+
+  //JavaScriptの書き方でもOK
+  //obj.y = Math.floor(Math.random() * 25) + 25;
+
+  rect(obj.x, obj.y, 50, 50);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習「ランダムな矩型」</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">//色のキーを追加
+let obj = {
+  x: 0,
+  y: 0,
+  c: 0
+};
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+
+  //カラーモードと線なしの設定
+  colorMode(HSL);
+  noStroke();
+}
+
+function draw() {
+  //描画を削除しない
+  // clear();
+
+  obj.x = Math.floor(Math.random() * 640);
+  obj.y = Math.floor(Math.random() * 480);
+
+  //ランダムな値を追加
+  obj.c = Math.floor(Math.random() * 100);
+
+  //HSLの場合は、透明度0〜1
+  fill(180, 50, obj.c, 0.5);
+  rect(obj.x, obj.y, 50, 50);
+}</code></pre>
+            </dd>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 座標変換</h2>
+      <div class="clause">
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">//角度と拡大率のキーを追加
+let obj = {
+  x: 0,
+  y: 0,
+  c: 0,
+  r: 0,
+  s: 0,
+};
+
+function setup() {
+  createCanvas(640, 480);
+  rectMode(CENTER);
+  colorMode(HSL);
+  noStroke();
+}
+
+function draw() {
+  // clear();
+
+  obj.x = Math.floor(Math.random() * 640);
+  obj.y = Math.floor(Math.random() * 480);
+  obj.c = Math.floor(Math.random() * 100);
+
+  //ランダムな値を追加
+  obj.r = Math.floor(Math.random() * 360);
+  obj.s = Math.random() * 2 + 0.5;
+
+  //座標空間を保存
+  push();
+
+  //移動、回転、拡大縮小
+  translate(obj.x, obj.y);
+  rotate(obj.r);
+  scale(obj.s);
+
+  fill(180, 50, obj.c, 0.5);
+
+  //x座標とy座標を修正
+  rect(0, 0, 50, 50);
+
+  //保存した状態に戻す
+  pop();
+}</code></pre>
+            </dd>
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用問題</h3>
+        <p>以下のサンプルをできる限り再現してください。</p>
+        <ul>
+          <li><a href="./assets/06/sample01.html" target="_blank">サンプル01</a></li>
+          <li><a href="./assets/06/sample02.html" target="_blank">サンプル02</a></li>
+          <li><a href="./assets/06/sample03.html" target="_blank">サンプル03</a></li>
+          <li><a href="./assets/06/sample04.html" target="_blank">サンプル04</a></li>
+          <li><a href="./assets/06/sample05.html" target="_blank">サンプル05</a></li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 特殊な変数</h2>
+      <div class="clause">
+        <p>p5.jsには独自の<em>システム変数</em>がある。これはp5.jsが自動的に値を設定するもので、プログラム内では同じ名前の変数を使ってはいけない。</p>
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+
+  //width：canvas描画領域の幅
+  //height：canvas描画領域の高さ
+  console.log(width);
+  console.log(height);
+}
+
+function draw() {
+  //mouseX：ブラウザ内のマウスのX座標
+  //mouseY：ブラウザ内のマウスのY座標
+  console.log(mouseX);
+  console.log(mouseY);
+}</code></pre>
+        </p>
+        <dl>
+          <dt>【その他の変数】</dt>
+          <dd><a href="https://p5js.org//reference/">リファレンスの「Environment」と「Events」</a></dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用「お絵かきツール」</h3>
+        <div class="item">
+          <p>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+  // noStroke();
+  // fill(0);
+}
+
+function draw() {
+  line(mouseX, mouseY, pmouseX, pmouseY);
+}</code></pre>
+            </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【マウスをクリックしている時だけ描画】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+  // noStroke();
+  // fill(0);
+}
+
+function draw() {
+  if(mouseIsPressed){
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 特殊な関数</h2>
+      <div class="clause">
+        <div class="item">
+          <p>p5.jsには独自の<em>システム関数</em>がある。これはp5.jsが自動的に動作を設定するもので、プログラム内では同じ名前の変数を使ってはいけない。</p>
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+}
+
+function mousePressed() {
+  console.log("press");
+}
+
+function mouseReleased() {
+  console.log("release");
+}
+
+function keyPressed() {
+  //システム変数「key」：押されたキーボードの値
+  console.log(key);
+}
+
+function keyReleased() {
+  //システム変数「keyCode」：押されたキーボードのキーコード値
+  console.log(keyCode);
+}</code></pre>
+          </p>
+          <p><a href="https://www.toptal.com/developers/keycode">キーコードを調べるツール</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スペースキーで描画した線を消す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+  if (mouseIsPressed) {
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32) {
+    clear();
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">6-1. 改造「お絵かきツール」</h3>
+        <div class="item">
+          <dl>
+            <dt>【マウスを動かす速さによって線の太さを変える】</dt>
+            <dd>
+              <ol>
+                <li>線を設定する2つの点を結んだ距離を求める。（<a href="https://p5js.org//reference/">リファレンスの「Math - Calculation」</a>）</li>
+                <li>求めた距離を線の太さに反映する。</li>
+              </ol>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  strokeWeight(6);
+  strokeCap(ROUND);
+}
+
+function draw() {
+  if (mouseIsPressed) {
+    let d = dist(mouseX, mouseY, pmouseX, pmouseY);
+    let w = map(d, 0, 100, 6, 20);
+    strokeWeight(w);
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32) {
+    clear();
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <!-- <div class="item">
+          <dl>
+            <dt>【時間経過と共に線を消す】</dt>
+            <dd>
+              <p><a href="./assets/06/drawing.html" target="_blank">見本</a></p>
+            </dd>
+            <dd>
+              <ol>
+                <li>半透明の矩型で画面全体を塗りつぶす。</li>
+                <li>「線なし」にすることで起こる不具合を修正する。</li>
+              </ol>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const obj = {
+  c: 0
+};
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  strokeCap(ROUND);
+}
+
+function draw() {
+  noStroke();
+  fill(0, 0, 87, 0.01);
+  rect(0, 0, width, height);
+
+  if (mouseIsPressed) {
+    let d = dist(mouseX, mouseY, pmouseX, pmouseY);
+    let w = map(d, 0, 100, 6, 20);
+    strokeWeight(w);
+    stroke(0);
+    line(mouseX, mouseY, pmouseX, pmouseY);
+  }
+}
+
+function keyReleased() {
+  if (keyCode === 32) {
+    clear();
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div> -->
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. 課題「センサーで模様を描く」</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【条件】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>「<em>スイッチ</em>」と「<em>距離センサ</em>」を使って回路を組む。</li>
+                <li>「<em>スイッチ</em>」を押している間だけ模様（線や円、矩形などで構成）を描画し、話すと消える。</li>
+                <li>「<em>距離センサ</em>」の値によって模様の何かしらを変化させる。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【回路】</dt>
+            <dd><img src="./assets/05/07.png" width="600" alt=""></dd>
+            <dd><img src="assets/03/06.png" width="600" alt=""></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順とサンプルコード】</dt>
+            <dd>
+              <ol>
+                <li>課題用のフォルダを作成し、VSCodeで開く。</li>
+                <li>ターミナルを表示、以下のコードを入力し「Enter」。
+                  <pre class="line-numbers"><code class="language-bash">npm init -y</code></pre>
+                </li>
+                <li>ターミナルに以下のコードを入力し「Enter」。
+                  <pre class="line-numbers"><code class="language-bash">npm install socket.io johnny-five</code></pre>
+                </li>
+                <li>フォルダ内に新規ファイル「app.js」を作成。
+                  <pre class="line-numbers"><code class="language-bash">touch app.js</code></pre>
+                </li>
+                <li>「app.js」に以下のコードを記述。
+                  <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+const five = require('johnny-five');
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  //ボタンの設定
+  const button = new five.Button({
+    pin: 2,
+    isPullup: true
+  });
+
+  //センサーの設定
+  let sensor_value = 0;
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 30
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    const io = require("socket.io")(server);
+
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      //センサーの値を変数に代入
+      sensor.on("change", () => {
+        sensor_value = sensor.value;
+      });
+
+      //ボタンが押されている時の動作
+      button.on("hold", function () {
+        io.emit('button_value', {
+          sensor: sensor_value,
+          button: 'hold'
+        });
+      });
+
+      //ボタンを離した時の動作
+      button.on("release", function () {
+        io.emit('button_value', {
+          sensor: sensor_value,
+          button: 'release'
+        });
+      });
+
+    });
+  });
+});</code></pre>
+                </li>
+                <li>フォルダ内に新規ファイル「index.html」を作成。
+                  <pre class="line-numbers"><code class="language-bash">touch index.html</code></pre>
+                </li>
+                <li>「index.html」に以下のコードを記述。
+                  <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;課題「模様を描画」&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;!-- p5.js CDN --&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.js"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+    let sensor_value = 0;
+    let button_value = 'release';
+
+    socket.on('button_value', (recieve) =&gt; {
+      sensor_value = recieve.sensor;
+      button_value = recieve.button;
+    });
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      rectMode(CENTER);
+    }
+
+    function draw() {
+      if (button_value == 'hold') {
+        //模様を描く
+      } else {
+        clear();
+      }
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </li>
+                <li>動作確認をして準備完了。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

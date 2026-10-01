@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>animation</title>
+  <style>
+    canvas {
+      background-color: #ddd;
+    }
+
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"></script>
+  <script src="https://p5play.org/v3/p5.play.js"></script>
+
+  <script>
+    let ani;
+
+    function setup() {
+      createCanvas(640, 480);
+      ani = loadAnimation('./sprite.png', { frameSize: [32, 32], frames: 18 });
+      ani.stop();
+    }
+
+    function draw() {
+      clear();
+      animation(ani, ani.width, ani.height);
+      ani.frame = floor(map(mouseX, 0, width, 0, 18));
+
+      if (kb.pressing('5')) ani.frame = 5;
+
+      if (kb.pressing('0')) ani.scale = 0;
+      if (kb.pressing('1')) ani.scale = 1;
+    }
+  </script>
+</body>
+</html>

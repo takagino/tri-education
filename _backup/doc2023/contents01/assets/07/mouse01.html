@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マウスに反応させる01</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    html {
+      font-size: 1vw;
+    }
+
+    #area {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      background-color: #ddd;
+    }
+
+    .image {
+      position: absolute;
+      width: 17.5rem;
+    }
+
+    .image img {
+      border-radius: .5rem;
+    }
+
+    .-no01 {
+      left: 50rem;
+      top: 4rem;
+    }
+
+    .-no02 {
+      left: 21rem;
+      top: 7rem;
+    }
+
+    .-no03 {
+      left: 71rem;
+      top: 21rem;
+    }
+
+    .-no04 {
+      left: 3rem;
+      top: 25rem;
+    }
+
+    .-no05 {
+      left: 80rem;
+      top: 30rem;
+    }
+
+    .-no06 {
+      left: 27rem;
+      top: 38rem;
+    }
+
+    .-no07 {
+      left: 55rem;
+      top: 46rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="area">
+    <div class="image -no01" data-scale="0.05">
+      <img src="https://picsum.photos/id/237/600/380" alt="">
+    </div>
+    <div class="image -no02" data-scale="0.02">
+      <img src="https://picsum.photos/id/238/600/380" alt="">
+    </div>
+    <div class="image -no03" data-scale="0.1">
+      <img src="https://picsum.photos/id/239/600/380" alt="">
+    </div>
+    <div class="image -no04" data-scale="0.05">
+      <img src="https://picsum.photos/id/240/600/380" alt="">
+    </div>
+    <div class="image -no05" data-scale="0.05">
+      <img src="https://picsum.photos/id/241/600/380" alt="">
+    </div>
+    <div class="image -no06" data-scale="0.15">
+      <img src="https://picsum.photos/id/242/600/380" alt="">
+    </div>
+    <div class="image -no07" data-scale="0.05">
+      <img src="https://picsum.photos/id/243/600/380" alt="">
+    </div>
+  </div>
+  <script>
+    const area = document.querySelector('#area');
+    const imgs = document.querySelectorAll('.image');
+    let dist = { x: 0, y: 0 };
+    let init = [];
+    const atte = 0.02
+
+    area.addEventListener('mousemove', (event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const pos = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+      dist = {
+        x: window.innerWidth / 2 - pos.x,
+        y: window.innerHeight / 2 - pos.y
+      };
+    });
+
+    const step = () => {
+      for (const [i, img] of imgs.entries()) {
+        let d = {
+          x: (dist.x * init[i].s - init[i].x) * atte,
+          y: (dist.y * init[i].s - init[i].y) * atte
+        };
+        init[i].x += d.x;
+        init[i].y += d.y;
+        img.style.transform = `translate(${init[i].x}px, ${init[i].y}px)`;
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    window.addEventListener('load', () => {
+      for (const img of imgs) {
+        init.push({
+          x: 0,
+          y: 0,
+          s: img.dataset.scale
+        });
+      };
+
+      window.requestAnimationFrame(step);
+    });
+  </script>
+</body>
+</html>

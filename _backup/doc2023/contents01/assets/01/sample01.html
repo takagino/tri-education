@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>応用問題01</title>
+</head>
+<body>
+  <div id="app">
+    <img :src="url" @mouseover="over" @mouseout="out">
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const url = Vue.ref("https://picsum.photos/id/237/400/300");
+
+        const over = () => {
+          url.value = "https://picsum.photos/id/238/400/300";
+        };
+
+        const out = () => {
+          url.value = "https://picsum.photos/id/237/400/300";
+        };
+
+        return {
+          url,
+          over,
+          out
+        }
+      }
+    });
+
+    app.mount("#app");
+  </script>
+</body>
+</html>

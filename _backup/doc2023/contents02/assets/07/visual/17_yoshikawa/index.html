@@ -1,0 +1,97 @@
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.js</title>
+    <style>
+      canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <body>
+      <!-- socket.io CDN -->
+      <script
+        src="https://cdn.socket.io/4.6.0/socket.io.min.js"
+        crossorigin="anonymous"
+      ></script>
+
+      <!-- p5.js CDN -->
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+      <script>
+  // socket.ioのスクリプト
+  const socket = io();
+  let val = 0;
+  let mySound;
+  let fft;
+  let scaleValue = 2; // 波形を広げるスケールファクター
+
+  // センサーの値を代入
+  socket.on("sensor_value", (receive) => {
+    console.log(receive);
+    val = receive;
+  });
+
+  function preload() {
+    mySound = loadSound("/Wind_of_Wilderness.mp3");
+  }
+
+  function setup() {
+    createCanvas(800, 600);
+    colorMode(HSB);
+    angleMode(DEGREES);
+    stroke(255);
+    noFill();
+
+    fft = new p5.FFT();
+  }
+
+  function draw() {
+    background(0);
+    // センサーの値を音量にマッピング
+    let minv = 100;
+    let maxv = 1000;
+    val = constrain(val, minv, maxv);
+    let volume = map(val, minv, maxv, 0, 1);
+    mySound.amp(volume);
+
+    if (mySound.isPlaying()) {
+      let spectrum = fft.analyze();
+      let angle = 360 / spectrum.length;
+
+      beginShape();
+      for (let i = 0; i < spectrum.length; i++) {
+        let radius = map(
+          spectrum[i],
+          min(spectrum),
+          max(spectrum),
+          0,
+          height / 2
+        ) * scaleValue; // スケールを適用
+        let x = cos(angle * i) * radius;
+        let y = sin(angle * i) * radius;
+
+        // Randomly set the stroke color based on the current angle
+        stroke((angle * i) % 360, 255, 255);
+
+        // Draw an ellipse instead of connecting vertices
+        ellipse(width / 2 + x, height / 2 + y, 10, 10);
+      }
+      endShape();
+    }
+  }
+
+  function keyPressed() {
+    mySound.loop();
+  }
+
+  function keyReleased() {
+    mySound.pause();
+  }
+</script>
+
+  </body>
+</html>

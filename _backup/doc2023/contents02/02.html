@@ -1,0 +1,481 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」02_値の調整 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」02_値の調整</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 復習</h2>
+      <div class="clause">
+        <div class="item">
+          <p>下図のように回路を組み、LEDを光らせてみる。</p>
+          <p><img src="assets/01/kairo01.png" alt=""></p>
+          <ul>
+            <li>※「5V &gt; 抵抗器 &gt; LED &gt; GND」へと流れる電流の道筋を意識すること。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【デジタル出力】</dt>
+            <dd>5Vに挿さっているジャンプワイヤをD12へ変更し、以下のプログラムを新規ファイルに書き込む。（<em>※検証を忘れずに</em>）</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//LEDに接続したピンの番号を変数に代入
+//JSとは違い、データ型を明記する必要がある（int：整数）
+int ledPin = 12;
+
+//setupは最初に1度だけ実行される
+void setup(){
+  //LEDに接続したピンのモードをOUTPUT(出力)に設定
+  //デジタル信号は入出力を同じピンで行うため、指定が必要
+  pinMode(ledPin, OUTPUT);
+}
+
+//loopはArduinoボードの電源がオンであるかぎり、繰り返し実行される
+void loop(){
+  //LEDに接続したピンの値をHIGHにセットしてLEDを点灯
+  digitalWrite(ledPin, HIGH);
+  //1000ms(1s)待つ
+  delay(1000);
+  //LEDに接続したピンの値をLOWにセットしてLEDを消灯
+  digitalWrite(ledPin, LOW);
+  //1000ms(1s)待つ
+  delay(1000);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. スイッチでの制御</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【デジタル入力】</dt>
+            <dd>
+              <img src="./assets/02/01.png" width="600" alt="">
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int pin = 2;
+
+void setup(){
+  //シリアル通信のデータ転送レートを指定する。単位はbps(ビット/秒)
+  Serial.begin(9600);
+  //ピンのモードをINPUT(入力)に設定
+  pinMode(pin, INPUT);
+}
+
+void loop(){
+  //ピンに入力された値を取得し変数に代入
+  int value = digitalRead(pin);
+  //シリアルモニタに表示する（println：値を表示して改行する）
+  Serial.println(value);
+
+  //負担を軽減するために処理を遅らせる
+  delay(30);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <p>※スイッチを押していない時に、値が安定しない…</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. プルアップ抵抗・プルダウン抵抗</h3>
+        <div class="item">
+          <p><a href="https://voltechno.com/blog/pullup-pulldown/">プルアップ抵抗・プルダウン抵抗とは？電子回路に必須の考え方</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【プルアップ抵抗】</dt>
+            <dd>
+              <img src="./assets/02/pullup.png" width="600" alt="">
+            </dd>
+            <dd>★通常時は「1」、スイッチを押すと「0」</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【プルダウン抵抗】</dt>
+            <dd>
+              <img src="./assets/02/pulldown.png" width="600" alt="">
+            </dd>
+            <dd>★通常時は「0」、スイッチを押すと「1」</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. サーボモータを動かす</h3>
+        <div class="item">
+          <p><img src="./assets/02/02.png" width="600" alt=""></p>
+          <p>※実際の回路は「オレンジ」が 9ピン、「赤」が5V、「茶色」が GND。</p>
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">//ソースコードを読み込む
+#include &lt;Servo.h&gt;
+
+int pin = 2;
+
+//変数追加
+int servoPin = 9;
+Servo myservo;
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(pin, INPUT);
+
+  //ピンを設定
+  myservo.attach(servoPin);
+}
+
+void loop(){
+  int value = digitalRead(pin);
+
+  //ピンの値に応じて処理をする（サーボモーターの角度は0〜180）
+  if(value == 0){
+    myservo.write(180);
+  }else{
+    myservo.write(0);
+  }
+
+  Serial.println(value);
+  delay(30);
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値に変化があった場合のみ】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+int pin = 2;
+int servoPin = 9;
+Servo myservo;
+
+//値を一時的に保存するための変数
+int prev_value = 0;
+
+void setup(){
+  Serial.begin(9600);
+  pinMode(pin, INPUT);
+  myservo.attach(servoPin);
+}
+
+void loop(){
+  int value = digitalRead(pin);
+
+  //現在の値と前の値が違っていたら
+  if(value != prev_value){
+    if(value == 0){
+      myservo.write(180);
+    }else{
+      myservo.write(0);
+    }
+  }
+
+  //値を更新
+  prev_value = value;
+
+  Serial.println(value);
+  delay(30);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. センサーでの制御</h2>
+      <div class="clause">
+        <div class="item">
+          <p><img src="assets/02/03.png" width="700" alt=""></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【距離センサに値を取得する（アナログ入力）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int sensorPin = 0;
+
+void setup() {
+  Serial.begin(9600);
+
+  //アナログ信号は入力と出力のピンが別れているため、ピンモードの設定は必要ない
+}
+
+void loop() {
+  //0ピンから値を読み取り、変数に代入
+  int value = analogRead(sensorPin);
+
+  Serial.println(value);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サーボモーターに送る適切な値に変換する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">int sensorPin = 0;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int value = analogRead(0);
+
+  //map(変換したい値, 変換前の最小値, 変換前の最大値, 変換後の最小値, 変換後の最大値);
+  //事前に変換前の最小値と最大値を調べておくこと
+  int angle = map(value, 50, 650, 0, 180);
+
+  //「print」→ メッセージを表示、「println」→ メッセージを表示して改行
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サーボモーターに送る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+int sensorPin = 0;
+int servoPin = 9;
+Servo myservo;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(servoPin);
+}
+
+void loop() {
+  int value = analogRead(sensorPin);
+  int angle = map(value, 50, 650, 0, 180);
+
+  myservo.write(angle);
+  delay(30);
+
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※値の微妙な変化（ゆらぎ）があるため、モーターが常に動いてしまう…</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. ゆらぎの軽減</h3>
+        <div class="item">
+          <dl>
+            <dt>【分解能を下げる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+int sensorPin = 0;
+int servoPin = 9;
+Servo myservo;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(servoPin);
+}
+
+void loop() {
+  int value = analogRead(sensorPin);
+
+  //10で割って小数点を切り捨てる
+  value = floor(value / 10);
+
+  //10倍して桁数を戻す
+  value = value * 10;
+
+  int angle = map(value, 50, 650, 0, 180);
+
+  myservo.write(angle);
+  delay(100); //変化がわかりやすいように遅延を伸ばす
+
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※細かいゆらぎはなくなったが、動きがぎこちなくなってしまうため、今回は不採用。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【平均値化する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+int sensorPin = 0;
+int servoPin = 9;
+Servo myservo;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(servoPin);
+}
+
+void loop() {
+  //毎回「0」に戻す
+  int value = 0;
+
+  //値を30回分合計する
+  for(int i = 0; i &lt; 30; i++){
+    value += analogRead(sensorPin);
+  }
+
+  //合計した回数で割って平均値を出す
+  value = value / 30;
+
+  int angle = map(value, 50, 650, 0, 180);
+
+  myservo.write(angle);
+  delay(100);
+
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※かなりゆらぎは軽減したが、処理が重くなってしまうため、今回は不採用。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【指数平滑（RCフィルタ）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">#include &lt;Servo.h&gt;
+
+int sensorPin = 0;
+int servoPin = 9;
+Servo myservo;
+
+//毎回リセットされないように、loop関数外に宣言する
+int value = 0;
+
+//データ型「float（小数）」、値は「0〜1」の範囲
+float filter = 0.1;
+
+void setup() {
+  Serial.begin(9600);
+  myservo.attach(servoPin);
+}
+
+void loop() {
+  //前回のvalの値9割と、新しく読み取ったA0ピンの値1割を足す
+  value = (1 - filter) * value + analogRead(sensorPin) * filter;
+
+  int angle = map(value, 50, 650, 0, 180);
+
+  myservo.write(angle);
+  delay(30); //遅延を小さくする
+
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(angle);
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※値の変化が「なだらか」になってしまうが、ゆらぎはほぼなくなるため今回はこちらを採用。</p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 振動モーターを動かす</h2>
+      <p><img src="./assets/02/04.png" width="600" alt=""></p>
+      <p>
+        <pre class="line-numbers"><code class="language-javascript">int sensorPin = 0;
+int motorPin = 9;
+
+int value = 0;
+float filter = 0.1;
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  value = (1 - filter) * value + analogRead(sensorPin) * filter;
+
+  int power = map(value, 50, 650, 0, 160);
+
+  analogWrite(motorPin, power);
+  delay(30);
+
+  Serial.print(value);
+  Serial.print(":");
+  Serial.println(power);
+}</code></pre>
+      </p>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 課題</h2>
+      <div class="clause">
+        <p>入力に「スイッチ」か「距離センサ」、出力に「サーボモーター」か「振動モーター」を使って、何か動く作品を作成する。</p>
+        <div class="item">
+          <dl>
+            <dt>【要件】</dt>
+            <dd>
+              <ol>
+                <li>何らかのソフトで描画・印刷し、セロテープで「サーボモーター」や「振動モーター」に貼り付けて制作する。</li>
+                <li>Web上にあがっている画像や写真、イラストを拝借するのは禁止。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【展示】</dt>
+            <dd>10月23日(月) 1限（9:45〜）</dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

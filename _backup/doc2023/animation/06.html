@@ -1,0 +1,1159 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「インタラクションアニメ」06_animation | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+
+  <style>
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .btn01 {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+    }
+
+    .bird {
+      border: 0 !important;
+      animation: fly 2s infinite;
+    }
+
+    @keyframes fly {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .btn01:hover {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+      animation: purupuru .2s;
+    }
+
+    @keyframes purupuru {
+
+      0%,
+      100% {
+        transform: skew(0deg, 0deg);
+      }
+
+      25% {
+        transform: skew(2deg, 2deg);
+      }
+
+      75% {
+        transform: skew(-2deg, -2deg);
+      }
+    }
+
+    .text01 {
+      margin-bottom: 0 !important;
+      font-size: 80px;
+      font-weight: bold;
+      letter-spacing: 0.1em;
+      animation: boco 1s infinite alternate;
+    }
+
+    @keyframes boco {
+
+      0%,
+      30% {
+        transform: translate3d(0, 0, 0);
+        text-shadow: 0 0 0 #339999;
+      }
+
+      70%,
+      100% {
+        transform: translate3d(6px, -6px, 0);
+        text-shadow: -6px 6px #339999;
+      }
+    }
+
+    .loop {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .loop p {
+      margin-bottom: 0;
+      font-size: 15vw;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .text03 {
+      animation: loop 30s -15s linear infinite;
+    }
+
+    .text04 {
+      animation: loop2 30s linear infinite;
+    }
+
+    @keyframes loop {
+      0% {
+        transform: translateX(100%);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
+    @keyframes loop2 {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-200%);
+      }
+    }
+
+    .text02 {
+      margin-bottom: 0 !important;
+      font-size: 80px;
+      font-weight: bold;
+      animation: blur 2s infinite alternate;
+    }
+
+    @keyframes blur {
+
+      0%,
+      30% {
+        filter: blur(0);
+        opacity: 1;
+      }
+
+      70%,
+      100% {
+        filter: blur(10px);
+        opacity: 0;
+      }
+    }
+
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 400px;
+    }
+
+    .slide__image {
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      animation: slide 15s linear infinite;
+    }
+
+    .slide__image:nth-child(1) {
+      background-image: url(https://picsum.photos/800/600?random=1);
+      animation-delay: -2s;
+    }
+
+    .slide__image:nth-child(2) {
+      background-image: url(https://picsum.photos/800/600?random=2);
+      animation-delay: 3s;
+    }
+
+    .slide__image:nth-child(3) {
+      background-image: url(https://picsum.photos/800/600?random=3);
+      animation-delay: 8s;
+    }
+
+    @keyframes slide {
+
+      0%,
+      40%,
+      100% {
+        opacity: 0;
+      }
+
+      6%,
+      33% {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「インタラクションアニメ」06_animation</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後の予定</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>animationプロパティによるアニメーション</li>
+          <li>JavaScriptライブラリ「GSAP」</li>
+          <li>最終課題「Webデザイン学科の魅力を伝えるコンテンツ」</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. 今回学ぶこと</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>animationプロパティ</li>
+          <li>スクロールアニメーション</li>
+          <li>コマ送りアニメーション</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 前提知識</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. アイコンフォント</h3>
+        <p><a href="https://fontawesome.com/">Font Awesome</a></p>
+        <div class="item">
+          <dl>
+            <dt>【動作確認】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;animation&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"&gt;
+  &lt;style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;i class="fa-solid fa-arrow-right"&gt;&lt;/i&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【擬似要素に設定する場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p class="hoge"&gt;&lt;/p&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">.hoge::after{
+  content: "\f061";
+  font-family: 'FontAwesome';
+  font-weight: 900;
+}</code></pre>
+            </dd>
+          </dl>
+          <ul>
+            <li>※「\（バックスラッシュ）」は『option + ¥』</li>
+            <li>※font-weightの値は<a href="https://fontawesome.com/v5/docs/web/advanced/css-pseudo-elements#how-to-define-an-icon-using-css-pseudo-elements">こちらを参照</a>。</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. transform（変形）</h3>
+        <p>要素に「移動」「回転」「拡大・縮小」「傾斜」の動きを与えられるプロパティ。この4つの変形操作を組み合わせることで自由に要素を動かせるようになる。要素は2D（縦横方向）変形だけでなく、3D（縦横奥行き方向）の変形も可能。</p>
+        <div class="item">
+          <table>
+            <caption>2D Transforms</caption>
+            <tr>
+              <th>効果</th>
+              <th>値名</th>
+              <th>指定する値</th>
+            </tr>
+            <tr>
+              <td>移動</td>
+              <td>translate 、translateX、translateY</td>
+              <td>移動距離（px など）</td>
+            </tr>
+            <tr>
+              <td>回転</td>
+              <td>rotate</td>
+              <td>角度（deg）</td>
+            </tr>
+            <tr>
+              <td>拡大・縮小</td>
+              <td>scale、scaleX、scaleY</td>
+              <td>倍率（1や2 …など）</td>
+            </tr>
+            <tr>
+              <td>傾き</td>
+              <td>skew、skewX、skewY</td>
+              <td>角度（deg）</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <table>
+            <caption>3D Transforms</caption>
+            <tr>
+              <th>効果</th>
+              <th>値名</th>
+              <th>指定する値</th>
+            </tr>
+            <tr>
+              <td>移動</td>
+              <td>translateZ、translate3d</td>
+              <td>移動距離（px など）</td>
+            </tr>
+            <tr>
+              <td>回転</td>
+              <td>rotateX、rotateY、rotateZ</td>
+              <td>角度（deg）</td>
+            </tr>
+            <tr>
+              <td>拡大・縮小</td>
+              <td>scaleZ、scale3d</td>
+              <td>倍率（1や2 …など）</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-css">.fa-arrow-right {
+  transform: translateX(30px);
+
+  /* 値を組み合わせる */
+  transform: translateX(30px) rotate(45deg);
+
+  /* 順番を変えると結果も変わる */
+  transform: rotate(45deg) translateX(30px);
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変形の基準点】</dt>
+            <dd>i要素は「<em>インライン</em>」の特徴を持っており、内容と横幅（width）が同一のためいい感じに回転してくれる。<br>
+              一方、div要素やp要素などの「<em>ブロックレベル</em>」の特徴を持った要素は、横幅（width）が親要素の横幅と同一になるため、意図した回転にならない。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">/* うまくいかない例 */
+.hoge {
+  background-color: #ddd;
+  transform: rotate(45deg);
+}
+
+/* うまくいく例 */
+.hoge {
+  background-color: #ddd;
+  transform: rotate(45deg);
+  transform-origin: center left;
+}</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/CSS/transform-origin">transform-origin - mdn web docs</a></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. animation</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【ブラウザ対応】</dt>
+            <dd><a href="https://caniuse.com/?search=animation">animation - Can I Use?</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【サンプルコード】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;animation&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"&gt;
+  &lt;style&gt;
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      text-decoration: none;
+    }
+
+    .btn01 {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;a class="btn01" href="#"&gt;練習&lt;/a&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. キーフレームによるアニメーションの定義</h3>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-css">/* キーワードで指定 */
+@keyframes 名前（animation-name） {
+
+  /* 最初の状態 */
+  from {
+    border-radius: 25px;
+  }
+
+  /* 最後の状態 */
+  to {
+    border-radius: 0;
+  }
+}
+
+
+/* パーセンテージで指定 */
+@keyframes 名前（animation-name） {
+
+  /* 最初の状態 */
+  0% {
+    border-radius: 25px;
+  }
+
+  /* 途中の状態 */
+  50% {
+    border-radius: 50px;
+  }
+
+  /* 最後の状態 */
+  100% {
+    border-radius: 0;
+  }
+}
+
+/* プロパティと値が同じ場合は、カンマ区切りでまとめることができる */
+@keyframes 名前（animation-name） {
+
+  0%,
+  100% {
+    border-radius: 25px;
+  }
+
+  50% {
+    border-radius: 0;
+  }
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【例】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">.btn01 {
+  animation-name: btn;
+  animation-duration: 1s;
+}
+
+@keyframes btn {
+
+  0%,
+  100% {
+    background-color: #ddd;
+  }
+
+  25% {
+    background-color: #f00;
+  }
+
+  75% {
+    background-color: #00f;
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-1. animationプロパティ</h3>
+        <div class="item">
+          <table>
+            <caption>animationプロパティの種類</caption>
+            <tr>
+              <th>プロパティ名</th>
+              <th>説明</th>
+              <th>初期値</th>
+            </tr>
+            <tr>
+              <td>animation-name</td>
+              <td>設定したアニメーションの名前を指定</td>
+              <td>none</td>
+            </tr>
+            <tr>
+              <td>animation-duration</td>
+              <td>1回のアニメーションの時間を指定</td>
+              <td>0s</td>
+            </tr>
+            <tr>
+              <td>animation-delay</td>
+              <td>何秒遅らせてアニメーションを始めるかを指定</td>
+              <td>0s</td>
+            </tr>
+            <tr>
+              <td>animation-iteration-count</td>
+              <td>アニメーションを繰り返す回数を指定</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>animation-direction</td>
+              <td>アニメーション再生の向きを指定</td>
+              <td>normal</td>
+            </tr>
+            <tr>
+              <td>animation-fill-mode</td>
+              <td>アニメーションの前後にどうスタイルを適用するかを指定</td>
+              <td>none</td>
+            </tr>
+            <tr>
+              <td>animation-play-state</td>
+              <td>アニメーションを途中で止めるかどうかを指定</td>
+              <td>running</td>
+            </tr>
+            <tr>
+              <td>animation-timing-function</td>
+              <td>アニメーションの進捗タイミングを調整</td>
+              <td>ease</td>
+            </tr>
+            <tr>
+              <td>animation</td>
+              <td>上記のプロパティをまとめて設定できる</td>
+              <td>-</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-name】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>設定したアニメーションの名前を指定。</li>
+                <li>必ず記述が必要。</li>
+                <li>カンマ区切りで複数のアニメーションを指定することができる。（<a href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_animations/Using_CSS_animations#%E8%A4%87%E6%95%B0%E3%81%AE%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%97%E3%83%AD%E3%83%91%E3%83%86%E3%82%A3%E5%80%A4%E3%81%AE%E8%A8%AD%E5%AE%9A">詳細</a>）
+                  <pre class="line-numbers"><code class="language-css">animation-name: test1, test2;</code></pre>
+                </li>
+                <li>アニメーションの名前は、大文字小文字の区別がない英数字、アンダースコア（_）、ハイフン（-）のみ使用可能で、最初の文字にハイフンは使用不可。</li>
+                <li>none、unset、initial、inheritなどの<em>予約語</em>は使用不可。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-duration】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションする時間を指定。</li>
+                <li>必ず記述が必要。</li>
+                <li>数値の後ろに〜秒間を表すsをつける。1.5sなら1.5秒間。
+                  <pre class="line-numbers"><code class="language-css">animation-duration: .5s; /* 0.5の場合、0は省略できる */</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-delay】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>何秒遅らせてアニメーションを始めるのかを指定。</li>
+                <li>初期値は0sなので、必要ない場合は記述しなくてOK。</li>
+                <li>マイナスの値を指定することで、開始何秒後から再生することもできる。
+                  <pre class="line-numbers"><code class="language-css">animation-delay: -1s;</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-iteration-count】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションを繰り返す回数を指定。
+                  <pre class="line-numbers"><code class="language-css">animation-iteration-count: 5; /* 回数で指定（初期値は1） */
+animation-iteration-count: .5; /* 小数の値を指定できる */
+animation-iteration-count: infinite; /* 無制限に再生 */</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-direction】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーション再生の向きを指定。
+                  <pre class="line-numbers"><code class="language-css">animation-direction: normal; /* 順方向に再生（初期値） */
+animation-direction: reverse; /* 逆方向に再生 */
+animation-direction: alternate; /* 順方向と逆方向を順に再生 */
+animation-direction: alternate-reverse; /* 逆方向と順方向を順に再生 */</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-fill-mode】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションの前後にどうスタイルを適用するかを指定。
+                  <pre class="line-numbers"><code class="language-css">/* 準備 */
+.btn01 {
+  animation-name: btn;
+  animation-duration: 3s;
+  animation-delay: 1s;
+  animation-iteration-count: 2;
+}
+
+@keyframes btn {
+
+  0%,
+  100% {
+    background-color: #0f0; /* 色を変更 */
+  }
+
+  25% {
+    background-color: #f00;
+  }
+
+  75% {
+    background-color: #00f;
+  }
+}</code></pre>
+                  <pre class="line-numbers"><code class="language-css">animation-fill-mode: none; /* スタイルを適用しない（初期値） */
+animation-fill-mode: forwards; /* アニメーション終了後にスタイルを保持する */
+animation-fill-mode: backwards; /* アニメーション開始前にスタイルを保持する */
+animation-fill-mode: both; /* アニメーション終了後と開始前の両方スタイルを保持する */</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-play-state】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションを途中で止めるかどうかを指定。</li>
+                <li>基本的には、ホバー時にアニメーションを一時停止したい時に使用する。
+                  <pre class="line-numbers"><code class="language-css">.btn01:hover {
+  animation-play-state: paused;
+}</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation-timing-function】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションの進捗タイミングを調整。</li>
+                <li>以下の種類から選ぶことができる。
+                  <table>
+                    <tr>
+                      <th>値の種類</th>
+                      <th>内容</th>
+                    </tr>
+                    <tr>
+                      <td>ease（初期値）</td>
+                      <td>途中まで加速し、そこからは減速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-in</td>
+                      <td>ゆっくり始まり徐々に加速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-out</td>
+                      <td>はやく始まり徐々に減速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-in-out</td>
+                      <td>ゆっくり始まり加速、途中からは減速</td>
+                    </tr>
+                    <tr>
+                      <td>linear</td>
+                      <td>一定の速度で進行</td>
+                    </tr>
+                    <tr>
+                      <td>cubic-bezier(0,0,0,0)</td>
+                      <td>0の箇所に0〜1の数値を入れて、変化の度合いを自由に指定できる</td>
+                    </tr>
+                    <tr>
+                      <td>steps</td>
+                      <td>区間に分けて段階的に再生する（詳細は後ほど）</td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <ul>
+            <li><a href="https://easings.net/ja">イージング関数チートシート</a></li>
+            <li><a href="https://cubic-bezier.com/">cubic-bezier.com</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【animation】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>上記のプロパティをまとめて設定できる</li>
+                <li>命令の順番の決まりはないが、animation-delayとanimation-durationを両方設定する場合、先に書いた数値がanimation-durationになる。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <ol>
+            <li>以下の動きを再現する。（アニメーション時間：2秒）
+              <p><img class="bird" src="./assets/06/bird.png" width="300" alt=""></p>
+              <dl>
+                <dt>【ソースコード】</dt>
+                <dd>
+                  <pre class="line-numbers"><code class="language-markup">&lt;img class="bird" src="./bird.png" width="300" alt=""&gt;</code></pre>
+                </dd>
+                <!-- <dd>
+            <pre class="line-numbers"><code class="language-css">.bird {
+  animation: fly 2s infinite;
+}
+
+@keyframes fly {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}</code></pre>
+          </dd> -->
+              </dl>
+            </li>
+            <li>横方向の動きや回転などを追加し、自分なりに改造する。</li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2 transtionとanimationの違い</h3>
+        <ul class="clause__list">
+          <li>トランジションが:hoverなどのきっかけが必要なのに対し、アニメーションは設定が可能。</li>
+          <li>トランジションでは実行後に元のプロパティ値に戻る。</li>
+          <li>アニメーションでは細かい設定が可能。</li>
+        </ul>
+        <p><em>「transitionはお手軽なアニメーション、animationは本格的なアニメーション」</em></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 様々な動き</h2>
+      <section class="clause">
+        <h3 class="clause__title">◎ ボタンをプルプルさせる</h3>
+        <div class="item">
+          <a class="btn btn01" href="#">ぷるぷる</a>
+        </div>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-css">.btn01:hover {
+  animation: purupuru .2s;
+}
+
+@keyframes purupuru {
+
+  0%,
+  100% {
+    transform: skew(0deg, 0deg);
+  }
+
+  25% {
+    transform: skew(2deg, 2deg);
+  }
+
+  75% {
+    transform: skew(-2deg, -2deg);
+  }
+}</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ テキストを浮き出させる</h3>
+        <div class="item">
+          <p class="text01">TRIDENT</p>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-markup">&lt;p class="text01"&gt;TRIDENT&lt;/p&gt;</code></pre>
+          </p>
+          <p>
+          <pre class="line-numbers"><code class="language-css">.text01 {
+  font-size: 80px;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  animation: boco 1s infinite alternate;
+}
+
+@keyframes boco {
+
+  0%,
+  30% {
+    transform: translate3d(0, 0, 0);
+    text-shadow: 0 0 0 #339999;
+  }
+
+  70%,
+  100% {
+    transform: translate3d(6px, -6px, 0);
+    text-shadow: -6px 6px #339999;
+  }
+}</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <ol>
+            <li>以下の動きを再現する。（アニメーション時間：2秒）
+              <p class="text02">TRIDENT</p>
+              <dl>
+                <dt>【ソースコード】</dt>
+                <dd>
+                  <pre class="line-numbers"><code class="language-markup">&lt;p class="text02"&gt;TRIDENT&lt;/p&gt;</code></pre>
+                </dd>
+                <!-- <dd>
+            <pre class="line-numbers"><code class="language-css">.text02 {
+  font-size: 80px;
+  font-weight: bold;
+  animation: blur 2s infinite alternate ease-in-out;
+}
+
+@keyframes blur {
+
+  0%,
+  30% {
+    filter: blur(0);
+    opacity: 1;
+  }
+
+  70%,
+  100% {
+    filter: blur(10px);
+    opacity: 0;
+  }
+}</code></pre>
+          </dd> -->
+              </dl>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ 横に流れるテキスト</h3>
+        <div class="item">
+          <div class="loop">
+            <p class="text03">I LOVE WEB DESIGN　</p>
+            <p class="text04">I LOVE WEB DESIGN　</p>
+          </div>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-markup">&lt;div class="loop"&gt;
+  &lt;p class="text03"&gt;I LOVE WEB DESIGN　&lt;/p&gt;
+  &lt;p class="text04"&gt;I LOVE WEB DESIGN　&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+          </p>
+          <p>
+            <pre class="line-numbers"><code class="language-css">.loop {
+  display: flex;
+  overflow: hidden;
+}
+
+.loop p {
+  padding-right: .5em;
+  font-size: 15vw;
+  white-space: nowrap;
+}
+
+.text03 {
+  animation: loop 50s -25s linear infinite;
+}
+
+.text04 {
+  animation: loop2 50s linear infinite;
+}
+
+@keyframes loop {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes loop2 {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-200%);
+  }
+}</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <p>上記のサンプルを以下のように改造する。</p>
+          <ol>
+            <li>浮き出させるアニメーションを追加する。</li>
+            <li>ホバーしたらアニメーションを止める。</li>
+            <li>自由に改造する。</li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ スライドショー</h3>
+        <div class="item">
+          <div class="slide">
+            <div class="slide__image"></div>
+            <div class="slide__image"></div>
+            <div class="slide__image"></div>
+          </div>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-markup">&lt;div class="slide"&gt;
+  &lt;div class="slide__image"&gt;&lt;/div&gt;
+  &lt;div class="slide__image"&gt;&lt;/div&gt;
+  &lt;div class="slide__image"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+          </p>
+          <p>
+            <pre class="line-numbers"><code class="language-css">.slide {
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+
+.slide__image {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  animation: slide 15s linear infinite;
+}
+
+.slide__image:nth-child(1) {
+  background-image: url(https://picsum.photos/800/600?random=1);
+  animation-delay: -2s;
+}
+
+.slide__image:nth-child(2) {
+  background-image: url(https://picsum.photos/800/600?random=2);
+  animation-delay: 3s;
+}
+
+.slide__image:nth-child(3) {
+  background-image: url(https://picsum.photos/800/600?random=3);
+  animation-delay: 8s;
+}
+
+@keyframes slide {
+
+  0%,
+  40%,
+  100% {
+    opacity: 0;
+  }
+
+  6%,
+  33% {
+    opacity: 1;
+  }
+}</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <p>上記のスライドショーを以下のように改造する。</p>
+          <ol>
+            <li>徐々にズームする。
+              <pre class="line-numbers"><code class="language-css">@keyframes slide {
+
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+    filter: blur(20px) grayscale(100%);
+  }
+
+  6% {
+    opacity: 1;
+    filter: blur(0) grayscale(0);
+  }
+
+  33% {
+    opacity: 1;
+    filter: blur(0) grayscale(0);
+  }
+
+  40% {
+    opacity: 0;
+    transform: scale(1.2);
+    filter: blur(20px) grayscale(100%);
+  }
+}</code></pre>
+            </li>
+            <li>自由に改造する。</li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ スクロールを促す</h3>
+        <p><a href="https://note.com/yoshidaisuke/n/n0ceeaa079748">l Webデザイン　スクロールエフェクトまとめ</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">◎ ローディングアニメーション</h3>
+        <p><a href="https://photopizza.design/css_loading/">CSSで作るローディングアニメーション40選〜待ち時間を楽しくするテクニック</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. スクロールアニメーション</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【サンプルデータ】</dt>
+            <dd>
+              <ul>
+                <li><a href="./assets/06/mache.zip">mache.zip</a></li>
+                <li><a href="./assets/06/mache/" target="_blank">サイト見本</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <ul>
+            <li><a href="https://terwanerik.github.io/ScrollTrigger/">ScrollTrigger</a></li>
+            <li><a href="https://dubdesign.net/download/html-css/scrolltrigger-js/">コピペでできるScrollTriggerを使ったスクロールトリガーとアニメーションのスニペット</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. コマ送りアニメーション</h2>
+      <div class="clause">
+        <ul>
+          <li><a href="https://www.otwo.jp/blog/css_animation_steps/">【CSS】スプライト画像をstepsでアニメーションさせる方法・作り方</a></li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. 課題</h2>
+      <div class="clause">
+        <p>先程のサンプルデータにアニメーションを設定する。</p>
+        <div class="item">
+          <dl>
+            <dt>【設定する箇所】</dt>
+            <dd>
+              <ol>
+                <li>スクロールアニメーション</li>
+                <li>ボタン「SHOW MORE」</li>
+                <li>上に戻るボタン「気球」</li>
+                <li>流れるテキスト</li>
+                <li>スクロールを促す</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="item">
+        <dl>
+          <dt>【提出】</dt>
+          <dd><a href="https://drive.google.com/drive/folders/1ZWjb64mwcopM5BlBx5fktYB8SwPfVIeb?usp=sharing">Googleドライブ</a></dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+    <style>
+        canvas {
+            background: #929292;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+        let mySound;
+        let fft;
+
+        function preload() {
+            mySound = loadSound('mall.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            noStroke();
+
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            clear();
+            randomSeed(1); // 数字は何でも良い
+
+            mySound.amp(map(mouseY, 0, height, 0, 1));
+
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+
+                for (let i = 0; i < spectrum.length; i++) {
+                    fill(map(spectrum[i], min(spectrum), max(spectrum), 0, 360), 50, 50, 0.2);
+                    let h = map(spectrum[i], min(spectrum), max(spectrum), 0, 100);
+                    circle(random(width), random(height), h, h);
+                }
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,520 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」07_マウスに反応させる | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」07_マウスに反応させる</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 実践その1</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【参考サイト】</dt>
+            <dd>
+              <a href="https://www.yaohiko.co.jp/obento/">旅行代理店様向けお弁当注文ページ | 株式会社八百彦本店</a>
+            </dd>
+          </dl>
+          <p>☆まずは「検証」をして、どんな仕組みになっているのか探ってみる。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【検証でわかること】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>ブラウザの中央からマウスが離れると画像が動く。</li>
+                <li>最初は早く動き、徐々に遅くなる。</li>
+                <li>画像を動かしているのは「<em>transform: translate();</em>」</li>
+                <li><em>カスタムデータ属性</em>で「0.02〜0.1」の値が設定してある。</li>
+                <li>画像は「<em>絶対配置</em>」で表示されている。</li>
+                <li>単位は「<em>rem</em>」。</li>
+                <li>html要素に「<em>font-size: 1vw;</em>」が指定してある。</li>
+                <li>ウィンドウサイズを拡大縮小すると、文字や画像もサイズが変わる。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 再現してみる</h3>
+        <div class="item">
+          <dl>
+            <dt>【準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;マウスに反応させる01&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="area"&gt;
+    &lt;div class="image -no01"&gt;
+      &lt;img src="https://picsum.photos/id/237/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no02"&gt;
+      &lt;img src="https://picsum.photos/id/238/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no03"&gt;
+      &lt;img src="https://picsum.photos/id/239/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no04"&gt;
+      &lt;img src="https://picsum.photos/id/240/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no05"&gt;
+      &lt;img src="https://picsum.photos/id/241/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no06"&gt;
+      &lt;img src="https://picsum.photos/id/242/600/380" alt=""&gt;
+    &lt;/div&gt;
+    &lt;div class="image -no07"&gt;
+      &lt;img src="https://picsum.photos/id/243/600/380" alt=""&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【やるべきこと】</dt>
+            <dd>
+              <ol>
+                <li>CSSで画像を配置する。</li>
+                <li>マウスを反応させたい要素に「mousemove」イベントを設定する。</li>
+                <li>要素内でのマウスの位置（x座標、y座標）を取得する。</li>
+                <li>ブラウザの中心からマウスまでの距離（x方向、y方向）を取得する。</li>
+                <li>画像の移動距離を保存するための配列を用意し、値「0」を代入しておく。</li>
+                <li>ブラウザの中心からマウスまでの距離に応じて、徐々に画像を移動させる。この時、マウスを動かさなくても移動させたいので「<em>requestAnimationFrame</em>」を使用すると良い。</li>
+                <li>カスタムデータ属性で、画像ごとに動くスピードを変える。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【CSSで画像を配置する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  html {
+    font-size: 1vw;
+  }
+
+  #area {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #ddd;
+  }
+
+  .image {
+    position: absolute;
+    width: 17.5rem;
+  }
+
+  .image img {
+    border-radius: .5rem;
+  }
+
+  .-no01 {
+    left: 50rem;
+    top: 4rem;
+  }
+
+  .-no02 {
+    left: 21rem;
+    top: 7rem;
+  }
+
+  .-no03 {
+    left: 71rem;
+    top: 21rem;
+  }
+
+  .-no04 {
+    left: 3rem;
+    top: 25rem;
+  }
+
+  .-no05 {
+    left: 80rem;
+    top: 30rem;
+  }
+
+  .-no06 {
+    left: 27rem;
+    top: 38rem;
+  }
+
+  .-no07 {
+    left: 55rem;
+    top: 46rem;
+  }
+&lt;/style&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【マウスを反応させたい要素に「mousemove」イベントを設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const area = document.querySelector('#area');
+
+  area.addEventListener('mousemove', (event) => {
+
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素内でのマウスの位置（x座標、y座標）を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const area = document.querySelector('#area');
+
+  area.addEventListener('mousemove', (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pos = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+
+    console.log(pos);
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ブラウザの中心からマウスまでの距離（x方向、y方向）を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const area = document.querySelector('#area');
+  let dist = { x: 0, y: 0 }; //初期値を代入しておく
+
+  area.addEventListener('mousemove', (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pos = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    dist = {
+      x: window.innerWidth / 2 - pos.x,
+      y: window.innerHeight / 2 - pos.y
+    };
+
+    console.log(dist);
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画像の移動距離を保存するための配列を用意し、値「0」を代入しておく】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const area = document.querySelector('#area');
+  const imgs = document.querySelectorAll('.image');
+  let dist = { x: 0, y: 0 };
+  let init = []; //配列追加
+
+  area.addEventListener('mousemove', (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pos = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    dist = {
+      x: window.innerWidth / 2 - pos.x,
+      y: window.innerHeight / 2 - pos.y
+    };
+  });
+
+  window.addEventListener('load', () => {
+    for (const img of imgs) {
+      init.push({
+        x: 0,
+        y: 0
+      });
+    }
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【requestAnimationFrameの設定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const area = document.querySelector('#area');
+  const imgs = document.querySelectorAll('.image');
+  let dist = { x: 0, y: 0 };
+  let init = [];
+
+  area.addEventListener('mousemove', (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pos = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    dist = {
+      x: window.innerWidth / 2 - pos.x,
+      y: window.innerHeight / 2 - pos.y
+    };
+  });
+
+  const step = () => {
+    console.log(step);
+
+    window.requestAnimationFrame(step);
+  };
+
+  window.addEventListener('load', () => {
+    for (const img of imgs) {
+      init.push({
+        x: 0,
+        y: 0
+      });
+    };
+
+    window.requestAnimationFrame(step); //実行
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ブラウザの中心からマウスまでの距離に応じて、徐々に画像を移動させる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+const area = document.querySelector('#area');
+const imgs = document.querySelectorAll('.image');
+let dist = { x: 0, y: 0 };
+let init = [];
+
+area.addEventListener('mousemove', (event) => {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const pos = {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top
+  };
+  dist = {
+    x: window.innerWidth / 2 - pos.x,
+    y: window.innerHeight / 2 - pos.y
+  };
+});
+
+const step = () => {
+  for (const [i, img] of imgs.entries()) {
+    let d = {
+      x: (dist.x - init[i].x) * 0.02,
+      y: (dist.y - init[i].y) * 0.02
+    };
+    init[i].x += d.x;
+    init[i].y += d.y;
+    img.style.transform = `translate(${init[i].x}px, ${init[i].y}px)`;
+  };
+
+  window.requestAnimationFrame(step);
+};
+
+window.addEventListener('load', () => {
+  for (const img of imgs) {
+    init.push({
+      x: 0,
+      y: 0
+    });
+  };
+
+  window.requestAnimationFrame(step);
+});
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【カスタムデータ属性で、画像ごとに動くスピードを変える】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="area"&gt;
+  &lt;div class="image -no01" data-scale="0.05"&gt;
+    &lt;img src="https://picsum.photos/id/237/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no02" data-scale="0.02"&gt;
+    &lt;img src="https://picsum.photos/id/238/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no03" data-scale="0.1"&gt;
+    &lt;img src="https://picsum.photos/id/239/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no04" data-scale="0.05"&gt;
+    &lt;img src="https://picsum.photos/id/240/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no05" data-scale="0.05"&gt;
+    &lt;img src="https://picsum.photos/id/241/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no06" data-scale="0.15"&gt;
+    &lt;img src="https://picsum.photos/id/242/600/380" alt=""&gt;
+  &lt;/div&gt;
+  &lt;div class="image -no07" data-scale="0.05"&gt;
+    &lt;img src="https://picsum.photos/id/243/600/380" alt=""&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  const area = document.querySelector('#area');
+  const imgs = document.querySelectorAll('.image');
+  let dist = { x: 0, y: 0 };
+  let init = [];
+  const atte = 0.02 //変数にしておく
+
+  area.addEventListener('mousemove', (event) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pos = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    dist = {
+      x: window.innerWidth / 2 - pos.x,
+      y: window.innerHeight / 2 - pos.y
+    };
+  });
+
+  const step = () => {
+    for (const [i, img] of imgs.entries()) {
+      //変更
+      let d = {
+        x: (dist.x * init[i].s - init[i].x) * atte,
+        y: (dist.y * init[i].s - init[i].y) * atte
+      };
+      init[i].x += d.x;
+      init[i].y += d.y;
+      img.style.transform = `translate(${init[i].x}px, ${init[i].y}px)`;
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
+  window.addEventListener('load', () => {
+    for (const img of imgs) {
+      init.push({
+        x: 0,
+        y: 0,
+        s: img.dataset.scale //追加
+      });
+    };
+
+    window.requestAnimationFrame(step);
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 実践その2</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【参考サイト】</dt>
+            <dd>
+              <a href="https://skuawk.com/">SKUAWK</a>
+            </dd>
+          </dl>
+          <ul>
+            <li>☆まずは「検証」をして、どんな仕組みになっているのか探ってみる。</li>
+            <li>☆次にソースコード（特にjs）を見てパクれそうな部分はないか探ってみる。</li>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 再現してみる</h3>
+        <p><a href="./assets/07/mouse02.html" target="_blank">見本</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 課題</h2>
+      <div class="clause">
+        <p>上記の実践を参考に「トライデントコンピュータ専門学校 Webデザイン学科」紹介するページを制作する。</p>
+        <div class="item">
+          <dl>
+            <dt>【条件】</dt>
+            <dd>
+              <ul>
+                <li>どこかに「トライデントコンピュータ専門学校 Webデザイン学科」の文言を表示する。</li>
+                <li>画像複数枚を各自用意し、上記の実践を参考にマウスに反応させる。</li>
+                <li>フルスクリーンのファーストビューのみで良い。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【さらに参考】</dt>
+            <dd><a href="https://mojimo.jp/manga/">mojimo</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【提出】</dt>
+            <dd><a href="https://drive.google.com/drive/folders/1_hUebxwSPQGFWFX3CPnEtR7j2stPryvW?usp=sharing">Googleドライブ</a></dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+              -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

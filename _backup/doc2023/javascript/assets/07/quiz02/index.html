@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三択クイズ</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    dl {
+      margin-bottom: 2em;
+    }
+
+    dt {
+      margin-bottom: .5em;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 86%;
+      max-width: 800px;
+      margin: 3em auto;
+    }
+
+    input {
+      width: 50%;
+      margin-bottom: .5em;
+      padding: .2em .5em;
+    }
+
+    button {
+      margin-bottom: .5em;
+      padding: .2em 1em;
+    }
+
+    .link {
+      text-align: right;
+    }
+
+    #result {
+      display: none;
+    }
+
+    #correct {
+      margin-bottom: 2em;
+    }
+
+    #result li {
+      margin-top: 1em;
+      padding-top: 1em;
+      border-top: 1px solid #ddd;
+    }
+
+    #result span {
+      margin-right: 2em;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="form">
+      <dl>
+        <dt>【問題】</dt>
+        <dd id="q"></dd>
+      </dl>
+      <input type="text" id="a">
+      <button id="r">回答</button>
+    </div>
+    <div id="result">
+      <p id="correct"></p>
+      <ul id="list"></ul>
+    </div>
+    <ul class="link">
+      <li><a href="./create.html">問題を作る</a></li>
+    </ul>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkUKZMaNfuLkzsp1tJKOSeraCFMIt_zZ8",
+      authDomain: "test-f409a.firebaseapp.com",
+      projectId: "test-f409a",
+      storageBucket: "test-f409a.appspot.com",
+      messagingSenderId: "792442032377",
+      appId: "1:792442032377:web:acf53bb803f06c268ad228"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let quiz = [];
+    let result = [];
+    let num = 0;
+    let correct = 0;
+    const limit = 5;
+    const formArea = document.querySelector('#form');
+    const resultArea = document.querySelector('#result');
+    const question = document.querySelector('#q');
+    const answer = document.querySelector('#a');
+    const btn = document.querySelector('#r');
+    const correctText = document.querySelector('#correct');
+    const list = document.querySelector('#list');
+
+    const shuffle = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      };
+
+      return array;
+    };
+
+    const colRef = collection(db, "quiz2");
+    const docSnap = await getDocs(colRef);
+
+    docSnap.forEach((doc) => {
+      quiz.push(doc.data());
+    });
+    let randomQuiz = shuffle([...quiz]);
+
+    const setQuiz = () => {
+      question.textContent = randomQuiz[num].q;
+    };
+
+    setQuiz();
+
+    btn.addEventListener('click', async (e) => {
+      let judge;
+      if (answer.value === randomQuiz[num].a) {
+        correct++;
+        judge = '◯';
+      } else {
+        judge = '×';
+      }
+
+      result.push({
+        '回答': answer.value,
+        '正解': randomQuiz[num].a,
+        '判定': judge
+      });
+
+      answer.value = '';
+      num++;
+      if (num < randomQuiz.length && num < limit) {
+        setQuiz();
+      } else {
+        formArea.style.display = 'none';
+
+        correctText.textContent = `正解数：${correct}`;
+        for (const item of result) {
+          const li = document.createElement('li');
+          for (const [key, value] of Object.entries(item)) {
+            const span = document.createElement('span');
+            span.textContent = `${key} : ${value}`;
+            li.append(span);
+          };
+          list.append(li);
+        }
+        resultArea.style.display = 'block';
+      };
+    });
+  </script>
+</body>
+</html>

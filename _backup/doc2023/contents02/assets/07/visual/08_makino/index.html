@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js</title>
+  <style>
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+  <script>
+    let mySound;
+let obj = {
+  x: 0,
+  y: 0,
+  d: 0,
+  c: 0,
+  r: 0
+};
+
+function preload() {
+  mySound = loadSound('show.mp3');
+}
+
+function setup() {
+  createCanvas(640, 480);
+  colorMode(HSL);
+  rectMode(CENTER);
+  noStroke();
+}
+
+function draw() {
+  mySound.amp(map(mouseY, 0, height, 0, 1));
+
+  if (mySound.isPlaying()) {
+    obj.x = floor(random(0, width));
+    obj.y = floor(random(0, height));
+    obj.d = floor(random(0.5, 4));
+    obj.c = floor(random(0, 360));
+    obj.r = floor(random(0, 360));
+
+    push();
+
+    translate(obj.x, obj.y);
+    rotate(obj.r);
+    scale(obj.d);
+
+    fill(obj.c, 70, 70, 0.7);
+    rect(0, 0, 20, 20);
+
+    pop();
+  } else {
+    clear();
+  }
+}
+
+function keyPressed() {
+  mySound.loop();
+}
+
+function keyReleased() {
+  mySound.pause();
+}
+  </script>
+</body>
+</html>

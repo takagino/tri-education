@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>オーディオビジュアライザー</title>
+    <style>
+        canvas {
+            background: #000;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+        let squares = [];
+        let numSquares = 200; // 生成する四角形の数
+
+        let mySound;
+        let fft;
+
+
+        function preload() {
+            mySound = loadSound('TheFatRatUnity.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            for (let i = 0; i < numSquares; i++) {
+                squares[i] = {
+                    x: width / 2,
+                    y: height / 2,
+                    size: 0,
+                    speed: random(1, 20), // スピードをランダムに設定
+                    angle: random(TWO_PI), // 角度をランダムに設定
+                    maxSize: random(50, 200) // 最大サイズをランダムに設定
+                };
+            }
+
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            let r = map(mouseY, 0, height, 245, 72); // mouseYの値に応じてR値を計算
+            background(0);
+            noFill();
+            stroke(245, 66, 245);
+            if (mySound.isPlaying()) {
+                let waveform = fft.waveform();
+                console.log(waveform);
+                for (let i = 0; i < squares.length; i++) {
+                    let sq = squares[i];
+                    stroke(random(255), 66, 245);
+
+                    rect(sq.x - sq.size / 2, sq.y - sq.size / 2, sq.size, sq.size);
+                    sq.size += waveform[i] * 30;
+                    sq.x += sq.speed * cos(sq.angle); // x座標を角度に基づいて更新
+                    sq.y += sq.speed * sin(sq.angle); // y座標を角度に基づいて更新
+                    if (sq.size > sq.maxSize || sq.x > width || sq.y > height || sq.x < 0 || sq.y < 0) {
+                        sq.size = 0;
+                        sq.x = width / 2;
+                        sq.y = height / 2;
+                        sq.angle = random(TWO_PI); // 角度をランダムにリセット
+                    }
+                }
+            }
+            if (mySound.isPlaying() && mouseIsPressed) {
+                let r = random(255); // ランダムなR値を生成
+                g = random(100, 255); // ランダムなG値を100から255の間で生成
+                let b = random(255); // ランダムなB値を生成
+                stroke(r, g, b); // 新しいストロークの色を設定
+            }
+        }
+
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }
+    </script>
+</body>
+
+</html>

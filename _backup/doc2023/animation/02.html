@@ -1,0 +1,289 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「インタラクションアニメ」02_タイムラインとシンボル | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「インタラクションアニメ」02_タイムラインとシンボル</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. はじめに</h2>
+      <div class="clause">
+        <p><a href="https://drive.google.com/drive/folders/1jxnU6ut_41QKfhOwYyQW2bbQZ9LXxvEu?usp=sharing">前回の課題</a></p>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. フレームアニメーション</h2>
+      <div class="clause">
+        <div class="item">
+          <p>走るアニメーションを作成しながら、「フレームアニメーション」の基本的な知識を勉強していきます。</p>
+          <p><img src="./assets/02/run.gif" alt=""></p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. ファイルの新規作成</h3>
+        <div class="item">
+          <ol>
+            <li>画面左の「新規作成」、もしくは『ファイル > 新規...』、もしくはショートカット『command + n』。</li>
+            <li>「キャラクターアニメーション」-「SVG」を選び、「作成」をクリック。
+              <img src="assets/01/04.png" alt="" width="600">
+            </li>
+            <li>忘れないうちに保存しておく。（Adobe Animateファイルの拡張子は「.fla」）</li>
+          </ol>
+          <p><em>※「Adobe Animete」は非常に落ちやすいので、こまめに保存すること！</em></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 用語説明</h3>
+        <div class="item">
+          <dl>
+            <dt>【フレームレート】</dt>
+            <dd>描画したグラフィックなどを横軸の時間で制御する。タイムラインの1マス1マスのことを<em>フレーム</em>、1秒間に進むフレーム数のことを<em>フレームレート(FPS)</em>という。<br>フレームレートが高ければより滑らかに表示されるが、その分容量や動作の負荷が大きくなる。デジタル放送は29.97fps、映画やアニメーションは24fps、ゲームや遊技機などの映像は30fpsが主流。
+              <img src="assets/02/01.png" alt="" width="400">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【キーフレーム】</dt>
+            <dd>ステージに描画されている「シェイプ」や「シンボル（後で説明します）」の状態を記録し、アニメーションの始点や終点とするためのフレーム。<br>白い丸がついたフレームを<em>空白キーフレーム</em>といい、アニメーションを明示的に終了させる際に使われる。
+              <img src="assets/02/02.png" alt="" width="400">
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. グラフィックの描画</h3>
+        <div class="item">
+          <ul>
+            <li><img src="assets/02/run01.png" alt=""></li>
+            <li><img src="assets/02/run02.png" alt=""></li>
+            <li><img src="assets/02/run03.png" alt=""></li>
+            <li><img src="assets/02/run04.png" alt=""></li>
+            <li><img src="assets/02/run05.png" alt=""></li>
+            <li><img src="assets/02/run06.png" alt=""></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>1フレーム目のポーズをブラシツールで描画する。描いた内容が記録され、キーフレームの丸が黒くなる。</li>
+                <li>次のフレームをマウスでクリックし、右クリック「空白キーフレームに変換」を選択。（ショートカットはF7）</li>
+                <li>２フレーム目のポーズを描画する。その際、<em>オニオンスキン</em>をクリックしておくと描きやすい。
+                  <img src="assets/02/03.png" alt="" width="400">
+                </li>
+                <li>フレームが小さくて見にくい場合は、下図の部分からタイムラインツールバーのカスタマイズやタイムラインビューのサイズ変更が可能。
+                  <img src="assets/02/05.png" alt="" width="300">
+                </li>
+                <li>６フレーム目まで描画できたら、<em>ループ</em>をクリックし範囲を調整したのち、タイムラインを再生してみる。
+                  <img src="assets/02/04.png" alt="" width="300">
+                </li>
+                <li>スピードを落とすために、それぞれのキーフレームを右クリック「フレームの挿入」を選択。（ショートカットはF5）
+                  <img src="assets/02/06.png" alt="" width="500">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ショートカット】</dt>
+            <dd>
+              <ul>
+                <li>『enter』：再生／停止</li>
+                <li>『shift + ,』：最初のフレームへ</li>
+                <li>『shift + .』：最後のフレームへ</li>
+                <li>『.』：1フレーム進める</li>
+                <li>『,』：1フレーム戻る</li>
+              </ul>
+              <ul>
+                <li>『F7』：空白キーフレームに変換</li>
+                <li>『F6』：キーフレームに変換</li>
+                <li>『shift + F6』：キーフレームを削除</li>
+                <li>『F5』：フレームを挿入</li>
+                <li>『shift + F5』：フレームを削除</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p><a href="https://www.pinterest.jp/pin/170644273373677164/">様々なGIFアニメ</a>を参考に、フレームアニメーションを制作する。（6フレーム前後のもので良い）</p>
+        <p>※走るアニメーションはレイヤーをロック＆非表示にしておき、新しいレイヤーを作って描画すること。</p>
+        <p><img src="assets/02/07.png" alt="" width="500"></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. シンボル</h2>
+      <div class="clause">
+        <div class="item">
+          <p>描画したアニメーションを「<em>シンボル</em>」に変換することで、アニメーションを複製したり、自由に変形したりすることができる。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>走る人のレイヤーを右クリック「レイヤーをシンボルに変換」を選択。</li>
+                <li>任意の名前をつけ、種類を「<em>グラフィック</em>」にしてOK。
+                  <img src="assets/02/08.png" alt="" width="400">
+                </li>
+                <li>プロパティインスペクタ内の「ライブラリパネル」に「グラフィックシンボル」が追加される。
+                  <img src="assets/02/09.png" alt="" width="400">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【シンボルの特徴】</dt>
+            <dd>
+              <ol>
+                <li>シンボルは独自のタイムラインを持っている。</li>
+                <li>シンボルをダブルクリックすると編集モードに入る。（編集モードから戻る場合は、左上の「シーン1」をクリックするか、ステージ上の何もない部分をダブルクリック）</li>
+                <li>シーン1のタイムライン（<em>メインタイムライン</em>）とシンボルのタイムラインは連動している。</li>
+                <li>「ライブラリパネル」からシンボルをステージ上にドラッグ＆ドロップすると、シンボルのコピー（<em>インスタンス</em>）が作られる。</li>
+                <li>インスタンスは個別に変形することができるが、シンボルを編集するとすべてのインスタンスに適応される。</li>
+                <li>「プロパティパネル」からループの設定をすることで、再生の仕方を制御できる。
+                  <img src="assets/02/10.png" alt="" width="300">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【空のシンボルの作成】</dt>
+            <dd>
+              <ol>
+                <li>メニュー「挿入 &lt; 新規シンボル」、もしくはショートカット『command + F8』。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【シンボルの削除】</dt>
+            <dd>
+              <ol>
+                <li>「ライブラリパネル」からシンボルを右クリック「削除」。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>走る人の周りで様々なことが起こる、<em>5秒間（150フレーム）</em>のアニメーションを制作する。</p>
+          <dl>
+            <dt>【提出先】</dt>
+            <dd><a href="https://drive.google.com/drive/folders/1gAx-Xju9Fh1woddSQCbG58zd9YYC2aW5?usp=sharing">Googleドライブ</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【注意点】</dt>
+            <dd>
+              <ul>
+                <li>走る人は描き直しても良い。</li>
+                <li>線だけでも色付きでも、どちらでも良い。</li>
+                <li>背景を描いても良い。</li>
+                <li>インスタンスごとにレイヤーを分けると作業しやすい。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. アニメーションの書き出し</h3>
+        <ol>
+          <li>メニュー「ファイル &lt; 書き出し &lt; アニメーションGIFを書き出し…」をクリック。</li>
+          <li>色々と設定ができるか、今回はそのまま「保存」をクリック。</li>
+          <li>任意の場所に保存。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. GIFアニメーションの読み込み</h3>
+        <div class="item">
+          <p>メニュー「ファイル &lt; 読み込み」から、ステージまたはライブラリに読み込む。（ステージまたはライブラリにドラッグ＆ドロップでも可）</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ステージに読み込んだ時の注意点】</dt>
+            <dd>
+              <ul>
+                <li>それぞれの画像がライブラリパネルに格納され、タイムラインに配置される。
+                  <img src="assets/02/11.png" alt="" width="400">
+                </li>
+                <li>すべての画像を一括で編集（移動）したい場合は、「複数のフレームを編集」をクリックする。
+                  <img src="assets/02/12.png" alt="" width="300">
+                </li>
+                <li>作業が終わったら、読み込んだ使わない画像は削除しておく。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ライブラリに読み込んだ時の注意点】</dt>
+            <dd>
+              <ul>
+                <li>それぞれの画像とシンボルがライブラリパネルに格納される。</li>
+                <li>格納されたシンボルは種類が「<em>ムービークリップ</em>」のため、配置されたタイムラインと連動して再生されない。</li>
+                <li>シンボルの種類は「プロパティパネル」から、あとから変更可能。
+                  <img src="assets/02/13.png" alt="" width="400">
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+      <pre class="line-numbers">
+        <code class="language-markup">
+          &lt; ... &gt;
+        </code>
+      </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

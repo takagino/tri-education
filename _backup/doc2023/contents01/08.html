@@ -1,0 +1,688 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」08_スクロールに反応させる | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」08_スクロールに反応させる</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 実践その1</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【参考サイト】</dt>
+            <dd>
+              <a href="https://www.otsuka.co.jp/cmt/to_programmer/">CalorieMate to Programmer | 大塚製薬</a>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素が画面に表示された事を判別する方法】</dt>
+            <dd>
+              <ol>
+                <li>プラグインを使う</li>
+                <li>Intersection Observer API を使う</li>
+                <li>スクロールイベントで地道に実装する</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. プラグイン</h3>
+        <p><a href="https://greensock.com/scrolltrigger/">GSAP</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. Intersection Observer API</h3>
+        <div class="item">
+          <p>ターゲットとなる要素が、祖先要素または文書の最上位のビューポートと交差する変化を非同期的に監視する方法を提供する。</p>
+          <p><a href="https://caniuse.com/?search=Intersection%20Observer">Can I use?</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Intersection Observer API&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+    .box {
+      height: 300px;
+      margin-bottom: 500px;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .in {
+      background-color: #900;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス1&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス2&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス3&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス4&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス5&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Intersection Observer API の使い方】</dt>
+            <dd>
+              <ol>
+                <li>IntersectionObserverクラスからインスタンスを作成する。</li>
+                <li>監視される要素をターゲットにする。</li>
+                <li>実行される関数を設定する。</li>
+                <li>オプションを設定する。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インスタンスを作成する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let observer = new IntersectionObserver();
+
+/* IntersectionObserverには少なくとも1つの引数が必要なため、エラーが出る */</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【監視される要素をターゲットにする】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let observer = new IntersectionObserver();
+
+/* 追加 */
+let targets = document.querySelectorAll('.box');
+targets.forEach((target) => {
+  observer.observe(target);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【実行される関数を設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* 関数を設定 */
+let callback = (entries, observer) => {
+  entries.forEach((entry) => {
+    console.log(entry);
+  });
+};
+
+/* 引数を追加 */
+let observer = new IntersectionObserver(callback);
+
+let targets = document.querySelectorAll('.box');
+targets.forEach((target) => {
+  observer.observe(target);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【コンソールに出す値を調整】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* 取得できる値*/
+entry.boundingClientRect
+entry.intersectionRatio
+entry.intersectionRect
+entry.isIntersecting
+entry.rootBounds
+entry.target
+entry.time
+
+/* 変更 */
+let callback = (entries, observer) => {
+  entries.forEach((entry) => {
+    console.log(entry.target.textContent, entry.isIntersecting);
+  });
+};</code></pre>
+            </dd>
+          </dl>
+          <p>☆コンソールの値を見ながら動きを把握する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オプションを設定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* オプションを設定 */
+let options = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0
+}
+
+let callback = (entries, observer) => {
+  entries.forEach((entry) => {
+    console.log(entry.target.textContent, entry.isIntersecting);
+  });
+};
+
+/* 引数を追加 */
+let observer = new IntersectionObserver(callback, options);
+
+let targets = document.querySelectorAll('.box');
+targets.forEach((target) => {
+  observer.observe(target);
+});
+
+
+/*
+オプション項目
+root
+ターゲットとなる要素が見えるかどうかを判定するためのベース部分を指定する。デフォルトはブラウザーのビューポート。
+
+rootMargin
+交差を検知する、上記 root からの距離。
+記述方法はCSSの margin とほぼ同じだが、単位は px か % に限られる。デフォルトは0px。
+
+threshold
+関数を実行するタイミングを 0〜1 の間で記述する。ターゲットとなる要素が見え始めた瞬間と見え終わりの瞬間が 0、半分通過したときは 0.5、すべて見えている状態が 1。
+[0, 0.5, 1] のように配列形式でも記述できる。デフォルトでは0。
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画面に表示されたらクラス名を追加する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let options = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0
+}
+
+let callback = (entries, observer) => {
+  entries.forEach((entry) => {
+    /* 変更 */
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+    } else {
+      entry.target.classList.remove('in');
+    }
+  });
+};
+
+let observer = new IntersectionObserver(callback, options);
+
+let targets = document.querySelectorAll('.box');
+targets.forEach((target) => {
+  observer.observe(target);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <p>参考サイトを少しだけ再現する。</p>
+          <p><a href="assets/08/observer01.html" target="_blank">見本</a></p>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Intersection Observer API&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+  .container {
+    margin-top: 100vh;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;div class="box"&gt;
+      &lt;p&gt;コードを書いていると、&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="box"&gt;
+      &lt;p&gt;食べることも忘れて&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="box"&gt;
+      &lt;p&gt;ついつい熱中してしまう。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="box"&gt;
+      &lt;img src="https://picsum.photos/300/200" alt=""&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 実践その2「パララックス」</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【参考サイト】</dt>
+            <dd>
+              <a href="https://muraflex.com/">muraflex</a>
+            </dd>
+          </dl>
+          <ul>
+            <li>☆まずは「検証」をして、どんな仕組みになっているのか探ってみる。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <p>「パララックス」は「Intersection Observer API」のみでは実装できないので、スクロールイベントを使って地道に実装する。</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 要素が画面に表示された事を判別する</h3>
+        <div class="item">
+          <dl>
+            <dt>【準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;スクロールイベント&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+    .box {
+      height: 300px;
+      margin-bottom: 500px;
+      background-color: #000;
+      color: #fff;
+    }
+
+    .in {
+      background-color: #900;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス1&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス2&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス3&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス4&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="box"&gt;
+    &lt;p&gt;ボックス5&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素の画面上の位置を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('.box');
+
+/* まずは1つだけ */
+window.addEventListener('scroll', () => {
+  const rect = target[1].getBoundingClientRect();
+  console.log(rect.top, rect.bottom);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素が画面内に表示されているか判定する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('.box');
+
+window.addEventListener('scroll', () => {
+  const rect = targets[1].getBoundingClientRect();
+
+  /* 変更 */
+  const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+  console.log(rect.top, rect.bottom, isIn);
+});
+
+
+/* 要素が一部でも画面内に表示されている場合 */
+const isIn = 0 &lt;= rect.bottom && rect.top &lt;= window.innerHeight;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画面に表示されたらクラス名を追加する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('.box');
+
+window.addEventListener('scroll', () => {
+  const rect = targets[1].getBoundingClientRect();
+  const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+  /* 追加 */
+  if(isIn && !targets[1].classList.contains('in')){
+    targets[1].classList.add('in');
+  }else if(!isIn && targets[1].classList.contains('in')){
+    targets[1].classList.remove('in');
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【全ての要素に適応する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('.box');
+
+window.addEventListener('scroll', () => {
+  targets.forEach((target) => {
+    const rect = target.getBoundingClientRect();
+    const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+    if(isIn && !target.classList.contains('in')){
+      target.classList.add('in');
+    }else if(!isIn && target.classList.contains('in')){
+      target.classList.remove('in');
+    }
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【読み込み時やリサイズ時にも適応する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('.box');
+
+/* 関数にまとめる */
+const checkIn = (element) => {
+  element.forEach((target) => {
+    const rect = target.getBoundingClientRect();
+    const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+    if (isIn && !target.classList.contains('in')) {
+      target.classList.add('in');
+    } else if (!isIn && target.classList.contains('in')) {
+      target.classList.remove('in');
+    }
+  });
+};
+
+/* イベント追加 */
+window.addEventListener('load', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('resize', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('scroll', () => {
+  checkIn(targets);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. パララックスを実装する</h3>
+        <div class="item">
+          <p><a href="assets/08/observer02.html" target="_blank">見本</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;スクロールイベント&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+    /* 変更 */
+    .container {
+      margin-top: 100vh;
+    }
+
+    p {
+      margin-bottom: 3em;
+      font-size: 36px;
+      font-weight: bold;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- 変更 --&gt;
+  &lt;div class="container"&gt;
+    &lt;p&gt;コードを書いていると、&lt;/p&gt;
+    &lt;p&gt;食べることも忘れて&lt;/p&gt;
+    &lt;p&gt;ついつい熱中してしまう。&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  /* 変更 */
+  let targets = document.querySelectorAll('p');
+
+  const checkIn = (element) => {
+    element.forEach((target) => {
+      const rect = target.getBoundingClientRect();
+      const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+      if (isIn && !target.classList.contains('in')) {
+        target.classList.add('in');
+      } else if (!isIn && target.classList.contains('in')) {
+        target.classList.remove('in');
+      }
+    });
+  };
+
+  window.addEventListener('load', () => {
+    checkIn(targets);
+  });
+
+  window.addEventListener('resize', () => {
+    checkIn(targets);
+  });
+
+  window.addEventListener('scroll', () => {
+    checkIn(targets);
+  });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【画面に表示されてからのスクロール量を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('p');
+
+const checkIn = (element) => {
+  element.forEach((target) => {
+    const rect = target.getBoundingClientRect();
+    const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+    if (isIn && !target.classList.contains('in')) {
+      target.classList.add('in');
+    } else if (!isIn && target.classList.contains('in')) {
+      target.classList.remove('in');
+    }
+
+    /* 追加 */
+    if (isIn) {
+      let move = window.innerHeight - rect.top;
+      target.style.transform = `translateX(${move}px)`;
+    }
+  });
+};
+
+window.addEventListener('load', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('resize', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('scroll', () => {
+  checkIn(targets);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【カスタムデータ属性で移動量を調整する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div class="container"&gt;
+  &lt;p data-rate="0.2"&gt;コードを書いていると、&lt;/p&gt;
+  &lt;p data-rate="-0.2"&gt;食べることも忘れて&lt;/p&gt;
+  &lt;p data-rate="0.5"&gt;ついつい熱中してしまう。&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let targets = document.querySelectorAll('p');
+
+const checkIn = (element) => {
+  element.forEach((target) => {
+    const rect = target.getBoundingClientRect();
+    const isIn = 0 &lt;= rect.top && rect.bottom &lt;= window.innerHeight;
+
+    if (isIn && !target.classList.contains('in')) {
+      target.classList.add('in');
+    } else if (!isIn && target.classList.contains('in')) {
+      target.classList.remove('in');
+    }
+
+    if (isIn) {
+      /* 変更 */
+      let move = (window.innerHeight - rect.top) * target.dataset.rate;
+      target.style.transform = `translateX(${move}px)`;
+    }
+  });
+};
+
+window.addEventListener('load', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('resize', () => {
+  checkIn(targets);
+});
+
+window.addEventListener('scroll', () => {
+  checkIn(targets);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 少し先の話</h3>
+        <ul>
+          <li><a href="https://qiita.com/xrxoxcxox/items/c3a16ae533e2f9ef20af">パララックスならscrollイベントを間引かずとも@scroll-timelineで良いじゃない</a></li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 課題</h2>
+      <div class="clause">
+        <p>以下のサンプルデータに、スクロールアクションを設定する。</p>
+        <div class="item">
+          <p><a href="./assets/08/trident.zip">サンプルデータ</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【提出】</dt>
+            <dd><a href="https://drive.google.com/drive/folders/1mF7sMT7Q8-vd7re7NS0oTODsZyCVc2So?usp=sharing">Googleドライブ</a></dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+              -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

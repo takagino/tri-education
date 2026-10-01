@@ -1,0 +1,283 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「業界研究（Webリテラシー）」勉強資料01_Web技術 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">勉強資料01_Web技術</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. Web技術</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. Webの誕生</h3>
+        <div class="item">
+          <dl>
+            <dt>【Webシステムの起源】</dt>
+            <dd>
+              <p>1989年、欧州原子核研究機構 (CERN) の<em>ティム・バーナーズ＝リー</em>は、研究状況の確認、論文の資料検索など、数千人にのぼる研究者に必要な情報を効率よく行き渡らせる環境を構築するためのシステム「<em>WWW（World Wide Web）</em>」を考案した。</p>
+              <p>1990年、WWWをより具体化した提案書を発表。HTTP、URL、HTMLなど基幹となる仕組みや、ブラウザー、サーバーなどのツールも構築し、人類初のウェブページが公開された。</p>
+              <p>1994年には、WWWで使用される各種技術の標準化を推進する為の非営利団体「<em>W3C</em>」が設立された。ティム・バーナーズ＝リーが創設し、率いている。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ハイパーテキスト】</dt>
+            <dd>
+              <p>「WWW」には複数のドキュメントを相互に関連付ける「<em>ハイパーテキスト</em>」の概念が取り入れられた。ドキュメントの参照先であるURLを埋め込んだ「<em>ハイパーリンク</em>」によって、インターネット上に散らばったドキュメントを相互に結びつけ、リンクをたどって次々と文書を表示できるようになった。</p>
+              <p><img src="assets/03/01.png" alt="" width="500"></p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Webページが表示されるしくみ】</dt>
+            <dd>
+              <p>インターネットに接続したPCやスマートフォンでブラウザーを起動しWebサイトのアドレスを指定すると、以下のようなプロセスが実行される。</p>
+              <ol>
+                <li>Webサーバーにリクエストが送信される。</li>
+                <li>リクエストを受信したWebサーバーがリクエストに応じて、HTML、CSS、画像などのコンテンツを読み出す。</li>
+                <li>Webサーバーで処理されたコンテンツがブラウザーに返される。</li>
+                <li>ブラウザーで受信したコンテンツを解析して画面に表示する。</li>
+              </ol>
+              <p><img src="assets/03/02.png" alt="" width="500"></p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ブラウザーの役割】</dt>
+            <dd>
+              <p>サーバーから受け取ったデータを元にブラウザーの画面に表示することを「<em>レンダリング</em>」と呼び、それを行うブラウザー内のシステムを「<em>レンダリングエンジン</em>」と呼ぶ。</p>
+              <p>主なブラウザーが使用しているレンダリングエンジンは以下の通り。</p>
+              <p><img src="assets/03/03.png" alt="" width="500"></p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. プロトコル</h3>
+        <div class="item">
+          <dl>
+            <dt>【プロトコルとは】</dt>
+            <dd>
+              <p>ネットワーク通信において、送られる側と受け取る側で事前に取り決められたルールや手順、規格のことを「<em>プロトコル</em>」。具体的な用途やソフトウェア、サービスなどの種類に応じて個別に制定されたプロトコルを、特に「<em>アプリケーションプロトコル</em>」と呼ぶ。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTTPとは】</dt>
+            <dd>
+              <p>Webシステムでは、アプリケーションプロトコルに「<em>HTTP（Hypertexrt Transfer Protocol）</em>」を使用する。処理やリソースをリクエストするWebクライアント（ブラウザー）と、要求に対してレスポンス（応答）を返すWebサーバー間の通信に利用される。</p>
+              <p>Webクライアント（ブラウザー）からWebサーバーに対して行われる要求を「<em>HTTPリクエスト</em>」呼び、リクエストを受け取ったサーバーは、応答として<em>HTTPレスポンス</em>を返す。</p>
+              <p><img src="https://systemk-camera.jp/images/blog/http-request01.png" alt="" width="500"></p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. その他のプロトコル</h3>
+        <div class="item">
+          <dl>
+            <dt>【FTPとは】</dt>
+            <dd>
+              <p>「<em>FTP（File Transfer Protocol）</em>」は、ファイルを転送するための通信規格である。<br>
+                Webサイトを公開する際には、画像やテキストなどの「ファイル」をFTPでサーバに転送する必要があり、ファイル転送はFTPソフトを活用し、FTPサーバに接続することで実現する。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【SMTPとは】</dt>
+            <dd>
+              <p>「<em>SMTP（Simple Mail Transfer Protocol）</em>」は、メールソフトからメールサーバー、さらに相手のメールサーバーへと、メールを転送するためのプロトコル。メールアドレスを使って、受け取ったメールを指定された宛先へ送り届ける。</p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. HTTPのセキュリティ</h3>
+        <div class="item">
+          <dl>
+            <dt>【HTTPの問題点】</dt>
+            <dd>
+              <p>HTTPはシンプルなアプリケーションプロトコルである反面、セキュリティに関して以下のような<em>デメリット</em>がある。</p>
+              <ol>
+                <li>通信が暗号化されていないため、盗聴を防ぐことができない。</li>
+                <li>サーバーのなりすましを防ぐことができない。</li>
+                <li>Webページや通信内容の改ざんを防ぐことができない。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【セキュアなHTTPS】</dt>
+            <dd>
+              <p>HTTPのセキュリティ面での不安を解消し、よりセキュア（安全）なWebアクセスを行うためのプロトコルが「<em>HTTPS（HyperText Transfor Protocol Secure）</em>」である。<br>
+                「<em>SSL（Secure Sockets Layer）</em>」などのセキュアなプロトコルによって送受信データを「<em>暗号化</em>」し、ネットワーク経路上の盗聴を防ぐことができる。</p>
+              <img src="assets/03/04.png" alt="" width="500">
+              <p>2021年現在、PCやスマートフォンで使用する主なブラウザーは、ほぼすべてHTTPSに対応しており、「https://」で始まるURLを指定することで、暗号化通信を開始する。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【リダイレクト】</dt>
+            <dd>
+              <p>最近では、HTTPよりHTTPSを使うことが一般的になっており、Webサーバーによっては、HTTPでリクエストがあった場合もプロトコルを自動的にHTTPSに切り替え、ブラウザーに対してHTTPSリクエストを再送するように要求する。これを「<em>リダイレクト</em>」と呼ぶ。</p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-5. URL</h3>
+        <div class="item">
+          <dl>
+            <dt>【URLとは】</dt>
+            <dd>
+              <p>通常、ブラウザーのアドレスバーに文字列を入力してWebページにアクセスする。この文字列を「<em>URL（Uniform Resouce Locator）</em>」と呼ぶ。<br>
+              URLは<em>どのような手順（プロトコル）</em>で、<em>どこのWebサーバー</em>にある、<em>どのようなコンテンツ</em>にアクセスするかを示し、その内容によってリクエストを送信する。</p>
+              <img src="assets/03/05.png" alt="" width="500">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【絶対パス】</dt>
+            <dd>
+              <p>情報のありかを示す場合には、「<em>パス（Path）</em>」を使用する。パスは情報にたどり着くための経路を表す。</p>
+              <p>「<em>/（ルート）</em>」と呼ばれる階層構造の根本から目的までの経路を表すパスを<em>絶対パス</em>と呼ぶ。</p>
+              <img src="assets/03/06.png" alt="" width="500">
+              <p>たとえばファイルが保存されている場所を絶対パスを使って表す場合は、「/」→「Aフォルダ」→「bフォルダ」→「text1ファイル」のように、常に「/」から始まるのが特徴。絶対パスは「<em>フルパス</em>」とも呼ばれる。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【絶対URL】</dt>
+            <dd>
+              <p>URLのパス部分に絶対パスを含んだものを「<em>絶対URL</em>」と呼ぶ。</p>
+              <img src="assets/03/08.png" alt="" width="400">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【相対パス】</dt>
+            <dd>
+              <p>ユーザーが現在作業しているフォルダー（またはディレクトリ）から目的までの経路を表すパスを「<em>相対パス</em>」と呼ぶ。</p>
+              <img src="assets/03/07.png" alt="" width="500">
+              <p>ユーザーが現在作業しているフォルダーを「<em>カレントフォルダー（または、カレントディレクトリ）</em>」と呼び、「<em>.（ドット）</em>」で表す。</p>
+              <p>ブラウザーのアドレスバーに直接URLを入力する場合は相対パスは使用しないが、Webページを作成する際に「&lt;img src="../images/foo.jpg"&gt;」のような相対パスを使って画像を埋め込む場合が多い。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【パーセントエンコーディング】</dt>
+            <dd>
+              <p>「<em>パーセント（%）エンコーディング</em>」は、URLのパス部分で使用できない文字を扱えるようにするためのエスケープ処理。一般的には「<em>URLエンコード</em>」とも呼ばれる。<br>
+              たとえば、半角スペースをパスやクエリに含めるには。パーセントエンコーディングした「%20」に置き換える。</p>
+              <img src="assets/03/10.png" alt="" width="600">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【URLによるSEO対策】</dt>
+            <dd>
+              <p>検索サイトの上位にランキングされる対策を「<em>SEO（Search Engine Optimization、検索エンジン最適化）</em>」と呼ぶ。<br>URLで行うことができるSEO対策には以下のようなものがある。</p>
+              <ol>
+                <li>Webサイトの内容に関連する単語を含むURLにする。</li>
+                <li>長すぎるURLにしない。</li>
+                <li>一般的なファイル名は使用しない。（page1.htmlなど）</li>
+                <li>ディレクトリ構造を複雑にしない。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-6. その他の知識</h3>
+        <div class="item">
+          <dl>
+            <dt>【クッキー（HTTP Cookie）】</dt>
+            <dd>
+              <p>「<em>クッキー（HTTP Cookie）</em>」は、WebサーバーからWebブラウザーに送信される極めて小さなデータ。Webブラウザーではクッキーを保存しておき、再度同じWebサーバーにリクエストを送信する際に、保存しておいたクッキーを一緒に送信する。<br>
+              このようなしくみによって、会員制サイトのログイン状態を維持したり、ショッピングカートに入れた商品が会計時まで保存できたりする。</p>
+              <p>その他にも、ユーザーのアクセス履歴を取得してユーザー行動の分析するといった用途にも使用されるため、プライバシー保護の一環でクッキーの利用を制限している地域や国も存在する。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【CDN】</dt>
+            <dd>
+              <p>「<em>CDN（Content Delivery Network）</em>」とは、世界中のネットワークにWebサーバーを分散配置して、どこからアクセスしてもWebコンテンツを効率的かつ迅速に配信できるようにしたネットワークである。<br>
+                CDNを使うことで、クライアントに近い場所にWebサーバーを配置でき、物理的な距離を縮めることができる。またWebアクセスが1ヵ所に集中するのを防ぐことができるため、負荷分散にも貢献する。
+              </p>
+              <img src="assets/03/11.png" alt="" width="600">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラウドサービス】</dt>
+            <dd>
+              <p>ここ数年で「<em>クラウドサービス</em>」の利用が急速に増えている。「クラウド」と呼ばれるインターネット上のサービスを利用して、Webサーバーを簡単に立ち上げるのがWebシステム構築の主流になりつつある。</p>
+              <p>クラウドサービスには以下のような様々な形態がある。</p>
+              <ul>
+                <li>ハードウェアリソースやインフラを提供する形態の「<em>IaaS（Infrastructure as a Service）</em>」</li>
+                <li>アプリケーションのためのプラットフォームを提供する「<em>PaaS（Platform as a Service）</em>」</li>
+                <li>サービスやアプリケーションを提供する形態の「<em>SaaS（Software as a Service）</em>」</li>
+              </ul>
+              <p>開発や運用の自由度は「IaaS &gt; PaaS &gt; SaaS」の順となる。ただし自由度が高い分、開発にかかるコストも大きくなる。</p>
+              <img src="assets/03/12.png" alt="" width="600">
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../../assets/js/common.js"></script>
+</body>
+
+</html>

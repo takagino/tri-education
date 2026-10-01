@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>p5.js</title>
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
+  <script>
+    let obj = {
+      x: 0,
+      y: 0,
+      dx: 0,
+      dy: 0
+    };
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      noStroke();
+    }
+
+    function draw() {
+      clear();
+      obj.dx = mouseX - obj.x;
+      obj.dy = mouseY - obj.y;
+      obj.x += obj.dx * 0.1;
+      obj.y += obj.dy * 0.1;
+      ellipse(obj.x, obj.y, 50, 50);
+    }
+  </script>
+</body>
+</html>

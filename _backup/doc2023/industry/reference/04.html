@@ -1,0 +1,410 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「業界研究（Webリテラシー）」勉強資料04_ユーザビリティ・アクセシビリティ | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">勉強資料04_ユーザビリティ・アクセシビリティ</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. ユーザビリティ</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. ユーザビリティとは</h3>
+        <div class="item">
+          <dl>
+            <dt>【ユーザビリティの定義】</dt>
+            <dd>
+              <p>ユーザビリティは、一般的には「使いやすさ」と言われるが、JISやISOという標準規格では、特定のユーザーが特定の状況において、やりたいことが効率よくできるか、そして「嫌な思いをしないか」「また使いたいと思えるか」といったことを指す。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【JIS規格】</dt>
+            <dd>
+              <p><em>日本産業規格（JIS＝Japanese Industrial Standardsの略）</em>。日本の産業製品に関する規格や測定法などが定められた日本の国家規格のこと。自動車や電化製品などの産業製品生産に関するものから、文字コードやプログラムコードといった情報処理、サービスに関する規格などもある。</p>
+              <img src="https://www.jsa.or.jp/datas/media/10000/md_4617.png" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ISO規格】</dt>
+            <dd>
+              <p><em>国際標準化機構（ISO＝International Organization for Standardizationの略）</em>。電気を除く工業規格を策定する民間の非政府組織で、世界最大の国際標準化組織。「国家間の製品やサービスの交換を助けるために、標準化活動の発展を促進すること」「知的、科学的、技術的、そして経済的活動における国家間協力を発展させること」を目的に活動している。</p>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/Final_ISO_Red_Square.png" alt="" width="300">
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. ユーザビリティ向上のために</h3>
+        <div class="item">
+          <dl>
+            <dt>【ユーザビリティを左右する5つの要素】</dt>
+            <dd>
+              <p>ユーザビリティの権威である<em>ヤコブ・ニールセン博士</em>は、UI（ユーザーインターフェース）のユーザビリティは、以下の5つの特性からなる、多角的な構成要素を持っているとしている。</p>
+              <ul>
+                <li>
+                  <dl>
+                    <dt>学習しやすさ</dt>
+                    <dd>システムは、ユーザーがそれを使って作業をすぐ始められるよう、簡単に学習できるようにしなければならない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>効率性</dt>
+                    <dd>システムは、一度ユーザーがそれについて学習すれば、後は高い生産性を上げられるよう、効率的な使用を可能にすべきである。</dd>
+                  </dl>
+                  <dl>
+                    <dt>記憶しやすさ</dt>
+                    <dd>ユーザーがしばらくつかわなくても、また使うときにすぐ使えるよう覚えやすくしなければならない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>エラー発生率</dt>
+                    <dd>システムはエラー発生率を低くし、ユーザーがシステム試用中にエラーを起こしにくく、もしエラーが発生しても簡単に回復できるようにしなければならない。また、致命的なエラーが起こってはいけない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>主観的満足度</dt>
+                    <dd>システムは、ユーザーが個人的に満足できるよう、また好きになるよう、楽しく利用できるようにしなければならない。</dd>
+                  </dl>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【人間中心設計】</dt>
+            <dd>
+              <p><em>人間中心設計（HCD＝Human-Centered Designの略）</em>とは、機器やシステム、サービスなどを設計、デザインする際に、人間にとって使いやすいことに主眼を置くこと。設計者にとっての方法論に留まらず、設計プロセスへの利用者の参加が含まれる。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ユーザーエクスペリエンス】</dt>
+            <dd>
+              <p><em>ユーザーエクスペリエンス（UX＝User Experienceの略）</em>とは、ある製品やサービスとの関わりを通じて利用者が得る体験およびその印象の総体。使いやすさのような個別の性質や要素だけでなく、利用者と対象物の出会いから別れまでの間に生まれる経験の全体が含まれる。</p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. ユーザビリティの評価手法</h3>
+        <div class="item">
+          <dl>
+            <dt>【ユーザビリティテスト】</dt>
+            <dd>
+              <p><em>ユーザビリティテスト</em>とは、製品を利用するユーザー行動を観察することで、ユーザビリティ上の問題の所在と原因を特定する方法。<br>
+              状況と目的を設定してユーザーに製品の実物やプロトタイプを利用してもらい、そこで観察された行動や発話から、どこにどんな問題があり、その問題が起きた原因を分析する。</p>
+              <img src="https://u-site.jp/wp-content/uploads/2015/12/usertest1_1-300x200.jpg" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ヒューリスティック評価】</dt>
+            <dd>
+              <p><em>ヒューリスティック評価</em>とは、経験則に基づいてユーザビリティを評価し、UI上の問題を発見する方法。<br>
+              ユーザーの協力が不要なため、柔軟な評価範囲・短い評価期間で、コストを比較的安く抑えられる。</p>
+              <img src="https://u-site.jp/wp-content/uploads/2011/03/heuristic-evaluation-example-300x200.png" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【アイトラッキング調査】</dt>
+            <dd>
+              <p><em>アイトラッキング調査</em>とは、人間の視線の動きを追跡・分析する方法。見られたエリア・タイミング・長さを正確・客観的に把握できる。<br>
+              たとえば、「UI要素のレイアウトが適切か」をテストする際、アイトラッカーを用いることで、ユーザーが画面のどこを見たか／見なかったかを把握することが可能。</p>
+              <img src="https://u-site.jp/wp-content/uploads/2015/09/gaze-plot-example.png" alt="" width="400">
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. アクセシビリティ</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. アクセシビリティとは</h3>
+        <div class="item">
+          <dl>
+            <dt>【アクセシビリティの定義】</dt>
+            <dd>
+              <p>アクセシビリティとは、情報やサービス、ソフトウェアなどが、どの程度広汎な人に利用可能であるかをあらわす語。特に、高齢者や障害者などハンディを持つ人にとって、どの程度利用しやすいかという意味で使われることが多い。</p>
+              <p>「<em>Webアクセシビリティ</em>」の本来の目的は「誰でも、いつでも、Webを通じて情報や機能を提供できるようにする」ことである。</p>
+              <img src="https://www.concentinc.jp/wp-content/uploads/2018/03/web-accessibility_02.jpg" alt="" width="800">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【WCAG】</dt>
+            <dd>
+              <p><em>WCAG（Web Content Accessibility Guidelines）</em>とは、Webの世界的標準化を目指す国際団体「<em>W3C</em>」が作成しており、ウェブコンテンツがさまざまな障がいのある人でも利用できることを目指したガイドラインのことを指す。</p>
+              <p>WCAGの主要な部分は、「<em>達成基準</em>」と呼ばれる項目の集合によってできており、達成基準にはそれぞれA, AA, AAA（シングルエー、ダブルエー、トリプルエー）という「<em>適合レベル</em>」が付けられている。</p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【WAI-ARIA（ウェイ アリア）】</dt>
+            <dd>
+              <p><em>WAI-ARIA（Web Accessibility Initiative Accessible Rich Internet Applications）</em>とは、「<em>W3C</em>」によって定められた追加仕様。コンテンツの役割を示す「role属性」とコンテンツの状態・性質を示す「aria属性」をHTMLに定義することで、構造や状態などを明示することができる。</p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. アクセシビリティ向上のために</h3>
+        <div class="item">
+          <dl>
+            <dt>【Webアクセシビリティの4つの原則】</dt>
+            <dd>
+              <p>WCAGの達成基準は大きく分けて4つの大分類に分けられている。</p>
+              <ul>
+                <li>
+                  <dl>
+                    <dt>知覚可能</dt>
+                    <dd>情報及びユーザインタフェースは、利用者が知覚できる方法で利用者に提示可能でなければならない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>操作可能</dt>
+                    <dd>ユーザインタフェース及びナビゲーションは操作可能でなければならない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>理解可能</dt>
+                    <dd>情報及びユーザインタフェースの操作は理解可能でなければならない。</dd>
+                  </dl>
+                  <dl>
+                    <dt>堅牢性</dt>
+                    <dd>コンテンツは、支援技術を含む様々なユーザエージェントが確実に解釈できるように十分に堅牢でなければならない。</dd>
+                  </dl>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 具体的な施策</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 画像に代替テキストを設定する</h3>
+        <div class="item">
+          <p>「<em>代替テキスト（alt属性）</em>」とは、画像を視覚的に理解できない利用者や、画像の読み込みができない環境で、画像の内容を説明するテキストのことを言う。</p>
+          <p>視覚障がいを持つ方がPCを利用する際には、<em>スクリーンリーダー</em>や<em>音声ブラウザ</em>が画像の内容をユーザに伝えるために代替テキストを読み上げてくれる。</p>
+        </div>
+        <dl>
+          <dt>【文字画像の場合】</dt>
+          <dd>文字を画像化したものは、alt属性は文字と同等の内容にする。</dd>
+        </dl>
+        <dl>
+          <dt>【装飾画像の場合】</dt>
+          <dd>特に何も情報を伝えていない装飾画像は、代替テキストを提供する必要がないため、alt属性値を空（alt=””）にする。代替テキストが不要な場合でも、要素のalt属性を省略することはできないので注意。
+            <img src="http://jis8341.net/img/jirei/sousyoku-icn.jpg" alt="">
+          </dd>
+        </dl>
+        <dl>
+          <dt>【画像リンクの場合】</dt>
+          <dd>画像にリンクが張られている場合は、リンク先の分かるリンクテキストを記述するか、画像のテキストをそのまま記述する。</dd>
+        </dl>
+        <dl>
+          <dt>【CSSの背景画像の場合】</dt>
+          <dd>CSSのbackground-imageプロパティを用いることができるのは、特に何も情報を伝えていない装飾画像だけである。何らかの情報や意味を伝えていて、代替テキストを必要とする画像には、background-imageプロパティを使用してはいけない。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. コントラスト比を高める</h3>
+        <div class="item">
+          <p><em>コントラスト比</em>とは、一般的には「ディスプレイに表示される画像・映像の明暗の差がどれだけあるかを示す指標」である。Webアクセシビリティにおいてのコントラスト比は、「情報を伝えている文字の色と背景色とのコントラスト比」のことを指す。ガイドラインで定められた達成基準は、</p>
+          <ol>
+            <li>コントラスト比が「<em>4.5:1</em>」以上</li>
+            <li>大きな文字については、コントラスト比が「<em>3:1</em>」以上</li>
+          </ol>
+          <p>となっている。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【具体例】</dt>
+            <dd><img src="https://assets.st-note.com/production/uploads/images/24219285/picture_pc_0001228e53912f07650f9ba019183732.png" alt=""></dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 色に頼ったデザインを避ける</h3>
+        <div class="item">
+          <p>ユーザーが色の違いを知覚できなかったとしても、その情報を理解できるようにする必要がある。例えば、以下のような場合に注意が必要。</p>
+        </div>
+        <dl>
+          <dt>入力フォームの必須項目の文字色を赤にしている。</dt>
+          <dd>
+            <img src="https://fastcoding.jp/blog/wp-content/uploads/2019/12/2-1.png" alt="" width="800">
+          </dd>
+        </dl>
+        <dl>
+          <dt>グラフで複数の色を用いていて、それぞれの色の説明を凡例で示している。</dt>
+          <dd><img src="https://fastcoding.jp/blog/wp-content/uploads/2019/12/3.png" alt="" width="800"></dd>
+        </dl>
+        <dl>
+          <dt>ナビゲーションバーで、違う色を用いて現在位置を示している。</dt>
+          <dd><img src="https://fastcoding.jp/blog/wp-content/uploads/2019/12/4.png" alt="" width="800">
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. Webセーフカラーの使用</h3>
+        <p><em>Webセーフカラー</em>とは、ブラウザやOSの種類に関係なく、Webページで常に表示できる216色のカラーのこと。Webセーフカラーを使う事で、環境による色の変換を最低限に防ぐ事ができる。</p>
+        <p>Webセーフカラーの16進数カラーコードは、「00、33、66、99、CC、FF」の6段階の組み合わせで表記する。<br>例）#0066CC
+        </p>
+        <p><img src="https://helpx.adobe.com/content/dam/help/ja/photoshop-elements/kb/3044/jcr%3Acontent/main-pars/img_0/3044_01.gif" alt=""></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 機種依存文字の使用を避ける</h3>
+        <div class="item">
+          <p>利用者の環境（機種、OS、ブラウザ等）が特定できないメディアでは、丸付き数字や単位記号などの<em>機種依存文字</em>を使用することにより、ユーザーの環境によって文字化けしたり、情報が誤って伝わる可能性がある。また、音声ブラウザ等において、特定の記号が読み上げられないことがある。</p>
+          <p><img src="assets/04/01.jpg" alt=""></p>
+        </div>
+        <div class="item">
+          <p>HTMLなどのマークアップ言語では、あらかじめ定義された名前「<em>文字実体参照</em>」を使用することで、文字化け等を回避することができる。</p>
+          <table>
+            <caption>主な文字実体参照</caption>
+            <thead>
+              <tr>
+                <td>表示される記号</td>
+                <td>文字実体参照</td>
+                <td>説明</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>&lt;</td>
+                <td><code>&amp;lt;</code></td>
+                <td>小なり記号</td>
+              </tr>
+              <tr>
+                <td>&gt;</td>
+                <td><code>&amp;gt;</code></td>
+                <td>大なり記号</td>
+              </tr>
+              <tr>
+                <td>&amp;</td>
+                <td><code>&amp;amp;</code></td>
+                <td>アンパサンド</td>
+              </tr>
+              <tr>
+                <td>&quot;</td>
+                <td><code>&amp;quot;</code></td>
+                <td>ダブルクウォート</td>
+              </tr>
+              <tr>
+                <td>&copy;</td>
+                <td><code>&amp;copy;</code></td>
+                <td>著作権記号</td>
+              </tr>
+              <tr>
+                <td>スペース</td>
+                <td><code>&amp;nbsp;</code></td>
+                <td>半角スペース</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-6. その他の施策</h3>
+        <div class="item">
+          <dl>
+            <dt>【動画にはキャプション（字幕）をつける】</dt>
+            <dd>動画の音声が伝えている情報は、聴覚障害の方、静かな環境下にいる方などには伝わらないことがある。そのため、別途キャプションを提供して、ユーザーが音声を聴くことができなくても、動画のコンテンツを理解できるようにする必要がある。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【キーボードによる操作ができる】</dt>
+            <dd>運動機能障害のある人の中には、マウスが利用できない人がいるため、選択できる項目がキーボードのみでアクセスできるような配慮が必要。Tabキーでページを巡回でき、スペースキーやEnterキーでリンクやボタンを操作できるか確認しておく。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【強調と重要】</dt>
+            <dd>
+              <p>HTML5では、「em要素」と「strong要素」の意味合いが若干変更になっている。</p>
+              <ol>
+                <li>文中で強調したい部分は、「<em>em要素</em>」を用いる。</li>
+                <li>文中でコンテンツの重要性、深刻さ、緊急性を示す部分は、「<em>strong要素</em>」を用いる。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ファーストビューの設計】</dt>
+            <dd>
+              <p><em>ファーストビュー</em>とは、Webページにおいて、ユーザーが最初に訪れたときに目に入る部分のことを言う。Webページをスクロールせずに表示された部分のみが対象となる。<br>
+              「企業ロゴ」やサイトの雰囲気を伝える「メインビジュアル」、サイトの主要リンクにつながる「グローバルナビゲーション」などをわかりやすく配置することで、サイトからの離脱率の低減が期待できる。</p>
+              <img src="https://www.design-memo.com/wp-content/uploads/2016/02/catch126.png" alt="" width="500">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【メタファーとアイコン】</dt>
+            <dd>
+              <p>ユーザビリティにおける「<em>メタファー（隠喩）</em>」と「<em>アイコン</em>」とは、操作や操作した結果を一目でわかるような絵や図で表すことを指す。デザインにおいて、現実の世の中に存在するものにたとえることもこれに当たる。<br>
+              検索において虫眼鏡のアイコンを用いたり、ホームに戻るために家のアイコンを用いることで、何ができる機能なのか理解しやすくなる。</p>
+              <img src="https://assets.st-note.com/production/uploads/images/31539647/picture_pc_e94213fd6f5469409e3bbd39363eae82.png" alt="" width="500">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【アフォーダンス】</dt>
+            <dd>
+              <p>「<em>アフォーダンス</em>」とは、物が持つ形や色、材質などが、その物自体の扱い方を説明しているという考え方。特にウェブにおけるアフォーダンスは「説明がなくても、デザインや画面設計によって使い方がわかるようにすること」を指す。<br>
+              たとえば「ヘッダーの企業ロゴをクリックすればトップページに戻る」「青文字で下線が引かれているテキストはリンクに飛ぶことができる」などといった機能がある。</p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../../assets/js/common.js"></script>
+</body>
+
+</html>

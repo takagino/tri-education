@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmark</title>
+  <style>
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+  </style>
+</head>
+
+<body>
+  <form name="bookmark">
+    <input type="url" id="url" name="url">
+  </form>
+  <button id="add">追加</button>
+  <button id="delete">削除</button>
+  <ul id="list">
+    <!-- <li><a href="https://computer.trident.ac.jp/">https://computer.trident.ac.jp/</a></li> -->
+  </ul>
+
+  <script>
+    let bookmarks = [];
+    const list = document.querySelector('#list');
+    const addBtn = document.querySelector('#add');
+    const deleteBtn = document.querySelector('#delete');
+    const urlField = document.querySelector('#url');
+
+    const createItem = (url) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = "_blank";
+      a.textContent = url;
+      li.append(a);
+
+      list.append(li);
+    }
+
+    addBtn.addEventListener('click', () => {
+      let urlValue = urlField.value;
+
+      if (urlValue === "") {
+        return;
+      }
+
+      createItem(urlValue);
+      bookmarks.push(urlValue);
+
+      let encodeObj = encodeURIComponent(JSON.stringify(bookmarks));
+      localStorage.setItem('obj', encodeObj);
+    });
+
+    deleteBtn.addEventListener('click', () => {
+      while (list.firstChild) {
+        list.removeChild(list.firstChild);
+      }
+      bookmarks = [];
+      localStorage.removeItem('obj');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      let val = decodeURIComponent(localStorage.getItem('obj'));
+
+      if (val === "null") {
+        return;
+      }
+
+      bookmarks = JSON.parse(val);
+
+      for (const url of bookmarks) {
+        createItem(url);
+      }
+    });
+  </script>
+</body>
+</html>

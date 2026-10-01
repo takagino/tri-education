@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>円の座標を最初のみランダムにし、それ以降は変わらないようにする</title>
+  <style>
+    canvas {
+      background: #000;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+  <script>
+    let mySound;
+    let fft;
+    let num = 1024;
+    let obj = [];
+
+    function preload() {
+      mySound = loadSound('power.mp3');
+    }
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      rectMode(CENTER);
+      noStroke();
+
+      fft = new p5.FFT();
+
+      for (let i = 0; i < num; i++) {
+        obj.push({
+          x: random(width),
+          y: random(height)
+        })
+      }
+    }
+
+    function draw() {
+      clear();
+      mySound.amp(map(mouseY, 0, height, 0, 1));
+
+      if (mySound.isPlaying()) {
+        let spectrum = fft.analyze();
+
+        for (let i = 0; i < spectrum.length; i++) {
+          fill(map(spectrum[i], min(spectrum), max(spectrum), 0, 360), 50, 50, 0.2);
+          let h = map(spectrum[i], min(spectrum), max(spectrum), 0, 200);
+          circle(obj[i].x, obj[i].y, h, h);
+        }
+      }
+    }
+
+    function keyPressed() {
+      mySound.loop();
+    }
+
+    function keyReleased() {
+      mySound.pause();
+    }
+  </script>
+</body>
+</html>

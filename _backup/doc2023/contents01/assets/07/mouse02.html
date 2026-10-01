@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>マウスに反応させる01</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    #area {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    #area::after {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: 20px solid #897E7E;
+    }
+
+    .hero__back {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #393233 url(./bg.jpg) no-repeat 50% 0;
+      backface-visibility: hidden;
+    }
+
+    .hero__back--mover {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div id="area">
+    <div class="hero__back hero__back--static"></div>
+    <div class="hero__back hero__back--mover"></div>
+  </div>
+  <script>
+    const area = document.querySelector('#area');
+    const img = document.querySelector('.hero__back--mover');
+    let dist = { x: 0, y: 0 };
+
+    area.addEventListener('mousemove', (event) => {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const pos = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top
+      };
+      dist = {
+        x: window.innerWidth / 2 - pos.x,
+        y: window.innerHeight / 2 - pos.y
+      };
+
+      val = {
+        tx: dist.x / 50,
+        ty: -dist.y / 200,
+        tz: -dist.y / 10,
+        sx: dist.y / 400,
+        sy: dist.x / 300
+      }
+      img.style.transform = `perspective(1000px) translate3d(${val.tx}px, ${val.ty}px, ${val.tz}px) rotate3d(${val.sx}, ${val.sy}, 0, 2deg)`;
+    });
+  </script>
+</body>
+</html>

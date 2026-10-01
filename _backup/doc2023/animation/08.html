@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「インタラクションアニメ」08_GSAPの応用 | 2023年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+    <style>
+      .sample img {
+        padding: 0;
+        border: 0;
+      }
+
+      .yusha {
+        position: relative;
+      }
+
+      .fukidashi {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
+      .egg__pic {
+        transform: rotate(-45deg);
+      }
+
+      .komori__pic {
+        transform: rotate(90deg);
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2023年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">
+        「インタラクションアニメ」08_GSAPの応用
+      </h1>
+    </header>
+    <main class="l-main">
+      <!-- <article class="chapter">
+      <h2 class="chapter__title">0. 連絡事項</h2>
+      <div class="clause">
+      </div>
+    </article> -->
+      <article class="chapter">
+        <h2 class="chapter__title">1. GSAPとは？</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="https://gsap.com/">公式サイト</a></p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 準備</h3>
+          <pre
+            class="line-numbers"
+          ><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;GSAP&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+  .box {
+    width: 100px;
+    height: 100px;
+    margin: 1000px 0 1000px;
+    background-color: #000;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="box"&gt;&lt;/div&gt;
+  &lt;small&gt;&copy trident.&lt;/small&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. ライブラリ「ScrollTrigger」</h2>
+        <section class="clause">
+          <h3 class="clause__title">2-1. 準備</h3>
+          <ol>
+            <li>
+              <a href="https://gsap.com/docs/v3/Installation/"
+                >GreenSock | Docs | Installation</a
+              >にアクセス。
+            </li>
+            <li>少しスクロールしたところにある「CDN」タブをクリック。</li>
+            <li>
+              「ScrollTrigger」にチェックを入れる。
+              <img src="./assets/08/01.png" width="600" alt="" />
+            </li>
+            <li>2つのscriptタグをコピー。</li>
+            <li>下記コードのように貼り付ける。</li>
+          </ol>
+          <pre
+            class="line-numbers"
+          ><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;GSAP&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+  .box {
+    width: 100px;
+    height: 100px;
+    margin: 1000px 0 1000px;
+    background-color: #000;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="box"&gt;&lt;/div&gt;
+  &lt;small&gt;&copy trident.&lt;/small&gt;
+
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-1. アニメーションの設定</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+});</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ScrollTriggerの設定】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+  },
+});</code></pre>
+              </dd>
+            </dl>
+            <table>
+              <caption>
+                ScrollTriggerのプロパティ
+              </caption>
+              <tr>
+                <th>プロパティ名</th>
+                <th>説明</th>
+                <th>単位</th>
+                <th>初期値</th>
+              </tr>
+              <tr>
+                <td>trigger</td>
+                <td>アニメーションのトリガー要素を指定</td>
+                <td>なし</td>
+                <td>なし</td>
+              </tr>
+              <tr>
+                <td>start</td>
+                <td>アニメーション開始位置</td>
+                <td>文字列、px、%</td>
+                <td>top bottom</td>
+              </tr>
+              <tr>
+                <td>end</td>
+                <td>アニメーション終了位置</td>
+                <td>文字列、px、%</td>
+                <td>bottom top</td>
+              </tr>
+              <tr>
+                <td>markers</td>
+                <td>マーカー表示</td>
+                <td>真偽値</td>
+                <td>false</td>
+              </tr>
+              <tr>
+                <td>scrub</td>
+                <td>スクロール量に合わせてアニメーション</td>
+                <td>真偽値</td>
+                <td>false</td>
+              </tr>
+              <tr>
+                <td>pin</td>
+                <td>要素を固定</td>
+                <td>真偽値</td>
+                <td>false</td>
+              </tr>
+              <tr>
+                <td>toggleActions</td>
+                <td>アニメーション開始のタイミングと動き方を指定</td>
+                <td>文字列</td>
+                <td>play none none none</td>
+              </tr>
+            </table>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【trigger】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    アニメーションのトリガー要素を指定。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">//アニメーションの対象を「body」に変更してみる
+gsap.to("body", {
+  backgroundColor: "#ddd",
+  scrollTrigger: {
+    trigger: ".box",
+  },
+});</code></pre>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【start】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    アニメーション開始位置を指定。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">start: "トリガー要素の高さの基準 画面の位置",
+
+//ディフォルト
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top bottom",
+  },
+});
+
+//トリガー要素が画面内に全て入った時
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "bottom bottom",
+  },
+});
+
+//画面の中央に来た時
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "center center",
+  },
+});
+
+//「%」で指定
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "center 30%",
+  },
+});
+
+//「px」で指定
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "center 100",
+  },
+});
+
+//相対値で指定
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "center bottom-=200",
+  },
+});</code></pre>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【end】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>アニメーション終了位置を指定。</li>
+                  <li>
+                    指定方法は「start」と同じ。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">end: "トリガー要素の高さの基準 画面の位置",
+
+//ディフォルト
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    end: "bottom top",
+  },
+});</code></pre>
+                  </li>
+                  <li>
+                    後述する「scrub」「toggleActions」を設定する際に必要となる。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【markers】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    アニメーションの開始位置と終了位置を表示する。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",
+    end: "bottom 20%",
+    markers: true, //追加
+  },
+});</code></pre>
+                  </li>
+                  <li><em>完成したら消しておくのを忘れないこと。</em></li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【scrub】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    スクロール量に合わせてアニメーションさせるかを指定。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+  rotate: 360, //追加
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",
+    end: "bottom 20%",
+    markers: true,
+    scrub: true, //追加
+  },
+});</code></pre>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【pin】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    要素を固定させるかを指定。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+  rotate: 360, //追加
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",
+    end: "bottom 20%",
+    markers: true,
+    scrub: true,
+    pin: true, //追加
+  },
+});</code></pre>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <dl>
+              <dt>【参考】</dt>
+              <dd>
+                <ul>
+                  <li><a href="https://dot-illust.net/">DOT ILLUST</a></li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>
+              上記サイトから画像をダウンロードし、自由にアニメーションをつけてみる。
+            </p>
+            <div class="sample">
+              <div class="kagamimochi">
+                <img
+                  class="kagamimochi__pic"
+                  src="./assets/08/kagamimochi.png"
+                  width="50"
+                  alt=""
+                />
+              </div>
+              <div class="egg">
+                <img
+                  class="egg__pic"
+                  src="./assets/08/egg.png"
+                  width="50"
+                  alt=""
+                />
+              </div>
+              <div class="komori">
+                <img
+                  class="komori__pic"
+                  src="./assets/08/komori.png"
+                  width="50"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="clause">
+          <div class="item">
+            <dl>
+              <dt>【toggleActions】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    アニメーション開始のタイミングと動き方を指定。
+                    <pre
+                      class="line-numbers"
+                    ><code class="language-javascript">//ディフォルト
+gsap.to(".box", {
+  x: 100,
+  rotate: 360,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",
+    end: "bottom 20%",
+    markers: true,
+    toggleActions: "play none none none",
+  },
+});</code></pre>
+                  </li>
+                </ul>
+                <p>4つの値は、左から順に以下の意味を持つ。</p>
+                <ol>
+                  <li>
+                    onEnter：startで要素の位置がscroller-startの下から上に移動した時
+                  </li>
+                  <li>
+                    onLeave：endで要素の位置がscroller-endの下から上に移動した時
+                  </li>
+                  <li>
+                    onEnterBack：endで要素の位置がscroller-endの上から下に移動した時
+                  </li>
+                  <li>
+                    onLeaveBack：startで要素の位置がscroller-startの上から下に移動した時
+                  </li>
+                </ol>
+                <p>
+                  <a href="https://codepen.io/junpei-sugiyama/pen/PoXJNMq"
+                    >わかりやすい例</a
+                  >
+                </p>
+                <p>指定できる値は以下の通り。</p>
+                <ul>
+                  <li>play：アニメーション開始（1つ目の初期値）</li>
+                  <li>none：何もしない（2〜4つ目の初期値）</li>
+                  <li>pause：一時停止</li>
+                  <li>resume：アニメーションを再開</li>
+                  <li>reset：アニメーション前の状態で停止</li>
+                  <li>restart：最初に戻ってアニメーション開始</li>
+                  <li>complete：アニメーション後の状態で停止</li>
+                  <li>reverse：逆再生</li>
+                </ul>
+                <p>
+                  <a href="https://codepen.io/GreenSock/pen/LYVKWGo"
+                    >公式のサンプル</a
+                  >
+                </p>
+              </dd>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">//範囲に入るたびにアニメーションさせる例
+gsap.to(".box", {
+  x: 100,
+  rotate: 360,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",
+    end: "bottom 20%",
+    markers: true,
+    toggleActions: "play reverse play reverse",
+  },
+});</code></pre>
+              </dd>
+            </dl>
+            <p>※「scrub」との共存は出来なさそう。</p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <p>先ほどのアニメーションに「toggleActions」を追加する。</p>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. タイムライン</h2>
+        <div class="clause">
+          <p>
+            タイムラインはGSAPで高度な演出をつくるうえで必ず利用する重要な機能。複雑なモーションを<em>時系列で作成</em>できるので、多くのトゥイーンを作成したり、管理するのに便利。
+          </p>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">gsap
+  .timeline({
+    repeat: -1,
+    repeatDelay: 0.5
+  })
+  .to(".box", {
+    x: 100
+  })
+  .to(".box", {
+    y: 100
+  })
+  .to(".box", {
+    rotate: 360
+  })
+  .to(".box", {
+    x: 0
+  })
+  .to(".box", {
+    y: 0
+  });</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ScrollTriggerの設定】</dt>
+              <dd>
+                <pre class="line-numbers"><code class="language-javascript">gsap
+  .timeline({
+    scrollTrigger: {
+      trigger: ".box",
+      start: "top 80%",
+      end: "bottom 20%",
+      markers: true,
+      toggleActions: "play none none reset",
+    },
+  })
+  .to(".box", {
+    x: 100,
+  })
+  .to(".box", {
+    y: 100,
+  })
+  .to(".box", {
+    rotate: 360,
+  })
+  .to(".box", {
+    x: 0,
+  })
+  .to(".box", {
+    y: 0,
+  });</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">☆ 練習</h3>
+          <div class="item">
+            <dl>
+              <dt>【参考】</dt>
+              <dd>
+                <ul>
+                  <li><a href="https://dot-illust.net/">DOT ILLUST</a></li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <p>以下のアニメーションを再現してみる。</p>
+            <div class="sample sample01">
+              <div class="yusha">
+                <img src="./assets/08/yusha.png" width="50" alt="" />
+                <img
+                  class="fukidashi"
+                  src="./assets/08/fukidashi.png"
+                  width="50"
+                  alt=""
+                />
+              </div>
+              <div class="takara">
+                <img src="./assets/08/takara.png" width="50" alt="" />
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">4. 複数要素のアニメーション</h2>
+        <div class="clause">
+          <div class="item">
+            <ul>
+              <li><a href="./assets/08/seoulify.zip">サンプルデータ</a></li>
+              <li>
+                <a href="./assets/08/seoulify/about.html" target="_blank"
+                  >見本</a
+                >
+              </li>
+            </ul>
+            <dl>
+              <dt>【クラスの追加】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;div class="clothes__header fadeInUp"&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【✕間違いやすい書き方】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.from(".fadeInUp", {
+  y: 100,
+  opacity: 0,
+  scrollTrigger: {
+    trigger: ".fadeInUp",
+    start: "top 80%",
+    toggleActions: "play none none reverse",
+  },
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【◯正しい書き方】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.utils.toArray(".fadeInUp").forEach(target => {
+  gsap.from(target, {
+    y: 100,
+    opacity: 0,
+    scrollTrigger: {
+      trigger: target,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">
+            4-1. カスタムデータ属性でタイミングをずらす
+          </h3>
+          <div class="item">
+            <dl>
+              <dt>【カスタムデータ属性の追加】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-markup">&lt;!-- data-◯◯="値" （◯◯は自由に設定できる）--&gt;
+
+&lt;div class="clothes__header fadeInUp" data-delay="0.5"&gt;</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【カスタムデータ属性の取得】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.utils.toArray(".fadeInUp").forEach(target => {
+  //対象.dataset.◯◯; （◯◯は自分で設定した名前）
+  const s = target.dataset.delay;
+  console.log(s);
+
+  gsap.from(".fadeInUp", {
+    y: 100,
+    opacity: 0,
+    scrollTrigger: {
+      trigger: target,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【delayの値に設定】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.utils.toArray(".fadeInUp").forEach(target => {
+  const s = target.dataset.delay;
+
+  gsap.from(".fadeInUp", {
+    y: 100,
+    opacity: 0,
+    delay: s, //追加
+    scrollTrigger: {
+      trigger: target,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
+});</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【初期値を設定】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">gsap.utils.toArray(".fadeInUp").forEach(target => {
+  const s = target.dataset.delay || 0; //変更
+
+  gsap.from(".fadeInUp", {
+    y: 100,
+    opacity: 0,
+    delay: s,
+    scrollTrigger: {
+      trigger: target,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
+});</code></pre>
+              </dd>
+            </dl>
+            <p>※レスポンシブ対応が必要。</p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">4-2. その他</h3>
+          <ul>
+            <li>
+              <a href="https://junpei-sugiyama.com/gsap-side-scroll/"
+                >横スクロールをScrollTriggerで作る方法</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://hakoirioyaji.com/blog/gsap-scrolltrigger-parallax/"
+                >ScrollTriggerでパララックスを作る</a
+              >
+            </li>
+          </ul>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+    <script src="../assets/js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script>
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: ".sample01",
+            start: "bottom 80%",
+            end: "top 20%",
+            scrub: true,
+          },
+        })
+        .from(".yusha", {
+          y: -100,
+        })
+        .to(".fukidashi", {
+          opacity: 1,
+          y: -50,
+        });
+
+      //kagamimochi
+      gsap.to(".kagamimochi__pic", {
+        scale: 2,
+        scrollTrigger: {
+          trigger: ".kagamimochi",
+          start: "top 80%",
+          end: "bottom 20%",
+        },
+      });
+
+      //egg
+      gsap.to(".egg__pic", {
+        rotate: 45,
+        repeat: -1,
+        yoyo: true,
+        ease: "linear",
+        scrollTrigger: {
+          trigger: ".egg__pic",
+          start: "top 80%",
+          end: "bottom 20%",
+        },
+      });
+
+      //komori
+      gsap.to(".komori", {
+        x: 200,
+        scrollTrigger: {
+          trigger: ".komori",
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        },
+      });
+
+      gsap.to(".komori__pic", {
+        y: 20,
+        repeat: -1,
+        yoyo: true,
+        ease: "linear",
+        scrollTrigger: {
+          trigger: ".komori",
+          start: "top 80%",
+          end: "bottom 20%",
+        },
+      });
+    </script>
+  </body>
+</html>

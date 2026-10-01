@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>マウスに反応させる</title>
+  <style>
+    canvas {
+      background: #000;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
+  <script>
+    const obj = [];
+    const diff = 20;
+    const ratio = 0.15;
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      noStroke();
+
+      const wd = width / diff;
+      const hd = height / diff;
+
+      for (let x = 0; x < wd; x++) {
+        for (let y = 0; y < hd; y++) {
+          obj[(x * hd) + y] = {
+            dx: x,
+            dy: y
+          };
+        }
+      }
+
+      console.log(obj);
+    }
+
+    function draw() {
+      clear();
+      for (let i = 0; i < obj.length; i++) {
+        fill(obj[i].dx * obj[i].dy, 50, 50);
+        dd = dist(obj[i].dx * diff, obj[i].dy * diff, mouseX, mouseY) * ratio;
+        ellipse(obj[i].dx * diff, obj[i].dy * diff, dd, dd);
+      }
+    }
+  </script>
+</body>
+</html>

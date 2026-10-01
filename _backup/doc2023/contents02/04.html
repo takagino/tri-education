@@ -1,0 +1,939 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」04_Node.jsの復習 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」04_Node.jsの復習</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後のスケジュール（予定）</h2>
+      <div class="clause">
+        <ul>
+          <li>11/06：課題の試遊、Node.js の復習</li>
+          <li>11/13：Node.js と Arduino の連携、<a href="https://p5js.org/examples/">p5.js</a> の基礎</li>
+          <li>11/20：<em>課題「センサーで動くアニメーション」制作</em></li>
+          <li>11/27：課題の試遊、p5.js の応用 ※授業見学</li>
+          <li>12/04：p5.js の応用</li>
+          <li>12/11：<em>課題「オーディオビジュアライザー」制作</em></li>
+          <li>12/18：課題の試遊、p5.js の応用</li>
+          <li>01/15：p5.js の応用</li>
+          <li>01/22：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>01/29：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>02/05：課題の試遊、まとめと補足 ※時間が余ったら他授業の課題</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. Node.jsとは</h2>
+      <div class="clause">
+        <p><a href="https://qiita.com/non_cal/items/a8fee0b7ad96e67713eb">Node.jsとはなにか？なぜみんな使っているのか？</a></p>
+        <dl>
+          <dt>【Node.jsの特徴】</dt>
+          <dd>
+            <ul>
+              <li>シングルスレッド</li>
+              <li>ノンブロッキング</li>
+              <li>イベントループ</li>
+            </ul>
+          </dd>
+          <dd><a href="https://knowledge.sakura.ad.jp/24148/">いまさら聞けないNode.js</a></dd>
+        </dl>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. ターミナルの操作</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【準備】</dt>
+            <dd>
+              <ol>
+                <li>任意の場所に任意の名前でフォルダを作成。</li>
+                <li>VSCodeで開く。</li>
+                <li>VSCodeメニュー『表示 > ターミナル』でターミナルを表示。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 主なコマンド</h3>
+        <table>
+          <tbody>
+            <tr>
+              <th>コマンド</th>
+              <th>説明</th>
+            </tr>
+            <tr>
+              <td>pwd</td>
+              <td>「print working directory」の略。<br>現在のフォルダ（<em>カレントディレクトリ</em>）のパスを表示。</td>
+            </tr>
+            <tr>
+              <td>ls</td>
+              <td>「list」の略。<br>カレントディレクトリにあるファイルを表示。</td>
+            </tr>
+            <tr>
+              <td>cd</td>
+              <td>「change directory」の略。<br>指定したファイルに移動。
+                <pre><code class="language-bash">cd xxx  # xxxというファイルへ移動
+cd ~/  # ホームディレクトリへ移動 [$ cd] や [$ cd ~] だけでも可能
+cd ..  # 一つ上の階層のファイルへ移動
+cd ./ # 現在いるディレクトリ階層へ移動
+cd ../.. # 今より２つ上の階層へ移動
+
+cd Desktop # デスクトップへ移動（%の前に現在のフォルダが表示される）</code></pre>
+                ※「cd 」の後にファイルをドラッグ・アンド・ドロップすることで、そのファイルまでのパスを表示できる。
+              </td>
+            </tr>
+            <tr>
+              <td>touch</td>
+              <td>中身が空のファイルを作成する。
+                <pre><code class="language-bash">touch xxx.js  # xxx.jsという空ファイルを作成</code></pre>
+              </td>
+            </tr>
+            <tr>
+              <td>mkdir</td>
+              <td>「make directory」の略。<br>ディレクトリ（フォルダ）を作成する。
+                <pre><code class="language-bash">mkdir xxx  # xxxというフォルダを作成</code></pre>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. Node.jsの実行</h2>
+      <section class="clause">
+        <div class="clause">
+          <dl>
+            <dt>【Node.jsの確認】</dt>
+            <dd>
+              <pre><code class="language-bash"># 以下を入力して「Enter」
+node -v
+
+# 以下を入力して「Enter」
+npm -v</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <h3 class="clause__title">3-1. ターミナルに直接記述する</h3>
+        <div class="item">
+          <ol>
+            <li>VSCodeメニュー『表示 > ターミナル』でターミナルを表示。</li>
+            <li>「node」と入力し「Enter」を押すと、Node.jsの編集モードに切り替わる。
+              <img src="assets/05/02.png" alt="" width="600">
+            </li>
+            <li>以下のコードを入力して動作確認。
+              <pre><code class="language-bash"># 1行ずつ「Enter」
+const text = 'hello';
+
+text
+
+7 + 3</code></pre>
+            </li>
+          </ol>
+          <p>※「Node.js」は新しいプログラミング言語ではなく、「JavaScript」の実行環境。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ターミナルのショートカット】</dt>
+            <dd>
+              <table>
+                <tbody>
+                  <tr>
+                    <th>コマンド</th>
+                    <th>説明</th>
+                  </tr>
+                  <tr>
+                    <td>control + l</td>
+                    <td>表示をクリア。</td>
+                  </tr>
+                  <tr>
+                    <td>control + c</td>
+                    <td>実行中のコマンドを強制終了。</td>
+                  </tr>
+                </tbody>
+              </table>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. ファイルの実行</h3>
+        <div class="item">
+          <ol>
+            <li>JavaScriptファイル「app.js」を新規作成。
+              <img src="assets/05/03.png" alt="" width="600">
+            </li>
+            <li>以下のコードを入力。
+              <pre class="line-numbers"><code class="language-javascript">const text = "hello";
+console.log(text);</code></pre>
+            </li>
+            <li>ターミナルに、以下のコードを入力し「Enter」で実行。（<em>開いているフォルダがカレントディレクトリになっていることに注目</em>）
+              <pre class="line-numbers"><code class="language-bash">node app.js</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. モジュールの利用</h3>
+        <div class="item">
+          <p>便利な機能があらかじめ設定されているパッケージのようなもの。自作のプログラムに読み込んで使用する。<br>特に、「Node.js」に最初から組み込まれているモジュールのことを「ビルトインモジュール」という。</p>
+          <dl>
+            <dt>【ビルトインモジュールの確認】</dt>
+            <dd>
+              <ol>
+                <li>「app.js」に以下のコードを追記。
+                  <pre class="line-numbers"><code class="language-javascript">console.log(require('module').builtinModules);</code></pre>
+                </li>
+                <li>ターミナルに、以下のコードを入力し「Enter」で実行。
+                  <pre class="line-numbers"><code class="language-bash">node app.js</code></pre>
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【モジュールの読み込み方法】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const 変数 = require('モジュール名');</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. httpモジュール</h2>
+      <div class="clause">
+        <p>HTTPサーバーやHTTPクライアントとしての機能を構築する。</p>
+        <div class="item">
+          <dl>
+            <dt>【モジュールの読み込み】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const http = require('http');
+console.log(http);</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://nodejs.org/dist/latest-v20.x/docs/api/http.html">HTTP - 公式ドキュメント</a></p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. Webサーバーを立ち上げる</h3>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.end('Hello World');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+//ターミナルに出力された「http://127.0.0.1:3000」にアクセス。
+//「127.0.0.1」はローカル・ループバック・アドレスと呼ばれ、自分自身を指す特別なIPアドレス。</code></pre>
+          </p>
+          <p><em>※ファイルを編集した際は「control + c」で動作を終了し、再度「nodeコマンド」で実行する。</em></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. fsモジュール</h2>
+      <div class="clause">
+        <p>「file system」の略。ファイルの新規作成、読み込み、書き込み、追記、削除など、ファイルに関する操作全般を行う。</p>
+        <div class="item">
+          <dl>
+            <dt>【モジュールの読み込み】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fs = require('fs');
+console.log(fs);</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://nodejs.org/dist/latest-v20.x/docs/api/fs.html">File system - 公式ドキュメント</a></p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">5-1. HTMLファイルの表示</h3>
+        <div class="item">
+          <dl>
+            <dt>【事前準備】</dt>
+            <dd>
+              <ol>
+                <li>「app.js」と同階層に、新規ファイル「index.html」を新規作成。</li>
+                <li>以下のコードをコピペして保存。
+                  <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;トップページ&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;トップページ&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【app.jsを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs'); /* モジュールの追加 */
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8'); /* ファイルの読み込み */
+
+const server = http.createServer((req, res) => {
+  res.end(index);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. HTTPヘッダー情報を指定する</h3>
+        <div class="item">
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Headers">HTTPヘッダー - MDN</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【情報の確認】</dt>
+            <dd>
+              <ol>
+                <li>授業資料ページを表示した状態で『右クリック > 検証』。</li>
+                <li>「ネットワークタブ」を選択。
+                  <img src="assets/05/04.png" alt="" width="600">
+                </li>
+                <li>ページを再読み込み。</li>
+                <li>「05.html」をクリックし、「ヘッダー」タブを選択。
+                  <img src="assets/05/05.png" alt="" width="600">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【情報の追記】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+
+  //追加
+  res.writeHead(200, { 'Content-type': 'text/html' });
+
+  res.end(index);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});</code></pre>
+            </dd>
+          </dl>
+          <p>※数字の「200」は<a href="https://developer.mozilla.org/ja/docs/Web/HTTP/Status">HTTP
+              レスポンスステータスコード</a>。指定がないとエラーとなる。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-3. ルーティング（経路を振り分ける）</h3>
+        <div class="item">
+          <p>現状ではサーバーにアクセスしたら必ずindex.htmlしか表示されず、CSSファイルや画像を表示することもできない。そこで、クライアントがアクセスしたアドレスによって表示する内容を変える「ルーティング」を設定する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【URLの取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+
+  //URL（パス部分）の取得
+  console.log(req.url);
+
+  res.writeHead(200, { 'Content-type': 'text/html' });
+
+  res.end(index);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});</code></pre>
+            </dd>
+          </dl>
+          <p>※URLの末尾に適当な文字列を追加し、ブラウザを再読み込みしてみる。</p>
+        </div>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+
+  //変更
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(index);
+  } else {
+    res.writeHead(404); /* 404は「リクエストされたリソースを見つけることができない時のレスポンスコード」*/
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <p>フォルダ内に「about.html」を追加し、「http://127.0.0.1:3000/about」でアクセスできるようにする。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-4. 外部ファイルの表示</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+const about = fs.readFileSync('./about.html', 'utf-8');
+const style = fs.readFileSync('./style.css', 'utf-8'); /* css追加 */
+
+const server = http.createServer((req, res) => {
+
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(index);
+  } else if (pathName === '/about') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(about);
+  } else if (pathName === '/style.css') {
+    res.writeHead(200, { 'Content-type': 'text/css' }); /* タイプの違いに注意 */
+    res.end(style);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});;</code></pre>
+          </p>
+        <p>
+            <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;トップページ&lt;/title&gt;
+  &lt;link rel="stylesheet" href="/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;トップページ&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <p>画像を表示する。（<a href="https://qiita.com/AkihiroTakamura/items/b93fbe511465f52bffaa">Content-Typeの一覧</a>）</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. モジュールのインストール</h2>
+      <div class="clause">
+        <div class="item">
+          <p>npm経由でインストール＆読み込む（require）ことで、世界中の誰かさんが作成したモジュールを使用できる。</p>
+        </div>
+        <dl>
+          <dt>【npmとは】</dt>
+          <dd>正式名称は「Node Package Manager」。その名の通り、Node.jsのパッケージ（Package）を管理する（Manager）ツール。</dd>
+        </dl>
+        <p><a href="https://www.npmjs.com/">公式サイト</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">6-1. 「package.json」の作成</h3>
+        <div class="item">
+          <p>実行中のプログラムの「名前」や「バージョン」、インストールされたモジュールの「名前」や「バージョン」などの情報が記載されているファイル。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>ターミナルを表示、以下のコードを入力し「Enter」。
+                  <pre class=" language-terminal"><code class=" language-terminal">npm init</code></pre>
+                </li>
+                <li>色々と出てくるが、すべて「Enter」を押して進める。
+                  <img src="assets/06/01.png" alt="" width="500">
+                </li>
+                <li>VSCodeのファイル一覧に「package.json」が追加されれば完了。</li>
+                <li>中身を確認しておく。</li>
+              </ol>
+            </dd>
+          </dl>
+          <p>※初期設定で作成する場合は「<em>npm init -y</em>」と入力すると便利。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-2. 「Socket.io」のインストール</h3>
+        <div class="item">
+          <p>「ストリーミング」や「WebSocket」などのリアルタイム通信系のWeb技術を、簡単に使うためのフレームワーク。サーバー側の処理を実現するためのNode.jsライブラリと、クライアント側の処理を実現するためのJavaScriptライブラリで構成されている。<em>Arduinoとの連携でも必要となる。</em></p>
+          <p><a href="https://socket.io/" target="_blank">公式サイト</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>ターミナルに以下のコードを入力し「Enter」。
+                  <pre class=" language-terminal"><code class=" language-terminal">npm install socket.io</code></pre>
+                </li>
+                <li>VSCodeのファイル一覧に「node_modules」フォルダと、「package-lock.json」が追加されれば完了。（出てこない人はFinderで確認）</li>
+                <li>中身を確認しておく。</li>
+                <li><em>「package.json」の中身の変化</em>も確認しておく。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-3. サーバー側の準備</h3>
+        <ol>
+          <li>「app.js」にモジュールを読み込むコードを追加。
+            <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(index);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  //追加
+  const io = require("socket.io")(server);
+  console.log(io);
+});</code></pre>
+          </li>
+          <li>ターミナルに多くの文字列が表示されたら準備完了。</li>
+          <li>「console.log(io);」を削除しておく。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-4. クライアント側の準備</h3>
+        <ol>
+          <li>「index.html」を開く。</li>
+          <li><a href="https://socket.io/docs/v4/client-installation/">公式サイト</a>から「CDN」のパスをコピーし、body要素内にペースト。</li>
+          <li>さらに以下のようにスクリプトを追加。
+            <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;トップページ&lt;/h1&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;!-- 追加 --&gt;
+  &lt;script&gt;
+    const socket = io();
+    console.log(socket);
+
+    //「io」は予約後のため、変数名には使えないっぽい。
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </li>
+          <li>ターミナルで「app.js」を実行。</li>
+          <li>ブラウザのコンソールに「o{ ... }」のようなオブジェクトが表示されたら準備完了。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. 簡易チャットの実装</h2>
+      <div class="clause">
+        <dl>
+          <dt>【準備】</dt>
+          <dd>
+            <ol>
+              <li>「index.html」に「入力フォーム」「ボタン」「チャット履歴」を追加する。
+                <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;body&gt;
+  &lt;input type="text" id="msg"&gt;
+  &lt;button type="button" id="btn"&gt;送信&lt;/button&gt;
+
+  &lt;ul id="res"&gt;
+    &lt;li&gt;発言が表示されます。&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </li>
+              <li>ターミナルで「app.js」を実行し、ブラウザで確認。</li>
+            </ol>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">7-1. サーバー側に値を送信する</h3>
+        <div class="item">
+          <ol>
+            <li>JavaScriptでそれぞれの要素を取得しておく。
+              <pre class="line-numbers"><code class="language-javascript">/* index.html */
+
+const socket = io();
+const msg = document.querySelector('#msg');
+const btn = document.querySelector('#btn');
+const res = document.querySelector('#res');</code></pre>
+            </li>
+            <li>「btn」をクリックした時、フォームに入力があった場合は値を取得する。
+              <pre class="line-numbers"><code class="language-javascript">/* index.html */
+
+const socket = io();
+const msg = document.querySelector('#msg');
+const btn = document.querySelector('#btn');
+const res = document.querySelector('#res');
+
+// 追加
+btn.addEventListener('click', () => {
+  let value = msg.value;
+  if (!value) {
+    return
+  }
+
+  console.log(value);
+});</code></pre>
+            </li>
+            <li>「btn」をクリックした時、フォームに入力があった場合は li要素を生成する。
+              <pre class="line-numbers"><code class="language-javascript">/* index.html */
+
+const socket = io();
+const msg = document.querySelector('#msg');
+const btn = document.querySelector('#btn');
+const res = document.querySelector('#res');
+
+btn.addEventListener('click', () => {
+  let value = msg.value;
+  if (!value) {
+    return
+  }
+
+  // 追加
+  const li = document.createElement('li');
+  li.textContent = value;
+  res.append(li);
+});</code></pre>
+            </li>
+            <li>取得した文字列をサーバー側に送信する。
+              <pre class="line-numbers"><code class="language-javascript">/* index.html */
+
+const socket = io();
+const msg = document.querySelector('#msg');
+const btn = document.querySelector('#btn');
+const res = document.querySelector('#res');
+
+btn.addEventListener('click', () => {
+  let value = msg.value;
+  if (!value) {
+    return
+  }
+
+  const li = document.createElement('li');
+  li.textContent = value;
+  res.append(li);
+
+  //追加　※"message"は任意の文字列
+  socket.emit("message", value);
+});</code></pre>
+            </li>
+            <li>「app.js」を変更し、「"message"」を受信する。
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(index);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  const socket = require("socket.io")(server);
+
+  //追加
+  io.on("connection", socket => {
+    console.log("connection success!");
+
+    socket.on("message", recieve => {
+      console.log(recieve);
+    })
+  });
+});</code></pre>
+            </li>
+          </ol>
+        </div>
+        <p>※現状では、別タブで開いたページには反映されない。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">7-2. クライアント側に値を返す</h3>
+        <ol>
+          <li>「app.js」を変更し、接続されている全てのブラウザに「"message"」を送り返す。
+            <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, { 'Content-type': 'text/html' });
+    res.end(index);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  const io = require("socket.io")(server);
+
+  io.on("connection", socket => {
+    console.log("connection success!");
+
+    socket.on("message", recieve => {
+      //変更　※"re_message"は任意の文字列
+      io.emit('re_message', recieve);
+    })
+  });
+});</code></pre>
+          </li>
+          <li>「index.html」を変更し、「"re_message"」を受信する。
+            <pre class="line-numbers"><code class="language-javascript">/* index.html */
+
+const socket = io();
+const msg = document.querySelector('#msg');
+const btn = document.querySelector('#btn');
+const res = document.querySelector('#res');
+
+btn.addEventListener('click', () => {
+  let value = msg.value;
+  if (!value) {
+    return
+  }
+
+  //削除
+  // const li = document.createElement('li');
+  // li.textContent = recieve;
+  // res.append(li);
+
+  socket.emit("message", value);
+});
+
+//追加
+socket.on('re_message', recieve => {
+  const li = document.createElement('li');
+  li.textContent = recieve;
+  res.append(li);
+});</code></pre>
+          </li>
+          <li>ブラウザで「http://127.0.0.1:3000」を2つ開いて、メッセージを送り合ってみる。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <p>名前の入力欄を増やす。</p>
+        <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;トップページ&lt;/title&gt;
+  &lt;link rel="stylesheet" href="/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;input type="text" id="name"&gt;
+  &lt;input type="text" id="msg"&gt;
+  &lt;button type="button" id="btn"&gt;送信&lt;/button&gt;
+
+  &lt;ul id="res"&gt;
+    &lt;li&gt;発言が表示されます。&lt;/li&gt;
+  &lt;/ul&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+    const name = document.querySelector('#name');
+    const msg = document.querySelector('#msg');
+    const btn = document.querySelector('#btn');
+    const res = document.querySelector('#res');
+
+    btn.addEventListener('click', () =&gt; {
+      let value = {
+        name: name.value,
+        msg: msg.value
+      };
+      if (!value.msg) {
+        return
+      }
+
+      socket.emit("message", value);
+    });
+
+    socket.on('re_message', recieve =&gt; {
+      const li = document.createElement('li');
+      li.textContent = `${recieve.name}：${recieve.msg}`;
+      res.append(li);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </p>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

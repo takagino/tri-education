@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>練習 | スクロールイベント</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    .container {
+      margin-top: 100vh;
+    }
+
+    p {
+      margin-bottom: 3em;
+      font-size: 36px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <p data-rate="0.2">コードを書いていると、</p>
+    <p data-rate="-0.2">食べることも忘れて</p>
+    <p data-rate="0.1">ついつい熱中してしまう。</p>
+  </div>
+  <script>
+    let targets = document.querySelectorAll('p');
+
+    const checkIn = (element) => {
+      element.forEach((target) => {
+        const rect = target.getBoundingClientRect();
+        const isIn = 0 <= rect.top && rect.bottom <= window.innerHeight;
+
+        if (isIn && !target.classList.contains('in')) {
+          target.classList.add('in');
+        } else if (!isIn && target.classList.contains('in')) {
+          target.classList.remove('in');
+        }
+
+        if (isIn) {
+          let move = (window.innerHeight - rect.top) * target.dataset.rate;
+          target.style.transform = `translateX(${move}px)`;
+        }
+      });
+    };
+
+    window.addEventListener('load', () => {
+      checkIn(targets);
+    });
+
+    window.addEventListener('resize', () => {
+      checkIn(targets);
+    });
+
+    window.addEventListener('scroll', () => {
+      checkIn(targets);
+    });
+  </script>
+</body>
+</html>

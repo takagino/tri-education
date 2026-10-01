@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue.js</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+
+    .loading {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app" v-cloak>
+    <p>シングルページ</p>
+    <div class="post" v-if="showPost">
+      <h2>{{ item.name }}</h2>
+      <p>{{ item.age }}</p>
+      <a href="./index.html">一覧へ戻る</a>
+    </div>
+    <div class="loading" v-else>
+      <p><img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""></p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const search = new URLSearchParams(window.location.search);
+    const id = search.get('id');
+
+    const key = "uRE1clQmStFnKwELIcIyNriTmYvx8GOS3w7H";
+    const url = "https://takagico.microcms.io/api/v1/member/";
+    const params = {
+      fields: "id,name,age"
+    };
+    const query = new URLSearchParams(params);
+    const path = `${url}${id}?${query}`;
+
+    const app = Vue.createApp({
+      setup() {
+        const item = Vue.ref({});
+        const showPost = Vue.ref(false);
+
+        Vue.onMounted(() => {
+          fetch(path, {
+            headers: {
+              "X-MICROCMS-API-KEY": key
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              item.value = json;
+              document.title = item.value.title;
+
+              if (item.value) {
+                showPost.value = true;
+              }
+            })
+        });
+
+        return {
+          item,
+          showPost
+        }
+      }
+    });
+
+    app.mount("#app");
+  </script>
+</body>
+</html>

@@ -1,0 +1,1063 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」01_Vue.jsの基礎 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」01_Vue.jsの基礎</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. Vue.jsとは</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://ja.vuejs.org/">公式サイト</a></p>
+          <p>Vueは、ユーザーインターフェースの構築のための JavaScript フレームワーク。標準的な HTML、CSS、JavaScript を土台とする、コンポーネントベースの宣言的なプログラミングモデルを提供する。シンプルなものから複雑なものまで、ユーザーインターフェースの開発を効率的に支えるフレームワーク。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【フレームワークとは】</dt>
+            <dd>設計・開発でよく利用するコードをあらかじめ用意してパッケージングしてあるもの。開発者はフレームワークが提供する枠組みに沿って、固有のコードを加えていくだけで一定の品質を持ったサイト・アプリを作り上げることができる。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【具体的にできること】</dt>
+            <dd>
+              <ul>
+                <li>ビルドステップなしで静的な HTML を拡充する</li>
+                <li>任意のページに Web コンポーネントとして埋め込む</li>
+                <li>シングルページアプリケーション (SPA)</li>
+                <li>フルスタック / サーバーサイドレンダリング (SSR)</li>
+                <li>Jamstack / 静的サイトジェネレーション (SSG)</li>
+                <li>デスクトップ、モバイル、WebGL、さらにはターミナルをターゲットとする開発</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【その他のフレームワーク】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://roadmap.sh/frontend">Frontend Developer Roadmap</a></li>
+                <li><a href="https://2022.stateofjs.com/ja-JP/libraries/front-end-frameworks/">State of JS 2022</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【Vue.jsの特徴】</dt>
+            <dd>
+              <ul>
+                <li>導入のハードル、学習コストが低い。</li>
+                <li>小さな開発から大きな開発までカバーできる。</li>
+                <li>日本語のドキュメントが豊富。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. Vue.jsの基礎</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 事前準備</h3>
+        <div class="item">
+          <dl>
+            <dt>【VSCodeの拡張機能】</dt>
+            <dd>
+              <a href="https://marketplace.visualstudio.com/items?itemName=Vue.volar">Vue Language Features (Volar) - Visual Studio Marketplace</a>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. インストール</h3>
+        <p>Vue.jsを使用する方法はいくつかあるが、最初は一番手軽な「CDN」を利用する。</p>
+        <div class="item">
+          <dl>
+            <dt>【サンプルコード】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;vue.js&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <p>※コンソールにVueらしきメッセージがあれば成功。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 基本形</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p&gt;{{ 2 + 3 }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </p>
+          <ol>
+            <li>Vueインスタンス（クラスのコピー）を作成する。
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  // この中にアプリケーションの機能（状態や振舞い）を定義する。
+});
+
+// 「Vue.」を忘れないように！</code></pre>
+            </li>
+            <li>定義した機能をHTML側（id名app）に反映（<em>マウント</em>）する。
+              <pre class="line-numbers"><code class="language-javascript">app.mount("#app");</code></pre>
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【マスタッシュ構文（二重中括弧）】</dt>
+            <dd>Vueインスタンスで定義したデータをHTML（DOM）に埋め込む（<em>バインド</em>する）仕組み。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">{{ 2 + 3 }}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. 変数の定義</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p&gt;{{ message }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup(){
+        const message = Vue.ref("Hello");
+
+        return {
+          message
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+          </p>
+          <ol>
+            <li>setup関数を定義する。
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+  }
+});
+
+// 閉じ中括弧の後ろにセミコロン（;）をつけるとエラーになることに注意！</code></pre>
+            </li>
+            <li>ref関数で変数を定義する。
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+    const message = Vue.ref("Hello");
+  }
+});
+
+// 「Vue.」を忘れないように！</code></pre>
+            </li>
+            <li>returnで変数の状態をHTMLに返す。
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+    const message = Vue.ref("Hello");
+
+    return {
+      message
+    }
+  }
+});
+
+// 閉じ中括弧の後ろにセミコロン（;）はどちらでも</code></pre>
+            </li>
+          </ol>
+        </div>
+        <dl>
+          <dt>☆練習</dt>
+          <dd>body要素の中身を削除し、同じ内容をもう一度書いてみる。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-5. 変数の更新</h3>
+        <dl>
+          <dt>【うまく動かない例】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+    // 値を変更
+    const message = Vue.ref(0);
+
+    // 追加
+    setInterval(() => {
+      message++;
+    }, 1000);
+
+    return {
+      message
+    }
+  }
+});</code></pre>
+          </dd>
+        </dl>
+        <dl>
+          <dt>【ちゃんと動く例】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+    const message = Vue.ref(0);
+
+    // 変更
+    setInterval(() => {
+      message.value++;
+    }, 1000);
+
+    return {
+      message
+    }
+  }
+});</code></pre>
+          </dd>
+        </dl>
+        <p>※「console.log(message);」で原因を探ってみる。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. ディレクティブ</h2>
+      <div class="clause">
+        <p>Vue.jsは標準的なHTMLに対して<em>ディレクティブ</em>と呼ばれる属性形式の命令を記述することで、ページに機能を付与することができる。ディレクティブは「v-」で始まるのが基本。</p>
+        <dl>
+          <dt>【ディレクティブの分類】</dt>
+          <dd>
+            <table>
+              <tr>
+                <th>分類</th>
+                <th>概要</th>
+                <th>主なディレクティブ</th>
+              </tr>
+              <tr>
+                <td>データバインド</td>
+                <td>式の値をページに反映</td>
+                <td>v-bind, v-html など</td>
+              </tr>
+              <tr>
+                <td>イベント</td>
+                <td>イベント処理を実装</td>
+                <td>v-on</td>
+              </tr>
+              <tr>
+                <td>制御</td>
+                <td>条件分岐や繰り返し処理など</td>
+                <td>v-if, v-for など</td>
+              </tr>
+              <tr>
+                <td>フォーム（双方向）</td>
+                <td>フォームからの入力を取得</td>
+                <td>v-model</td>
+              </tr>
+            </table>
+          </dd>
+        </dl>
+        <p><a href="https://ja.vuejs.org/api/built-in-directives.html">ビルトインのディレクティブ</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 属性にデータバインドする「v-bind」</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">/* 基本構文
+v-bind:◯◯="値"
+--------------------*/
+
+
+/* 例
+--------------------*/
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p&gt;&lt;a v-bind:href="url"&gt;{{ message }}&lt;/a&gt;&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup(){
+        const message = Vue.ref("リンク");
+        const url = Vue.ref("https://computer.trident.ac.jp/");
+
+        return {
+          message,
+          url
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>「target="_blank"」を追加してみる。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【省略形】</dt>
+            <dd>「v-bind」は省略できる。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;&lt;a :href="url"&gt;{{ message }}&lt;/a&gt;&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【式の記述】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;&lt;a :href="url + 'courses/web_design/'"&gt;{{ message }}&lt;/a&gt;&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. イベントリスナを設定する「v-on」</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">/* 基本構文
+v-on:イベント名="イベント発生時に実行する関数"
+--------------------*/
+
+
+/* 例
+--------------------*/
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p&gt;{{ count }}&lt;/p&gt;
+    &lt;button v-on:click="plus"&gt;+&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const count = Vue.ref(0);
+
+        const plus = () => {
+          count.value++;
+        };
+
+        return {
+          count,
+          plus
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>「-」ボタンを追加してみる。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【省略形】</dt>
+            <dd>「v-on」は「@」に省略できる。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;button @click="plus"&gt;+&lt;/button&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【イベントオブジェクトを受け取る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const count = Vue.ref(0);
+
+    //イベントオブジェクトを受け取る
+    const plus = (e) => {
+      count.value++;
+      console.log(e);
+    };
+
+    return {
+      count,
+      plus
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【引数を受け取る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;button @click="plus(2)"&gt;+&lt;/button&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const count = Vue.ref(0);
+
+    //引数を受け取る
+    const plus = (num) => {
+      count.value += num;
+    };
+
+    return {
+      count,
+      plus
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【両方を受け取る】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;button @click="plus(2, $event)"&gt;+&lt;/button&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const count = Vue.ref(0);
+
+    //両方を受け取る
+    const plus = (num, e) => {
+      count.value += num;
+      console.log(e);
+    };
+
+    return {
+      count,
+      plus
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用</h3>
+        <div class="item">
+          <dl>
+            <dt>【問題01】</dt>
+            <dd>マウスオーバーで画像を切り替える。 | <a href="assets/01/sample01.html" target="_blank">見本</a></dd>
+          </dl>
+          <ul>
+            <li>※ダミー画像のパスは「https://picsum.photos/id/237/400/300」「https://picsum.photos/id/238/400/300」</li>
+            <li>※マウスイベントは「mouseover」「mouseout」</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【問題02】</dt>
+            <dd>ボタンクリックでリンク先を切り替える。 | <a href="assets/01/sample02.html" target="_blank">見本</a></dd>
+          </dl>
+          <ul>
+            <li>※リンク先のURLは「https://computer.trident.ac.jp/」「https://google.com/」「https://yahoo.co.jp/」</li>
+            <li>※引数を使うこと。</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. style属性へのバインディング</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p :style="{color:col, fontSize:size}"&gt;テストです。&lt;/p&gt;
+
+    &lt;!-- もしくは、ハイフンを使った形で記述する場合はクォーテーションで囲む --&gt;
+    &lt;p :style="{color:col, 'font-size':size}"&gt;テストです。&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const col = Vue.ref('#f00');
+        const size = Vue.ref('36px');
+
+        return {
+          col,
+          size
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト形式で指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p :style="styles"&gt;テストです。&lt;/p&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const styles = Vue.ref({
+      color: '#f00',
+      'font-size': '36px'
+    });
+
+    return {
+      styles
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【複数のオブジェクト形式を配列で指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p :style="[textStyle, boxStyle]"&gt;テストです。&lt;/p&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const textStyle = Vue.ref({
+      color: '#f00',
+      'font-size': '36px'
+    });
+
+    const boxStyle = Vue.ref({
+      'margin-top': '100px'
+    });
+
+    return {
+      textStyle,
+      boxStyle
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. class属性へのバインディング</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p :class="{active:true, active__inner:true, 'active-title':true}"&gt;テストです。&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const col = Vue.ref('#f00');
+        const size = Vue.ref('36px');
+
+        return {
+          col,
+          size
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数にする】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p :class="{active:isActive, active__inner:isActiveInner, 'active-title':isActiveTitle}"&gt;テストです。&lt;/p&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const isActive = Vue.ref(true);
+    const isActiveInner = Vue.ref(true);
+    const isActiveTitle = Vue.ref(true);
+
+    return {
+      isActive,
+      isActiveInner,
+      isActiveTitle
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト形式で指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p :class="styles"&gt;テストです。&lt;/p&gt;</code></pre>
+              <pre class="line-numbers"><code class="language-javascript">const app = Vue.createApp({
+  setup() {
+    const styles = Vue.ref({
+      active: true,
+      active__inner: true,
+      'active-title': true
+    });
+
+    return {
+      styles
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用</h3>
+        <div class="item">
+          <dl>
+            <dt>【確認】</dt>
+            <dd>
+              <ul>
+                <li>引数を渡すとどうなるか</li>
+                <li>動的に変化させるには</li>
+                <li>body要素の属性を変化させるには</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【問題03】</dt>
+            <dd>ボタンクリックで背景色を切り替える。 | <a href="assets/01/sample03.html" target="_blank">見本</a></dd>
+          </dl>
+          <ul>
+            <li>※style属性へのバインディングで実現すること。</li>
+            <li>※引数を使うこと。</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. アクセス直後のマスタッシュを表示させない「v-cloak」</h3>
+        <div class="item">
+          <p>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;vue.js&lt;/title&gt;
+  &lt;style&gt;
+    [v-cloak]{
+      display: none;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;p v-cloak&gt;{{ message }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup(){
+        const message = Vue.ref("Hello");
+
+        return {
+          message
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【もしくは】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app" v-cloak&gt;
+    &lt;p&gt;{{ message }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup(){
+        const message = Vue.ref("Hello");
+
+        return {
+          message
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. フォーム関連のディレクティブ</h2>
+      <section class="clause">
+        <h3 class="clause__title">4-1. フォームからの入力を取得する「v-model」</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">* 基本構文
+v-model="値"
+--------------------*/
+
+
+/* 例
+--------------------*/
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;form&gt;
+      &lt;input type="text" v-model="myName"&gt;
+    &lt;/form&gt;
+    &lt;p v-cloak&gt;{{ myName }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const myName = Vue.ref();
+
+        return {
+          myName,
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+          <p>※上記のような動きを「双方向データバインディング」という。</p>
+          <p><a href="https://ja.vuejs.org/guide/essentials/forms.html">その他のフォームパーツ</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【修飾子】</dt>
+            <dd>
+              <table>
+                <tr>
+                  <th>.lazy</th>
+                  <td>inputの代わりにchangeイベント後にデータバインドを行う</td>
+                </tr>
+                <tr>
+                  <th>.number</th>
+                  <td>入力値を数値として扱う</td>
+                </tr>
+                <tr>
+                  <th>.trim</th>
+                  <td>入力値の前後の余分な余白を取り除く</td>
+                </tr>
+              </table>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>☆練習</dt>
+            <dd>
+              <ul>
+                <li>文字を入力すると、リアルタイムに画面に拡大表示される。　|　<a href="./assets/01/form01.html" target="_blank">見本</a></li>
+                <li>文字を入力すると、リアルタイムにリンクが設定される。　|　<a href="./assets/01/form02.html" target="_blank">見本</a></li>
+                <li>文字を入力し、ボタンをクリックするとリンクが設定される。　|　<a href="./assets/01/form03.html" target="_blank">見本</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 制御関連のディレクティブ</h2>
+      <section class="clause">
+        <h3 class="clause__title">5-1. 式の真偽に応じて表示・非表示を切り替える「v-if」</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">/* 基本構文
+v-if="値（true/false）"
+--------------------*/
+
+
+/* 例
+--------------------*/
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;form&gt;
+      &lt;label&gt;表示／非表示&lt;input type="checkbox" v-model="show"&gt;&lt;/label&gt;
+    &lt;/form&gt;
+    &lt;div v-if="show" v-cloak&gt;
+      &lt;p&gt;表示されていますか？&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const show = Vue.ref();
+
+        return {
+          show
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【falseの場合の定義】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;form&gt;
+      &lt;label&gt;表示／非表示&lt;input type="checkbox" v-model="show"&gt;&lt;/label&gt;
+    &lt;/form&gt;
+    &lt;div v-if="show" v-cloak&gt;
+      &lt;p&gt;表示されていますか？&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div v-else v-cloak&gt;
+      &lt;p&gt;v-if の直後に置くこと。&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const show = Vue.ref();
+
+        return {
+          show
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【複数の分岐】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;form&gt;
+      &lt;select v-model="course"&gt;
+        &lt;option value=""&gt;選択してください&lt;/option&gt;
+        &lt;option value="game"&gt;ゲーム学科&lt;/option&gt;
+        &lt;option value="cg"&gt;CG学科&lt;/option&gt;
+        &lt;option value="web"&gt;Webデザイン学科&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/form&gt;
+    &lt;ul v-cloak&gt;
+      &lt;li v-if="course==='game'"&gt;ゲームを作る学科&lt;/li&gt;
+      &lt;li v-else-if="course==='cg'"&gt;CGを作る学科&lt;/li&gt;
+      &lt;li v-else-if="course==='web'"&gt;素晴らしい学科&lt;/li&gt;
+      &lt;li v-else&gt;選択してください&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const course = Vue.ref("");
+
+        return {
+          course
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. 配列やオブジェクトを繰り返し処理する「v-for」</h3>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">/* 基本構文
+v-for="仮変数 of 配列（オブジェクト）"
+もしくは、
+v-for="仮変数 in 配列（オブジェクト）"
+--------------------*/
+
+
+/* 例
+--------------------*/
+&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;ul v-cloak&gt;
+      &lt;li v-for="item of items"&gt;{{ item }}&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const items = Vue.ref(["りんご", "ごりら", "らっぱ", "ぱんだ"]);
+
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インデックス番号の取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;ul v-cloak&gt;
+      &lt;li v-for="(item, index) of items"&gt;{{ index + ":" + item }}&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const items = Vue.ref(["りんご", "ごりら", "らっぱ", "ぱんだ"]);
+
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </p>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【要素のセットを繰り返す - &lt;template&gt;要素】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;template v-for="(item, index) of items"&gt;
+      &lt;p&gt;{{ item.name }}&lt;/p&gt;
+      &lt;p&gt;{{ item.age }}&lt;/p&gt;
+    &lt;/template&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const items = Vue.ref([
+          {
+            name: '高木',
+            age: 42
+          },
+          {
+            name: '鈴木',
+            age: 24
+          },
+          {
+            name: '佐藤',
+            age: 53
+          }
+        ]);
+
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+              </p>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>p5.js</title>
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
+  <script>
+    let obj = {
+      c: 0
+    };
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      strokeCap(ROUND);
+    }
+
+    function draw() {
+      noStroke();
+      fill(0, 0, 87, 0.01);
+      rect(0, 0, width, height);
+
+      if (mouseIsPressed) {
+        let d = dist(mouseX, mouseY, pmouseX, pmouseY);
+        // console.log(d);
+        let w = map(d, 0, 100, 6, 20);
+        strokeWeight(w);
+        stroke(obj.c, 50, 50);
+        line(mouseX, mouseY, pmouseX, pmouseY);
+      }
+    }
+
+    function keyReleased() {
+      if (keyCode === 32) {
+        background(0, 0, 87);
+        obj.c = floor(random() * 360);
+      }
+    }
+  </script>
+</body>
+</html>

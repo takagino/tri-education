@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound.kadai</title>
+    <style>
+        canvas {
+            background: linear-gradient(135deg, rgb(66, 66, 66), rgb(167, 167, 167));
+            border: 1px solid #fbff24;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+        let sound;
+        let fft;
+
+        function preload() {
+            sound = loadSound('HEARTRIS.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            fft = new p5.FFT();
+            fft.setInput(sound);
+        }
+
+        function draw() {
+            clear();
+            stroke(38, 255, 143);
+            noFill();
+            let spectrum = fft.analyze();
+            beginShape();
+            for (i = 0; i < spectrum.length; i++) {
+                let x = map(i, 0, spectrum.length - 1, 0, width * 1.5);
+                let y = map(spectrum[i], 0, 255, height, 0);
+                vertex(x, y);
+            }
+            endShape();
+        }
+
+            function keyPressed() {
+                sound.loop();
+            }
+
+            function keyReleased() {
+                sound.pause();
+            }
+    </script>
+</body>
+
+</html>

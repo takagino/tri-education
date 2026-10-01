@@ -1,0 +1,79 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>円の座標・大きさ・色を、ランダムと音の成分で表現する</title>
+    <style>
+        canvas {
+            background: #FFF;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body cz-shortcut-listen="true">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let rev=0
+        function preload() {
+            mySound = loadSound('bgm.mp3');
+        }
+
+        function setup() {
+            createCanvas(480, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            angleMode(DEGREES);
+            noStroke();
+
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            clear();
+            mySound.amp(map(mouseY, 0, height, 0, 1));
+            // mySound.amp(0.1)
+
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+                let leng=spectrum.length
+                for (let i = 0; i < spectrum.length; i+=5 ) {
+                    // fill(map(spectrum[i], min(spectrum), max(spectrum), 0, 360), 50, 50, 0.2);
+                    push();
+                    fill(50 ,100,80,0.03)
+                    rotate(rev%2)
+                    rev++
+                    let h = map(spectrum[i], min(spectrum), max(spectrum), 0, 600 );
+                    if(h>100 ){
+                        fill(80, 0, 80, 0.05)
+                        console.log(1)
+                        if(h>250){
+                            fill(100, 100, 80, 0.1)
+                        }
+                    }
+                    rect(width/2, height/2 , h, h);
+                    pop();
+                }
+            }
+        }
+
+        function keyPressed() {
+
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+            // mySound=loadSound("PerituneMaterial_Tavern.mp3  ")
+        }
+    </script>
+
+
+    <!-- <main><canvas id="defaultCanvas0" class="p5Canvas" width="640" height="480"
+            style="width: 640px; height: 480px;"></canvas></main> -->
+</body>
+
+</html>

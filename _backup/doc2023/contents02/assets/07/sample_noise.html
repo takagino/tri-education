@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ノイズ</title>
+  <style>
+    canvas {
+      background: #000;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+  <script>
+    const nis = {
+      x: 0,
+      y: 0
+    }
+    let mySound;
+    let fft;
+
+    function preload() {
+      mySound = loadSound('power.mp3');
+    }
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      rectMode(CENTER);
+      noStroke();
+
+      nis.x = random(100);
+      nis.y = random(100);
+
+      fft = new p5.FFT();
+    }
+
+    function draw() {
+      clear();
+
+      mySound.amp(map(mouseY, 0, height, 0, 1));
+
+      if (mySound.isPlaying()) {
+        let spectrum = fft.waveform();
+
+        for (let i = 0; i < spectrum.length; i++) {
+          fill(180, 50, 50, 0.2);
+          let h = map(spectrum[i], min(spectrum), max(spectrum), 0, height);
+          let d = map(spectrum[i], min(spectrum), max(spectrum), 0, 100);
+          nis.x += spectrum[i];
+          nis.y += spectrum[i];
+          circle((i / spectrum.length) * width, noise(nis.y) * h, 20, 20);
+        }
+      }
+    }
+
+    function keyPressed() {
+      mySound.loop();
+    }
+
+    function keyReleased() {
+      mySound.pause();
+    }
+  </script>
+</body>
+</html>

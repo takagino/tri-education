@@ -1,0 +1,233 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript実習」08_拡張機能 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+  <style>
+    .clause th {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript実習」08_拡張機能</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. はじめに</h2>
+      <section class="clause">
+        <h3 class="clause__title">0-1. 前回の課題</h3>
+        <p><a href="./assets/06/bookmarks-class2.html" target="_blank">ブックマークサイト</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">0-2. 今回の成果物</h3>
+        <ul>
+          <li>Firebaseを組み込んだブックマークサイト</li>
+          <li>三択クイズ</li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. 自作のChrome拡張機能</h2>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 最低限必要なファイル構成</h3>
+        <div class="item">
+          <ol>
+            <li>任意の場所に新規フォルダを作成。（場所を変更するとアクセス不能になるので注意）</li>
+            <li>新規ファイルを作成し、ファイル名「manifest.json」で保存。</li>
+            <li>以下のソースコードを記述し、保存。
+              <pre class="line-numbers"><code class="language-javascript">{
+  "name": "拡張機能のタイトル",
+  "version": "1.0.0",
+  "manifest_version": 3
+}</code></pre>
+            </li>
+            <li>GoogleChromeのメニュー「拡張機能 &gt; 拡張機能を管理」を選択し一覧を表示。</li>
+            <li>右上の「ディベロッパー モード」をオンにする。
+              <img src="./assets/08/01.png" width="400" alt="">
+            </li>
+            <li>左上の「パッケージ化されていない拡張機能を読み込む」をクリックし、制作したフォルダを選択する。
+              <img src="./assets/08/02.png" width="400" alt="">
+            </li>
+            <li>拡張機能が追加されることを確認。
+              <img src="./assets/08/03.png" width="500" alt="">
+            </li>
+            <li>右上の「パズルピースアイコン」をクリックし、拡張機能をピン止めする。
+              <img src="./assets/08/04.png" width="400" alt="">
+            </li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変更と更新】</dt>
+            <dd>
+              <ol>
+                <li>「manifest.json」に説明（description）を追加し、保存。
+                  <pre class="line-numbers"><code class="language-javascript">{
+  "name": "拡張機能のタイトル",
+  "description": "拡張機能の説明",
+  "version": "1.0.0",
+  "manifest_version": 3
+}</code></pre>
+                </li>
+                <li>拡張機能一覧ページ上部の「更新」ボタンをクリック。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【アイコンの設定】</dt>
+            <dd>
+              <ol>
+                <li>新規フォルダ「images」を作成し、以下の画像3点を入れておく。
+                  <img src="./assets/08/icon16.png" alt="">
+                  <img src="./assets/08/icon48.png" alt="">
+                  <img src="./assets/08/icon128.png" alt="">
+                </li>
+                <li>「manifest.json」にアイコンの設定を追加し、保存。
+                  <pre class="line-numbers"><code class="language-javascript">{
+  "name": "拡張機能のタイトル",
+  "description": "拡張機能の説明",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "./images/icon16.png",
+    "48": "./images/icon48.png",
+    "128": "./images/icon128.png"
+  }
+}</code></pre>
+                </li>
+                <li>「更新」ボタンをクリック。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <p><a href="https://zenn.dev/naok_1207/articles/d3fe5c0f8ece5c">マニフェストファイルに設定できる項目</a></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. ポップアップの表示</h3>
+        <ol>
+          <li>拡張機能フォルダ内に、新規ファイル「popup.html」を作成。</li>
+          <li>以下のソースコードを記述し、保存。
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;眠気を覚ます&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+    .container {
+      width: 500px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;img src="https://www.amepla.jp/media/wp-content/uploads/2021/12/tsubo.jpg" alt=""&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </li>
+          <li>「manifest.json」に設定を追加し、保存。
+            <pre class="line-numbers"><code class="language-javascript">{
+  "name": "眠気を覚ます",
+  "description": "眠気を覚ますツボを表示してくれます。",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "./images/icon16.png",
+    "48": "./images/icon48.png",
+    "128": "./images/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}</code></pre>
+          </li>
+          <li>「更新」ボタンをクリック。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. jsの実行</h3>
+        <div class="item">
+          <ol>
+            <li>拡張機能フォルダ内に、新規ファイル「popup.js」を作成。</li>
+            <li>以下のソースコードを記述し、保存。
+              <pre class="line-numbers"><code class="language-javascript">const img = document.querySelector('img');
+img.addEventListener('click', () => {
+  alert('click!');
+});</code></pre>
+            </li>
+            <li>「popup.html」のbody要素内でjsを読み込む。
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div class="container"&gt;
+    &lt;img src="https://www.amepla.jp/media/wp-content/uploads/2021/12/tsubo.jpg" alt=""&gt;
+  &lt;/div&gt;
+
+  &lt;!-- js読み込み --&gt;
+  &lt;script src="./popup.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </li>
+            <li>「更新」ボタンをクリック。</li>
+          </ol>
+        </div>
+        <p><em>※インラインスクリプトで読み込むとエラーがでるので注意。（セキュリティのため）</em></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 実践「天気予報を表示する」</h2>
+      <div class="clause">
+        <ul>
+          <li><a href="https://weather.tsukumijima.net/">天気予報 API（livedoor 天気互換）</a></li>
+          <li><a href="https://weather.tsukumijima.net/primary_area.xml">全国の地点定義表</a></li>
+          <li><a href="https://weather.tsukumijima.net/api/forecast/city/230010">名古屋市のデータ</a></li>
+        </ul>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+  <script>
+    document.cookie = `value=クッキーを確認できましたか？`;
+  </script>
+</body>
+
+</html>

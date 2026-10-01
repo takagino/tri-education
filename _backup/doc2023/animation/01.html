@@ -1,0 +1,331 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「インタラクションアニメ」01_グラフィックの描画 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「インタラクションアニメ」01_グラフィックの描画</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. 「Adobe Animate」とは？</h2>
+      <div class="clause">
+        <p>Adobe Animate（アドビ・アニメイト）は、アドビシステムズが開発・販売している動画やゲームのHTML5を中心としたオーサリング・ソフトウェア。旧称は Adobe Flash
+          Professional（アドビ・フラッシュ・プロフェッショナル）。Adobe Animateは、ベクターグラフィックス・アニメーション制作ソフトであり、HTML5以外にWebGL, Scalable Vector
+          Graphics
+          などのフォーマットが扱える他、旧来の Flash Player (SWF)やAdobe AIRフォーマットも扱える。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. ファイルの新規作成</h3>
+        <div class="item">
+          <ol>
+            <li>画面左の「新規作成」、もしくは『ファイル > 新規...』、もしくはショートカット『command + n』。</li>
+            <li>「キャラクターアニメーション」-「SVG」を選び、「作成」をクリック。
+              <img src="assets/01/04.png" alt="" width="600">
+            </li>
+            <li>忘れないうちに保存しておく。（Adobe Animateファイルの拡張子は「.fla」）</li>
+          </ol>
+          <p><em>※「Adobe Animete」は非常に落ちやすいので、こまめに保存すること！</em></p>
+        </div>
+        <dl>
+          <dt>【画面構成】</dt>
+          <dd><img src="assets/01/01.png" alt=""></dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. ステージ</h3>
+        <p>グラフィックコンテンツを配置するための領域。</p>
+        <div class="item">
+          <dl>
+            <dt>【ショートカット】</dt>
+            <dd>
+              <ul>
+                <li>『command + 1』：100%表示</li>
+                <li>『command + 2』：ステージ全体を表示</li>
+                <li>『command + 3』：すべて表示</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【各種機能】</dt>
+            <dd>
+              <ul>
+                <li>メニュー『表示 > ルーラー』：ルーラーの表示</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. タイムライン</h3>
+        <p>描画したグラフィックなどを横軸の時間で制御する。タイムラインの1マス1マスのことを<em>フレーム</em>、1秒間に進むフレーム数のことを<em>フレームレート(FPS)</em>という。</p>
+        <div class="item">
+          <dl>
+            <dt>【ショートカット】</dt>
+            <dd>
+              <ul>
+                <li>『enter』：再生／停止</li>
+                <li>『shift + ,』：最初のフレームへ</li>
+                <li>『shift + .』：最後のフレームへ</li>
+                <li>『.』：1フレーム進める</li>
+                <li>『,』：1フレーム戻る</li>
+              </ul>
+            </dd>
+          </dl>
+          <p>※詳細は後日。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. ツールバー</h3>
+        <p>各種ツールが格納されている。右下に三角のあるツールは長押しでサブツールを表示できる。</p>
+        <div class="item">
+          <dl>
+            <dt>【ショートカット】</dt>
+            <dd><a href="https://helpx.adobe.com/jp/animate/kb/animate-keyboard-shortcuts.html">Adobe Animate ユーザーガイド</a></dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-5. プロパティインスペクタ</h3>
+        <p>選択したモノによって様々な設定ができる。授業では「プロパティパネル」、または単に「プロパティ」と言うかも。</p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. グラフィックの描画</h2>
+      <div class="clause">
+        <p>
+          アニメーションを作る前に、「Adobe Animate」のツールの説明とグラフィックを描画する方法を学びます。<br>
+          illustrator や photoshop と比べてクセが強いが、逆に描きやすいという人もいる。
+        </p>
+      </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 結合描画モード</h3>
+        <p>
+          矩形ツールや楕円ツール、鉛筆ツールで描画したモノ<em>（シェイプ）</em>は、デフォルトで「結合描画モード」となります。
+        </p>
+        <div class="item">
+          <dl>
+            <dt>【丸を書いてみる】</dt>
+            <dd>
+              <ol>
+                <li>ツールバーから「楕円ツール」を選択。</li>
+                <li>線の色が選択されていない場合は、任意の色を選択する。（線を太くしておくとわかりやすい）</li>
+                <li>適当な場所に正円を書く。（常に正円にする場合は「shift」を押しながら）
+                  <img src="assets/01/05.png" alt="">
+                </li>
+                <li>ツールバーから「選択ツール」を選択し、以下の特徴を確認していく。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【特徴】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>塗と線（ストローク）が別々に分かれている。</li>
+                <li>クリックすると「塗り」や「線」、ダブルクリックすると「塗りと線」が選択される。</li>
+                <li>同じ色の塗りや線を重ねて、選択を解除すると結合される。</li>
+                <li>違う色の塗りや線を重ねて、選択を解除すると相殺される。</li>
+                <li>境界線をドラッグすると変形できる。</li>
+              </ul>
+            </dd>
+            <dd>
+              <img src="https://helpx.adobe.com/content/dam/help/en/animate/using/drawing/_jcr_content/main-pars/image_8/dr_biteTakenOut.png">
+            </dd>
+            <dd>※『command + z』：作業のやり直し</dd>
+          </dl>
+        </div>
+        <dl>
+          <dt>【練習】</dt>
+          <dd>
+            <ul>
+              <li>★半円を作ってみよう。</li>
+              <li>★雪だるまを作ってみよう。</li>
+              <li>★NIKEのマークを作ってみよう。</li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. オブジェクト描画モード</h3>
+        <div class="item">
+          <p>「結合描画モード」では、重なりが多いイラストを描画するのが難しい。そんな時には「オブジェクト描画モード」を使用する。</p>
+          <dl>
+            <dt>【オブジェクト描画モードへの切り替え】</dt>
+            <dd>
+              <ol>
+                <li>再度「楕円ツール」を選択する。</li>
+                <li>ツールバーの一番下のアイコン「オブジェクトの描画」を選択、もしくはプロパティインスペクタ「オブジェクト描画モード」をクリック。
+                  <img src="assets/01/06.png" alt="" width="400">
+                </li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【特徴】</dt>
+            <dd>
+              <ul>
+                <li>塗と線が結合され一つになっている。</li>
+                <li>複数重ねても干渉されない。</li>
+              </ul>
+            </dd>
+            <dd>
+              <img src="https://helpx.adobe.com/content/dam/help/en/animate/using/drawing/_jcr_content/main-pars/image_9/dr_ObjectDrModel.png">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【結合描画モードで作成されたシェイプ → オブジェクト描画モードに変換】</dt>
+            <dd>
+              <ol>
+                <li>変換したいシェイプを選択する。</li>
+                <li>メニュー『修正 > オブジェクトを結合 > 結合』を選択。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト描画モードで作成された図形 → シェイプに変換】</dt>
+            <dd>
+              <ol>
+                <li>変換したい図形を選択する。</li>
+                <li>メニュー『修正 > 分解』を選択。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクト描画モードで作成された図形をそのまま修正する】</dt>
+            <dd>
+              <ol>
+                <li>図形をダブルクリックすると編集モードになる。（※左上の「シーン1」の横に「描画オブジェクト」があることに注意）
+                  <img src="assets/01/07.png" alt="" width="400">
+                </li>
+                <li>「結合描画モード」と同様に自由に編集する。</li>
+                <li>編集が完了したら何もない部分をダブルクリックするか、左上の「シーン1」の文字をクリックし、編集を終了する。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. その他のツール</h3>
+        <dl>
+          <dt>【矩形プリミティブツール／楕円プリミティブツール】</dt>
+          <dd>角丸矩形や半円など、矩形と円の変形が可能。</dd>
+        </dl>
+        <dl>
+          <dt>【自由変形ツール】</dt>
+          <dd>描画した図形を拡大・縮小、回転する。（「shift」で縦横比固定）</dd>
+        </dl>
+        <dl>
+          <dt>【液体ブラシツール・クラシックブラシツール】</dt>
+          <dd>フリーハンドで描画する。</dd>
+          <dd>ツールバーの下部にあるアイコンや、プロパティインスペクタで様々な設定が可能。</dd>
+        </dl>
+        <dl>
+          <dt>【バケツツール】</dt>
+          <dd>塗りの色や、線で囲われた部分の色を着色する。</dd>
+          <dd>うまく着色できない場合は、ツールバーの下から2番目にある「隙間の大きさ」を調整する。</dd>
+        </dl>
+        <dl>
+          <dt>【消しゴムツール】</dt>
+          <dd>塗りや線を消す。</dd>
+          <dd>ツールバーの下部アイコンからモード変更をすることで「消す対象」を選択可能。</dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. その他の操作</h3>
+        <div class="item">
+          <dl>
+            <dt>【重ね順の変更】</dt>
+            <dd>変更したい図形を右クリックし、『重ね順』を選択。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【レイヤーの操作】</dt>
+            <dd>各種アイコンで操作。
+              <img src="assets/01/12.png" alt="" width="400">
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-5. 画像の書き出し</h3>
+        <ol>
+          <li>メニュー「ファイル」 - 「書き出し」-「イメージを書き出し…」をクリック。</li>
+          <li>色々と設定ができるか、今回はそのまま「保存」をクリック。</li>
+          <li>任意の場所に保存。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 課題</h2>
+      <div class="clause">
+        <ol>
+          <li>ドラえもん（全身）を描く。</li>
+          <li>画像（GIF）に書き出し、「01_takagi.gif」のように名前をつけて保存。</li>
+          <li><a href="https://drive.google.com/drive/folders/1jxnU6ut_41QKfhOwYyQW2bbQZ9LXxvEu?usp=sharing">Googleドライブ</a>に提出。</li>
+        </ol>
+        <dl>
+          <dt>【注意点】</dt>
+          <dd>
+            <ul>
+              <li>※上手下手は気にしないこと。</li>
+              <li>※画像検索しても良いが、ファイル上に読み込んでの<em>トレースは禁止</em>。</li>
+              <li>※ブラシツールで<em>全てフリーハンドで描くのは禁止</em>。様々なツールを組み合わせて描くこと。</li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+      <pre class="line-numbers">
+        <code class="language-markup">
+          &lt; ... &gt;
+        </code>
+      </pre>
+    -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

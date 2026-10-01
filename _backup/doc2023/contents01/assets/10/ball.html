@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跳ね返るボール</title>
+  <style>
+    canvas {
+      background: #fff;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <canvas id='example' width='640' height='480'>
+    Canvas not supported.
+  </canvas>
+
+  <script>
+    let canvas, ctx;
+    const num = 100;
+    const array = [];
+
+    window.addEventListener('load', () => {
+      init();
+    });
+
+    const init = () => {
+      canvas = document.querySelector('#example');
+      if (!canvas || !canvas.getContext) {
+        return false;
+      }
+      ctx = canvas.getContext('2d');
+
+      for (let i = 0; i < num; i++) {
+        array.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          speedX: Math.random() * 8 - 4,
+          speedY: Math.random() * 8 - 4,
+          size: Math.random() * 8 + 1,
+          color: `rgb(${Math.random() * 255},${Math.random() * 255},${Math.random() * 255})`
+        });
+      }
+
+      console.log(array);
+
+      window.requestAnimationFrame(draw);
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < num; i++) {
+        //値の更新
+        array[i].x += array[i].speedX;
+        array[i].y += array[i].speedY;
+
+        //壁ではねかえる
+        if (array[i].x < 0 || array[i].x > canvas.width) {
+          array[i].speedX *= -1.0;
+        }
+        if (array[i].y < 0 || array[i].y > canvas.height) {
+          array[i].speedY *= -1.0;
+        }
+
+        //円の描画
+        ctx.fillStyle = array[i].color;
+        ctx.beginPath();
+        ctx.arc(array[i].x, array[i].y, array[i].size, 0, Math.PI * 2, true);
+        ctx.fill();
+      }
+
+      window.requestAnimationFrame(draw);
+    }
+  </script>
+</body>
+</html>

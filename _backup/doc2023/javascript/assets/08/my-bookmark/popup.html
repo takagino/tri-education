@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bookmark</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
+  <style>
+    ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    form {
+      margin-bottom: 1em;
+    }
+
+    .fa-times {
+      margin-right: .5em;
+      color: #f00;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="container">
+    <form name="bookmark">
+      <div>
+        <label for="title">タイトル：</label>
+        <input type="text" id="title" name="title">
+      </div>
+      <div>
+        <label for="URL">URL：</label>
+        <input type="url" id="url" name="url">
+      </div>
+    </form>
+    <button id="add">追加</button>
+    <button id="delete">削除</button>
+    <ul id="list">
+      <!-- <li><a href="https://computer.trident.ac.jp/">https://computer.trident.ac.jp/</a></li> -->
+    </ul>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

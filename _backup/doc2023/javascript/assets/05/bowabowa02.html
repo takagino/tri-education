@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>実践その3</title>
+  <style>
+    .circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #09c;
+      opacity: .5;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    class Circle {
+      constructor(x, y, d) {
+        this.x = x;
+        this.y = y;
+        this.timerId;
+
+        this.degree = d;
+
+        this.circle = document.createElement("div");
+        this.circle.classList.add("circle");
+        this.circle.style.left = `${this.x}px`;
+        this.circle.style.top = `${this.y}px`;
+        document.body.appendChild(this.circle);
+      }
+
+      move() {
+        this.timerId = setInterval(() => {
+          this.degree += 10; //角度を変化させる
+          let sin = Math.sin(this.degree * (Math.PI / 180)); //角度をラジアンに変換し、sinの値を取得
+          let abs = Math.abs(sin); //sinの値の絶対値を取得
+          this.circle.style.transform = `scale(${abs})`;
+        }, 30);
+      }
+    };
+
+    for (let i = 0; i < 50; i++) {
+      let ranX = Math.floor(Math.random() * 300) + 50;
+      let ranY = Math.floor(Math.random() * 300) + 50;
+      let ranD = Math.floor(Math.random() * 360);
+
+      const circle = new Circle(ranX, ranY, ranD);
+      circle.move();
+    }
+  </script>
+</body>
+</html>

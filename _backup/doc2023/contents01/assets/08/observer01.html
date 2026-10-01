@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>練習 | Intersection Observer API</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    .container {
+      margin-top: 100vh;
+    }
+
+    .box {
+      position: relative;
+      width: fit-content;
+      margin-bottom: 3em;
+    }
+
+    .box>* {
+      font-size: 36px;
+      font-weight: bold;
+      opacity: 0;
+    }
+
+    .box::before {
+      content: "";
+      display: block;
+      width: 0%;
+      height: 100%;
+      background-color: #000;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .in>* {
+      animation: slide-text linear .5s forwards;
+    }
+
+    .in::before {
+      animation: slide-bg ease-in .5s forwards;
+    }
+
+    @keyframes slide-text {
+
+      0%,
+      44% {
+        opacity: 0;
+      }
+
+      45%,
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slide-bg {
+      0% {
+        width: 0%;
+        left: 0%;
+      }
+
+      45%,
+      55% {
+        width: 100%;
+        left: 0%;
+      }
+
+      100% {
+        width: 0%;
+        left: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <p>コードを書いていると、</p>
+    </div>
+    <div class="box">
+      <p>食べることも忘れて</p>
+    </div>
+    <div class="box">
+      <p>ついつい熱中してしまう。</p>
+    </div>
+    <div class="box">
+      <img src="https://picsum.photos/300/200" alt="">
+    </div>
+  </div>
+  <script>
+    let options = {
+      root: null,
+      rootMargin: '-10% 0px',
+      threshold: 0
+    }
+
+    let callback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+        } else {
+          entry.target.classList.remove('in');
+        }
+      });
+    };
+
+    let observer = new IntersectionObserver(callback, options);
+
+    let targets = document.querySelectorAll('.box');
+    targets.forEach((target) => {
+      observer.observe(target);
+    });
+  </script>
+</body>
+</html>

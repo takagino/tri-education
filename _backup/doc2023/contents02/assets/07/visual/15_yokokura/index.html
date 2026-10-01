@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>p5.js</title>
+    <style>
+      canvas {
+        background: #ff3d3d;
+        border: 1px solid #3dff4d;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+      let mySound;
+      let fft;
+
+      let num = 1024;
+      let obj = [];
+
+      function preload() {
+        mySound = loadSound("aaa.mp3");
+      }
+
+      function setup() {
+        createCanvas(640, 480);
+        colorMode(HSL);
+        rectMode(CENTER);
+        angleMode(DEGREES);
+        noStroke();
+
+        fft = new p5.FFT();
+      }
+
+      function draw() {
+        clear();
+        randomSeed(1); // 数字は何でも良い
+
+        mySound.amp(map(mouseY, 0, height, 0, 1));
+
+        if (mySound.isPlaying()) {
+          let spectrum = fft.analyze();
+
+          for (let i = 0; i < spectrum.length; i++) {
+            fill(
+              map(spectrum[i], min(spectrum), max(spectrum), 0, 360),
+              50,
+              50,
+              0.2
+            );
+            let h = map(spectrum[i], min(spectrum), max(spectrum), 0, 300);
+            circle(random(width), random(height), h, h);
+          }
+        }
+
+        let angle = 360 / 5;
+        let halfAngle = angle / 2;
+
+        push();
+        translate(width / 2, height / 2);
+
+        beginShape();
+        for (let a = 0; a < 360; a += angle) {
+          let sx = cos(a) * 70;
+          let sy = sin(a) * 70;
+          vertex(sx, sy);
+          sx = cos(a + halfAngle) * 30;
+          sy = sin(a + halfAngle) * 30;
+          vertex(sx, sy);
+        }
+        endShape(CLOSE);
+
+        pop();
+
+        mySound.amp(map(mouseY, 0, height, 0, 1));
+
+        if (mySound.isPlaying()) {
+          let spectrum = fft.analyze();
+          let angle = 360 / spectrum.length;
+
+          push();
+          translate(width / 2, height / 2);
+
+          beginShape();
+          for (let i = 0; i < spectrum.length; i++) {
+            let h = map(
+              spectrum[i],
+              min(spectrum),
+              max(spectrum),
+              0,
+              height / 2
+            );
+            let sx = cos(angle * i + 90) * h;
+            let sy = sin(angle * i + 90) * h;
+            vertex(sx, sy);
+          }
+          endShape(CLOSE);
+        }
+      }
+
+      function keyPressed() {
+        mySound.loop();
+      }
+
+      function keyReleased() {
+        mySound.pause();
+      }
+    </script>
+  </body>
+</html>

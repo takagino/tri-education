@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image</title>
+</head>
+
+<body>
+    <p id="val">0</p>
+    <img id="cat" src="/images/neko00.jpg" alt="">
+
+    <!-- socket.io CDN -->
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"
+        integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj"
+        crossorigin="anonymous"></script>
+
+    <script>
+        const socket = io();
+        const val = document.querySelector("#val");
+        const cat = document.querySelector("#cat");
+
+        socket.on('sensor_value', recieve => {
+            val.textContent = recieve;
+
+            if (recieve <= 200) {
+                cat.setAttribute('src', `/images/neko00.jpg`);
+            } else if (200 < recieve && recieve <= 400) {
+                cat.setAttribute('src', `/images/neko01.jpg`);
+            } else {
+                cat.setAttribute('src', `/images/neko02.jpg`);
+            }
+        });
+    </script>
+</body>
+
+</html>

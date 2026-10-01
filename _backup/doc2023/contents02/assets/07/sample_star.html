@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>星の描画</title>
+  <style>
+    canvas {
+      background: #000;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+  <script>
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      rectMode(CENTER);
+      angleMode(DEGREES); //角度で計算できるようにする
+    }
+
+    function draw() {
+      clear();
+
+      let angle = 360 / 5;
+      let halfAngle = angle / 2;
+
+      push();
+      translate(width / 2, height / 2);
+
+      beginShape();
+      for (let a = 0; a < 360; a += angle) {
+        let sx = cos(a) * 70;
+        let sy = sin(a) * 70;
+        vertex(sx, sy);
+        sx = cos(a + halfAngle) * 30;
+        sy = sin(a + halfAngle) * 30;
+        vertex(sx, sy);
+      }
+      endShape(CLOSE);
+
+      pop();
+    }
+  </script>
+</body>
+</html>

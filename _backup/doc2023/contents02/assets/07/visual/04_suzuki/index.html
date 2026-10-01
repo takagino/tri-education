@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>randomSeedを使って同じ動きを実現する</title>
+    <style>
+        canvas {
+            background: rgba(18, 51, 143, 0.8);
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+    <script>
+        let mySound;
+        let fft;
+
+        function preload() {
+            mySound = loadSound('pesp.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            rectMode(CENTER);
+            noStroke();
+
+            fft = new p5.FFT();
+        }
+
+
+        function draw() {
+            clear();
+
+
+            mySound.amp(map(mouseY, 0, height, 0, 1));
+
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+
+                for (let i = 0; i < spectrum.length; i++) {
+                    function change(color) { fill(map(spectrum[i], min(spectrum), max(spectrum), 0, random(color)), 100, 80, 0.2); }
+
+                    let w = map(spectrum[i], min(spectrum), max(spectrum), 0, 300);
+
+                    change(50);
+                    circle(w, w, w, w);
+
+                    change(250);
+                    circle(640, 480, w, w);
+
+
+
+                }
+            }
+        }
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }
+    </script>
+</body>
+
+</html>

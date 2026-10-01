@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+    <style>
+        canvas {
+            background: #fff;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let num = 1024;
+        let obj = [];
+
+
+        function preload() {
+            mySound = loadSound('In_White_Season.mp3');
+        }
+
+
+        function setup() {
+            createCanvas(640, 480);
+            colorMode(HSL);
+            angleMode(DEGREES);
+            noStroke();
+
+            fft = new p5.FFT();
+
+            for (let i = 0; i < num; i++) {
+                obj.push({
+                    x: random(width),
+                    y: random(height)
+                })
+            }
+        }
+
+        function draw() {
+            clear();
+
+
+            mySound.amp(map(mouseY, 0, height, 0, 1));
+
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+
+                for (let i = 0; i < spectrum.length; i++) {
+                    fill(map(spectrum[i], min(spectrum), max(spectrum), 0, 360), 50, 50, 0.2);
+                    let h = map(spectrum[i], min(spectrum), max(spectrum), 0, 200);
+                    circle(obj[i].x, obj[i].y, h, h);
+                }
+            }
+            if (mySound.isPlaying()) {
+                let spectrum = fft.analyze();
+                let angle = 360 / spectrum.length;
+
+                push();
+                translate(width / 2, height / 2);
+
+                beginShape();
+                for (let i = 0; i < spectrum.length; i++) {
+                    let h = map(spectrum[i], min(spectrum), max(spectrum), 0, height / 2);
+                    let sx = cos(angle * i + 90) * h;
+                    let sy = sin(angle * i + 90) * h;
+                    vertex(sx, sy);
+                }
+
+                endShape(CLOSE);
+            }
+            let angle = 360 / 5;
+            let halfAngle = angle / 2;
+
+            push();
+            translate(width / 2, height / 2);
+
+            beginShape();
+            for (let a = 0; a < 360; a += angle) {
+                let sx = cos(a) * 70;
+                let sy = sin(a) * 70;
+                vertex(sx, sy);
+                sx = cos(a + halfAngle) * 30;
+                sy = sin(a + halfAngle) * 30;
+                vertex(sx, sy);
+            }
+            endShape(CLOSE);
+
+            pop();
+        }
+
+
+
+        function keyPressed() {
+            mySound.loop();
+        }
+
+        function keyReleased() {
+            mySound.pause();
+        }    </script>
+
+    <!-- map(spectrum[i], min(spectrum), max(spectrum), 0, 360) -->
+</body>
+
+</html>

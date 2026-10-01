@@ -1,0 +1,1 @@
+import{_ as e,o,c as s,a as t}from"./index-fd37a7e7.js";const c={},n={class:"inner"},_=t("h1",null,"アバウトページ",-1),a=[_];function r(i,d){return o(),s("div",n,a)}const f=e(c,[["render",r]]);export{f as default};

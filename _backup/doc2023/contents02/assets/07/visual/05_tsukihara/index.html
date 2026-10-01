@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.sound</title>
+
+    <dl>
+        <dt>マウスカーソル</dt>
+        <dd>上=音量up</dd>
+        <dd>下=音量down</dd>
+    </dl>
+
+
+    <style>
+        canvas {
+            background: #ddd;
+            border: 1px solid #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/addons/p5.sound.min.js"></script>
+    <script>
+        let mySound;
+        let fft;
+        let drawing = false;
+
+        function preload() {
+            mySound = loadSound('BAD HOP.mp3');
+        }
+
+        function setup() {
+            createCanvas(640, 480);
+            fft = new p5.FFT();
+        }
+
+        function draw() {
+            if (mySound.isPlaying() && drawing) {
+                let waveform = fft.waveform();
+                background(0);
+                let volume = map(mouseY, height, 0, 0, 2);
+                mySound.setVolume(volume);
+
+                noFill();
+                beginShape();
+                stroke(random(255), random(255), random(255));
+                strokeWeight(4);
+
+                for (let i = 0; i < waveform.length; i++) {
+                    let angle = map(i, 0, waveform.length, 0, TWO_PI);
+                    let radius = map(waveform[i], -1, 1, 10, 300);
+                    let x = width / 2 + cos(angle) * radius;
+                    let y = height / 2 + sin(angle) * radius;
+                    vertex(x, y);
+                }
+
+                endShape();
+            }
+        }
+
+        function keyPressed() {
+            drawing = true;
+            mySound.play();
+        }
+
+        function keyReleased() {
+            drawing = false;
+            mySound.stop();
+            background(0);
+        }
+    </script>
+
+</body>
+
+</html>

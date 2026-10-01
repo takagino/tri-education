@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>並べる</title>
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"></script>
+  <script>
+    let obj = {
+      d: 20
+    };
+
+    function setup() {
+      createCanvas(640, 480);
+      colorMode(HSL);
+      noStroke();
+      fill(180, 50, 50);
+
+      for (let y = 0; y < height; y += obj.d) {
+        for (let x = 0; x < width; x += obj.d) {
+          ellipse(x + obj.d / 2, y + obj.d / 2, obj.d, obj.d);
+        }
+      }
+    }
+
+    function draw() {
+    }
+  </script>
+</body>
+</html>

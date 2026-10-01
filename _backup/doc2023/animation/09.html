@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「インタラクションアニメ」09_最終課題 | 2023年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+    <style>
+      .sample img {
+        padding: 0;
+        border: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2023年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「インタラクションアニメ」09_最終課題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">作品</h2>
+        <div class="clause">
+          <p><a href="https://forms.gle/KFFmhUXaDQdNHp7w8">アンケート</a></p>
+          <ul>
+            <!-- <li>
+              <a target="_blank" href="./assets/09/kadai/01_asano/">01_asano</a>
+            </li> -->
+            <li>
+              <a target="_blank" href="./assets/09/kadai/02_iida/">02_iida</a>
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/03_ito/">03_ito</a>
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/04_iwamoto/"
+                >04_iwamoto</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/06_okayama/"
+                >06_okayama</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/07_okiyama/"
+                >07_okiyama</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/08_kajita/"
+                >08_kajita</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/10_sakagami/"
+                >10_sakagami</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/11_sakurai/"
+                >11_sakurai</a
+              >
+            </li>
+            <li>
+              <video
+                width="800"
+                src="./assets/09/kadai/12_sibata.mp4"
+                controls
+              ></video>
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/13_shimada/"
+                >13_shimada</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/14_shimizu/"
+                >14_shimizu</a
+              >
+            </li>
+            <!-- <li>
+              <a target="_blank" href="./assets/09/kadai/15_subedi/"
+                >15_subedi</a
+              >
+            </li> -->
+            <li>
+              <a target="_blank" href="./assets/09/kadai/16_nagase/"
+                >16_nagase</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/17_nonogaki/"
+                >17_nonogaki</a
+              >
+            </li>
+            <!-- <li>
+              <a target="_blank" href="./assets/09/kadai/18_hashimoto/"
+                >18_hashimoto</a
+              >
+            </li> -->
+            <li>
+              <a target="_blank" href="./assets/09/kadai/22_furuhashi/"
+                >22_furuhashi</a
+              >
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/23_hori/">23_hori</a>
+            </li>
+            <li>
+              <video
+                width="800"
+                src="./assets/09/kadai/24_matuoka.mp4"
+                controls
+              ></video>
+            </li>
+            <li>
+              <a target="_blank" href="./assets/09/kadai/25_yamauchi/"
+                >25_yamauchi</a
+              >
+            </li>
+          </ul>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">1. GSAPの復習</h2>
+        <div class="clause">
+          <div class="item">
+            <p><a href="https://gsap.com/">公式サイト</a></p>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 準備</h3>
+          <pre
+            class="line-numbers"
+          ><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;GSAP&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css"&gt;
+  &lt;style&gt;
+  .box {
+    width: 100px;
+    height: 100px;
+    margin: 1000px 0 1000px;
+    background-color: #000;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class="box"&gt;&lt;/div&gt;
+  &lt;small&gt;&copy trident.&lt;/small&gt;
+
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-2. アニメーションの設定</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">// ゴールの状態を指定する（現在の状態からのアニメーション）
+gsap.to(".box", {
+  x: 100,
+  delay: 1,
+});
+
+// スタートの状態を指定する（現在の状態に戻るアニメーション）
+gsap.from(".box", {
+  x: 100,
+  delay: 1,
+});
+
+// 指定した状態(初期状態)から、指定した状態(完了状態)にアニメーションさせる
+gsap.fromTo(".box", {
+  x: 100
+}, {
+  x: 200,
+  delay: 1,
+});</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【第2引数に設定できる値】</dt>
+              <dd>
+                <table>
+                  <tr>
+                    <th>プロパティ名</th>
+                    <th>説明</th>
+                    <th>初期値</th>
+                  </tr>
+                  <tr>
+                    <td>duration</td>
+                    <td>1回のアニメーションの時間を指定</td>
+                    <td>0.5</td>
+                  </tr>
+                  <tr>
+                    <td>delay</td>
+                    <td>何秒遅らせてアニメーションを始めるかを指定</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>repeat</td>
+                    <td>アニメーションを繰り返す回数を指定</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>repeatDelay</td>
+                    <td>アニメーションをリピートするまでの時間を指定</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td>yoyo</td>
+                    <td>リピート時に反復挙動にするかを指定</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>ease</td>
+                    <td>アニメーションの進捗タイミングを調整</td>
+                    <td>
+                      power2.inOut<br /><a
+                        href="https://gsap.com/docs/v3/Eases/"
+                        >Ease Visualizer</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>その他</td>
+                    <td colspan="2">
+                      <a
+                        href="https://gsap.com/docs/v3/GSAP/Tween#special-properties"
+                        >Special Properties</a
+                      >
+                    </td>
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-3. ScrollTriggerの設定</h3>
+          <div class="item">
+            <pre
+              class="line-numbers"
+            ><code class="language-javascript">gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+  },
+});</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ScrollTriggerのプロパティ】</dt>
+              <dd>
+                <table>
+                  <tr>
+                    <th>プロパティ名</th>
+                    <th>説明</th>
+                    <th>単位</th>
+                    <th>初期値</th>
+                  </tr>
+                  <tr>
+                    <td>trigger</td>
+                    <td>アニメーションのトリガー要素を指定</td>
+                    <td>なし</td>
+                    <td>なし</td>
+                  </tr>
+                  <tr>
+                    <td>start</td>
+                    <td>アニメーション開始位置</td>
+                    <td>文字列、px、%</td>
+                    <td>top bottom</td>
+                  </tr>
+                  <tr>
+                    <td>end</td>
+                    <td>アニメーション終了位置</td>
+                    <td>文字列、px、%</td>
+                    <td>bottom top</td>
+                  </tr>
+                  <tr>
+                    <td>markers</td>
+                    <td>マーカー表示</td>
+                    <td>真偽値</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>scrub</td>
+                    <td>スクロール量に合わせてアニメーション</td>
+                    <td>真偽値</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>pin</td>
+                    <td>要素を固定</td>
+                    <td>真偽値</td>
+                    <td>false</td>
+                  </tr>
+                  <tr>
+                    <td>toggleActions</td>
+                    <td>アニメーション開始のタイミングと動き方を指定</td>
+                    <td>文字列</td>
+                    <td>play none none none</td>
+                  </tr>
+                </table>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-4. タイムライン</h3>
+          <div class="item">
+            <pre class="line-numbers"><code class="language-javascript">gsap
+  .timeline({
+    repeat: -1,
+    repeatDelay: 0.5,
+  })
+  .to(".box", {
+    x: 100,
+  })
+  .to(".box", {
+    y: 100,
+  })
+  .to(".box", {
+    rotate: 360,
+  })
+  .to(".box", {
+    x: 0,
+  })
+  .to(".box", {
+    y: 0,
+  });</code></pre>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【タイムラインのネスト】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">// 1つ目のタイムライン
+const text01 = gsap
+  .timeline()
+  .to(".text01", {
+    y: -50,
+  })
+  .to(".text01", {
+    x: 50,
+  });
+
+// 2つ目のタイムライン
+const text02 = gsap
+  .timeline()
+  .to(".text02", {
+    y: -50,
+  })
+  .to(".text02", {
+    x: 50,
+  });
+
+// 全体のタイムライン
+gsap
+  .timeline({
+    repeat: -1,
+    repeatDelay: 0.5,
+    yoyo: true,
+  })
+  .add(text01)
+  .add(text02, "-=0.5");</code></pre>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ScrollTriggerの設定】</dt>
+              <dd>
+                <pre
+                  class="line-numbers"
+                ><code class="language-javascript">const box01 = gsap
+  .timeline()
+  .to(".box01", {
+    y: -50,
+  })
+  .to(".box01", {
+    x: 50,
+  });
+
+const box02 = gsap
+  .timeline()
+  .to(".box02", {
+    y: -50,
+  })
+  .to(".box02", {
+    x: 50,
+  });
+
+gsap
+  .timeline({
+    scrollTrigger: {
+      trigger: ".box",
+      start: "top 80%",
+      end: "bottom 20%",
+      markers: true,
+      toggleActions: "play none none reset",
+    },
+  })
+  .add(box01)
+  .add(box02, "-=0.5");</code></pre>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">1-5. 複数要素のアニメーション</h3>
+          <pre
+            class="line-numbers"
+          ><code class="language-javascript">gsap.utils.toArray(".fadeInUp").forEach(target => {
+  gsap.from(target, {
+    y: 100,
+    opacity: 0,
+    scrollTrigger: {
+      trigger: target,
+      start: "top 80%",
+      toggleActions: "play none none reverse",
+    },
+  });
+});</code></pre>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. GSAPの補足</h2>
+        <div class="clause">
+          <p>
+            <a href="https://zenn.dev/masa5714/scraps/d89f2c55cfb657"
+              >GSAPさわる - 数字をカウントアップ
+            </a>
+          </p>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">3. 最終課題</h2>
+        <div class="clause">
+          <p>
+            「トライデントコンピュータ専門学校Webデザイン学科の魅力を伝えるアニメーションの制作」
+          </p>
+          <div class="item">
+            <dl>
+              <dt>【提出先】</dt>
+              <dd>
+                <a
+                  href="https://drive.google.com/drive/folders/13yCTR-i_est93H6c0YNHzIX3R9ec5Pae?usp=sharing"
+                  >Googleドライブ</a
+                >
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【見本】</dt>
+              <dd>
+                <a href="./assets/09/gsap/" target="_blank">高木が作ったやつ</a>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【ターゲット】</dt>
+              <dd>
+                オープンキャンパスに来校した高校生、およびその保護者さま。
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【目的】</dt>
+              <dd>
+                Webデザイン学科の魅力をアニメーションにすることで、「正確に」「わかりやすく」「楽しく」情報を伝える。
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【制作方法】</dt>
+              <dd>以下のどちらかを選択する。</dd>
+              <dd>
+                <ol>
+                  <li>
+                    「Adobe
+                    Animate」を使用しアニメーションを制作。動画に書き出して提出。
+                  </li>
+                  <li>
+                    「GSAP」を使用しスクロールアニメーションを施したWebページを制作。（デザイン含む）
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【アニメーションの内容】</dt>
+              <dd>以下の3つから1つを選択する。</dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【スケジュール】</dt>
+              <dd>
+                <ul>
+                  <li>1/10(水)：最終課題制作</li>
+                  <li>1/17(水)：最終課題制作</li>
+                  <li>1/24(水)：最終課題制作</li>
+                  <li>1/31(水)：最終課題制作</li>
+                  <li>2/5(月)：HTML+CSS実習の時間に発表</li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【注意点 - 共通】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    アニメーションの最初や、ページの最初に「トライデントコンピュータ専門学校Webデザイン学科　○○について」のようにタイトルを明記すること。
+                  </li>
+                  <li>最低限含める内容であり、自分で考えて追加しても良い。</li>
+                  <li>
+                    情報の順番は自由。（より伝わりやすい順番を考えること）
+                  </li>
+                  <li>細かい文言は自由。</li>
+                  <li>
+                    <em
+                      >テキストだけでなく、写真・イラスト・アイコン・グラフなどを用いてわかりやすくすること。</em
+                    >（「写真　無料　まとめ」などで検索）
+                  </li>
+                  <li>
+                    ロゴデータが欲しい人は<a
+                      href="https://drive.google.com/drive/folders/1wagoXAUCVOxWMesBP1Y2j3BnIzjT07aa?usp=sharing"
+                      >こちら</a
+                    >
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【注意点 - Adobe Animate】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    新規ファイル作成時に「キャラクターアニメーション」-「HD」を選択すること。
+                    <img src="./assets/09/01.png" alt="" width="600" />
+                  </li>
+                  <li>読み込んだ写真等の素材は「シンボル」に変換すること。</li>
+                  <li>
+                    アニメーションの時間は自由だが、あまりにも短いものは不可とする。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <p>
+              <a
+                href="https://fungry.co.jp/cnaps/blog/why-is-infographic-graph/"
+                >参考</a
+              >
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【注意点 - GSAP】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>
+                    ランディングページ1ページを制作し、効果的なスクロールアニメーションを施すこと。
+                  </li>
+                  <li>
+                    見出しや背景などのデザインも考えること。（CSSでの装飾がメインで良い）
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <p>
+              <a href="https://lp.webdesignclip.com/tag/animation-lp/">参考</a>
+            </p>
+          </div>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">◎学科について</h2>
+        <section class="clause">
+          <h3 class="clause__title">学科の特徴</h3>
+          <div class="item">
+            <ul class="clause__list">
+              <li>デザインとプログラミング、両方の知識を身につける。</li>
+              <li>グループワークや実践を通じて、楽しく成長できる。</li>
+              <li>MacBook Airを無料貸し出し。家でも同じ環境で学習できる。</li>
+            </ul>
+            <p>
+              <a href="https://computer.trident.ac.jp/courses/web_design/"
+                >参考</a
+              >
+            </p>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">主なカリキュラム「1年次」</h3>
+          <div class="item">
+            <dl>
+              <dt>【Webデザイン、カラーデザイン】</dt>
+              <dd>
+                各種ツールの操作方法から、Webサイト・アプリケーションのデザイン、カラースキームの知識、基礎構成力など、デザインに必要な幅広いスキルを実践を通して学びます。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【HTML基礎、JavaScript基礎】</dt>
+              <dd>
+                Web制作に関わる職業にとって必須となる「HTML・CSS・JavaScript」などのプログラム言語を段階的に学び、最終的には背策現場に即した知識を習得します。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【造形演習】</dt>
+              <dd>
+                デッサン・アイデア発想・展開法・色彩・平面構成・テーマ別クロッキーなどを通じて、ビジュアルデザインの基礎力を学ぶとともに、ものを造ることの楽しみ方も掴みます。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【社会人基礎力】</dt>
+              <dd>
+                社会人として必要な力、特に「前に踏み出す力（アクション）」「考えぬく力（シンキング）」「チームで働く力（チームワーク）」をワークショップを通じて学び、業界にとらわれないスキルと技術を習得します。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">主なカリキュラム「2年次」</h3>
+          <div class="item">
+            <dl>
+              <dt>【Webサイト制作】</dt>
+              <dd>
+                クライアント様を募り、実際に公開させていただけるWebサイトを制作することにより、現場に即した一連の流れ（ヒアリング・企画・設計・実装・テスト等）を体験・習得します。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【アプリ制作】</dt>
+              <dd>
+                UX手法を使った制作や考え方を学び、チームでのアプリケーション制作を行います。完成した作品は各種コンテストに応募し、就活の際のアピール材料としても活用していきます。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【卒業制作】</dt>
+              <dd>
+                2年間の集大成となる作品を各自制作します。卒業制作展に展示をすることで、作品に対する責任感やフィードバックの大切さを学ぶとともに、仲間たちと切磋琢磨しながら精一杯頑張ることの素晴らしさを体感します。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【コミュニケーションスキル】</dt>
+              <dd>
+                英会話、ワークショップを中心に、他人とコミュニケーションを深め、意志の疎通を行なう知識・技術を学びます。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">コンテスト実績（※任意）</h3>
+          <ul class="clause__list">
+            <li>2022年「第6回専門学校HTML5作品アワード」入賞</li>
+            <li>
+              2022年「信州未来アプリコンテスト0(ZERO)」《U-29》部門 優秀賞
+            </li>
+            <li>2021年「第5回専門学校HTML5作品アワード」入賞</li>
+            <li>2021年「第16回若年者ものづくり競技大会」敢闘賞</li>
+            <li>
+              2020年「第4回専門学校HTML5作品アワード」神戸デジタル・ラボ賞
+            </li>
+            <li>
+              2019年「第5回ソレコン☆ポスコン（ポスターデザインコンテスト）」特別賞
+            </li>
+            <li>など、多数。</li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">講師紹介</h3>
+          <dl>
+            <dt>【河口英生】</dt>
+            <dd>
+              <a
+                href="https://media.licdn.com/dms/image/C5603AQGEGTWkV_E37A/profile-displayphoto-shrink_800_800/0/1516947316441?e=2147483647&v=beta&t=YG0wYbOAoXJeX2LQHKbZ3vB8kzfcUzrw7rNRSANyXL0"
+                >プロフィール画像</a
+              >
+            </dd>
+            <dd>
+              大学（工学部経営工学科）在学中にCG（コンピュータグラフィックス）に興味を持ち、卒業後、カメラマンのアシスタントをしながら、Macintoshのスクールに通う。スクール講師の紹介で、デザイン事務所に入社し、広告ポスター、告知フライヤー、月刊誌の誌面デザインなど、様々なグラフィックデザインに携わる。トライデントコンピュータ専門学校CGイラスト学科講師を経て、2009年Webデザイン学科講師。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【高木寛貴】</dt>
+            <dd>
+              <a
+                href="https://scontent-nrt1-2.xx.fbcdn.net/v/t1.18169-9/1233977_570896289614275_468887656_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=be3454&_nc_ohc=POlxQbXcPWQAX8VEOlB&_nc_ht=scontent-nrt1-2.xx&oh=00_AfBLbmvmfN5BKI14xm1f45b-XtjYNI23Y-60kEEYTl6KHg&oe=65C52620"
+                >プロフィール画像</a
+              >
+            </dd>
+            <dd>
+              国際情報科学芸術アカデミー［IAMAS］DITコースにて、プログラミング・情報デザイン・フィジカルコンピューティングなどを学ぶ。卒業後、美大の助手やWeb制作会社のエンジニアを経て、トライデントコンピュータ専門学校Webデザイン学科の講師に就任。主にプログラミングやプロジェクト制作の授業を担当する。
+            </dd>
+          </dl>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">各種データ</h3>
+          <dl>
+            <dt>【クラス人数】</dt>
+            <dd>25名前後</dd>
+          </dl>
+          <dl>
+            <dt>【男女比】</dt>
+            <dd>男7：女3</dd>
+          </dl>
+          <dl>
+            <dt>【年齢】</dt>
+            <dd>高卒8：その他2</dd>
+          </dl>
+          <dl>
+            <dt>【出身】</dt>
+            <dd>愛知5：岐阜3：三重1：その他1</dd>
+          </dl>
+          <dl>
+            <dt>【制作経験】</dt>
+            <dd>あり4：なし6</dd>
+          </dl>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">◎就職について</h2>
+        <section class="clause">
+          <h3 class="clause__title">目指す業種</h3>
+          <div class="item">
+            <dl>
+              <dt>【Web制作会社】</dt>
+              <dd>
+                クライアントの要件に基づいてウェブサイトやアプリを制作する企業です。プロジェクトごとに異なるクライアントと協力し、様々な業種やデザインの要望に対応します。デザイン、コーディング、開発、テスト、およびクライアントとのコミュニケーションが主な業務です。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【印刷会社】</dt>
+              <dd>
+                主に印刷物（パンフレット、ポスター、名刺など）を制作する企業です。デザインだけでなく、印刷技術や素材の知識も求められます。デザインの作成や修正、印刷プロセスの管理、印刷物の品質管理が主な業務です。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【ECサイト運営会社】</dt>
+              <dd>
+                オンラインで商品やサービスを販売するためのウェブプラットフォームを運営する企業です。ウェブサイトの更新、ECプラットフォームの管理、注文処理、在庫管理、マーケティング、顧客対応が主な業務です。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【自社サービス会社】</dt>
+              <dd>
+                独自のサービスや製品を提供する企業です。例えば、SaaS（Software
+                as a
+                Service）企業が自社製品を開発・提供します。デザイン・開発、自社サービスの改善、ユーザーエクスペリエンスの向上が主な業務です。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【一般企業のWeb担当者】</dt>
+              <dd>
+                その企業のウェブプレゼンスを管理・維持する役割を果たします。多くの場合、企業の内部に所属しています。ウェブサイトの更新、コンテンツ管理、デザインの調整、社内部門との連携、セキュリティ対策などが主な業務です。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">主な就職先</h3>
+          <div class="item">
+            <dl>
+              <dt>【株式会社アクアリング】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>Web制作会社</li>
+                  <li>
+                    Webサイト構築・運用サポートにとどまらず、コミュニケーション戦略立案や、UX/UIをメインとしたデザインコンサル、IoTプロダクト開発支援などを提供する、名古屋を代表するWeb制作会社。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【株式会社カークスヴィル】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>Web制作会社</li>
+                  <li>
+                    ウェブサイトを中心とした、インタラクティブなクリエイティブ・デザインに強みをもつデジタル・プロダクション。アニメ・ゲーム・音楽などエンターテイメントの分野を中心とした公式サイト・キャンペーンサイト・コーポレートサイトを多く制作している。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【honu加藤珈琲店株式会社】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>ECサイト運営会社</li>
+                  <li>
+                    コーヒーのインターネット通販のパイオニアで、業界トップクラスの売上を記録。楽天市場では「ショップオブザイヤー」を13年連続受賞している。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <dl>
+              <dt>【株式会社寿商店】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>一般企業のWeb担当者</li>
+                  <li>
+                    昭和55年創業
+                    名古屋にある魚屋。飲食店「下の一色」など12店舗を運営する。「魚屋だからできること」「魚好きを増やしたい」をモットーに、毎日市場直送の美味しいお魚をお店や通販でお届けしている。
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">就活スケジュール（※任意）</h3>
+          <ul class="clause__list">
+            <li>1年次 10月〜：自己分析、企業研究、履歴書指導</li>
+            <li>1年次 12月〜：インターンシップ参加</li>
+            <li>1年次 2月：進級制作展</li>
+            <li>2年次 3月：ポートフォリオサイト制作</li>
+            <li>2年次 3月〜：エントリー開始</li>
+            <li>2年次 6月〜：試験、面接</li>
+          </ul>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">就職サポート体制</h3>
+          <dl>
+            <dt>【学内就職試験&企業説明会】</dt>
+            <dd>
+              企業の人事担当の方が来校し、当校にて就職試験・企業説明会を実施します。名古屋だけでなく、東京や大阪など遠方の有名・優良企業もトライデント生のために来校します。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【トライデント合同企業説明会】</dt>
+            <dd>
+              「トライデントグループ校の学生」のみが対象の企業説明会。多くの採用担当者が集まります。業界や職種を直接知るチャンス。また、ここでの出会いをきっかけに企業から声がかかることもあります。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【企業研究授業&就職研究授業】</dt>
+            <dd>
+              卒業年次進級前の半年をかけて実施される就職準備の時間。週1回の授業で自己分析、履歴書・エントリーシート作成、筆記試験対策など段階的に無理なく準備を進めていきます。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【就職特別講座】</dt>
+            <dd>
+              有名紳士服メーカーより講師をお招きして実施する「身だしなみ講座」や、外部講師を招き、これからの就職活動を有利に進めていくための手法・考え方を学ぶと同時に、学生の「やる気」を上げる講演をしていただきます。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【模擬面接&キャリアアドバイス】</dt>
+            <dd>
+              マナーのプロ講師が模擬面接を通して、言葉遣いなどを細かくレクチャーします。また、キャリアコンサルタントによるキャリアアドバイスで、一人ひとりの就職活動に対する不安にも寄り添います。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【インターンシップ】</dt>
+            <dd>
+              企業が募集している一般的なインターンシップだけでなく、多数のクリエイター・エンジニアを業界に送り出してきたトライデントだからできる、トライデント生だけのインターンシップも実施しています。夏休み（8月〜9月）などを利用して、あこがれの業界企業で実践体験!肌で業界の今を感じることができるので、自分の適性を知ったりスキルを上げたりすることができます。
+            </dd>
+          </dl>
+          <p>
+            <a href="https://computer.trident.ac.jp/worklicense/seven_feature/"
+              >参考</a
+            >
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">各種データ</h3>
+          <dl>
+            <dt>【内定率】</dt>
+            <dd>5年連続100%</dd>
+          </dl>
+          <dl>
+            <dt>【業界就職率】</dt>
+            <dd>60%〜70%</dd>
+          </dl>
+          <dl>
+            <dt>【業種の割合】</dt>
+            <dd>Web制作会社6：IT系2：印刷会社1：その他1</dd>
+          </dl>
+          <dl>
+            <dt>【職種の割合】</dt>
+            <dd>デザイナー4：エンジニア5：その他1</dd>
+          </dl>
+          <dl>
+            <dt>【地域】</dt>
+            <dd>愛知岐阜三重7：東京2：その他1</dd>
+          </dl>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">◎Web業界について</h2>
+        <section class="clause">
+          <h3 class="clause__title">Web業界の魅力</h3>
+          <div class="item">
+            <dl>
+              <dt>【自分のデザインを世界中に発信出来る】</dt>
+              <dd>
+                SNSの普及やオンラインでのコミュニケーションの増加により、自分の作品を世界中の人々に見てもらえるチャンス、専門家や他のクリエイターとつながるチャンスが広がっています。斬新なデザインで人をあっと驚かせたり、無名なサービスを世の中に広めたり、Webサイトには様々な可能性があります。世界中の反応をダイレクトに受けられることは、Webデザインの大きなやりがいです。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【ライフスタイルに合わせた働き方ができる】</dt>
+              <dd>
+                例えば、自宅で仕事をするなど、自由に働く場所を選ぶことが可能なこともWeb業界の魅力です。また、プログラミング言語はほぼ世界共通のため、海外でグローバルな働き方ができる可能性もあります。起業してみたい、主婦や子育てをしながら少しでも働きたい、退職したあとも働きたいなど、Web業界では自分のライフスタイルに合わせた働き方を見つけることができます。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【市場規模が拡大している】</dt>
+              <dd>
+                Web業界は電子書籍やオンラインゲーム、SNSなど様々なサービスが展開されており、いずれも拡大傾向にあります。さらに、コロナの影響により特にeコマースの領域で需要が高まっています。フードデリバリーが爆発的に流行したり、生活必需品の購入を通販に切り替えたり、ライフスタイルの大きな変化にWebサービスが密接しています。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">主な職種</h3>
+          <div class="item">
+            <dl>
+              <dt>【Webプロデューサー】</dt>
+              <dd>
+                Webサイトのターゲットやコンセプト、イメージを顧客と相談しながら作り上げ、納期や予算、人員を管理しながらプロジェクト全体を統括する。Webの専門知識・営業力・交渉力・運営と管理の能力などが求められる。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【Webディレクター】</dt>
+              <dd>
+                クライアントの要望にかなったWebコンテンツを作り上げるため、プロジェクトの進行管理者としてプロジェクトを監督・指揮・管理する。IT全般の基本知識・コミュニケーション能力・相手の要望を引き出すヒアリング力などが求められる。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【Webデザイナー】</dt>
+              <dd>
+                クライアントがイメージするWebサイトのコンセプトに合わせて、見やすく使い勝手の良いWebサイトのデザインを作る。デザイン関連の知識・コミュニケーション能力・デザイン制作のツールを使いこなす技術力などが求められる。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【Webエンジニア】</dt>
+              <dd>
+                設計書に沿ってプログラミングすることで、クライアントの要望通りのシステムを実現するために作業を進める。「Java」「PHP」「JavaScript」「Ruby」などさまざまなプログラム言語を操るスキルが求められる。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【Webマーケター】</dt>
+              <dd>
+                商品やサービスを売るため、Webサービスの販促活動や集客、ブランド認知向上のためのマーケティングを行う。情報収集能力・情報分析能力・企画力・コミュニケーション能力などが求められる。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Webサイトができるまで（※任意）</h3>
+          <div class="item">
+            <dl>
+              <dt>【調査・分析・企画】</dt>
+              <dd>
+                目的やターゲットを明確にし、市場調査や分析を行い、Webサイトの企画を固める。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【サイト設計】</dt>
+              <dd>
+                ユーザー体験を設計し、どのようなコミュニケーションを行うか、その際にどのような媒体でコンテンツを提供するかなど検討する。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【コンテンツ・デザイン制作】</dt>
+              <dd>
+                コンセプトやルールを決めて、より最適なデザインを制作する。
+              </dd>
+            </dl>
+            <dl>
+              <dt>【実装・システム開発】</dt>
+              <dd>設計やデザインをWebサイトに反映していく。</dd>
+            </dl>
+            <dl>
+              <dt>【リリース・保守運用】</dt>
+              <dd>
+                どのユーザーにもデザイン通りの表示を見えているか、仕様通りシステムが動作しているかチェックを行い、問題がなければ公開する。
+              </dd>
+            </dl>
+          </div>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">Webデザイナーの1日</h3>
+          <dl>
+            <dt>【9:30：出社】</dt>
+            <dd>
+              出社すると、まずはじめに社内の昨日の日報をチェックします。
+              社内で起きている問題の中で、自身がWebデザイナーとして解決できることを見つけたり、自分が関わる他部署の案件の進捗などを確認します。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【10:00：情報収集】</dt>
+            <dd>
+              最新のデザインやコーディングに関する技術の情報収集は欠かせません。Web業界の技術は、たったの二十数年で現在の形にまで至り、今でも日々急速に進歩しています。Webデザイナーは、ユーザーに受け入れられるデザインを作ること以外に、コーディングなどのWeb業界のルール変化にも常に対応していく必要があります。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【10:30：デザイン作業】</dt>
+            <dd>
+              作成中のページのデザインを作成。 社内の人に意見をきいたりします。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【13:00：ランチタイム】</dt>
+            <dd>
+              ほとんどの会社では、お昼休憩は自由な時間に取ることができます。
+              デザイン作業などアウトプットを必要とする作業は、集中しやすい午前中に行うことが多いです。そのため、お昼は少し遅めに取ります。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【14:00：ミーティング】</dt>
+            <dd>
+              Webサイトおよびサービスをより良くしていくために、Webサイトの閲覧数などの計測結果や、収益などのデータを見ながらチームで意見を出し合います。Webデザイナーと数字は一見関連がなさそうですが、デザインはあくまで売上などの目的を達成するための手段です。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【15:00：コーディング】</dt>
+            <dd>
+              運営サイト内の改善や修正もWebデザイナーの仕事です。ただ見た目どおりにコーディングするだけではなく、修正してもトラブルが起きにくく効率的なコードを書くスキルも必要です。
+            </dd>
+          </dl>
+          <dl>
+            <dt>【18:30：退社】</dt>
+            <dd>
+              翌日の業務の確認と今日の日報作成を行い、業務終了です。クライアントからの依頼など、締切がある業務の場合は残業が発生することもあります。
+            </dd>
+          </dl>
+          <p>
+            <a
+              href="https://www.brush-up.jp/article/job/it-beginner/one_day_designer.html"
+              >参考</a
+            >
+          </p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">各種データ</h3>
+          <dl>
+            <dt>【業界規模】</dt>
+            <dd>5.9兆円（46位／190業界）</dd>
+          </dl>
+          <dl>
+            <dt>【伸び率】</dt>
+            <dd>+9.7%（12位／190業界）</dd>
+          </dl>
+          <dl>
+            <dt>【利益率】</dt>
+            <dd>+3.3%（70位／190業界）</dd>
+          </dl>
+          <p>※参考元：業界動向search.com｜インターネット業界</p>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+    <script src="../assets/js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js"></script>
+    <script></script>
+  </body>
+</html>

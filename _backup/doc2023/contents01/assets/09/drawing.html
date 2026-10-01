@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Canvas - drawing</title>
+  <style>
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <label>線色<input id="color" type="color"></label>
+    <label>背景色<input id="bgColor" type="color"></label>
+    <label>太さ<input id="weight" type="number" min="6" max="30"></label>
+    <button id="clear">クリア</button>
+  </div>
+  <div>
+    <label><input type="radio" name="mode" id="draw" checked>書く</label>
+    <label><input type="radio" name="mode" id="erase">消す</label>
+  </div>
+  <canvas id='example' width='640' height='480'>
+    Canvas not supported.
+  </canvas>
+
+  <script>
+    let canvas;
+    let ctx;
+    let mouseX = 0;
+    let mouseY = 0;
+    let click = false;
+    let draw;
+    let erase;
+    let mode;
+
+    window.addEventListener('load', () => {
+      init();
+    });
+
+    const init = () => {
+      canvas = document.querySelector('#example');
+      if (!canvas || !canvas.getContext) {
+        return false;
+      }
+      ctx = canvas.getContext('2d');
+
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 6;
+      canvas.addEventListener('mouseleave', onUp);
+
+      canvas.addEventListener('mousemove', onMove);
+      canvas.addEventListener('mousedown', onDown);
+      canvas.addEventListener('mouseup', onUp);
+
+      const color = document.querySelector('#color');
+      color.addEventListener('input', onColor);
+
+      const bgColor = document.querySelector('#bgColor');
+      bgColor.addEventListener('input', onBgColor);
+
+      const weight = document.querySelector('#weight');
+      weight.addEventListener('input', onWeight);
+
+      const clear = document.querySelector('#clear');
+      clear.addEventListener('click', onClear);
+
+      draw = document.querySelector('#draw');
+      erase = document.querySelector('#erase');
+    }
+
+    const onMove = (e) => {
+      if (click) {
+        if (mode === "draw") {
+          ctx.beginPath();
+          ctx.moveTo(mouseX, mouseY);
+
+          let rect = e.currentTarget.getBoundingClientRect();
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+
+          ctx.lineTo(mouseX, mouseY);
+          ctx.stroke();
+        } else {
+          let rect = e.currentTarget.getBoundingClientRect();
+          mouseX = e.clientX - rect.left;
+          mouseY = e.clientY - rect.top;
+
+          ctx.clearRect(mouseX - 15, mouseY - 15, 30, 30);
+        }
+      }
+    }
+
+    const onDown = (e) => {
+      click = true;
+
+      if (draw.checked) {
+        mode = "draw";
+      } else {
+        mode = "erase";
+      }
+
+      let rect = e.target.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    }
+
+    const onUp = (e) => {
+      click = false;
+    }
+
+    const onColor = (e) => {
+      ctx.strokeStyle = e.target.value;
+    }
+
+    const onBgColor = (e) => {
+      canvas.style.backgroundColor = e.target.value;
+    }
+
+    const onWeight = (e) => {
+      ctx.lineWidth = e.target.value;
+    }
+
+    const onClear = (e) => {
+      ctx.clearRect(0, 0, 640, 480);
+    }
+  </script>
+</body>
+</html>

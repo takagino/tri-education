@@ -1,0 +1,1035 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」04_ビルドツールの活用 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」04_ビルドツールの活用</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. ビルドツールとは</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【ビルド】</dt>
+            <dd>ソフトウェアの<em>ビルド（英: build）</em>は、プログラミング言語で書かれたソースコードファイルや各種リソースファイルを独立したソフトウェア生成物に変換するコンピュータ上で実行されるプロセス、またはその結果を指す。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ビルドツール】</dt>
+            <dd>上記ビルドを自動的に行なってくれるツール。様々なツールが開発・公開されている。</dd>
+          </dl>
+        </div>
+        <ul>
+          <li><a href="https://roadmap.sh/frontend">Frontend Developer Roadmap</a></li>
+          <li><a href="https://2022.stateofjs.com/ja-JP/libraries/build-tools/">State of JS 2022</a></li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. Viteとは</h2>
+      <div class="clause">
+        <p>Vue.jsの作者が開発した、JavaScriptから流行のフレームワークであるVue.js・Svelte・Reactまで、さまざまな環境で利用可能な汎用ビルドツール。Vite（ヴィート）はフランス語の「速い」を意味する言葉で、その名の通り高速に動作することが特徴。</p>
+        <p>※Viteを利用するためには、Node.js（npm）がインストールされていることが前提。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. Vite プロジェクトの生成</h3>
+        <div class="item">
+          <ol>
+            <li>デスクトップ等のわかりやすい場所にフォルダを新規作成。</li>
+            <li>VSCodeでフォルダを開く。</li>
+            <li>VSCodeのメニュー「表示 > ターミナル」からターミナルを表示。（ショートカット「control + @」）</li>
+            <li>念のため、node.jsがインストールされているか確認。
+              <pre><code class="language-terminal"># 以下を入力して「Enter」
+node -v
+
+# 以下を入力して「Enter」
+npm -v</code></pre>
+            </li>
+            <li>以下のコマンドを入力して「Enter」。
+              <pre><code class="language-terminal">npm init vite@latest</code></pre>
+            </li>
+            <li>以下のように聞かれたら「y」と入力し「Enter」
+              <pre><code class="language-terminal">Need to install the following packages:
+create-vue@3.6.4
+</code></pre>
+            </li>
+            <li>順番に質問に答えていく。
+              <pre><code class="language-terminal">Project name: → 何も入力せず「Enter」
+Select a framework: → キーボードの上下で「Vue」を選択し「Enter」
+Select a variant: → キーボードの上下で「JavaScript」を選択し「Enter」
+</code></pre>
+            </li>
+            <li>インストールに成功すると、最初に選択した名前のフォルダの中にたくさんのデータが生成される。
+              <img src="./assets/04/01.png" width="300" alt="">
+            </li>
+            <li>以下のようにターミナルに表示されるので、1行ずつ入力し「Enter」。
+              <pre><code class="language-terminal">cd vite-project → フォルダを移動
+npm install → 必要なパッケージをインストール
+npm run dev → 開発環境を立ち上げる</code></pre>
+            </li>
+            <li>表示されたURL（<a href="http://localhost:5173/">http://localhost:5173/</a>）にアクセス。</li>
+            <li>動作確認をして完了！</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【修正する】</dt>
+            <dd>『srcフォルダ > App.vue』を開き、14行目の「Vite + Vue」を変更して保存。
+              <img src="./assets/04/02.png" width="400" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【削除する】</dt>
+            <dd>
+              <ol>
+                <li>ターミナルを選択し、「control + c」で開発環境を終了。</li>
+                <li>生成されたフォルダごと削除。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. Vue プロジェクトの生成</h3>
+        <p>インストール時に便利な機能を追加したい場合は、以下のコマンドのほうが良さそう。（授業ではこちらを採用）</p>
+        <div class="item">
+          <ol>
+            <li>ターミナルに先程削除したフォルダが表示されている人は、一度強制終了して立ち上げ直す。
+              <img src="./assets/04/03.png" width="400" alt="">
+            </li>
+            <li>以下のコマンドを入力して「Enter」。
+              <pre><code class="language-terminal">npm init vue@latest</code></pre>
+            </li>
+            <li>順番に質問に答えていく。（<em>全て「Enter」でOK</em>）</li>
+            <li>インストールに成功すると、最初に選択した名前のフォルダの中にたくさんのデータが生成される。
+              <img src="./assets/04/01.png" width="300" alt="">
+            </li>
+            <li>以下のようにターミナルに表示されるので、1行ずつ入力し「Enter」。
+              <pre><code class="language-terminal">cd vite-project → フォルダを移動
+npm install → 必要なパッケージをインストール
+npm run dev → 開発環境を立ち上げる</code></pre>
+            </li>
+            <li>表示されたURL（<a href="http://localhost:5173/">http://localhost:5173/</a>）にアクセス。</li>
+            <li>動作確認をして完了！</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ディレクトリ構成】</dt>
+            <dd>
+              <table>
+                <tr>
+                  <th>node_modules</th>
+                  <td>npmコマンドでインストールしたパッケージを管理する。</td>
+                </tr>
+                <tr>
+                  <th>public</th>
+                  <td>Webに公開するファイル類を格納する</td>
+                </tr>
+                <tr>
+                  <th>src</th>
+                  <td>ビルドされるソースコードファイル類を格納する。基本はこのフォルダ内のファイルを触っていく。</td>
+                </tr>
+                <tr>
+                  <th>index.html</th>
+                  <td>トップページ。</td>
+                </tr>
+                <tr>
+                  <th>package.json</th>
+                  <td>npmパッケージ、起動タスクなどを定義するファイル。</td>
+                </tr>
+                <tr>
+                  <th>package-lock.json</th>
+                  <td>npmパッケージの依存関係に関するファイル。</td>
+                </tr>
+                <tr>
+                  <th>vite.config.js</th>
+                  <td>Viteの設定ファイル。</td>
+                </tr>
+              </table>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. Vue プロジェクトのビルド</h3>
+        <div class="item">
+          <p>このままでは本番環境（ネット上）にアップできないので、以下の手順でビルドする。</p>
+          <ol>
+            <li>相対パスでビルドされるように「vite.config.js」を以下のように修正する。
+              <pre><code class="language-javascript">import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  base: "./", // 追加
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+})</code></pre>
+            </li>
+            <li>「control + c」で開発環境を終了し、以下のコマンドを入力して「Enter」。
+              <pre><code class="language-terminal">npm run build</code></pre>
+            </li>
+            <li>「dist」フォルダが生成されたことを確認し、LiveServerでブラウザに表示。</li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. ソースコードの全体像</h3>
+        <div class="item">
+          <dl>
+            <dt>【CDNを使った場合】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Vite App&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+    &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+    &lt;script&gt;
+      const app = Vue.createApp({
+
+      });
+
+      app.mount("#app");
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ビルドツールを使った場合】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;link rel="icon" href="/favicon.ico"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Vite App&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id="app"&gt;&lt;/div&gt;
+    &lt;script type="module" src="/src/main.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre><code class="language-javascript">/* main.js */
+
+import './assets/main.css'
+
+import { createApp } from 'vue' // Vue.jsに定義されている命令から「createApp」をインポート
+import App from './App.vue' // App.vueの内容をインポート
+
+createApp(App).mount('#app')</code></pre>
+            </dd>
+            <dd>
+              <pre><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+import HelloWorld from './components/HelloWorld.vue'
+import TheWelcome from './components/TheWelcome.vue'
+&lt;/script&gt;
+
+&lt;template&gt;
+  ・
+  ・
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+  ・
+  ・
+&lt;/style&gt;
+</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. コンポーネント</h2>
+      <div class="clause">
+        <p>Vue.jsは、Webサイトやアプリケーションを<em>コンポーネント</em>という単位で制作する。コンポーネントはページの構成パーツのことで、通常「HTML」「CSS」「JavaScript」を別々のファイルに記述していく。</p>
+        <p>一方、Vue プロジェクトでは、これらの3個の要素が1つのファイルにまとめられており、以下のような形になっている。
+          <pre><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+  ・
+  ・
+&lt;/script&gt;
+
+&lt;template&gt;
+  ・
+  ・
+&lt;/template&gt;
+
+&lt;style&gt;
+  ・
+  ・
+&lt;/style&gt;
+</code></pre>
+        </p>
+        <p>このようなファイルのことを<em>単一コンポーネントファイル</em>と呼び、拡張子を「.vue」とする。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. コンポーネントの作り方</h3>
+        <div class="item">
+          <ol>
+            <li>『src > components』フォルダに新規ファイル「OneSection.vue」を作成。</li>
+            <li>以下のコードを記述し保存。
+              <pre><code class="language-markup">&lt;!-- OneSection.vue --&gt;
+
+&lt;template&gt;
+  &lt;section class="box"&gt;
+    &lt;p&gt;ひとつのコンポーネント&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+  .box {
+    border: 1px solid #f00;
+    margin: 10px;
+  }
+&lt;/style&gt;</code></pre>
+            </li>
+            <li>ファイル「App.vue」を開き、中身を全て削除する。</li>
+            <li>以下のコードを記述し保存。
+              <pre><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+  import OneSection from './components/OneSection.vue';
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;h1&gt;コンポーネントの基礎&lt;/h1&gt;
+  &lt;section&gt;
+    &lt;OneSection /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;OneSection /&gt;
+    &lt;OneSection /&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+  section {
+    border: 1px solid #00f;
+    margin: 10px;
+  }
+&lt;/style&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. コンポーネントの独立性</h3>
+        <ol>
+          <li>『src > components』フォルダに新規ファイル「WithModel.vue」を作成。</li>
+          <li>以下のコードを記述し保存。
+            <pre><code class="language-markup">&lt;!-- WithModel.vue --&gt;
+
+&lt;script setup&gt;
+  import { ref } from "vue";
+
+  const name = ref("名無し");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;section class="box"&gt;
+    &lt;p&gt;{{ name }}&lt;/p&gt;
+    &lt;input type="text" v-model="name"&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+</code></pre>
+          </li>
+          <li>ファイル「App.vue」を以下のように編集。
+            <pre><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+  import OneSection from './components/OneSection.vue';
+  import WithModel from './components/WithModel.vue'; //追加
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;h1&gt;コンポーネントの基礎&lt;/h1&gt;
+  &lt;section&gt;
+    &lt;OneSection /&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;!-- 変更 --&gt;
+    &lt;WithModel /&gt;
+    &lt;WithModel /&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+  section {
+    border: 1px solid #00f;
+    margin: 10px;
+  }
+&lt;/style&gt;</code></pre>
+          </li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. スタイルシートの独立性</h3>
+        <ol>
+          <li>ファイル「WithModel.vue」を以下のように修正。
+            <pre><code class="language-markup">&lt;!-- WithModel.vue --&gt;
+
+&lt;script setup&gt;
+  import { ref } from "vue";
+
+  const name = ref("名無し");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;section class="box"&gt;
+    &lt;p&gt;{{ name }}&lt;/p&gt;
+    &lt;input type="text" v-model="name"&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+
+&lt;!-- CSSを追加 --&gt;
+&lt;style&gt;
+  .box {
+    border-style: dashed;
+  }
+&lt;/style&gt;
+</code></pre>
+          </li>
+          <li>すべてのコンポーネントが破線のボーダーになってしまうことを確認。</li>
+          <li>CSSに独立性をもたせるために「<em>scoped属性</em>」を追加。
+            <pre><code class="language-markup">&lt;!-- WithModel.vue --&gt;
+
+&lt;style scoped&gt;
+  .box {
+    border-style: dashed;
+  }
+&lt;/style&gt;
+</code></pre>
+          </li>
+          <li>「WithModel.vue」で定義したコンポーネントのみが破線になることを確認。</li>
+          <li>要素の検証で、どのような仕組みになっているかも確認。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. Vue.jsの復習</h2>
+      <div class="clause">
+        <dl>
+          <dt>【準備】</dt>
+          <dd>練習用のVueプロジェクト「sample」を、前述の手順で新規作成する。</dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. マスタッシュ構文</h3>
+        <dl>
+          <dt>【マスタッシュ構文（二重中括弧）】</dt>
+          <dd>Vueインスタンスで定義したデータをHTML（DOM）に埋め込む（<em>バインド</em>する）仕組み。</dd>
+          <dd>
+            <pre><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;template&gt;
+  {{ 2 + 3 }}
+&lt;/template&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 変数の定義</h3>
+        <div class="item">
+          <dl>
+            <dt>【CDNを使った場合】</dt>
+            <dd>
+              <pre><code class="language-javascript">const app = Vue.createApp({
+  setup(){
+    const message = Vue.ref("Hello");
+
+    return{
+      message
+    }
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ビルドツールを使った場合】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;!--
+事前にVue.js本体から、使用する機能を読み込む。
+※setup属性はコードを簡略化するおまじない
+--&gt;
+&lt;script setup&gt;
+import { ref } from "vue";
+
+const message = ref("Hello");
+&lt;/script&gt;
+
+&lt;template&gt;
+  {{ message }}
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数の更新】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+import { ref } from "vue";
+
+const message = ref("Hello");
+message.value = "こんにちは";
+&lt;/script&gt;
+
+&lt;template&gt;
+  {{ message }}
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. ディレクティブ</h3>
+        <div class="item">
+          <p><a href="https://ja.vuejs.org/api/built-in-directives.html">ビルトインのディレクティブ</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【属性にデータバインドする「v-bind」】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+import { ref } from "vue";
+
+const message = ref("Hello");
+const url = ref("https://computer.trident.ac.jp/");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;a v-bind:href="url"&gt;{{ message }}&lt;/a&gt;
+&lt;/template&gt;
+
+&lt;!-- 省略形 --&gt;
+&lt;a :href="url"&gt;{{ message }}&lt;/a&gt;
+</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>「target="_blank"」を追加する。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【イベントリスナを設定する「v-on」】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+import { ref } from "vue";
+
+const count = ref(0);
+const plus = () => {
+  count.value++;
+};
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;p&gt;{{ count }}&lt;/p&gt;
+  &lt;button v-on:click="plus"&gt;+&lt;/button&gt;
+&lt;/template&gt;
+
+&lt;!-- 省略形 --&gt;
+&lt;button @click="plus"&gt;+&lt;/button&gt;
+</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>「-」ボタンを追加する。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【引数を受け取る】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+import { ref } from "vue";
+
+const count = ref(0);
+const plus = (num, e) => {
+  count.value += num;
+  console.log(e);
+};
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;p&gt;{{ count }}&lt;/p&gt;
+  &lt;button @click="plus(1, $event)"&gt;+&lt;/button&gt;
+&lt;/template&gt;
+</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>「-」ボタンを追加する。</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用</h3>
+        <div class="item">
+          <dl>
+            <dt>【問題01】</dt>
+            <dd>マウスオーバーで画像を切り替える。 | <a href="assets/01/sample01.html" target="_blank">見本</a></dd>
+          </dl>
+          <ul>
+            <li>※ダミー画像のパスは「https://picsum.photos/id/237/400/300」「https://picsum.photos/id/238/400/300」</li>
+            <li>※マウスイベントは「mouseover」「mouseout」</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【問題02】</dt>
+            <dd>ボタンクリックでリンク先を切り替える。 | <a href="assets/01/sample02.html" target="_blank">見本</a></dd>
+          </dl>
+          <ul>
+            <li>※リンク先のURLは「https://computer.trident.ac.jp/」「https://google.com/」「https://yahoo.co.jp/」</li>
+            <li>※引数を使うこと。</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-4. フォーム関連のディレクティブ</h3>
+        <dl>
+          <dt>【フォームからの入力を取得する「v-model」】</dt>
+          <dd>
+            <pre><code class="language-markup">&lt;script setup&gt;
+import { ref } from "vue";
+
+const name = ref("名無し");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;p&gt;{{ name }}&lt;/p&gt;
+  &lt;input type="text" v-model="name"&gt;
+&lt;/template&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-5. 制御関連のディレクティブ</h3>
+        <div class="item">
+          <dl>
+            <dt>【式の真偽に応じて表示・非表示を切り替える「v-if」】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+  import { ref } from "vue";
+
+  const show = ref();
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;label&gt;表示／非表示&lt;input type="checkbox" v-model="show"&gt;&lt;/label&gt;
+  &lt;div v-if="show"&gt;
+    &lt;p&gt;表示されていますか？&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div v-else&gt;
+    &lt;p&gt;チェックしてみてください。&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【配列やオブジェクトを繰り返し処理する「v-for」】</dt>
+            <dd>
+              <pre><code class="language-markup">&lt;script setup&gt;
+  import { ref } from "vue";
+
+  const items = ref(["りんご", "ごりら", "らっぱ", "ぱんだ"]);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;ul&gt;
+    &lt;li v-for="(item, index) of items"&gt;{{ index + ":" + item }}&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>☆練習</dt>
+            <dd>リストの項目をシャッフルする。（<a href="./assets/04/shuffle/" target="_blank">見本</a>）</dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-6. ライフサイクルフック</h3>
+        <div class="item">
+          <ul>
+            <li><a href="https://ja.vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram">ライフサイクルの流れ</a></li>
+            <li><a href="https://ja.vuejs.org/api/composition-api-lifecycle.html">ライフサイクルフックの一覧</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <p>
+            <pre><code class="language-markup">&lt;script setup&gt;
+import { onMounted, onBeforeMount } from "vue";
+
+onMounted(() =&gt; {
+  console.log('マウントされました。');
+});
+
+onBeforeMount(() =&gt; {
+  console.log('マウント前です。');
+});
+&lt;/script&gt;</code></pre>
+          </p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 実践「クリックゲーム」</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/04/clickGame/" target="_blank">見本</a></p>
+          <p><a href="https://trident.takagino.net/doc2023/javascript/03.html" target="_blank">参考：「JavaScript実習」03_オブジェクトの応用</a></p>
+        </div>
+        <div class="item">
+          <p>
+            <pre><code class="language-markup">&lt;script setup&gt;
+  import { ref, onMounted } from "vue";
+
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+  let currentHp;
+  let currentMonster = 0;
+
+  const name = ref();
+  const pic = ref();
+  const hp = ref();
+
+  const setMonster = () =&gt; {
+    name.value = monsters[currentMonster].name;
+    pic.value = monsters[currentMonster].pic;
+    currentHp = monsters[currentMonster].hp;
+    hp.value = `HP:${currentHp}`;
+  };
+
+  onMounted(() =&gt; {
+    setMonster();
+  });
+
+  const attack = () =&gt; {
+    currentHp--;
+    hp.value = `HP:${currentHp}`;
+
+    if (currentHp &lt;= 0) {
+      currentMonster++;
+
+      if (currentMonster &gt;= monsters.length) {
+        hp.value = `クリア！`;
+      } else {
+        setMonster();
+      }
+    }
+  };
+  &lt;/script&gt;
+
+  &lt;template&gt;
+    &lt;dl&gt;
+      &lt;dt class="name"&gt;{{ name }}&lt;/dt&gt;
+      &lt;dd&gt;&lt;img class="pic" :src="pic" @click="attack" alt="" width="200"&gt;&lt;/dd&gt;
+      &lt;dd class="hp"&gt;{{ hp }}&lt;/dd&gt;
+    &lt;/dl&gt;
+  &lt;/template&gt;
+
+  &lt;style scoped&gt;
+  dl {
+    text-align: center;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  .name {
+    margin-bottom: 1em;
+    font-weight: bold;
+  }
+
+  .pic {
+    cursor: pointer;
+  }
+
+  .hp {
+    margin-top: .5em;
+    font-style: oblique;
+  }
+&lt;/style&gt;</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dt>★応用</dt>
+          <dd>実践「クリックゲーム」に、撃破モンスター数と残りモンスター数を表示する。</dd>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 算出プロパティ</h2>
+      <div class="clause">
+        <div class="item">
+          <p>以下のようなVue.jsのプログラムがある。
+            <pre><code class="language-markup">&lt;script setup&gt;
+  import { ref } from "vue";
+  const num01 = ref(0);
+  const num02 = ref(0);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;input type="number" v-model="num01"&gt;
+  &lt;input type="number" v-model="num02"&gt;
+&lt;/template&gt;</code></pre>
+          </p>
+          <p>このプログラムに改造を加え、2つの値を足した数を表示したい時、それぞれの入力欄にイベントを登録していると面倒くさい。そんな時は<em>算出プロパティ</em>を使用すると便利。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【算出プロパティ（computed）】</dt>
+            <dd>あるデータや別の算出プロパティから算出される新たなデータのこと。データが更新されると、それに依存している算出プロパティも自動的に更新される。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p>
+            <pre><code class="language-markup">&lt;script setup&gt;
+  import { ref, computed } from "vue"; //機能を追加
+  const num01 = ref(0);
+  const num02 = ref(0);
+
+  //算術プロパティ
+  const total  = computed(() => {
+    return num01.value + num02.value;
+  });
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;input type="number" v-model="num01"&gt;
+  &lt;input type="number" v-model="num02"&gt;
+
+  //追加
+  {{ total }}
+&lt;/template&gt;</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>☆練習</dt>
+            <dd>上記サンプルを改造し、四角形の面積を計算する。（<a href="./assets/04/area/" target="_blank">見本</a>）</dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>実践「クリックゲーム」をできる限り改造する。</p>
+          <ul>
+            <li>表示される順番をランダムにする。</li>
+            <li>最後のモンスターを倒したら画像を非表示にする。</li>
+            <li>リセットボタンを追加する。</li>
+            <li>その他自分で改造する。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <p>「npm run build」でビルドし、<a href="https://drive.google.com/drive/folders/1MFBXCHXHVTncfaSY1vFCrBjPIYgQyZml?usp=share_link">Googleドライブ</a>に提出。</li>
+            </ul>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">8. 実践「ビンゴマシーン」※時間があれば</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/04/bingo/" target="_blank">見本</a></p>
+          <p><a href="https://trident.takagino.net/doc2023/javascript/02.html" target="_blank">参考：「JavaScript実習」02_配列の応用</a></p>
+        </div>
+        <!-- <div class="item">
+              <p>
+                <pre><code class="language-markup">&lt;script setup&gt;
+      import { ref, onMounted, computed } from "vue";
+
+      const numbers = [];
+      const randomNumbers = ref([]);
+      const historyNumbers = ref([]);
+      const result = ref(0);
+      const total = 10;
+      let count = 0;
+      let timer;
+      let flag = true;
+
+      const shuffle = (array) =&gt; {
+        for (let i = array.length - 1; i &gt; 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        };
+        return array;
+      };
+
+      onMounted(() =&gt; {
+        for (let i = 1; i &lt;= total; i++) {
+          numbers.push(i);
+        };
+        randomNumbers.value = shuffle([...numbers]);
+      });
+
+      const start = () =&gt; {
+        if (flag && randomNumbers.value.length &gt; 0) {
+          flag = false;
+          clearInterval(timer);
+          timer = setInterval(() =&gt; {
+            count++;
+            if (count &gt; randomNumbers.value.length - 1) {
+              count = 0;
+            };
+            result.value = randomNumbers.value[count];
+          }, 30);
+        }
+      };
+
+      const stop = () =&gt; {
+        if (!flag) {
+          flag = true;
+          clearInterval(timer);
+
+          const cut = randomNumbers.value.splice(count, 1)[0];
+          historyNumbers.value.push(cut);
+
+          history.textContent = "";
+        }
+      };
+
+      const reset = () =&gt; {
+        clearInterval(timer);
+        flag = true;
+        count = 0;
+        randomNumbers.value = shuffle([...numbers]);
+        result.value = 0;
+        historyNumbers.value = [];
+      };
+    &lt;/script&gt;
+
+    &lt;template&gt;
+      &lt;div class="wrapper"&gt;
+        &lt;div class="btn"&gt;
+          &lt;button @click="start"&gt;START&lt;/button&gt;
+          &lt;button @click="stop"&gt;STOP&lt;/button&gt;
+          &lt;button @click="reset"&gt;RESET&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;p class="result"&gt;{{ result }}&lt;/p&gt;
+        &lt;p class="history"&gt;&lt;span v-for="item of historyNumbers"&gt;{{ item }}, &lt;/span&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/template&gt;
+
+    &lt;style scoped&gt;
+      .wrapper {
+        width: 90%;
+        max-width: 400px;
+        margin: 3em auto;
+        text-align: center;
+      }
+
+      .result {
+        margin-top: 1em;
+        font-size: 4em;
+        font-weight: bold;
+      }
+
+      .history {
+        margin-top: 2em;
+        padding-top: 1em;
+        border-top: 1px solid;
+        font-size: 2em;
+      }
+    &lt;/style&gt;</code></pre>
+              </p>
+            </div> -->
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

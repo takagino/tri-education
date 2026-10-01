@@ -1,0 +1,653 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「業界研究（Webリテラシー）」01_マークアップの追加知識 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「業界研究（Webリテラシー）」01_マークアップの追加知識</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. マークアップの追加知識</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/03/skill.zip">実技試験のサンプルデータ</a></p>
+          <dl>
+            <dt>【前回までのコード】</dt>
+            <dd><a href="./assets/03/site.zip">データ</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- base.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;結婚式場のコンセプト - HOTEL IMPERIAL RESORT TOKYO&lt;/title&gt;
+  &lt;link rel="stylesheet" href="./css/style.css"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;header id="top"&gt;
+    &lt;h1&gt;&lt;a href="index.html"&gt;&lt;img src="./images/logo.png" alt="HOTEL IMPERIAL RESORT TOKYO"&gt;&lt;/a&gt;&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li id="nav_concept"&gt;&lt;a href="concept.html"&gt;結婚式場のコンセプト&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_plan"&gt;&lt;a href="plan.html"&gt;プランのご案内&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_fair"&gt;&lt;a href="fair.html"&gt;ブライダルフェア&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_contact"&gt;&lt;a href="contact.html"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;div id="breadcrumb"&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="index.html"&gt;ホーム&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;結婚式場のコンセプト&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div id="contents"&gt;
+    &lt;div id="main"&gt;
+      &lt;article&gt;
+        &lt;h1&gt;結婚式場のコンセプト&lt;/h1&gt;
+      &lt;/article&gt;
+    &lt;/div&gt;
+    &lt;div id="sub"&gt;
+      &lt;aside&gt;
+        &lt;div class="bnr_inner"&gt;
+          &lt;a href="plan.html"&gt;
+            &lt;dl&gt;
+              &lt;dt&gt;&lt;img src="images/bnr_plan.jpg" alt="プランのご案内"&gt;&lt;/dt&gt;
+              &lt;dd&gt;標準のプランをご紹介いたします。&lt;/dd&gt;
+            &lt;/dl&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div class="bnr_inner"&gt;
+          &lt;a href="contact.html"&gt;
+            &lt;p&gt;&lt;img src="images/bnr_contact.png" alt="お問い合わせ"&gt;&lt;/p&gt;
+          &lt;/a&gt;
+        &lt;/div&gt;
+      &lt;/aside&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer&gt;
+    &lt;p id="pagetop"&gt;&lt;a href="#top"&gt;ページの先頭へ戻る&lt;/a&gt;&lt;/p&gt;
+    &lt;address&gt;東京都千代田区X-X-X 電話 0120-000-XXX 営業時間 11:00～20:00(水曜日定休)&lt;/address&gt;
+    &lt;p id="copyright"&gt;&lt;small&gt;Copyright 2014 HOTEL IMPERIAL RESORT TOKYO All rights reserved.&lt;/small&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- index.html --&gt;
+
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;HOTEL IMPERIAL RESORT TOKYO&lt;/title&gt;
+  &lt;link rel="stylesheet" href="./css/style.css"&gt;
+  &lt;link rel="stylesheet" href="./css/responsive.css" media="screen and (max-width: 767px)"&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;header id="top"&gt;
+    &lt;h1&gt;&lt;a href="index.html"&gt;&lt;img src="./images/logo.png" alt="HOTEL IMPERIAL RESORT TOKYO"&gt;&lt;/a&gt;&lt;/h1&gt;
+  &lt;/header&gt;
+  &lt;nav&gt;
+    &lt;ul&gt;
+      &lt;li id="nav_concept"&gt;&lt;a href="concept.html"&gt;結婚式場のコンセプト&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_plan"&gt;&lt;a href="plan.html"&gt;プランのご案内&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_fair"&gt;&lt;a href="fair.html"&gt;ブライダルフェア&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="nav_contact"&gt;&lt;a href="contact.html"&gt;お問い合わせ&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/nav&gt;
+  &lt;div id="graphic"&gt;
+    &lt;ul&gt;
+      &lt;li class="now"&gt;&lt;img src="images/slide1.jpg" alt="こだわりの空間で心地よいひとときを" class="image1"&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;img src="images/slide2.jpg" alt="幸福に満ちた神聖なチャペル" class="image2"&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;img src="images/slide3.jpg" alt="「ありがとう」の気持ちが伝わるウェディング" class="image3"&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div id="contents"&gt;
+    &lt;div id="main"&gt;
+      &lt;section id="news"&gt;
+        &lt;h2&gt;お知らせ&lt;/h2&gt;
+        &lt;ul&gt;
+          &lt;li&gt;&lt;time datetime="2014-04-25"&gt;2014年04月25日&lt;/time&gt;ランチ・ディナーのテイスティングフェア&lt;/li&gt;
+          &lt;li&gt;&lt;time datetime="2014-03-03"&gt;2014年03月03日&lt;/time&gt;春の特別見学会&lt;/li&gt;
+          &lt;li&gt;&lt;time datetime="2014-02-20"&gt;2014年02月20日&lt;/time&gt;期間限定の割引プラン&lt;/li&gt;
+          &lt;li&gt;&lt;time datetime="2014-02-14"&gt;2014年02月14日&lt;/time&gt;バレンタインフェア&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/section&gt;
+    &lt;/div&gt;
+    &lt;div id="sub"&gt;
+      &lt;div class="bnr_inner"&gt;
+        &lt;a href="plan.html"&gt;
+          &lt;dl&gt;
+            &lt;dt&gt;&lt;img src="images/bnr_plan.jpg" alt="プランのご案内"&gt;&lt;/dt&gt;
+            &lt;dd&gt;標準のプランをご紹介いたします。&lt;/dd&gt;
+          &lt;/dl&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class="bnr_inner"&gt;
+        &lt;a href="contact.html"&gt;
+          &lt;p&gt;&lt;img src="images/bnr_contact.png" alt="お問い合わせ"&gt;&lt;/p&gt;
+        &lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;footer&gt;
+    &lt;p id="pagetop"&gt;&lt;a href="#top"&gt;ページの先頭へ戻る&lt;/a&gt;&lt;/p&gt;
+    &lt;address&gt;東京都千代田区X-X-X 電話 0120-000-XXX 営業時間 11:00～20:00(水曜日定休)&lt;/address&gt;
+    &lt;p id="copyright"&gt;&lt;small&gt;Copyright 2014 HOTEL IMPERIAL RESORT TOKYO All rights reserved.&lt;/small&gt;&lt;/p&gt;
+  &lt;/footer&gt;
+  &lt;script src="./js/slideshow.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+              </code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">/* style.css */
+
+/* 基本レイアウト ここから↓ */
+@import url(./common.css);
+
+body {
+  background-color: #f3f2e9;
+  color: #5f5039;
+}
+
+header,
+nav,
+#breadcrumb,
+#contents,
+footer {
+  width: 840px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header h1 {
+  margin: 0 0 26px 0;
+  padding-top: 28px;
+  text-align: center;
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0 0 20px 0;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+nav ul li {
+  width: 210px;
+  float: left;
+}
+
+nav ul li a {
+  display: block;
+  height: 0;
+  padding-top: 44px;
+  overflow: hidden;
+}
+
+nav ul li#nav_concept a {
+  background-image: url(../images/nav1.png);
+}
+
+nav ul li#nav_plan a {
+  background-image: url(../images/nav2.png);
+}
+
+nav ul li#nav_fair a {
+  background-image: url(../images/nav3.png);
+}
+
+nav ul li#nav_contact a {
+  background-image: url(../images/nav4.png);
+}
+
+#main {
+  width: 570px;
+  float: left;
+}
+
+#sub {
+  width: 230px;
+  float: right;
+}
+
+footer {
+  padding-top: 70px;
+}
+
+#main h1 {
+  margin: 0 0 30px 0;
+  padding: 35px 0 35px 65px;
+  background-image: url(../images/bg_h1_head.png), url(../images/bg_h1_bottom.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: left top, left bottom;
+  font-size: 156.25%;
+}
+
+#concept #nav_concept a,
+#plan #nav_plan a,
+#fair #nav_fair a,
+#contact #nav_contact a,
+nav ul li a:hover {
+  background-position: 0 -45px;
+}
+
+/* 基本レイアウト ここまで↑ */
+
+/* トップページ ここから↓ */
+#news ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+#news ul li {
+  padding: 20px 0 20px 175px;
+  border-bottom: 1px dotted #6c5f45;
+  color: #342300;
+  text-indent: -175px;
+}
+
+/* トップページ ここまで↑ */</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <dl>
+          <dt>【コーディング高速化あれこれ】</dt>
+          <dd>
+            <ul>
+              <li><a href="https://webdesign-trends.net/entry/13588">爆速コーディングを実現！Emmetの使い方とVSCodeのおすすめ設定まとめ</a></li>
+              <li><a href="https://qiita.com/Hamaboh_younect/items/4710dce08cef5930b941">選択した文字列をまとめてHTMLタグで囲む２つの方法</a></li>
+              <li><a href="https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer">Live Server - VSCodeの拡張機能</a></li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">問題1 基本ページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(1) 基本ページのHTMLの編集 - 設定3-2】</dt>
+            <dd>幅：属性は省略、高さ：属性は省略</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;img src="" alt="代替属性" width="ピクセル値" height="ピクセル値"&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定1】</dt>
+            <dd>外部スタイルシート「common.css」を設定する。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">//style.cssの指定の場所に、以下の設定を追記
+@import url(./common.css);</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; CSS編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定3】</dt>
+            <dd>左マージン：各自考える、右マージン：各自考える</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">//指定通りに記述しないと減点の可能性があるため注意
+× margin: auto;
+× margin: 0 auto;
+
+○ margin-left: auto;
+　　　　margin-right: auto;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定4】</dt>
+            <dd>マージン：上: 0、下: 26ピクセル、左: 0、右: 0</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">//指定通りに記述しないと減点の可能性があるため注意
+× margin-bottom: 26px;
+
+○ margin: 0 0 26px 0;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定5-1】</dt>
+            <dd>リストマーカーの種類：なし</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">//指定通りに記述しないと減点の可能性があるため注意
+× list-style: none;
+
+○ list-style-type: none;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定5-1】</dt>
+            <dd>オーバーフロー：hidden</dd>
+            <dd><a href="https://saruwakakun.com/html-css/basic/overflow">【CSS】overflowの使い方：hiddenやscrollの違いは？</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">overflow: hidden;</code></pre>
+            </dd>
+          </dl>
+          <p>※次の項目の「フロート」を解除するために使用する。説明は後ほど。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定5-2】</dt>
+            <dd>フロート：左</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/CSS/float">float - MDN Web Docs</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">float: left;</code></pre>
+            </dd>
+          </dl>
+          <p>floatを使うと...</p>
+          <ul class="clause__list">
+            <li>次にある要素が勝手に回り込もうとしてしまう。</li>
+            <li>親要素の高さがゼロになってしまう。</li>
+          </ul>
+          <p><a href="https://csshtml.work/overflowhidden-reset/">overflowで解決できる</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定5-3、設定5-4】</dt>
+            <dt>【(5) 各ページのCSSスプライトに関連するCSSの編集 - 設定1】</dt>
+            <dd>CSSスプライトと画像置換</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">nav ul li a {
+  display: block;
+  height: 0;
+  padding-top: 44px;
+  overflow: hidden;
+}
+
+nav ul li#nav_concept a {
+  background-image: url(../images/nav1.png);
+}
+
+nav ul li#nav_plan a {
+  background-image: url(../images/nav2.png);
+}
+
+nav ul li#nav_fair a {
+  background-image: url(../images/nav3.png);
+}
+
+nav ul li#nav_contact a {
+  background-image: url(../images/nav4.png);
+}
+
+#concept #nav_concept a,
+#plan #nav_plan a,
+#fair #nav_fair a,
+#contact #nav_contact a,
+nav ul li a:hover {
+  background-position: 0 -45px;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 基本レイアウトのCSSの編集 - 設定9】</dt>
+            <dd>背景画像を複数指定する場合は、「,（カンマ）」で区切る。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">#main h1 {
+  margin: 0 0 30px 0;
+  padding: 35px 0 35px 65px;
+  background-image: url(../images/bg_h1_head.png), url(../images/bg_h1_bottom.png);
+  background-repeat: no-repeat, no-repeat;
+  background-position: left top, left bottom;
+  font-size: 156.25%;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">問題2 トップページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(2) トップページのJavaScriptに関連するHTMLの編集 - 設定2】</dt>
+            <dd>スクリプト要素の挿入。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;footer&gt;
+  ・
+  ・
+&lt;/footer&gt;
+&lt;script src="./js/slideshow.js"&gt;&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(3) トップページのメイン領域のHTMLの編集 - 設定4】</dt>
+            <dd>ソースの中にある日付をtime要素でマークアップし、以下の属性を設定する。</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/time">time - MDN Web Docs</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;ul&gt;
+  &lt;li&gt;&lt;time datetime="2014-04-25"&gt;2014年04月25日&lt;/time&gt;ランチ・ディナーのテイスティングフェア&lt;/li&gt;
+  &lt;li&gt;&lt;time datetime="2014-03-03"&gt;2014年03月03日&lt;/time&gt;春の特別見学会&lt;/li&gt;
+  &lt;li&gt;&lt;time datetime="2014-02-20"&gt;2014年02月20日&lt;/time&gt;期間限定の割引プラン&lt;/li&gt;
+  &lt;li&gt;&lt;time datetime="2014-02-14"&gt;2014年02月14日&lt;/time&gt;バレンタインフェア&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(4) トップページのCSSの編集 - 設定1】</dt>
+            <dd>インデント：-175ピクセル</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/CSS/text-indent">text-indent - MDN Web Docs</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">#news ul li {
+  padding: 20px 0 20px 175px;
+  border-bottom: 1px dashed #6c5f45; /* 点線を忘れた場合は受験者用リファレンスを参照 */
+  color: #342300;
+  text-indent: -175px;
+}</code></pre>
+            </dd>
+          </dl>
+          <p>※なぜこんなことをしているかは不明。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(5) トップページのレスポンシブWebデザインに関連するHTMLの編集 - 設定1】</dt>
+            <dd>link要素のmedia属性</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;link rel="stylesheet" href="./css/responsive.css" media="screen and (max-width: 767px)"&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">問題3 「結婚式場のコンセプト」ページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(1) 「結婚式場のコンセプト」ページの<em>メイン領域</em>のHTMLの編集 - 設定1】</dt>
+            <dd>
+              h1要素の次の行に、section要素を挿入し、クラス「concept_box」を設定するとともに、以下のソースをコピー&ペーストする。
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="main"&gt;
+  &lt;article&gt;
+    &lt;h1&gt;結婚式場のコンセプト&lt;/h1&gt;
+    &lt;section class="concept_box"&gt;
+
+    &lt;/section&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">問題4 「プランのご案内」ページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(3) 「プランのご案内」ページのCSSの編集 - 設定1】</dt>
+            <dd>テーブルに交互の背景色を設定する。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">table tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; CSS編』を参照のこと。</em></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">問題5 「ブライダルフェア」ページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「ブライダルフェア」ページのメイン領域のHTMLの編集 - 設定2、設定3】</dt>
+            <dd>figure要素とfigcaption要素の設定。</dd>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/HTML/Element/figure">figure - MDN Web Docs</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;figure&gt;
+  &lt;img src="images/gallery_photo1.jpg"&gt;
+  &lt;figcaption&gt;思い出の曲をピアノで弾く演出が人気です。&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">問題6 「お問い合わせ」ページの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「お問い合わせ」ページのメイン領域のHTMLの編集 - 設定2】</dt>
+            <dd>テキスト「お名前（必須）」の後に、段落内改行を挿入し、続けて名前を入力するためのテキストフィールドを挿入するとともに、以下の属性を設定する。</dd>
+            <dd>テキスト「お名前（必須）」からテキストフィールドまでをlabel要素でマークアップする。なお、label要素はp要素の中に設定すること。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;
+  &lt;label&gt;
+    お名前（必須）&lt;br&gt;
+    &lt;input type="text" name="name" required&gt;
+  &lt;/label&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; HTML編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「お問い合わせ」ページのメイン領域のHTMLの編集 - 設定3】</dt>
+            <dd>テキスト「メールアドレス（必須）」の後に、段落内改行を挿入し、続けてメールアドレスを入力するためのテキストフィールドを挿入するとともに、以下の属性を設定する。</dd>
+            <dd>テキスト「メールアドレス（必須）」からテキストフィールドまでをlabel要素でマークアップする。なお、label要素はp要素の中に設定すること。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;
+  &lt;label&gt;
+    メールアドレス（必須）&lt;br&gt;
+    &lt;input type="email" name="mail" required&gt;
+  &lt;/label&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; HTML編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「お問い合わせ」ページのメイン領域のHTMLの編集 - 設定4】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;
+  お問い合わせ種類&lt;br&gt;
+  &lt;label&gt;&lt;input type="radio" name="kind" value="0"&gt;事前のご相談&lt;/label&gt;
+  &lt;label&gt;&lt;input type="radio" name="kind" value="1"&gt;その他&lt;/label&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; HTML編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「お問い合わせ」ページのメイン領域のHTMLの編集 - 設定5】</dt>
+            <dd>テキスト「内容」の後に、段落内改行を挿入し、続けて内容を入力するためのテキストエリアを挿入するとともに、以下の属性を設定する。</dd>
+            <dd>テキスト「内容」からテキストエリアまでをlabel要素でマークアップする。なお、label要素はp要素の中に設定すること。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;
+  &lt;label&gt;
+    内容&lt;br&gt;
+    &lt;textarea name="comment"&gt;&lt;/textarea&gt;
+  &lt;/label&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; HTML編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(2) 「お問い合わせ」ページのメイン領域のHTMLの編集 - 設定6】</dt>
+            <dd>テキストエリアを内包しているp要素の次の行に、送信ボタンを挿入し、p要素でマークアップする。なお、送信ボタンには、以下の属性を設定すること。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p&gt;
+  &lt;input type="submit" value="確認する"&gt;
+&lt;/p&gt;</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; HTML編』を参照のこと。</em></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【(3) 「お問い合わせ」ページのCSSの編集 - 設定1】</dt>
+            <dd><a href="https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors">属性セレクター
+                - MDN Web Docs</a></dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">input[type="text"] {
+  width: 200px;
+}</code></pre>
+            </dd>
+          </dl>
+          <p><em>※問題ウィンドウ上部の『受験者用リファレンス &lt; CSS編』を参照のこと。</em></p>
+        </div>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

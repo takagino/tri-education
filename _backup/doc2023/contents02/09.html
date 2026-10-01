@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>「コンテンツ制作」09_最終課題 | 2022年度授業資料</title>
+    <meta
+      name="description"
+      content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料"
+    />
+    <meta name="author" content="horotaka takagi" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- other css -->
+    <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- syntax highlighter -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css"
+    />
+
+    <!-- self css -->
+    <link rel="stylesheet" href="../assets/css/common.css" />
+  </head>
+
+  <body>
+    <header class="l-header">
+      <p class="l-header__title">
+        <a class="l-header__link" href="../index.html">2023年度授業資料</a>
+      </p>
+      <h1 class="l-header__title-sub">「コンテンツ制作」09_最終課題</h1>
+    </header>
+    <main class="l-main">
+      <article class="chapter">
+        <h2 class="chapter__title">0. 今後のスケジュール（予定）</h2>
+        <div class="clause">
+          <ul>
+            <li>12/18：課題の試遊、物理演算</li>
+            <li>01/15：最終課題制作</li>
+            <li>01/22：最終課題制作</li>
+            <li>01/29：最終課題制作</li>
+            <li>02/05：課題の試遊、まとめと補足、卒業制作（他授業の課題）</li>
+          </ul>
+          <p>※早く完成した人は卒業制作を進める。</p>
+        </div>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">1. 最終課題</h2>
+        <div class="clause">
+          <div class="item">
+            <p>
+              「何かしらのセンサーおよびパーツ」を使って、ブラウザ上で「何かしらの変化」を起こす作品を制作する。
+            </p>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【条件】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>個人制作。</li>
+                  <li>「p5.js」の使用を推奨。</li>
+                  <li>
+                    <em
+                      >インターフェイス（センサー側の見た目）にもこだわること。</em
+                    >
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【進め方】</dt>
+              <dd>
+                <ol>
+                  <li>
+                    作るものを決めたら高木に相談。OKが出たら制作を進める。
+                  </li>
+                  <li>
+                    プログラムの難しい部分は高木がヒントを渡すので、それまではセンサーの値の取得、画像等のデータの用意、センサーを隠すためのインターフェースの制作を行う。
+                  </li>
+                </ol>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【参考】</dt>
+              <dd>
+                <ul>
+                  <li>
+                    <video
+                      style="width: 80%"
+                      src="https://trident.takagino.net/doc/2017/contents03/data/07/ozawa.mp4"
+                      muted=""
+                      controls=""
+                    ></video>
+                  </li>
+                  <li>
+                    <video
+                      style="width: 80%"
+                      src="https://trident.takagino.net/doc/2017/contents03/data/07/shiozaki.mp4"
+                      muted=""
+                      controls=""
+                    ></video>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+          <div class="item">
+            <dl>
+              <dt>【使用できるセンサおよびパーツ】</dt>
+              <dd>
+                <ul class="clause__list">
+                  <li>スイッチ</li>
+                  <li>距離センサ</li>
+                  <li>明るさセンサ</li>
+                </ul>
+                <ul class="clause__list">
+                  <li>
+                    振動センサ
+                    <img src="assets/09/shin.png" width="600" alt="" />
+                  </li>
+                  <li>
+                    曲げセンサ
+                    <img src="assets/09/mage.png" width="800" alt="" />
+                  </li>
+                  <li>
+                    感圧センサ
+                    <img src="assets/09/atsu.png" width="600" alt="" />
+                  </li>
+                  <li>
+                    加速度センサ
+                    <img src="assets/09/ADX335.png" width="600" alt="" />
+                    <p>
+                      <a
+                        href="http://johnny-five.io/examples/accelerometer-adxl335/"
+                        >Accelerometer - ADXL335</a
+                      >
+                    </p>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <section class="clause">
+          <h3 class="clause__title">1-1. 昨年度の作品例</h3>
+          <dl>
+            <dt>01_amano</dt>
+            <dd>音楽のテンポと音量を操作できるDJっぽいツール</dd>
+            <dd>使用センサ：距離センサ</dd>
+          </dl>
+          <dl>
+            <dt>02_oota</dt>
+            <dd>木こりゲーム（2人対戦で早く木を切った人の勝ち）</dd>
+            <dd>使用センサ：距離センサ2つ</dd>
+          </dl>
+          <dl>
+            <dt>03_oonishi</dt>
+            <dd>
+              雪だるまの上下を組み合わせると、画面上に色々な雪だるまが表示される
+            </dd>
+            <dd>使用センサ：距離センサ</dd>
+          </dl>
+          <dl>
+            <dt>06_kitagawa</dt>
+            <dd>電車を動かすと、画面上の景色が変わる</dd>
+            <dd>使用センサ：距離センサ</dd>
+          </dl>
+          <dl>
+            <dt>08_suzuki</dt>
+            <dd>チョロQでレースゲーム</dd>
+            <dd>使用センサ：加速度センサ</dd>
+          </dl>
+          <dl>
+            <dt>12_nagano</dt>
+            <dd>画面上でピザを完成させる</dd>
+            <dd>使用センサ：振動センサ、明るさセンサ</dd>
+          </dl>
+          <dl>
+            <dt>13_fukuta</dt>
+            <dd>台座に置いてあるお宝を素早く取るゲーム</dd>
+            <dd>使用センサ：明るさセンサ or 感圧センサ</dd>
+          </dl>
+          <dl>
+            <dt>16_furusawa</dt>
+            <dd>サッカーボールを指で弾いてゴールを目指すゲーム</dd>
+            <dd>使用センサ：距離センサ</dd>
+          </dl>
+          <dl>
+            <dt>17_horii</dt>
+            <dd>ロックバスターのようなもの</dd>
+            <dd>使用センサ：加速度センサ</dd>
+          </dl>
+        </section>
+      </article>
+      <article class="chapter">
+        <h2 class="chapter__title">2. Arduinoとの連携</h2>
+        <section class="clause">
+          <h3 class="clause__title">2-1. Arduino側の設定（1回やればOK）</h3>
+          <ol>
+            <li>PCとArduinoを接続。</li>
+            <li>「Arduino IDE」を立ち上げる。</li>
+            <li>
+              『Select Board』の欄が「Arduino Uno」になっていることを確認。
+              <img src="./assets/07/01.png" width="400" alt="" />
+            </li>
+            <li>『File > Examples > Firmata > StandardFirmataPlus』を開く。</li>
+            <li>検証 → 書き込み</li>
+            <li>書き込みが完了したらArduinoは終了する。</li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-2. 距離センサーの回路</h3>
+          <p><img src="assets/07/03.png" width="600" alt="" /></p>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-3. モジュールのインストール</h3>
+          <ol>
+            <li>VSCodeでターミナルを表示。</li>
+            <li>
+              以下のコードを入力し「Enter」。（初期設定）
+              <pre><code class="language-bash">npm init -y</code></pre>
+            </li>
+            <li>
+              さらに、以下のコードを入力し「Enter」。（モジュールのインストール）
+              <pre><code class="language-bash">npm install socket.io johnny-five</code></pre>
+            </li>
+            <li>
+              フォルダ内に「app.js」と「index.html」を新規作成。
+              <img src="./assets/08/01.png" width="300" alt="" />
+            </li>
+          </ol>
+        </section>
+        <section class="clause">
+          <h3 class="clause__title">2-4. ソースコード</h3>
+          <ol>
+            <li>
+              「app.js」に以下のように記述。
+              <pre
+                class="line-numbers"
+              ><code class="language-javascript">/* app.js */
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, {
+      'Content-type': 'text/html'
+    });
+    res.end(index);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+const five = require('johnny-five');
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 30
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    const io = require("socket.io")(server);
+
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      sensor.on("change", () => {
+        io.emit('sensor_value', sensor.value);
+      });
+
+    });
+  });
+});</code></pre>
+            </li>
+            <li>
+              「index.html」に以下のように記述。
+              <pre
+                class="line-numbers"
+              ><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5play&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;body&gt;
+    &lt;!-- socket.io CDN --&gt;
+    &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+    &lt;!-- p5.js CDN --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://p5play.org/v3/p5play.min.js"&gt;&lt;/script&gt;
+
+    &lt;script&gt;
+      let val = 0;
+      const socket = io();
+
+      socket.on("sensor_value", (recieve) => {
+        val = recieve;
+      });
+
+      function preload() {}
+
+      function setup() {
+        createCanvas(640, 480);
+      }
+
+      function draw() {
+        //最大値と最小値の設定
+        let min = 500;
+        let max = 1000;
+        //val = constrain(val, min, max);
+        console.log(val);
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </li>
+          </ol>
+        </section>
+      </article>
+    </main>
+    <footer class="l-footer">
+      <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+    </footer>
+
+    <!-- syntax highlighter -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+    <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+    <script src="../assets/js/common.js"></script>
+  </body>
+</html>

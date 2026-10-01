@@ -1,0 +1,1041 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「インタラクションアニメ」05_transition（遷移） | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+
+  <style>
+    .sample {
+      display: inline-block;
+      margin-bottom: 30px;
+      padding: 10px 20px;
+      border-radius: 25px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .btn01 {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+      transition: .3s .5s;
+    }
+
+    .btn01:hover {
+      background-color: #000;
+      color: #fff;
+    }
+
+    .btn02 {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+      transition: .3s;
+    }
+
+    .btn02:hover {
+      border: 2px solid;
+      background-color: #ddd;
+      color: #000;
+      transform: translateY(-3px);
+      box-shadow: 0 2px 3px #666;
+    }
+
+    .btn02:active {
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「インタラクションアニメ」05_transition（遷移）</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後の予定</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>transitionプロパティによるアニメーション</li>
+          <li>animationプロパティによるアニメーション</li>
+          <li>JavaScriptライブラリ「GSAP」</li>
+          <li>最終課題「Webデザイン学科の魅力を伝えるコンテンツ」</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. 今回学ぶこと</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>transition</li>
+          <li>transform</li>
+          <li>アイコンフォント</li>
+          <li>シャドウ</li>
+          <li>グラデーション</li>
+          <li>フィルター</li>
+          <li>フォーム関連</li>
+          <li>様々な表現</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 前提知識</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. アイコンフォント</h3>
+        <p><a href="https://fontawesome.com/">Font Awesome</a></p>
+        <div class="item">
+          <dl>
+            <dt>【動作確認】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;transition&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"&gt;
+  &lt;style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;i class="fa-solid fa-arrow-right"&gt;&lt;/i&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【擬似要素に設定する場合】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p class="hoge"&gt;&lt;/p&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">.hoge::after{
+  content: "\f061";
+  font-family: 'FontAwesome';
+  font-weight: 900;
+}</code></pre>
+            </dd>
+          </dl>
+          <ul>
+            <li>※「\（バックスラッシュ）」は『option + ¥』</li>
+            <li>※font-weightの値は<a href="https://fontawesome.com/v5/docs/web/advanced/css-pseudo-elements#how-to-define-an-icon-using-css-pseudo-elements">こちらを参照</a>。</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. transform（変形）</h3>
+        <p>要素に「移動」「回転」「拡大・縮小」「傾斜」の動きを与えられるプロパティ。この4つの変形操作を組み合わせることで自由に要素を動かせるようになる。要素は2D（縦横方向）変形だけでなく、3D（縦横奥行き方向）の変形も可能。</p>
+        <div class="item">
+          <table>
+            <caption>2D Transforms</caption>
+            <tr>
+              <th>効果</th>
+              <th>値名</th>
+              <th>指定する値</th>
+            </tr>
+            <tr>
+              <td>移動</td>
+              <td>translate 、translateX、translateY</td>
+              <td>移動距離（px など）</td>
+            </tr>
+            <tr>
+              <td>回転</td>
+              <td>rotate</td>
+              <td>角度（deg）</td>
+            </tr>
+            <tr>
+              <td>拡大・縮小</td>
+              <td>scale、scaleX、scaleY</td>
+              <td>倍率（1や2 …など）</td>
+            </tr>
+            <tr>
+              <td>傾き</td>
+              <td>skew、skewX、skewY</td>
+              <td>角度（deg）</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <table>
+            <caption>3D Transforms</caption>
+            <tr>
+              <th>効果</th>
+              <th>値名</th>
+              <th>指定する値</th>
+            </tr>
+            <tr>
+              <td>移動</td>
+              <td>translateZ、translate3d</td>
+              <td>移動距離（px など）</td>
+            </tr>
+            <tr>
+              <td>回転</td>
+              <td>rotateX、rotateY、rotateZ</td>
+              <td>角度（deg）</td>
+            </tr>
+            <tr>
+              <td>拡大・縮小</td>
+              <td>scaleZ、scale3d</td>
+              <td>倍率（1や2 …など）</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-css">.fa-arrow-right {
+  transform: translateX(30px);
+
+  /* 値を組み合わせる */
+  transform: translateX(30px) rotate(45deg);
+
+  /* 順番を変えると結果も変わる */
+  transform: rotate(45deg) translateX(30px);
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変形の基準点】</dt>
+            <dd>i要素は「<em>インライン</em>」の特徴を持っており、内容と横幅（width）が同一のためいい感じに回転してくれる。<br>
+              一方、div要素やp要素などの「<em>ブロックレベル</em>」の特徴を持った要素は、横幅（width）が親要素の横幅と同一になるため、意図した回転にならない。</dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">/* うまくいかない例 */
+.hoge {
+  background-color: #ddd;
+  transform: rotate(45deg);
+}
+
+/* うまくいく例 */
+.hoge {
+  background-color: #ddd;
+  transform: rotate(45deg);
+  transform-origin: center left;
+}</code></pre>
+            </dd>
+          </dl>
+          <p><a href="https://developer.mozilla.org/ja/docs/Web/CSS/transform-origin">transform-origin - mdn web docs</a></p>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. transition（遷移）</h2>
+      <div class="clause">
+        <div class="item">
+          <p>トランジション(transition)は、要素の 2 つの状態間の変化を定義するためのもの。それぞれの状態は :hover や :active のような擬似クラスで定義されたり、 JavaScript を使用して動的に設定されたりする。</p>
+        </div>
+        <div class="item">
+          <table>
+            <caption>transitionプロパティの種類</caption>
+            <tr>
+              <th>プロパティ名</th>
+              <th>説明</th>
+              <th>初期値</th>
+            </tr>
+            <tr>
+              <td>transition-duration</td>
+              <td>アニメーションする時間を指定</td>
+              <td>0s</td>
+            </tr>
+            <tr>
+              <td>transition-delay</td>
+              <td>何秒遅らせてアニメーションを始めるかを指定</td>
+              <td>0s</td>
+            </tr>
+            <tr>
+              <td>transition-property</td>
+              <td>どのCSSプロパティをアニメーションさせるのかを指定</td>
+              <td>all</td>
+            </tr>
+            <tr>
+              <td>transition-timing-function</td>
+              <td>アニメーションの進捗タイミングを調整</td>
+              <td>ease</td>
+            </tr>
+            <tr>
+              <td>transition</td>
+              <td>上記のプロパティをまとめて設定できる</td>
+              <td>-</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-css">/* 例 */
+.hoge{
+  cursor: pointer;
+  transition-duration: 1s;
+  transition-delay: 1s;
+  transition-property: background-color;
+  transition-timing-function: ease;
+}
+
+.hoge:hover{
+  background-color: #f00;
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【transition-duration】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションする時間を指定。</li>
+                <li>必ず記述が必要。</li>
+                <li>数値の後ろに〜秒間を表すsをつける。1.5sなら1.5秒間。
+                  <pre class="line-numbers"><code class="language-css">.hoge{
+  transition-duration: .5s; /* 0.5の場合、0は省略できる */
+}</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【transition-delay】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>何秒遅らせてアニメーションを始めるのかを指定。</li>
+                <li>初期値は0sなので、必要ない場合は記述しなくてOK。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【transition-property】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>どのCSSプロパティをアニメーションさせるのかを指定。</li>
+                <li>初期値はallとなっており、何も記述しない場合はアニメーション前後で値が異なるプロパティを全て変化させることになる。</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【transition-timing-function】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>アニメーションの進捗タイミングを調整。</li>
+                <li>以下の種類から選ぶことができる。
+                  <table>
+                    <tr>
+                      <th>値の種類</th>
+                      <th>内容</th>
+                    </tr>
+                    <tr>
+                      <td>ease（初期値）</td>
+                      <td>途中まで加速し、そこからは減速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-in</td>
+                      <td>ゆっくり始まり徐々に加速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-out</td>
+                      <td>はやく始まり徐々に減速</td>
+                    </tr>
+                    <tr>
+                      <td>ease-in-out</td>
+                      <td>ゆっくり始まり加速、途中からは減速</td>
+                    </tr>
+                    <tr>
+                      <td>linear</td>
+                      <td>一定の速度で進行</td>
+                    </tr>
+                    <tr>
+                      <td>cubic-bezier(0,0,0,0)</td>
+                      <td>0の箇所に0〜1の数値を入れて、変化の度合いを自由に指定できる</td>
+                    </tr>
+                  </table>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <ul>
+            <li><a href="https://easings.net/ja">イージング関数チートシート</a></li>
+            <li><a href="https://cubic-bezier.com/">cubic-bezier.com</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【transition】</dt>
+            <dd>
+              <ul class="clause__list">
+                <li>上記のプロパティをまとめて設定できる</li>
+                <li>命令の順番の決まりはないが、transition-delayとtransition-durationを両方設定する場合、先に書いた数値が「<em>transition-duration</em>」になる。</li>
+                <li>書くセレクタによって、動作が変わることに注意。
+                  <pre class="line-numbers"><code class="language-css">/* マウスホバー・マウスアウト、両方とも適応 */
+.hoge{
+  cursor: pointer;
+  transition-duration: 1s;
+  transition-delay: 1s;
+  transition-property: background-color;
+  transition-timing-function: ease;
+}
+
+.hoge:hover{
+  background-color: #f00;
+}
+
+/* マウスホバーのみ適応 */
+.hoge{
+  cursor: pointer;
+}
+
+.hoge:hover{
+  background-color: #f00;
+  transition-duration: 1s;
+  transition-delay: 1s;
+  transition-property: background-color;
+  transition-timing-function: ease;
+}</code></pre>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <p>以下のボタンを再現する。（0.5秒後に、0.3秒かけてアニメーションする）</p>
+          <a class="sample btn01" href="#">練習</a>
+        </div>
+        <dl>
+          <dt>【ソースコード】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;a class="btn01" href="#"&gt;練習&lt;/a&gt;</code></pre>
+          </dd>
+          <dd>
+            <pre class="line-numbers"><code class="language-css">a {
+  display: inline-block;
+  margin-bottom: 30px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.btn01 {
+  border: 2px solid;
+  background-color: #ddd;
+  color: #000;
+}</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. テキストシャドウ</h2>
+      <div class="clause">
+        <div class="item">
+          <p>テキストに影を追加する。</p>
+          <dl>
+            <dt>【ブラウザ対応】</dt>
+            <dd><a href="https://caniuse.com/?search=text-shadow">text-shadow - Can I Use?</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;p class="text01"&gt;テキストシャドウ&lt;/p&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+text-shadow:水平方向の位置 垂直方向の位置 ぼかしの長さ 色;
+
+.text01{
+  text-shadow: 3px 3px 2px #f00;
+}
+
+/* カンマ区切りで複数指定することも可能*/
+.text01{
+  text-shadow: 3px 3px 2px #f00, 5px 5px 2px #00f;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://front-end-tools.com/generatetextshadow/">テキストシャドウジェネレーター - Front-end Tools</a></li>
+                <li><a href="https://www.codesdope.com/blog/article/25-creative-css3-text-shadow-effects-you-cant-miss/">25 Creative CSS3 Text Shadow Effects You Can't Miss</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>自分好みのtext-shadowを設定する。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-1. text-shadowとtransition</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-css">.text01 {
+  cursor: pointer;
+  transition: .3s;
+}
+
+.text01:hover {
+  text-shadow: 3px 3px 2px #f00;
+}</code></pre>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. ボックスシャドウ</h2>
+      <div class="clause">
+        <div class="item">
+          <p>要素のフレームの周囲にシャドウ効果を追加する。</p>
+          <dl>
+            <dt>【ブラウザ対応】</dt>
+            <dd><a href="https://caniuse.com/?search=box-shadow">box-shadow - Can I Use?</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;a class="btn02" href="#"&gt;ボックスシャドウ&lt;/a&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+box-shadow: 水平方向の位置 垂直方向の位置 ぼかし度 影の広さ 色 内側にするか;
+
+.btn02{
+  box-shadow: 3px 3px 3px 3px #f00 inset;
+}
+
+/* カンマ区切りで複数指定することも可能*/
+.btn02{
+  box-shadow: 3px 3px 3px 3px #f00 inset, 3px 3px 3px 3px #00f;
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://front-end-tools.com/generateboxshadow/">ボックスシャドウジェネレーター - Front-end Tools</a></li>
+                <li><a href="https://getcssscan.com/css-box-shadow-examples">Beautiful CSS box-shadow examples</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>自分好みのbox-shadowを設定する。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-1. box-shadowとtransition</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-css">.btn02 {
+  transition: .3s;
+}
+
+.btn02:hover {
+  box-shadow: 3px 3px 3px 3px #f00 inset, 3px 3px 3px 3px #00f;
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <div class="item">
+          <p>以下のボタンを再現する。</p>
+          <a class="sample btn02" href="#">上に移動し影がついて浮き上がる</a>
+        </div>
+        <dl>
+          <dt>【ソースコード】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;a class="btn02" href="#"&gt;上に移動し影がついて浮き上がる&lt;/a&gt;</code></pre>
+          </dd>
+          <dd>
+            <pre class="line-numbers"><code class="language-css">.btn02 {
+  border: 2px solid;
+  background-color: #ddd;
+  color: #000;
+}</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. 補足</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-css">.btn02:active {
+ //クリックした際のプロパティ
+}</code></pre>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. グラデーション</h2>
+      <div class="clause">
+        <div class="item">
+          <p>CSSのグラデーションには線形グラデーション（linear-gradient）と円形グラデーション(radial-gradient)がある。今回はより使用頻度が高い線形グラデーション（linear-gradient）に絞って勉強します。</p>
+          <dl>
+            <dt>【ブラウザ対応】</dt>
+            <dd><a href="https://caniuse.com/?search=linear-gradient">linear-gradient - Can I Use?</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;a class="btn03" href="#"&gt;グラデーション&lt;/a&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+linear-gradient(開始の色, 終了の色);
+
+.btn03{
+  background: linear-gradient(#ff0000, #ffff00);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【方向の指定（向き）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+linear-gradient(to 方向, 開始の色, 終了の色);
+
+/* 「top」「right」「bottom」「left」 */
+.btn03{
+  background: linear-gradient(to right, #ff0000, #ffff00);
+}
+
+/* 2つ方向を指定することで斜め方向へのグラデーションも設定することができる */
+.btn03{
+  background: linear-gradient(to bottom right, #ff0000, #ffff00);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【方向の指定（角度）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+linear-gradient(角度, 開始の色, 終了の色);
+
+/* 単位はdeg */
+.btn03{
+  background: linear-gradient(90deg, #ff0000, #ffff00);
+}
+
+/* マイナスの値も指定できる */
+.btn03{
+  background: linear-gradient(-90deg, #ff0000, #ffff00);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【色の指定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">/* 色はいくつでも指定できる */
+.btn03{
+  background: linear-gradient(90deg, #ff0000, #ffff00, #ff00ff);
+}
+
+/* 色が変わる位置（色経由点）を決める */
+linear-gradient(方向, 開始の色 位置, 終了の色 位置);
+
+.btn03{
+  background: linear-gradient(90deg, #ff0000 50%, #ffff00 80%, #ff00ff);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://webdesign-trends.net/entry/14157">コピペで使える！CSSグラデーションジェネレーター20個まとめ</a></li>
+                <li><a href="https://ics.media/entry/200212/">1歩踏み込んでみる！CSSグラデーションのマニアックな世界</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>自分好みのグラデーションを設定する。</li>
+          <li>ホバーで別のグラデーションに切り替える。</li>
+        </ol>
+        <p>※まだ「transition」は設定しなくても良い。</p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">6-1. グラデーションとtransition</h3>
+        <div class="item">
+          <p>backgroundプラパティにはtransitionを設定できないため、擬似要素を使って実現する。</p>
+          <p>
+          <pre class="line-numbers"><code class="language-css">.btn03 {
+  position: relative;
+}
+
+.btn03::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #ff0000 50%, #ffff00 80%, #ff00ff);
+  transition: .5s;
+}
+
+.btn03::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background: linear-gradient(90deg, #ff00ff 50%, #ffff00 80%, #ff0000);
+}
+
+.btn03:hover::before {
+  opacity: 0;
+}</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://coco-factory.jp/ugokuweb/move01/7-1-29/">ボタン
+                    -グラデーションが流れる-</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. フィルター</h2>
+      <div class="clause">
+        <div class="item">
+          <p>ぼかしや色変化などのグラフィック効果を要素に適用する。フィルターは画像、背景、境界の描画を調整するためによく使われる。</p>
+          <dl>
+            <dt>【ブラウザ対応】</dt>
+            <dd><a href="https://caniuse.com/?search=filter">filter - Can I Use?</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;img class="img01" src="https://picsum.photos/300/200" alt=""&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">
+filter: 種類(値);
+
+.img01{
+  filter: blur(5px);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <table>
+            <caption>代表的なfilterの種類</caption>
+            <tr>
+              <th>フィルター名</th>
+              <th>説明</th>
+              <th>単位</th>
+            </tr>
+            <tr>
+              <td>blur()</td>
+              <td>ガウスぼかしを適用する</td>
+              <td>px、rem</td>
+            </tr>
+            <tr>
+              <td>brightness()</td>
+              <td>明るくしたり暗くしたりする</td>
+              <td>数値、%</td>
+            </tr>
+            <tr>
+              <td>contrast()</td>
+              <td>コントラストを調整する</td>
+              <td>数値、%</td>
+            </tr>
+            <tr>
+              <td>grayscale()</td>
+              <td>グレースケールに変換する</td>
+              <td>数値、%</td>
+            </tr>
+            <tr>
+              <td>hue-rotate()</td>
+              <td>色相の角度を回転させる</td>
+              <td>角度(deg)</td>
+            </tr>
+            <tr>
+              <td>invert()</td>
+              <td>階調を反転させる</td>
+              <td>%</td>
+            </tr>
+            <tr>
+              <td>saturate()</td>
+              <td>彩度を設定する</td>
+              <td>%</td>
+            </tr>
+            <tr>
+              <td>sepia()</td>
+              <td>セピア調にする</td>
+              <td>%</td>
+            </tr>
+          </table>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd>
+              <ul>
+                <li><a href="https://front-end-tools.com/generatefilter/">フィルタージェネレーター - Front-end Tools</a></li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <ol>
+          <li>自分好みのフィルターを設定する。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">7-1. フィルターとtransition</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-css">.img01 {
+  filter: grayscale(100%);
+  transition: .3s;
+}
+
+.img01:hover {
+  filter: grayscale(0);
+}</code></pre>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">8. フォーム関連</h2>
+      <div class="clause">
+        <p>擬似クラス「:focus」を指定することで、入力フォーム等にフォーカスが当たった際のスタイルを設定できる。</p>
+        <div class="item">
+          <dl>
+            <dt>【基本形】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;input class="input01" type="text"&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-css">.input01:focus {
+      background-color: #ddd;
+    }
+
+    /* 周りの青い影を打ち消す */
+    .input01:focus {
+      outline: none;
+    }</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">8-1. :focusとtransition</h3>
+        <p>
+              <pre class="line-numbers"><code class="language-css">.input01{
+      transition: .3s;
+    }
+
+    .input01:focus {
+      outline: none;
+      background-color: #ddd;
+    }</code></pre>
+            </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">9. 様々な表現</h2>
+      <div class="clause">
+        <p>疑似要素「::before」「::after」を組み合わせることで、様々なホバーアクションを設定することができる。</p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆ 練習</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;a class="border01" href="#"&gt;
+  &lt;span&gt;Zoom Corners&lt;/span&gt;
+  &lt;div class="zoom-corners top-corners"&gt;&lt;/div&gt;
+  &lt;div class="zoom-corners bottom-corners"&gt;&lt;/div&gt;
+&lt;/a&gt;</code></pre>
+        </p>
+        <p>
+            <pre class="line-numbers"><code class="language-css">.border01 {
+  background: #333;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border-radius: 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zoom-corners::before,
+.zoom-corners::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: #00edff;
+  border-style: solid;
+  transition: 0.3s;
+}
+
+.bottom-corners::before {
+  border-width: 0 0 1px 1px;
+  left: 25px;
+  bottom: 25px;
+}
+
+.bottom-corners::after {
+  border-width: 0 1px 1px 0;
+  right: 25px;
+  bottom: 25px;
+}
+
+.top-corners::before {
+  border-width: 1px 0 0 1px;
+  left: 25px;
+  top: 25px;
+}
+
+.top-corners::after {
+  border-width: 1px 1px 0 0;
+  right: 25px;
+  top: 25px;
+}
+
+.border01:hover .top-corners::before {
+  top: 0px;
+  left: 0px;
+}
+
+.border01:hover .top-corners::after {
+  top: 0px;
+  right: 0px;
+}
+
+.border01:hover .bottom-corners::before {
+  bottom: 0px;
+  left: 0px;
+}
+
+.border01:hover .bottom-corners::after {
+  bottom: 0px;
+  right: 0px;
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">9-1. その他</h3>
+        <ul>
+          <li><a href="https://codepen.io/search/pens?q=hover+effect">hover effect - codepen</a></li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">10. 課題</h2>
+      <div class="clause">
+        <p>以下のサンプルデータにホバーアニメーションを設定する。</p>
+        <ul>
+          <li><a href="./assets/05/mache.zip">mache.zip</a></li>
+          <li><a href="./assets/05/mache/" target="_blank">サイト見本</a></li>
+        </ul>
+        <div class="item">
+          <dl>
+            <dt>【設定する箇所】</dt>
+            <dd>
+              <ol>
+                <li>グローバルナビゲーション</li>
+                <li>ボタン「SHOW MORE」</li>
+                <li>画像3枚</li>
+                <li>入力フォームと送信ボタン</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <div class="item">
+        <dl>
+          <dt>【提出】</dt>
+          <dd><a href="https://drive.google.com/drive/folders/1KUvNccvCZRR3W5pZPrcodsMK2I4R3rel?usp=sharing">Googleドライブ</a></dd>
+        </dl>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

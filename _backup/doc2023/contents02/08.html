@@ -1,0 +1,816 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」08_p5.jsとアニメーション | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」08_p5.jsとアニメーション</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後のスケジュール（予定）</h2>
+      <div class="clause">
+        <ul>
+          <li>12/11：課題の試遊、課題「センサーによるアニメーション」制作</li>
+          <li>12/18：課題の試遊、課題「センサーによる物理演算」制作</li>
+          <li>01/15：最終課題「p5.js を使用した作品」制作</li>
+          <li>01/22：最終課題「p5.js を使用した作品」制作</li>
+          <li>01/29：最終課題「p5.js を使用した作品」制作</li>
+          <li>02/05：課題の試遊、まとめと補足 ※時間が余ったら他授業の課題</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. 今回やること</h2>
+      <div class="clause">
+        <ul class="clause__list">
+          <li>アニメーションライブラリ「p5.play」</li>
+          <li>Arduinoとの連携</li>
+          <li>課題「センサーに反応するアニメーション」制作</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. ライブラリの活用</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://p5js.org/libraries/">ライブラリ - p5.js</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【p5playの読み込み】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5play&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://p5play.org/v3/p5play.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【素材のダウンロード】</dt>
+            <dd><a href="./assets/08/assets.zip">assets.zip</a></dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">2-1. 基本のアニメーション</h3>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">let ani;
+
+function preload() {
+  ani = loadAni('assets/green.png', 'assets/purple.png', 'assets/orange.png');
+}
+
+function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+  clear();
+  animation(ani, width / 2, height / 2);
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【連番の画像】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani;
+
+function preload() {
+  ani = loadAni('assets/bomb1.png', 4);
+}
+
+function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+  clear();
+  animation(ani, width / 2, height / 2);
+} </code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スプライトシート】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+  clear();
+  animation(ani, width / 2, height / 2);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. アニメーションのコントロール</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">let ani;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+}
+
+function draw() {
+  clear();
+
+  if (kb.presses('p')) ani.play();
+  if (kb.presses('o')) ani.play(0);
+  if (kb.presses('down')) ani.frameDelay--;
+  if (kb.presses('up')) ani.frameDelay++;
+  if (kb.presses('s')) ani.stop();
+  if (kb.presses('r')) ani.rewind();
+  if (kb.presses('l')) ani.loop();
+  if (kb.presses('n')) ani.noLoop();
+  if (kb.presses('left')) ani.previousFrame();
+  if (kb.presses('right')) ani.nextFrame();
+  if (kb.presses('5')) ani.frame = 5;
+  if (kb.pressing('x')) ani.scale.x = -1;
+  if (kb.pressing('y')) ani.scale.y = -1;
+  if (kb.pressing('1')) ani.scale = 1;
+  if (kb.pressing('2')) ani.scale = 2;
+
+  animation(ani, width / 2, height / 2);
+}</code></pre>
+        </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. スプライトの作成</h3>
+        <div class="item">
+          <dl>
+            <dt>【スプライトとは？】</dt>
+            <dd>スプライトとは、一言で言うとゲームに登場する"キャラクター"の事。スプライトでアニメーションを作ることで、衝突判定や物理演算など様々な機能を利用することができる。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">let ani, spr;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Sprite();
+  spr.addAni('hiyoko', ani);
+  spr.x = random(width);
+  spr.y = random(height);
+}
+
+function draw() {
+  clear();
+}</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【アニメーションを切り替える】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani01, ani02, spr;
+
+function preload() {
+  ani01 = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+  ani02 = loadAni('assets/bomb1.png', 4);
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Sprite();
+  spr.addAni('hiyoko', ani01);
+  spr.addAni('bomb', ani02);
+}
+
+function draw() {
+  clear();
+
+  if (kb.presses('1')) spr.changeAni('hiyoko');
+  if (kb.presses('2')) spr.changeAni('bomb');
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スプライトの移動】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani01, ani02, spr;
+
+function preload() {
+  ani01 = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+  ani02 = loadAni('assets/bomb1.png', 4);
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Sprite();
+  spr.addAni('hiyoko', ani01);
+  //spr.addAni('bomb', ani02);
+}
+
+function draw() {
+  clear();
+  if (kb.pressing('left')) {
+    ani01.frame = 13;
+    spr.vel.x = -2;
+  } else if (kb.pressing('right')) {
+    ani01.frame = 17;
+    spr.vel.x = 2;
+  } else {
+    ani01.frame = 1;
+    spr.vel.x = 0;
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スプライトの増殖】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani01, ani02, spr;
+
+function preload() {
+  ani01 = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+  ani02 = loadAni('assets/bomb1.png', 4);
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Group(); //変更
+  spr.addAni('hiyoko', ani01);
+}
+
+function draw() {
+  clear();
+
+  if (mouse.presses()) {
+    new spr.Sprite(mouse.x, mouse.y);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. Arduinoとの連携</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. Arduino側の設定（1回やればOK）</h3>
+        <ol>
+          <li>PCとArduinoを接続。</li>
+          <li>「Arduino IDE」を立ち上げる。</li>
+          <li>『Select Board』の欄が「Arduino Uno」になっていることを確認。
+            <img src="./assets/07/01.png" width="400" alt="">
+          </li>
+          <li>『File > Examples > Firmata > StandardFirmataPlus』を開く。</li>
+          <li>検証 → 書き込み</li>
+          <li>書き込みが完了したらArduinoは終了する。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. 距離センサーの回路</h3>
+        <p><img src="assets/07/03.png" width="600" alt=""></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. モジュールのインストール</h3>
+        <ol>
+          <li>VSCodeでターミナルを表示。</li>
+          <li>以下のコードを入力し「Enter」。（初期設定）
+            <pre><code class="language-bash">npm init -y</code></pre>
+          </li>
+          <li>さらに、以下のコードを入力し「Enter」。（モジュールのインストール）
+            <pre><code class="language-bash">npm install socket.io johnny-five</code></pre>
+          </li>
+          <li>フォルダ内に「app.js」と「index.html」を新規作成。
+            <img src="./assets/08/01.png" width="300" alt="">
+          </li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. サーバーの立ち上げ</h3>
+        <ol>
+          <li>「app.js」に以下のように記述。
+            <pre class="line-numbers"><code class="language-javascript">/* app.js */
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, {
+      'Content-type': 'text/html'
+    });
+    res.end(index);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  const io = require("socket.io")(server);
+});</code></pre>
+          </li>
+          <li>「index.html」に以下のように記述。
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5play&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+      background: #ddd;
+      border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;body&gt;
+    &lt;!-- socket.io CDN --&gt;
+    &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+    &lt;!-- p5.js CDN --&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://p5play.org/v3/p5play.min.js"&gt;&lt;/script&gt;
+
+    &lt;script&gt;
+      //socket.ioのスクリプト
+      const socket = io();
+
+      //p5.jsのスクリプト
+      function preload() {
+      }
+
+      function setup() {
+        createCanvas(640, 480);
+      }
+
+      function draw() {
+      }
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 画像の読み込み</h3>
+        <div class="item">
+          <p><a href="https://qiita.com/AkihiroTakamura/items/b93fbe511465f52bffaa">Content-Typeの一覧</a></p>
+        </div>
+        <div class="item">
+          <ol>
+            <li>「app.js」を以下のように変更。
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+const sheet = fs.readFileSync('./assets/spritesheet.png'); //追加
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, {
+      'Content-type': 'text/html'
+    });
+    res.end(index);
+  } else if (pathName === '/sheet.png') { //追加
+    res.writeHead(200, {
+      'Content-type': 'image/png'
+    });
+    res.end(sheet);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  const io = require("socket.io")(server);
+});</code></pre>
+            </li>
+            <li>「index.html」のスクリプトを以下のように変更。
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const socket = io();
+
+  let ani, spr;
+
+  function preload() {
+    ani = loadAni('/sheet.png', { frameSize: [32, 32], frames: 18 });
+  }
+
+  function setup() {
+    createCanvas(640, 480);
+
+    spr = new Sprite();
+    spr.addAni('hiyoko', ani);
+  }
+
+  function draw() {
+    clear();
+  }
+&lt;/script&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-6. センサーに反応させる</h3>
+        <div class="item">
+          <ol>
+            <li>「app.js」を以下のように変更。
+              <pre class="line-numbers"><code class="language-javascript">/* app.js */
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const index = fs.readFileSync('./index.html', 'utf-8');
+const sheet = fs.readFileSync('./assets/spritesheet.png');
+
+const server = http.createServer((req, res) => {
+  const pathName = req.url;
+
+  if (pathName === '/') {
+    res.writeHead(200, {
+      'Content-type': 'text/html'
+    });
+    res.end(index);
+  } else if (pathName === '/sheet.png') {
+    res.writeHead(200, {
+      'Content-type': 'image/png'
+    });
+    res.end(sheet);
+  } else {
+    res.writeHead(404);
+    res.end('Not Found...');
+  }
+});
+
+/* 以下、変更 */
+const five = require('johnny-five');
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 30
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    const io = require("socket.io")(server);
+
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      sensor.on("change", () => {
+        io.emit('sensor_value', sensor.value);
+      });
+
+    });
+  });
+});</code></pre>
+            </li>
+            <li>「index.html」のスクリプトを以下のように変更。
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let val = 0; //変数追加
+  const socket = io();
+
+  //センサーの値を代入
+  socket.on('sensor_value', (recieve) => {
+    val = recieve;
+  });
+
+  let ani, spr;
+
+  function preload() {
+    ani = loadAni('/sheet.png', { frameSize: [32, 32], frames: 18 });
+  }
+
+  function setup() {
+    createCanvas(640, 480);
+
+    spr = new Sprite();
+    spr.addAni('hiyoko', ani);
+  }
+
+  function draw() {
+    clear();
+
+    //値の加工
+    let min = 100;
+    let max = 600;
+    val = constrain(val, min, max);
+    let frameNum = floor(map(val, min, max, 1, 17));
+    console.log(frameNum);
+  }
+&lt;/script&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 課題</h2>
+      <div class="clause">
+        <p>スプライトシートでアニメーションを作成し、距離センサーで動かす。</p>
+        <dl>
+          <dt>【例えば】</dt>
+          <dd>
+            <ul>
+              <li>距離センサーの値によってフレーム数を切り替える。</li>
+              <li>距離センサーの値によってキャラクターを動かす。</li>
+              <li>距離センサーの値が一定以上になったら、キャラクターが増殖する。（フレームレートを小さくすること「frameRate」）</li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 物理演算</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="https://p5play.org/learn/index.html">p5play</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【p5playの読み込み】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!doctype html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;p5play&lt;/title&gt;
+  &lt;style&gt;
+    canvas {
+        background: #ddd;
+        border: 1px solid #aaa;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/p5@1.8.0/lib/p5.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/planck@latest/dist/planck.min.js"&gt;&lt;/script&gt;
+  &lt;script src="https://p5play.org/v3/p5play.min.js"&gt;&lt;/script&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【素材のダウンロード】</dt>
+            <dd><a href="./assets/08/assets.zip">assets.zip</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スプライトの増殖】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani, spr;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Group();
+  spr.addAni('hiyoko', ani);
+}
+
+function draw() {
+  clear();
+
+  if (mouse.presses()) {
+    new spr.Sprite(mouse.x, mouse.y);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【重力の追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani, spr;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Group();
+  spr.addAni('hiyoko', ani);
+
+  //重量の追加
+  world.gravity.y = 10;
+}
+
+function draw() {
+  clear();
+
+  if (mouse.presses()) {
+    new spr.Sprite(mouse.x, mouse.y);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スプライト（床）の追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//変数追加
+let ani, spr, floor;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Group();
+  spr.addAni('hiyoko', ani);
+
+  world.gravity.y = 10;
+
+  //床の追加
+  floor = new Sprite();
+  floor.y = 400;
+  floor.w = 640;
+  floor.h = 5;
+  floor.rotation = 2;
+  floor.collider = 's';
+}
+
+function draw() {
+  clear();
+
+  if (mouse.presses()) {
+    new spr.Sprite(mouse.x, mouse.y);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【床に触れたら削除】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">let ani, spr, floor;
+
+function preload() {
+  ani = loadAni('assets/spritesheet.png', { frameSize: [32, 32], frames: 18 });
+}
+
+function setup() {
+  createCanvas(640, 480);
+
+  spr = new Group();
+  spr.addAni('hiyoko', ani);
+
+  world.gravity.y = 10;
+
+  floor = new Sprite();
+  floor.y = 400;
+  floor.w = 640;
+  floor.h = 5;
+  floor.rotation = 2;
+  floor.collider = 's';
+
+  //設定
+  floor.overlaps(spr, collect);
+}
+
+//関数を追加
+function collect(floor, spr) {
+  spr.remove();
+}
+
+function draw() {
+  clear();
+
+  if (mouse.presses()) {
+    new spr.Sprite(mouse.x, mouse.y);
+  }
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

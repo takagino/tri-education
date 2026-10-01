@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>応用問題02</title>
+</head>
+<body>
+  <div id="app">
+    <p><a :href="url">{{ url }}</a></p>
+    <button @click="linkSet('https://computer.trident.ac.jp/')">TRIDENT</button>
+    <button @click="linkSet('https://google.com/')">GOOGLE</button>
+    <button @click="linkSet('https://yahoo.co.jp/')">YAHOO</button>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const app = Vue.createApp({
+      setup() {
+        const url = Vue.ref("#");
+
+        const linkSet = (link) => {
+          url.value = link;
+        };
+
+        return {
+          url,
+          linkSet
+        }
+      }
+    });
+
+    app.mount("#app");
+  </script>
+</body>
+</html>

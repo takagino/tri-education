@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クリックゲーム</title>
+  <style>
+    dl {
+      text-align: center;
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    .name {
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+
+    .pic {
+      cursor: pointer;
+    }
+
+    .hp {
+      margin-top: .5em;
+      font-style: oblique;
+    }
+  </style>
+</head>
+<body>
+  <dl>
+    <dt class="name">名前</dt>
+    <dd><img class="pic" src="./images/slime.png" alt="" width="200"></dd>
+    <dd class="hp">HP:0</dd>
+  </dl>
+  <script>
+    const pic = document.querySelector('.pic');
+    const name = document.querySelector('.name');
+    const hp = document.querySelector('.hp');
+    const monsters = [
+      {
+        name: "スライム",
+        pic: "slime.png",
+        hp: 4
+      },
+      {
+        name: "目玉",
+        pic: "eye.png",
+        hp: 6
+      },
+      {
+        name: "半魚人",
+        pic: "fish.png",
+        hp: 8
+      },
+    ];
+    let currentHp;
+    let currentMonster = 0;
+
+    const setMonster = () => {
+      pic.src = `./images/${monsters[currentMonster].pic}`;
+      name.textContent = monsters[currentMonster].name;
+      hp.textContent = `HP:${monsters[currentMonster].hp}`;
+      currentHp = monsters[currentMonster].hp;
+    };
+
+    setMonster();
+
+    pic.addEventListener('click', () => {
+      currentHp--;
+      hp.textContent = `HP:${currentHp}`;
+
+      if (currentHp <= 0) {
+        currentMonster++;
+        if (currentMonster >= monsters.length) {
+          hp.textContent = `クリア！`;
+        } else {
+          setMonster();
+        }
+      }
+    });
+  </script>
+</body>
+</html>

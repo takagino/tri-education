@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+
+<head>
+   <meta charset="utf-8">
+   <title>p5.js</title>
+   <style>
+      canvas {
+         background-color: #FFDEE9;
+         background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 50%);
+
+         border: none;
+      }
+   </style>
+</head>
+
+<body>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.js"></script>
+   <script>
+      let mySound;
+      let fft;
+
+      function preload() {
+         mySound = loadSound('rarara.mp3');
+      }
+
+      function setup() {
+         createCanvas(640, 480);
+         colorMode(HSL);
+         angleMode(DEGREES);
+         rectMode(CENTER);
+         noStroke();
+
+         fft = new p5.FFT();
+      }
+
+
+
+      function draw() {
+         clear();
+         mySound.amp(map(mouseY, 0, height, 0, 1));
+
+         if (mySound.isPlaying()) {
+            let spectrum = fft.waveform();
+
+            //map(spectrum[i], min(spectrum), max(spectrum), 0, 360
+
+            for (let i = 0; i < spectrum.length; i++) {
+               fill(0, 255, 255, 0.3);
+               let h = 15;
+               let x = map(spectrum[i], min(spectrum), max(spectrum), 0, 500);
+               let y = map(spectrum[i], min(spectrum), max(spectrum), 0, 500);
+               rect(random(width), height - y, h, h);
+            }
+         }
+      }
+
+      function keyPressed() {
+         mySound.loop();
+      }
+
+      function keyReleased() {
+         mySound.pause();
+      }
+   </script>
+</body>
+
+</html>

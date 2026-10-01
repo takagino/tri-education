@@ -1,0 +1,747 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」05_JavaScriptとの連携 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」05_JavaScriptとの連携</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 今後のスケジュール（予定）</h2>
+      <div class="clause">
+        <ul>
+          <li>11/13：JavaScriptとの連携</li>
+          <li>11/20：<a href="https://p5js.org/examples/">p5.js</a> の基礎、<em>課題「センサーで模様を描く」制作</em></li>
+          <li>11/27：課題の試遊、p5.js の応用 ※授業見学</li>
+          <li>12/04：p5.js の応用</li>
+          <li>12/11：<em>課題「オーディオビジュアライザー」制作</em></li>
+          <li>12/18：課題の試遊、p5.js の応用</li>
+          <li>01/15：p5.js の応用</li>
+          <li>01/22：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>01/29：<em>最終課題「p5.js を使用した作品」制作</em></li>
+          <li>02/05：課題の試遊、まとめと補足 ※時間が余ったら他授業の課題</li>
+        </ul>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. モジュールのインストール</h2>
+      <div class="clause">
+        <div class="item">
+          <p>npm経由でインストール＆読み込む（require）ことで、世界中の誰かさんが作成したモジュールを使用できる。</p>
+        </div>
+        <dl>
+          <dt>【npmとは】</dt>
+          <dd>正式名称は「Node Package Manager」。その名の通り、Node.jsのパッケージ（Package）を管理する（Manager）ツール。</dd>
+        </dl>
+        <p><a href="https://www.npmjs.com/">公式サイト</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 「package.json」の作成</h3>
+        <div class="item">
+          <p>実行中のプログラムの「名前」や「バージョン」、インストールされたモジュールの「名前」や「バージョン」などの情報が記載されているファイル。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>新規でフォルダを作成し、VSCodeで開く。</li>
+                <li>ターミナルを表示、以下のコードを入力し「Enter」。
+                  <pre><code class="language-bash">npm init</code></pre>
+                </li>
+                <li>色々と出てくるが、すべて「Enter」を押して進める。</li>
+                <li>VSCodeのファイル一覧に「package.json」が追加されれば完了。</li>
+                <li>中身を確認しておく。</li>
+              </ol>
+            </dd>
+          </dl>
+          <p>※初期設定で作成する場合は「<em>npm init -y</em>」と入力すると便利。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. 「johnny-five」のインストール</h3>
+        <div class="item">
+          <p>JavaScriptでArduino互換のボードを動かすことのできるモジュール。</p>
+          <p><a href="http://johnny-five.io/">公式サイト</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>ターミナルに以下のコードを入力し「Enter」。
+                  <pre><code class="language-bash">npm install johnny-five</code></pre>
+                </li>
+                <li>VSCodeのファイル一覧に「node_modules」フォルダと、「package-lock.json」が追加されれば完了。</li>
+                <li>中身を確認しておく。</li>
+                <li><em>「package.json」の中身の変化</em>も確認しておく。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 「johnny-five」の動作確認</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. Arduino側の設定</h3>
+        <ol>
+          <li>PCとArduinoを接続。</li>
+          <li>「Arduino IDE」を立ち上げる。</li>
+          <li>『Select Board』の欄が「Arduino Uno」になっていることを確認。
+            <img src="./assets/05/06.png" width="400" alt="">
+          </li>
+          <li>『File > Examples > Firmata > StandardFirmataPlus』を開く。</li>
+          <li>検証 → 書き込み</li>
+          <li>書き込みが完了したらArduinoは終了する。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. モジュール側の設定</h3>
+        <div class="item">
+          <ol>
+            <li>フォルダ内に新規ファイル「app.js」を作成。
+              <pre><code class="language-bash">touch app.js</code></pre>
+            </li>
+            <li><a href="http://johnny-five.io/examples/board/">公式のサンプルコード</a>をコピペして保存。</li>
+            <li>サンプルページの回路のようにLEDを準備。（足の長いほうが13ピン）</li>
+            <li>ターミナルに以下のコードを入力し「Enter」。
+              <pre><code class="language-bash">node app.js</code></pre>
+            </li>
+            <li>ターミナルに「Ready!」と表示され、LEDが点滅したら成功。</li>
+            <li>終了はターミナルを選択し「control + c」2回。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【うまくいかない人は】</dt>
+            <dd><a href="http://johnny-five.io/examples/board-with-port/">このサンプル</a>のように、ポートを指定してやるとうまくいくかも。（<em>ポート名はAdruinoのソフトウェアから確認</em>）
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. モジュールの読み込み方法2種類</h3>
+        <div class="item">
+          <dl>
+            <dt>【使用する機能を個別に読み込む】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const { Board, Led } = require("johnny-five");
+const board = new Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const led = new Led(13);
+  led.blink(500);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【すべての機能を一括で読み込む】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const led = new five.Led(13);
+  led.blink(500);
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-4. サンプルの確認</h3>
+        <ul>
+          <li><a href="http://johnny-five.io/examples/board-cleanup/">Board - Cleanup in 'exit' event</a></li>
+          <li><a href="http://johnny-five.io/examples/led-fade/">LED - Fade</a>（LEDを13から11に差し替え）</li>
+        </ul>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 値を読み取る</h2>
+      <section class="clause">
+        <h3 class="clause__title">3-1. スイッチの値を読み取る</h3>
+        <div class="item">
+          <p><img src="./assets/05/07.png" width="600" alt=""></p>
+          <p><em>※LEDを13ピンに。</em></p>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const button = new five.Button({
+    pin: 2,
+    isPullup: true
+  });
+
+  const led = new five.Led(13);
+
+  button.on("down", () => {
+    led.on();
+  });
+
+  button.on("up", () => {
+    led.off();
+  });
+});</code></pre>
+          </p>
+          <p><a href="http://johnny-five.io/api/button/">ボタン関係のリファレンス</a></p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. センサーの値を読み取る</h3>
+        <div class="item">
+          <p><img src="assets/03/06.png" width="600" alt=""></p>
+          <p><em>※LEDを11ピンに。</em></p>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const sensor = new five.Sensor("A0");
+
+  sensor.on("change", (value) => {
+    console.log(value);
+  });
+});</code></pre>
+          </p>
+          <p><a href="http://johnny-five.io/api/sensor/">センサー関係のリファレンス</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【動作を遅らせる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 500
+  });
+
+  sensor.on("change", (value) => {
+    console.log(value);
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値を任意の範囲に変換する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 500
+  });
+
+  sensor.on("change", () => {
+    // 「0 - 1023」の範囲から変換
+    console.log(sensor.scaleTo(0, 255));
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <dl>
+          <dt>☆練習</dt>
+          <dd>
+            <ul>
+              <li>距離センサーの値に応じて、LEDを光らせる。（<a href="http://johnny-five.io/examples/led-slider/">ヒント</a>）
+                <!-- <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Ready!");
+
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 30
+  });
+  const led = new five.Led(11);
+
+  sensor.on("change", () => {
+    led.brightness(sensor.scaleTo(0, 255));
+  });
+});</code></pre> -->
+              </li>
+            </ul>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. サーボモータを動かす</h3>
+        <div class="item">
+          <p><img src="assets/05/09.png" width="600" alt=""><br>
+            ※実際の回路は「オレンジ」が 11ピン、「赤」が5V、「茶色」が GND。</p>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const five = require("johnny-five");
+const board = new five.Board();
+
+board.on("ready", function () {
+  console.log("Ready!");
+
+  const servo = new five.Servo(11);
+
+  // Sweep from 0-180 and repeat.
+  servo.sweep();
+});</code></pre>
+          </p>
+        </div>
+        <p><a href="http://johnny-five.io/api/servo/">サーボモータ関係のリファレンス</a></p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. ブラウザからArduinoを操作する</h2>
+      <section class="clause">
+        <h3 class="clause__title">4-1. 復習と準備</h3>
+        <p>ブラウザからArduinoを操作するには、前回勉強したモジュール「fs」「http」「socket.io」が必要になる。</p>
+        <dl>
+          <dt>【手順】</dt>
+          <dd>
+            <ol>
+              <li>「app.js」に下記のコードを記述し、保存。
+                <pre class="line-numbers"><code class="language-javascript">const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./template/index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});</code></pre>
+              </li>
+              <li>新規フォルダ「template」を作成し、その中に新規ファイル「index.html」を作成。（<em>可能ならばターミナルで操作する</em>）
+                <img src="./assets/05/08.png" width="300" alt="">
+              </li>
+              <li>下記のコードをコピペし、保存。
+                <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Arduinoとの連携&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;トップページ&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+              </li>
+              <li>ターミナルで「app.js」を実行。</li>
+              <li>「http://127.0.0.1:3000/」にアクセスし、動作確認。</li>
+              <li>確認後、「control + c」で動作終了しておく。</li>
+            </ol>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. socket.ioの設定</h3>
+        <div class="item">
+          <dl>
+            <dt>【サーバー側の準備】</dt>
+            <dd>
+              <ol>
+                <li>ターミナルに以下のコードを入力して「Enter」。
+                  <pre><code class="language-bash">npm install socket.io</code></pre>
+                </li>
+                <li>「package.json」や「node_modules」ファルダを確認しておく。</li>
+                <li>「app.js」を以下のように変更する。
+                  <pre class="line-numbers"><code class="language-javascript">/* app.js */
+
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./template/index.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+
+  //追加
+  const io = require("socket.io")(server);
+  console.log(io);
+});</code></pre>
+                </li>
+                <li>ターミナルに多くの文字列が表示されたら準備完了。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クライアント側の準備】</dt>
+            <dd>
+              <ol>
+                <li>『template > index.html』を開く。</li>
+                <li><a href="https://socket.io/docs/v4/client-installation/">公式サイト</a>から「CDN」のパスをコピーし、body要素の一番下にペースト。</li>
+                <li>「index.html」を以下のように変更する。
+                  <pre class="line-numbers"><code class="language-markup">&lt;!-- template/index.html --&gt;
+
+&lt;body&gt;
+  &lt;h1&gt;トップページ&lt;/h1&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;!-- 追加 --&gt;
+  &lt;script&gt;
+    const socket = io();
+    console.log(socket);
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+                </li>
+                <li>ターミナルで「app.js」を実行。</li>
+                <li>ブラウザのコンソールに「a」のようなオブジェクトが表示されたら準備完了。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. ブラウザクリックでLEDを制御</h3>
+        <div class="item">
+          <dl>
+            <dt>template/click.html</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+    let flag = false;
+
+    window.addEventListener('click', () => {
+      flag = !flag; //ブラウザをクリックする度に「true」「false」を反転
+      socket.emit("message", flag); //flagの値をサーバー側に送る
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>clcik.js</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//ここから共通（各種モジュールの読み込みと設定）
+const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./template/click.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+const five = require('johnny-five');
+const board = new five.Board();
+//ここまで共通
+
+//Arduinoの準備が完了したら中括弧内を実行する
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  //Arduinoに接続するパーツの指定
+  const led = new five.Led(13);
+
+  //サーバーに接続する
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    //「Socket.io」の準備
+    const io = require("socket.io")(server);
+
+    //ブラウザが接続されたら中括弧内を実行する
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      //ブラウザからメッセージが送られたら中括弧内を実行する
+      socket.on("message", (recieve) => {
+        //メッセージの値は「true」ならLEDをON
+        if (recieve) {
+          led.on();
+        } else {
+          led.off();
+        }
+      });
+    });
+  });
+
+  //Arduinoとの通信が終了したらLEDを消す
+  board.on("exit", () => {
+    led.off();
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ol>
+          <li>マウスの位置でLEDを制御する。</li>
+          <li>スクロール量でLEDを制御する。</li>
+          <li>ブラウザのサイズでLEDを制御する。</li>
+          <li>サーボモータを制御する。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. Arduinoからブラウザを操作する</h2>
+      <section class="clause">
+        <h3 class="clause__title">5-1. センサーでCSSを変更する</h3>
+        <div class="item">
+          <p><img src="assets/03/06.png" width="600" alt=""></p>
+          <dl>
+            <dt>template/sensor.html</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+
+    socket.on('sensor_value', (recieve) => {
+      document.body.style.backgroundColor = `rgb(${recieve * 2},255,255)`;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>sensor.js</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./template/sensor.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+const five = require('johnny-five');
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  //センサー用に変更
+  const sensor = new five.Sensor({
+    pin: "A0",
+    freq: 30
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    const io = require("socket.io")(server);
+
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      //変化に応じて値を送る
+      sensor.on("change", () => {
+        io.emit('sensor_value', sensor.scaleTo(0, 255));
+      });
+
+    });
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ol>
+          <li>センサーの値に応じて、要素や画像を「移動」「回転」「拡大縮小」させる。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">5-2. ボタンでCSSを変更する</h3>
+        <div class="item">
+          <p><img src="assets/05/07.png" width="600" alt=""></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>template/button.html</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+
+  &lt;!-- socket.io CDN --&gt;
+  &lt;script src="https://cdn.socket.io/4.6.0/socket.io.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+
+  &lt;script&gt;
+    const socket = io();
+    let color = '#fff';
+
+    socket.on('button_value', (recieve) => {
+      console.log(recieve);
+
+      if (recieve == 'press') {
+        color = '#f00';
+      } else if (recieve == 'hold') {
+        color = '#0f0';
+      } else {
+        color = '#fff';
+      }
+
+      document.body.style.backgroundColor = color;
+    });
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+          <dl>
+            <dt>button.js</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const fs = require('fs');
+const http = require('http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+const index = fs.readFileSync('./template/button.html', 'utf-8');
+
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    'Content-type': 'text/html'
+  });
+  res.end(index);
+});
+
+const five = require('johnny-five');
+const board = new five.Board();
+
+board.on("ready", () => {
+  console.log("Arduino ready!");
+
+  //ボタンに変更
+  const button = new five.Button({
+    pin: 2,
+    isPullup: true
+  });
+
+  server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+
+    const io = require("socket.io")(server);
+
+    io.on("connection", (socket) => {
+      console.log(`Connection completed!`);
+
+      //変化に応じて値を送る
+      button.on("press", function () {
+        io.emit('button_value', 'press');
+      });
+
+      button.on("hold", function () {
+        io.emit('button_value', 'hold');
+      });
+
+      button.on("release", function () {
+        io.emit('button_value', 'release');
+      });
+
+    });
+  });
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★ 応用</h3>
+        <ol>
+          <li>ボタンでキャラクターをジャンプさせる。</li>
+        </ol>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+            -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

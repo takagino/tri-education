@@ -1,0 +1,1224 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」02_ヘッドレスCMSとの連携 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」02_ヘッドレスCMSとの連携</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. ヘッドレスCMSとは</h2>
+      <div class="clause">
+        <p>フロントエンド部分の無い、バックエンド機能だけのCMSのこと。</p>
+        <p><a href="https://kurojica.com/server/blog/2824/">ヘッドレスCMSとWordPressの比較とメリットデメリット</a></p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. microCMS の登録</h3>
+        <p>すでにアカウントを持っている人は登録する必要はありません。周りの人に教えてあげてください。</p>
+        <ol>
+          <li><a href="https://microcms.io/">公式サイト</a>にアクセスし、「無料ではじめる」をクリック。</li>
+          <li>メールアドレスとパスワードを入力し、同意にチェックを入れて「アカウントを登録する」をクリック。</li>
+          <li>アンケートをスキップし「はじめる」をクリック。</li>
+          <li>サービス名とサービスIDを入力し「サービスを作成する」をクリック。（サービスIDがURLになるので適当にしないこと）</li>
+          <li>登録完了！</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. API の作成</h3>
+        <p>すでにアカウントを持っている人でAPIの枠が足りない人は作成する必要はありません。周りの人に教えてあげてください。</p>
+        <p><a href="https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%97%E3%83%AA%E3%82%B1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%82%A4%E3%83%B3%E3%82%BF%E3%83%95%E3%82%A7%E3%83%BC%E3%82%B9">APIとは？</a></p>
+        <ol>
+          <li>「自分で決める」をクリック。（見当たらない人は左メニューの「コンテンツ（API）」をクリック）</li>
+          <li>API名を「メンバー」、エンドポイントを「member」にして「次へ」をクリック。
+            <img src="./assets/02/01.png" width="600" alt="">
+          </li>
+          <li>リスト形式を選択して「次へ」をクリック。</li>
+          <li>APIスキーマを以下のように入力して「作成」をクリック。
+            <img src="./assets/02/02.png" width="800" alt="">
+          </li>
+          <li>作成完了！</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. コンテンツの追加</h3>
+        <ol>
+          <li>「+ 追加」をクリック。</li>
+          <li>名前と年齢を自由に入力して「公開」をクリック。</li>
+          <li>公開中の左にある矢印をクリックして一覧に戻る。</li>
+          <li>さらに「+ 追加」をクリックし、もう1つデータを公開しておく。
+            <img src="./assets/02/03.png" width="600" alt="">
+          </li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. ライフサイクルフック</h2>
+      <div class="clause">
+        <div class="item">
+          <p>Vue.jsのインスタンスは、最初に生成された後、要素にマウントされて、データの変化に応じて表示を更新し、最終的には破棄される。このような生成から破棄までの流れのことを<em>ライフサイクル</em>と言う。</p>
+          <p>Vue.jsには、このライフサイクルの変化に応じて呼び出される様々なメソッドが用意されており、このようなメソッドを<em>ライフサイクルフック</em>と呼ぶ。</p>
+          <ul>
+            <li><a href="https://ja.vuejs.org/guide/essentials/lifecycle.html#lifecycle-diagram">ライフサイクルの流れ</a></li>
+            <li><a href="https://ja.vuejs.org/api/composition-api-lifecycle.html">ライフサイクルフックの一覧</a></li>
+          </ul>
+        </div>
+        <div class="item">
+          <p><pre class="line-numbers"><code class="language-markup">/* 例
+--------------------*/
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;ライフサイクルフック | vue.js&lt;/title&gt;
+  &lt;style&gt;
+    [v-cloak] {
+      display: none;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="app"&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        Vue.onMounted(() =&gt; {
+          console.log('マウントされました。');
+        });
+
+        Vue.onBeforeMount(() =&gt; {
+          console.log('マウント前です。');
+        });
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></p>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. APIの呼び出し</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【参考】</dt>
+            <dd><a href="https://document.microcms.io/manual/display-contents">コンテンツをブラウザで表示する - microCMS</a></dd>
+          </dl>
+          <p><pre class="line-numbers"><code class="language-markup">/* 例
+--------------------*/
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;microCMS | vue.js&lt;/title&gt;
+  &lt;style&gt;
+    [v-cloak] {
+      display: none;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="app"&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        Vue.onMounted(() => {
+          fetch("自分のAPI", {
+            headers: {
+              "X-MICROCMS-API-KEY": "自分のX-MICROCMS-API-KEY"
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              console.log(json);
+            })
+        });
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【APIとX-MICROCMS-API-KEYの調べ方】</dt>
+            <dd>
+              <ol>
+                <li>コンテンツ一覧ページ右上の「APIプレビュー」をクリック。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. データの取得</h3>
+        <p>コンソールを見ると「contents」というキーにデータが入っているので、それを取り出す。</p>
+        <p><pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        Vue.onMounted(() => {
+          fetch("自分のAPI", {
+            headers: {
+              "X-MICROCMS-API-KEY": "自分のX-MICROCMS-API-KEY"
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              console.log(json.contents); //変更
+            })
+        });
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. データをバインドする</h3>
+        <div class="item">
+          <dl>
+            <dt>【変数の追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        //変数追加（値は空の配列）
+        const items = Vue.ref([]);
+
+        Vue.onMounted(() => {
+          fetch("自分のAPI", {
+            headers: {
+              "X-MICROCMS-API-KEY": "自分のX-MICROCMS-API-KEY"
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              items.value = json.contents; //値を代入
+            })
+        });
+
+        //HTMLに返す
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【データのバインディング】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    {{ items }} &lt;!-- 表示してみる --&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const items = Vue.ref([]);
+
+        Vue.onMounted(() => {
+          fetch("自分のAPI", {
+            headers: {
+              "X-MICROCMS-API-KEY": "自分のX-MICROCMS-API-KEY"
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              items.value = json.contents;
+            })
+        });
+
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【v-forで繰り返す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;body&gt;
+  &lt;div id="app"&gt;
+    &lt;template v-for="item of items"&gt;
+      &lt;dl>
+        &lt;dt&gt;{{ item.name }}&lt;/dt&gt;
+        &lt;dd&gt;{{ item.age }}&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/template&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const app = Vue.createApp({
+      setup() {
+        const items = Vue.ref([]);
+
+        Vue.onMounted(() => {
+          fetch("自分のAPI", {
+            headers: {
+              "X-MICROCMS-API-KEY": "自分のX-MICROCMS-API-KEY"
+            }
+          })
+            .then(res => res.json())
+            .then(json => {
+              items.value = json.contents;
+            })
+        });
+
+        return {
+          items
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. ソースコードを整える</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/02/micro/" target="_blank">最終形</a></p>
+          <p>これから教える内容はわかりやすさを優先しています。最適解ではありません。</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">4-1. 変数に置き換える</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  //HTMLにバインドせずJS内で使用するだけの場合は、普通に変数として宣言する
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+
+      Vue.onMounted(() => {
+        fetch(url, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+          })
+      });
+
+      return {
+        items
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-2. 必要なデータのみ取得する</h3>
+        <div class="item">
+          <p>取得したデータをコンソールで確認すると、現状は余分なデータもすべて取得している。表示速度をあげるため、「id、name、age」の3つのみ取得するよう改造する。</p>
+          <p><a href="https://document.microcms.io/content-api/get-list-contents#h7462d83de4">fields - microCMS</a></p>
+        </div>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+
+      Vue.onMounted(() => {
+        fetch(url + "?fields=id,name,age", { //urlの後ろにパラメータを追加
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+          })
+      });
+
+      return {
+        items
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【複数のパラメータを追加する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  //追加
+  const params = {
+    fields: "id,name,age",
+    limit: 1
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+
+      Vue.onMounted(() => {
+        fetch(path, { //変数を変更
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+          })
+      });
+
+      return {
+        items
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">4-3. ローディング表示を追加する</h3>
+        <div class="item">
+          <dl>
+            <dt>【HTMLとCSSを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="app"&gt;
+  &lt;div class="post" v-if="showPost"&gt;
+    &lt;template v-for="item of items"&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;{{ item.name }}&lt;/dt&gt;
+        &lt;dd&gt;{{ item.age }}&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/template&gt;
+  &lt;/div&gt;
+  &lt;div class="loading" v-else&gt;
+    &lt;img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  [v-cloak] {
+    display: none;
+  }
+
+  .loading {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+&lt;/style&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【データが読み込まれたらローディングを非表示に】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+  const params = {
+    fields: "id,name,age",
+    limit: 1
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false); //変数追加
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            //追加
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      return {
+        items,
+        showPost //追加
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. ページネーションの追加</h2>
+      <div class="clause">
+        <div class="item">
+          <ul>
+            <li>※ページ送りを出すために、データを7個〜10個に増やしておいてください。</li>
+            <li>※数字でのページネーションは少し複雑なため、今回は「前へ」「次へ」のシンプルな実装方法を学びます。</li>
+          </ul>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【何件目から何件目までのデータを取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+  const params = {
+    fields: "id,name,age",
+    limit: 2,
+    offset: 2 //追加
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      return {
+        items,
+        showPost
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数に置き換える】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let count = 0; //何ページ目か
+  const limit = 2; //１ページに表示する件数
+
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+  const params = {
+    fields: "id,name,age",
+    limit: limit, //変更
+    offset: count * limit //変更
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      return {
+        items,
+        showPost
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTMLを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="app"&gt;
+  &lt;div class="post" v-if="showPost"&gt;
+    &lt;template v-for="item of items"&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;{{ item.name }}&lt;/dt&gt;
+        &lt;dd&gt;{{ item.age }}&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/template&gt;
+
+    &lt;!-- 追加 --&gt;
+    &lt;div class="pagenav"&gt;
+      &lt;button v-if="navPrevious"&gt;前の作品へ&lt;/button&gt;
+      &lt;button v-if="navNext"&gt;次の作品へ&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;div class="loading" v-else&gt;
+    &lt;img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【変数を追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let count = 0;
+  const limit = 2;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+  const params = {
+    fields: "id,name,age",
+    limit: limit,
+    offset: count * limit
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+      const navPrevious = Vue.ref(false); //追加
+      const navNext = Vue.ref(true); //追加
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      return {
+        items,
+        showPost,
+        navPrevious, //追加
+        navNext //追加
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クリックイベントの追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="app"&gt;
+  &lt;div class="post" v-if="showPost"&gt;
+    &lt;template v-for="item of items"&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;{{ item.name }}&lt;/dt&gt;
+        &lt;dd&gt;{{ item.age }}&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/template&gt;
+
+    &lt;!-- 修正 --&gt;
+    &lt;div class="pagenav"&gt;
+      &lt;button v-if="navPrevious" @click="pageSet(-1)"&gt;前の作品へ&lt;/button&gt;
+      &lt;button v-if="navNext" @click="pageSet(1)"&gt;次の作品へ&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;div class="loading" v-else&gt;
+    &lt;img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let count = 0;
+  const limit = 2;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  //const から let に変更
+  let params = {
+    fields: "id,name,age",
+    limit: limit,
+    offset: count * limit
+  };
+  let query = new URLSearchParams(params);
+  let path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+      const navPrevious = Vue.ref(false);
+      const navNext = Vue.ref(true);
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      //追加
+      const pageSet = (num) => {
+        count += num;
+
+        let params = {
+          fields: "id,name,age",
+          limit: limit,
+          offset: count * limit
+        };
+        let query = new URLSearchParams(params);
+        let path = `${url}?${query}`;
+
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      };
+
+      return {
+        items,
+        showPost,
+        navPrevious,
+        navNext,
+        pageSet //追加
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【表示・非表示の切り替え】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let count = 0;
+  const limit = 2;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  let params = {
+    fields: "id,name,age",
+    limit: limit,
+    offset: count * limit
+  };
+  let query = new URLSearchParams(params);
+  let path = `${url}?${query}`;
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+      const navPrevious = Vue.ref(false);
+      const navNext = Vue.ref(true);
+
+      Vue.onMounted(() => {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      const pageSet = (num) => {
+        count += num;
+
+        let params = {
+          fields: "id,name,age",
+          limit: limit,
+          offset: count * limit
+        };
+        let query = new URLSearchParams(params);
+        let path = `${url}?${query}`;
+
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+
+            //前の作品へ
+            if (count > 0) {
+              navPrevious.value = true;
+            } else {
+              navPrevious.value = false;
+            };
+
+            //次の作品へ
+            if (items.value.length &lt; limit) {
+              navNext.value = false;
+            } else {
+              navNext.value = true;
+            };
+          })
+      };
+
+      return {
+        items,
+        showPost,
+        navPrevious,
+        navNext,
+        pageSet
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【微調整（共通部分を関数に）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  let count = 0;
+  const limit = 2;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+  let params, query, path; //変数の宣言のみ行う
+
+  //関数にまとめる
+  const setPath = () => {
+    params = {
+      fields: "id,name,age",
+      limit: limit,
+      offset: count * limit
+    };
+    query = new URLSearchParams(params);
+    path = `${url}?${query}`;
+  };
+
+  const app = Vue.createApp({
+    setup() {
+      const items = Vue.ref([]);
+      const showPost = Vue.ref(false);
+      const navPrevious = Vue.ref(false);
+      const navNext = Vue.ref(true);
+
+      Vue.onMounted(() => {
+        setPath(); //関数を実行
+
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+          })
+      });
+
+      const pageSet = (num) => {
+        count += num;
+        showPost.value = false; //値の初期化
+        setPath(); //関数を実行
+
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            items.value = json.contents;
+
+            if (items.value) {
+              showPost.value = true;
+            }
+
+            if (count > 0) {
+              navPrevious.value = true;
+            } else {
+              navPrevious.value = false;
+            };
+
+            if (items.value.length &lt; limit) {
+              navNext.value = false;
+            } else {
+              navNext.value = true;
+            };
+          })
+      };
+
+      return {
+        items,
+        showPost,
+        navPrevious,
+        navNext,
+        pageSet
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 詳細ページの追加</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【HTMLを変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;div id="app"&gt;
+  &lt;div class="post" v-if="showPost"&gt;
+    &lt;template v-for="item of items"&gt;
+      &lt;dl&gt;
+        &lt;!-- リンクを追加 --&gt;
+        &lt;dt&gt;&lt;a :href="`works.html?id=${item.id}`"&gt;{{ item.name }}&lt;/a&gt;&lt;/dt&gt;
+        &lt;dd&gt;{{ item.age }}&lt;/dd&gt;
+      &lt;/dl&gt;
+    &lt;/template&gt;
+
+    &lt;div class="pagenav"&gt;
+      &lt;button v-if="navPrevious"&gt;前の作品へ&lt;/button&gt;
+      &lt;button v-if="navNext"&gt;次の作品へ&lt;/button&gt;
+    &lt;/div&gt;
+
+  &lt;/div&gt;
+  &lt;div class="loading" v-else&gt;
+    &lt;img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【works.htmlを新規作成】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;vue.js&lt;/title&gt;
+  &lt;style&gt;
+    [v-cloak] {
+      display: none;
+    }
+
+    .loading {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="app" v-cloak&gt;
+    &lt;p&gt;シングルページ&lt;/p&gt;
+    &lt;div class="post" v-if="showPost"&gt;
+      &lt;h2&gt;{{ item.name }}&lt;/h2&gt;
+      &lt;p&gt;{{ item.age }}&lt;/p&gt;
+      &lt;a href="./index.html"&gt;一覧へ戻る&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;div class="loading" v-else&gt;
+      &lt;img src="https://www.benricho.org/loading_images/img-svg/default-gray.svg" width="100" alt=""&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script src="https://unpkg.com/vue@next"&gt;&lt;/script&gt;
+  &lt;script&gt;
+    const url = "自分のAPI";
+    const key = "自分のX-MICROCMS-API-KEY";
+    const params = {
+      fields: "id,name,age"
+    };
+    const query = new URLSearchParams(params);
+    const path = `${url}?${query}`;
+
+    const app = Vue.createApp({
+      setup() {
+        Vue.onMounted(() =&gt; {
+          fetch(path, {
+            headers: {
+              "X-MICROCMS-API-KEY": key
+            }
+          })
+            .then(res =&gt; res.json())
+            .then(json =&gt; {
+              console.log(json);
+            })
+        });
+
+        return {
+        }
+      }
+    });
+
+    app.mount("#app");
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【個別のAPIと取得できるデータを確認】</dt>
+            <dd>URLの最後に「id」がついた形。
+              <img src="./assets/02/04.png" width="600" alt="">
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【URLからidを取得】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const url = "自分のAPI";
+  const key = "自分のX-MICROCMS-API-KEY";
+
+  //追加
+  const search = new URLSearchParams(window.location.search);
+  const id = search.get('id');
+
+  const params = {
+    fields: "id,name,age"
+  };
+  const query = new URLSearchParams(params);
+  const path = `${url}/${id}?${query}`; //変更
+
+  const app = Vue.createApp({
+    setup() {
+      Vue.onMounted(() =&gt; {
+        fetch(path, {
+          headers: {
+            "X-MICROCMS-API-KEY": key
+          }
+        })
+          .then(res =&gt; res.json())
+          .then(json =&gt; {
+            console.log(json);
+          })
+      });
+
+      return {
+      }
+    }
+  });
+
+  app.mount("#app");
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <p>完成させる。</p>
+      </section>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.19.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

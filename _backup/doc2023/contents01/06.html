@@ -1,0 +1,792 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「コンテンツ制作」06_ルーティング設定 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「コンテンツ制作」06_ルーティング設定</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. ルーティングとは？</h2>
+      <div class="clause">
+        <div class="item">
+          <dl>
+            <dt>【今回の成果物】</dt>
+            <dd>
+              <a href="./assets/06/blog/" target="_blank">見本</a>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <p>画面遷移を伴うWebサイト・Webアプリケーションにおいて、表示させる画面とパスとを結びつけ、特定のパスに対応して画面表示処理を行うことを<em>ルーティング</em>という。Vue.jsのルーティングは「<em>Vue Router</em>」と呼ばれるライブラリを使用する。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ちなみに】</dt>
+            <dd>
+              <a href="https://www.oro.com/ja/technology/001/">シングルページアプリケーション（SPA）の導入メリット＆デメリット</a>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. 「Vue Router」の導入</h3>
+        <div class="item">
+          <ol>
+            <li>プロジェクト用のフォルダをVSCodeで開く。</li>
+            <li>以下のコマンドを入力して「Enter」。
+              <pre class="line-numbers"><code class="language-bash">npm init vue@latest</code></pre>
+            </li>
+            <li>順番に質問に答えていく。（<em>Add Vue Router for Single Page Application development?</em>の質問に対しては「Yes」、それ以外は全て「No」でOK）</li>
+            <li>最初に選択した名前のフォルダの中にたくさんのデータが生成される。今回は「router」と「views」のフォルダが追加されていることに注目。
+              <img src="./assets/06/01.png" width="300" alt="">
+            </li>
+            <li>以下のようにターミナルに表示されるので、1行ずつ入力し「Enter」。
+              <pre class="line-numbers"><code class="language-bash">cd vite-project → フォルダを移動
+npm install → 必要なパッケージをインストール
+npm run dev → 開発環境を立ち上げる</code></pre>
+            </li>
+            <li>表示されたURL（<a href="http://localhost:5173/">http://localhost:5173/</a>）にアクセス。</li>
+            <li>動作確認をして完了！</li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. ソースコードの確認</h3>
+        <div class="item">
+          <ul>
+            <li>src > main.js</li>
+            <li>src > App.vue</li>
+            <li>src > views</li>
+            <li>src > router > index.js</li>
+          </ul>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. ルーティング設定の追加</h3>
+        <div class="item">
+          <ol>
+            <li>『src > views』フォルダ内の「AboutView.vue」を複製し、「ContactView.vue」を作成。
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- ContactView.vue --&gt;
+
+&lt;template&gt;
+  &lt;div class="contact"&gt;
+    &lt;h1&gt;This is an contact page&lt;/h1&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;style&gt;
+@media (min-width: 1024px) {
+  .contact {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+}
+&lt;/style&gt;</code></pre>
+            </li>
+            <li>『src > router > index.js』にルーティングを登録する。
+              <pre class="line-numbers"><code class="language-javascript">/* index.js */
+
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
+    },
+    //追加
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactView.vue')
+    }
+  ]
+})
+
+export default router
+
+/* ルーティングの登録 */
+{
+  path: 'パス文字列',
+  name: 'ルーティング名',
+  component: 表示させる画面用コンポーネント
+}
+
+/* 動的インポート */
+component: HomeView → Vueプロジェクトのビルド時にインポートされる。
+component: () => import('../views/AboutView.vue') → ページ遷移が行われたらインポートされる。</code></pre>
+            </li>
+            <li>『src > App.vue』内のグローバルナビゲーションの項目を増やす。
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;header&gt;
+    &lt;img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /&gt;
+
+    &lt;div class="wrapper"&gt;
+      &lt;HelloWorld msg="You did it!" /&gt;
+
+      &lt;nav&gt;
+        &lt;RouterLink to="/"&gt;Home&lt;/RouterLink&gt;
+        &lt;RouterLink to="/about"&gt;About&lt;/RouterLink&gt;
+        &lt;!-- 追加 --&gt;
+        &lt;RouterLink to="/contact"&gt;Contact&lt;/RouterLink&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;!-- コンポーネントが読み込まれる表示領域--&gt;
+  &lt;RouterView /&gt;
+&lt;/template&gt;</code></pre>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-4. ルーティング名での指定</h3>
+        <p><pre class="line-numbers"><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from './components/HelloWorld.vue'
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;header&gt;
+    &lt;img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /&gt;
+
+    &lt;div class="wrapper"&gt;
+      &lt;HelloWorld msg="You did it!" /&gt;
+
+      &lt;!-- 変更（「v-bind:to」になっていることに注意） --&gt;
+      &lt;nav&gt;
+        &lt;RouterLink :to="{ name: 'home' }"&gt;Home&lt;/RouterLink&gt;
+        &lt;RouterLink :to="{ name: 'about' }"&gt;About&lt;/RouterLink&gt;
+        &lt;RouterLink :to="{ name: 'contact' }"&gt;Contact&lt;/RouterLink&gt;
+      &lt;/nav&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;RouterView /&gt;
+&lt;/template&gt;</code></pre></p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-5. クラス名の変更</h3>
+        <p>☆要素の検証で、ディフォルトのクラス名を確認する。</p>
+        <dl>
+          <dt>【クラス名の変更】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">/* index.js */
+
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactView.vue')
+    }
+  ],
+  /* 追加 */
+  linkActiveClass: 'active', //リンクがアクティブになっているとき
+  linkExactActiveClass: 'exact' //完全一致によってリンクがアクティブになっているとき
+})
+
+export default router
+
+            </code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. ルートパラメータ</h2>
+      <div class="clause">
+        <div class="item">
+          <p><a href="./assets/06/blog/" target="_blank">見本</a></p>
+          <p>上記見本のブログのようなコンテンツを制作したい。記事詳細ページを設定する際に、パス（URL）の末尾にその画面を表示するためのデータを埋め込むことが多い。このデータのことを<em>ルートパラメータ</em>という。</p>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <div class="item">
+          <p><a href="https://jsonplaceholder.typicode.com/">{JSON} Placeholder</a></p>
+          <p>
+          <pre class="line-numbers"><code class="language-markup">https://jsonplaceholder.typicode.com/posts</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【マウント時にデータを取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- HomeView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+
+const items = ref([]);
+
+onMounted(() =&gt; {
+  fetch('https://jsonplaceholder.typicode.com/posts/')
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      items.value = json;
+      console.log(items.value);
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【値の数だけ要素を表示する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- HomeView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+/* 追加 */
+import { RouterLink } from 'vue-router'
+
+const items = ref([]);
+
+onMounted(() =&gt; {
+  fetch('https://jsonplaceholder.typicode.com/posts/')
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      console.log(json);
+      console.log(json[0].title);
+
+      items.value = json;
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;ul&gt;
+      &lt;li v-for="item of items"&gt;
+        &lt;RouterLink :to="{ name: 'about' }"&gt;{{ item.title }}&lt;/RouterLink&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ルーティングの登録】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">/* index.js */
+
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('../views/ContactView.vue')
+    },
+    /* 追加 */
+    {
+      path: '/post/:postId',
+      name: 'post',
+      component: () => import('../views/PostView.vue')
+    }
+  ],
+  linkActiveClass: 'active',
+  linkExactActiveClass: 'exact'
+})
+
+export default router</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【記事詳細ページ用のコンポーネント制作】</dt>
+            <dd>「HomeView.vue」を複製し、「PostView.vue」に名前を変更。</dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【リンク先を修正】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- HomeView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+import { RouterLink } from 'vue-router'
+
+const items = ref([]);
+
+onMounted(() =&gt; {
+  fetch('https://jsonplaceholder.typicode.com/posts/')
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      console.log(json);
+      console.log(json[0].title);
+
+      items.value = json;
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;ul&gt;
+      &lt;li v-for="item of items"&gt;
+        /* 修正 */
+        &lt;RouterLink :to="{ name: 'post', params: { postId: item.id } }"&gt;{{ item.title }}&lt;/RouterLink&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【指定したidの内容を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- PostView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+
+const item = ref([]);
+
+onMounted(() =&gt; {
+  fetch('https://jsonplaceholder.typicode.com/posts/1')
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      item.value = json;
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;p&gt;{{ item.body }}&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【パラメータの値を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- PostView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+
+const item = ref([]);
+
+onMounted(() =&gt; {
+  fetch('https://jsonplaceholder.typicode.com/posts/1')
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      item.value = json;
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;p&gt;{{ item.body }}&lt;/p&gt;
+    &lt;!-- 追加 --&gt;
+    &lt;p&gt;{{ $route.params.postId }}&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+            <dd><a href="https://zenn.dev/kokota/articles/bebbcc405c7468">その他の値の取得</a></dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スクリプト内でパラメータの値を取得する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!-- PostView.vue --&gt;
+
+&lt;script setup&gt;
+import { ref, onMounted } from "vue";
+/* 追加 */
+import { useRoute } from 'vue-router';
+
+const item = ref([]);
+/* 追加 */
+const route = useRoute();
+
+onMounted(() =&gt; {
+  /* 修正 */
+  fetch('https://jsonplaceholder.typicode.com/posts/' + route.params.postId)
+    .then(response =&gt; response.json())
+    .then(json =&gt; {
+      item.value = json;
+    });
+});
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;main&gt;
+    &lt;p&gt;{{ item.body }}&lt;/p&gt;
+    &lt;p&gt;{{ $route.params.postId }}&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/template&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 練習課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>microCMSのデータを読み込んで、<a href="./assets/06/blog/" target="_blank">見本</a>のようなブログを制作する。</p>
+          <p><a href="https://github.com/takagino/blog-route">GitHub</a></p>
+          <dl>
+            <dt>【microCMSの値】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const url = "https://takagico.microcms.io/api/v1/blogs";
+const key = "uRE1clQmStFnKwELIcIyNriTmYvx8GOS3w7H";</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【JSONの見本】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">{
+  "contents": [
+      {
+          "id": "gri7w6yuq",
+          "createdAt": "2023-06-04T16:06:10.776Z",
+          "updatedAt": "2023-06-04T16:07:29.393Z",
+          "publishedAt": "2023-06-04T16:06:10.776Z",
+          "revisedAt": "2023-06-04T16:07:29.393Z",
+          "title": "『株式会社エイチーム様』へ会社見学に行きました！",
+          "content": "&lt;p&gt;Webデザイン学科・ゲームサイエンス学科の1年生が株式会社エイチーム様へ会社見学に行きました！&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/4574e7b8bcc7449fa25e860aba5cebe1/645x430_2ae395417f98b42be3d881be00011165_4624f4dce6f7760b277d4ad6b0b3a8114854cd7a.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;経営理念に&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;“みんなで幸せになれる会社にすること”&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;“今から100年続く会社にすること”&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;と掲げており、社内には社員が楽しく働けるような環境がありました！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/99edec09505f46b9838d562627358c93/645x430_2ae395417f98b42be3d881be00011165_2593704a3f18ccc808153dfae76b4600367bb3bd.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;なかなか入れないオフィスに、学生は目を輝かせながら見学をしていました。&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;（写真はエイチーム様の社内にある滑り台を滑っている様子）&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;会社見学後には会社説明もして頂きました。学生からの質問へも答えて頂き、&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;非常に有意義な時間を過ごすことができました。&lt;/span&gt;&lt;/p&gt;",
+          "eyecatch": {
+              "url": "https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/99edec09505f46b9838d562627358c93/645x430_2ae395417f98b42be3d881be00011165_2593704a3f18ccc808153dfae76b4600367bb3bd.jpg",
+              "height": 430,
+              "width": 645
+          },
+          "category": {
+              "id": "8w7cugww8",
+              "createdAt": "2023-04-30T15:41:02.614Z",
+              "updatedAt": "2023-06-04T16:06:33.155Z",
+              "publishedAt": "2023-04-30T15:41:02.614Z",
+              "revisedAt": "2023-06-04T16:06:33.155Z",
+              "name": "会社見学"
+          }
+      },
+      {
+          "id": "wtz__9trttjq",
+          "createdAt": "2023-04-30T15:47:32.846Z",
+          "updatedAt": "2023-06-04T16:07:18.263Z",
+          "publishedAt": "2023-04-30T15:47:32.846Z",
+          "revisedAt": "2023-06-04T16:07:18.263Z",
+          "title": "『Webデザイン学科』学生作品が展示されました!",
+          "content": "&lt;p&gt;&lt;span style=\"color:#3c3c3c\"&gt;現在、Webデザイン学科の学生が制作した作品の展示会が行われています！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/0034b91243bc4f8fae38a1ab29fb380b/645x430_2ae395417f98b42be3d881be00011165_52399981c9bf965e7899c6a7fc94d4b00f550f4f.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;現在展示されているのはこちらの「レターセット」の回です。&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/cb2a9a9b2d614648a006f9713e324f0a/645x430_2ae395417f98b42be3d881be00011165_50d48e33cbbd9701fb85cfe715a25475ab556d7b.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;夏にピッタリの涼し気なデザインですね♪&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;展示会には、感想ノートも置いてあるので作品に対してコメントを残すことも出来るんですよ！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;現在行われているWebデザイン学科の展示会は「ポストカード」や「カレンダー」などの紙媒体に限定したテーマを毎月皆で決め1ヶ月ごとに展示するものです。&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;テーマに沿って学生が自由に制作しています！&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;次回のテーマと作品が待ち遠しいですね♪&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;&nbsp;&lt;/span&gt;&lt;/p&gt;",
+          "eyecatch": {
+              "url": "https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/0034b91243bc4f8fae38a1ab29fb380b/645x430_2ae395417f98b42be3d881be00011165_52399981c9bf965e7899c6a7fc94d4b00f550f4f.jpg",
+              "height": 430,
+              "width": 645
+          },
+          "category": {
+              "id": "m9a84fp7w",
+              "createdAt": "2023-04-30T15:41:02.715Z",
+              "updatedAt": "2023-06-04T16:06:22.817Z",
+              "publishedAt": "2023-04-30T15:41:02.715Z",
+              "revisedAt": "2023-06-04T16:06:22.817Z",
+              "name": "作品展示"
+          }
+      },
+      {
+          "id": "rhrf2zroc",
+          "createdAt": "2023-04-30T15:41:03.659Z",
+          "updatedAt": "2023-06-04T16:07:08.095Z",
+          "publishedAt": "2023-04-30T15:41:03.659Z",
+          "revisedAt": "2023-06-04T16:07:08.095Z",
+          "title": "デザインとプログラミングが学べる！『Webデザイン学科』の授業風景です!",
+          "content": "&lt;p&gt;&lt;span style=\"color:#3c3c3c\"&gt;Webデザイン学科1年生の授業にお邪魔してきました！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;今回の授業は、社会人になるに向けて、必要となる力を身につける&lt;/span&gt;&lt;span style=\"color:#1abc9c\"&gt;『社会人基礎力』&lt;/span&gt;&lt;span style=\"color:#3c3c3c\"&gt;という授業でした！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/21943c7683c94887b502bae016655b46/645x430_2ae395417f98b42be3d881be00011165_b3b8091c835146cb2bad11d7007cfa6587c8e305.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;みなさん、かなり集中して、個人ワークに取り組んでいました！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;トライデントでは、専門的な勉強に加えて、&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;社会人として必要となる力も身につけられる授業があるのも&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;魅力の1つです◎&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;img src=\"https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/aa1f0df3b57a44a784a3f0db291ce1d0/645x430_2ae395417f98b42be3d881be00011165_ab2532eb30cb9d484e68c910d1ef08e09f8e074d.jpg\" alt=\"\"&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;授業の最後には、個人ワークで作成した文章をグループ内で発表し、グループ内で優れている文章を選び、全体で発表しました！&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;Webデザイン学科では、デザインの勉強に加え、プログラミングスキルも身につけることが出来ます！&lt;/span&gt;&lt;br&gt;&lt;span style=\"color:#3c3c3c\"&gt;気になる方は、ぜひ「Webデザイン学科について」をチェックしてみてくださいね！&lt;/span&gt;&lt;/p&gt;",
+          "eyecatch": {
+              "url": "https://images.microcms-assets.io/assets/ec524c71d09746bc8211e86809e15541/aa1f0df3b57a44a784a3f0db291ce1d0/645x430_2ae395417f98b42be3d881be00011165_ab2532eb30cb9d484e68c910d1ef08e09f8e074d.jpg",
+              "height": 430,
+              "width": 645
+          },
+          "category": {
+              "id": "f6oe3m8nt2l6",
+              "createdAt": "2023-04-30T15:41:02.453Z",
+              "updatedAt": "2023-06-04T16:06:43.913Z",
+              "publishedAt": "2023-04-30T15:41:02.453Z",
+              "revisedAt": "2023-06-04T16:06:43.913Z",
+              "name": "授業風景"
+          }
+      }
+  ],
+  "totalCount": 3,
+  "offset": 0,
+  "limit": 10
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <!-- <div class="item">
+          <dl>
+            <dt>【手順】</dt>
+            <dd>
+              <ol>
+                <li>プロジェクト用のフォルダをVSCodeで開く。</li>
+                <li>以下のコマンドを入力して「Enter」。
+                  <pre class="line-numbers"><code class="language-bash">npm init vue@latest</code></pre>
+                </li>
+                <li>順番に質問に答えていく。（<em>全て「Enter」でOK</em>）</li>
+                <li>以下のようにターミナルに表示されるので、1行ずつ入力し「Enter」。
+                  <pre class="line-numbers"><code class="language-bash">cd vite-project → フォルダを移動
+npm install → 必要なパッケージをインストール
+npm run dev → 開発環境を立ち上げる</code></pre>
+                </li>
+                <li>相対パスでビルドされるように「vite.config.js」を以下のように修正しておく。
+                  <pre class="line-numbers"><code class="language-javascript">import { fileURLToPath, URL } from 'node:url'
+
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [vue()],
+  base: "./", // 追加
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  }
+})</code></pre>
+                </li>
+                <li>『src > components』フォルダに新規ファイル「Post.vue」を作成。</li>
+                <li>以下のコードを記述し保存。
+                  <pre class="line-numbers"><code class="language-markup">&lt;!-- Post.vue --&gt;
+
+&lt;script setup&gt;
+  defineProps({
+    title: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      default: "未設定",
+    },
+  });
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;section class="post"&gt;
+    &lt;h2&gt;{{ title }}&lt;/h2&gt;
+    &lt;div class="info"&gt;
+      &lt;p&gt;Category: {{ category }}&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;slot name="content"&gt;
+      &lt;p&gt;記事がありません。&lt;/p&gt;
+    &lt;/slot&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+  .post {
+    margin-bottom: 6em;
+    padding-bottom: 6em;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .info {
+    margin: .5em 0 2em;
+  }
+&lt;/style&gt;</code></pre>
+                </li>
+                <li>ファイル「App.vue」を開き、中身を全て削除する。</li>
+                <li>以下のコードを記述し保存。
+                  <pre class="line-numbers"><code class="language-markup">&lt;!-- App.vue --&gt;
+
+&lt;script setup&gt;
+  import { ref, onMounted } from "vue";
+  import Post from './components/Post.vue';
+
+  const url = "https://takagico.microcms.io/api/v1/blogs";
+  const key = "uRE1clQmStFnKwELIcIyNriTmYvx8GOS3w7H";
+  const items = ref([]);
+
+  onMounted(() =&gt; {
+    fetch(url, {
+      headers: {
+        "X-MICROCMS-API-KEY": key
+      }
+    })
+      .then(res =&gt; res.json())
+      .then(json =&gt; {
+        items.value = json.contents;
+      })
+  });
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;header&gt;
+    &lt;div class="inner"&gt;
+      &lt;h1&gt;Webデザイン学科ニュース&lt;/h1&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;div class="inner"&gt;
+      &lt;template v-for="item of items"&gt;
+        &lt;Post :title="item.title" :category="item.category.name"&gt;
+          &lt;template v-slot:content&gt;
+            &lt;section class="content" v-html="item.content"&gt;&lt;/section&gt;
+          &lt;/template&gt;
+        &lt;/Post&gt;
+      &lt;/template&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;div class="inner"&gt;
+      &lt;small&gt;&copy; trident.&lt;/small&gt;
+    &lt;/div&gt;
+  &lt;/footer&gt;
+&lt;/template&gt;
+
+&lt;style scoped&gt;
+.inner {
+  width: 88%;
+  max-width: 645px;
+  margin: auto;
+}
+
+header {
+  margin-bottom: 3em;
+  padding: 2em 0;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+}
+
+footer {
+  padding: 2em 0;
+  text-align: center;
+}
+&lt;/style&gt;</code></pre>
+                </li>
+                <li>ディフォルトのCSSが不要な場合は『src > main.js』の以下の1文を削除する。
+                  <pre class="line-numbers"><code class="language-javascript">import './assets/main.css'</code></pre>
+                </li>
+              </ol>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【提出】</dt>
+            <dd>
+              <ol>
+                <li>cssを自分なりに変更する。</li>
+                <li>「npm run build」でビルド。</li>
+                <li>生成された「dist」フォルダを<a href="https://drive.google.com/drive/folders/10p8TUb__xO8QITZpMFRvvXipeqAHt4z8?usp=sharing">Googleドライブ</a>に提出。</li>
+                <li>フォルダ名を変更。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div> -->
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/components/prism-bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+              -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

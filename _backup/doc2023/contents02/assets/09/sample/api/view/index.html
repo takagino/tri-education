@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Api</title>
+</head>
+
+<body>
+    <p id="value">0</p>
+    <div id="circle"></div>
+
+    <!-- socket.io CDN -->
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"
+        integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj"
+        crossorigin="anonymous"></script>
+
+    <!-- axios CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script>
+        const socket = io();
+        const p = document.querySelector("#value");
+
+        socket.on('button_value', recieve => {
+            const url = `https://weather.tsukumijima.net/api/forecast?city=${recieve.id}`;
+            axios.get(url)
+                .then(res => {
+                    console.log(res.data);
+                    const location = res.data.location;
+                    const forecasts = res.data.forecasts;
+                    p.textContent = `${location.prefecture}/${location.city} : ${forecasts[0].telop}`;
+                });
+        });
+    </script>
+</body>
+
+</html>
