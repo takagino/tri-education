@@ -1,0 +1,1169 @@
+@charset "UTF-8";
+
+/* ====================================================
+  0. 変数定義（カラー・フォント）
+==================================================== */
+:root {
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-text-main: #1e293b;
+  --color-text-muted: #64748b;
+  --color-bg-base: #f8fafc;
+  --color-bg-card: #ffffff;
+  --color-border: #e2e8f0;
+  --color-error: #ef4444;
+  --color-dark: #0f172a;
+
+  --font-base: sans-serif;
+}
+
+/* ====================================================
+  2. 文字サイズ切り替え用スタイル（html要素＋カスタムデータ属性）
+  - html要素のフォントサイズ（remの基準）を変更することで、
+    remで指定されたサイト全体の文字サイズが一括で美しく連動します
+==================================================== */
+html {
+  font-size: 16px; /* デフォルト標準（1rem = 16px） */
+  scroll-behavior: smooth;
+}
+
+html[data-size="small"] {
+  font-size: 13px; /* 小（縮小） */
+}
+
+html[data-size="default"] {
+  font-size: 16px; /* 標準 */
+}
+
+html[data-size="large"] {
+  font-size: 20px; /* 大（拡大） */
+}
+
+/* ====================================================
+  基本リセット・共通スタイル
+==================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  color: var(--color-text-main);
+  background-color: var(--color-bg-base);
+  line-height: 1.7;
+  min-height: 100vh;
+  /* 8. ランダム背景画像用設定 */
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* コンテナ */
+.l-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.l-container--narrow {
+  max-width: 680px;
+}
+
+/* セクション共通 */
+.section {
+  padding: 80px 0;
+  background-color: transparent;
+  /* 背景画像を見せるため透過 */
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.section-header__subtitle {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.section-header__title {
+  font-size: 1.8rem;
+  color: var(--color-dark);
+  margin-bottom: 12px;
+}
+
+.section-header__lead {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+}
+
+/* 汎用ボタン */
+.c-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 6px;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+
+.c-btn:hover {
+  opacity: 0.85;
+}
+
+.c-btn--primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.c-btn--outline {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.c-btn--large {
+  padding: 16px 36px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
+/* ====================================================
+  トップバー（日時時計・ランダム背景・文字サイズ切り替え）
+==================================================== */
+.top-bar {
+  background-color: var(--color-dark);
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.top-bar__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* 7. 日付と時計の表示 */
+.top-bar__clock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: monospace;
+}
+
+.top-bar__clock-date {
+  color: #cbd5e1;
+}
+
+.top-bar__clock-time {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.top-bar__controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* 8. ランダム背景ボタン */
+.top-bar__random-btn {
+  font-size: 0.8rem;
+  padding: 4px 10px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+/* 2. 文字サイズ変更ボタン */
+.font-switcher {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.font-switcher__label {
+  color: #94a3b8;
+  font-size: 0.8rem;
+}
+
+.font-switcher__btn {
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+}
+
+.font-switcher__btn.is-active {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+
+/* ====================================================
+  ヘッダー（ナビゲーション・ハンバーガーメニュー）
+==================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header__inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.header__logo-symbol {
+  color: var(--color-primary);
+}
+
+.header__menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 28px;
+}
+
+.header__menu-link {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.header__menu-link:hover {
+  color: var(--color-primary);
+}
+
+.header__menu-link--contact {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 6px;
+}
+
+.header__menu-link--contact:hover {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+/* 1. ハンバーガーボタン（PCは非表示） */
+.header__hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  position: relative;
+  z-index: 110;
+}
+
+.header__hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-dark);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+/* ハンバーガー開いた状態（X印に変形） */
+.header__hamburger.is-open .header__hamburger-bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.header__hamburger.is-open .header__hamburger-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.header__hamburger.is-open .header__hamburger-bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+
+/* ====================================================
+  4. ヒーローセクション（スライドショー）
+==================================================== */
+.hero {
+  position: relative;
+  height: 480px;
+  background-color: var(--color-dark);
+  overflow: hidden;
+}
+
+.hero__slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero__slides {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* スライド要素（JSで .is-active が付与されたスライドを表示） */
+.hero__slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s;
+}
+
+.hero__slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+/* スライド背景画像 */
+.hero__slide-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero__content {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  z-index: 2;
+  color: #ffffff;
+}
+
+.hero__badge {
+  display: inline-block;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.hero__title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  max-width: 600px;
+}
+
+/* スライド矢印コントロール */
+.hero__control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.hero__control:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.hero__control--prev {
+  left: 20px;
+}
+
+.hero__control--next {
+  right: 20px;
+}
+
+/* 丸ボタンインジケーター（JS自動生成） */
+.hero__indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+}
+
+.hero__indicator-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.hero__indicator-dot.is-active {
+  background-color: #ffffff;
+  transform: scale(1.2);
+}
+
+
+/* ====================================================
+  11. スクロール連動フェードイン
+==================================================== */
+.js-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js-fade.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ====================================================
+  5. WORKS セクション（モーダル対象カード）
+==================================================== */
+.works__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.work-card {
+  background-color: var(--color-bg-card);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.work-card__thumb {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background-color: var(--color-dark);
+}
+
+.work-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.work-card__badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.work-card__body {
+  padding: 20px;
+}
+
+.work-card__tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.work-card__title {
+  font-size: 1.1rem;
+  color: var(--color-dark);
+  margin-bottom: 6px;
+}
+
+.work-card__summary {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+
+/* ====================================================
+  5. モーダルウィンドウ
+==================================================== */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  padding: 20px;
+}
+
+.modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal__container {
+  position: relative;
+  z-index: 10;
+  background: #ffffff;
+  max-width: 580px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.modal__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 20;
+  width: 32px;
+  height: 32px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal__image-wrap {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background-color: var(--color-dark);
+}
+
+.modal__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal__content {
+  padding: 24px;
+}
+
+.modal__tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.modal__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  margin-bottom: 10px;
+}
+
+.modal__desc {
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+}
+
+
+/* ====================================================
+  6. NEWS セクション（カテゴリーによる絞り込み）
+==================================================== */
+.news-filter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.news-filter__btn {
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: all 0.2s;
+}
+
+.news-filter__btn.is-active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.news-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: var(--color-bg-card);
+  padding: 16px 20px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+}
+
+/* JS絞り込みで非表示にされた要素 */
+.news-item.is-hidden {
+  display: none;
+}
+
+.news-item__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.news-item__date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-family: monospace;
+}
+
+.news-item__category {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.news-item__category--notice {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.news-item__category--release {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.news-item__category--event {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.news-item__title {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.news-item__link:hover {
+  color: var(--color-primary);
+}
+
+
+/* ====================================================
+  3. FAQ セクション（アコーディオン）
+==================================================== */
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq__item {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--color-bg-card);
+}
+
+.faq__question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  text-align: left;
+}
+
+.faq__q-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.faq__q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-dark);
+  flex-grow: 1;
+}
+
+/* アコーディオン開閉の ＋/− アイコン */
+.faq__icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.faq__icon::before,
+.faq__icon::after {
+  content: '';
+  position: absolute;
+  background-color: var(--color-text-muted);
+  transition: transform 0.3s;
+}
+
+/* 横線 */
+.faq__icon::before {
+  top: 7px;
+  left: 0;
+  width: 16px;
+  height: 2px;
+}
+
+/* 縦線 */
+.faq__icon::after {
+  top: 0;
+  left: 7px;
+  width: 2px;
+  height: 16px;
+}
+
+/* アコーディオンが開いたとき（縦線が縮んで横線のみ＝マイナス記号になる） */
+.faq__item.is-open .faq__icon::after {
+  transform: scaleY(0);
+}
+
+/* 回答パネルのアニメーション */
+.faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+  background-color: var(--color-bg-base);
+}
+
+.faq__item.is-open .faq__answer {
+  max-height: 300px;
+}
+
+.faq__answer-inner {
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.faq__a-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background-color: #06b6d4;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.faq__a-text {
+  font-size: 0.92rem;
+  color: var(--color-text-main);
+  line-height: 1.7;
+}
+
+
+/* ====================================================
+  12. CONTACT セクション（フォームバリデーション）
+  13. パスワード表示/非表示切り替え
+==================================================== */
+.contact-box {
+  background-color: var(--color-bg-card);
+  padding: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+/* 送信完了メッセージ */
+.contact-box__success {
+  display: none;
+  text-align: center;
+  padding: 30px 10px;
+}
+
+.contact-box__success.is-active {
+  display: block;
+}
+
+.contact-box__success-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.contact-box__success-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.contact-box__success-text {
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+}
+
+/* フォーム本体 */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-form.is-hidden {
+  display: none;
+}
+
+.contact-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.contact-form__label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-form__required {
+  font-size: 0.7rem;
+  color: #ffffff;
+  background-color: var(--color-error);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+
+.contact-form__input,
+.contact-form__select,
+.contact-form__textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 0.92rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background-color: #ffffff;
+}
+
+.contact-form__input:focus,
+.contact-form__select:focus,
+.contact-form__textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+/* 13. パスワード表示切替 */
+.contact-form__password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.contact-form__password-toggle {
+  position: absolute;
+  right: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.contact-form__hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* チェックボックス */
+.contact-form__checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.contact-form__checkbox {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* エラーメッセージ（初期非表示） */
+.contact-form__error {
+  display: none;
+  color: var(--color-error);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* 12. バリデーションエラー時のスタイル */
+.contact-form__group.is-error .contact-form__input,
+.contact-form__group.is-error .contact-form__textarea {
+  border-color: var(--color-error);
+  background-color: #fef2f2;
+}
+
+.contact-form__group.is-error .contact-form__error {
+  display: block;
+}
+
+
+/* ====================================================
+  フッター & 9. 外部サイト自動_blank
+==================================================== */
+.footer {
+  background-color: var(--color-dark);
+  color: #cbd5e1;
+  padding: 48px 0 24px;
+}
+
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.footer__logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.footer__address {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+
+.footer__heading {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.footer__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer__link {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.footer__link:hover {
+  color: #ffffff;
+}
+
+/* 9. 外部サイトアイコン（JSで自動付与された target="_blank" にアイコン付与） */
+.footer__link[target="_blank"]::after {
+  content: ' ↗';
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+  text-align: center;
+}
+
+.footer__copy {
+  font-size: 0.78rem;
+  color: #64748b;
+}
+
+
+/* ====================================================
+  10. トップへ戻るボタン
+==================================================== */
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+/* スクロールで表示されるクラス */
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* ====================================================
+  レスポンシブ対応（スマホ表示）
+==================================================== */
+@media screen and (max-width: 768px) {
+  .section {
+    padding: 50px 0;
+  }
+
+  .top-bar__inner {
+    justify-content: center;
+  }
+
+  /* ハンバーガーメニュー表示 */
+  .header__hamburger {
+    display: flex;
+  }
+
+  .header__nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    max-width: 280px;
+    height: 100vh;
+    background-color: #ffffff;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 80px 24px 32px;
+    transition: right 0.3s ease;
+    z-index: 100;
+  }
+
+  .header__nav.is-open {
+    right: 0;
+  }
+
+  .header__menu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .header__menu-link--contact {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero {
+    height: 420px;
+  }
+
+  .news-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .contact-box {
+    padding: 24px 16px;
+  }
+}

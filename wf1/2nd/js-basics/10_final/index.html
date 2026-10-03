@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STUDIO NEXUS | Webデザイン & テクノロジースタジオ</title>
+  <meta name="description" content="トライデントコンピュータ専門学校 Webデザイン学科 JavaScript基礎演習 最終課題サンプルサイト">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- スタイルシート -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JavaScriptファイル（defer属性によりHTMLの解析後に実行） -->
+  <script src="js/main.js" defer></script>
+</head>
+<body id="js-body" data-size="default">
+
+  <!-- ====================================================
+    トップバー：日時時計、文字サイズ変更、ランダム背景ボタン
+  ==================================================== -->
+  <div class="top-bar">
+    <div class="top-bar__inner">
+      <!-- 7. 日付と時計の表示 -->
+      <div class="top-bar__clock" id="js-clock">
+        <span class="top-bar__clock-icon">🕒</span>
+        <span class="top-bar__clock-date" id="js-clock-date">2026.00.00 (---)</span>
+        <span class="top-bar__clock-time" id="js-clock-time">00:00:00</span>
+      </div>
+
+      <div class="top-bar__controls">
+        <!-- 8. ランダム背景変更ボタン -->
+        <button type="button" class="top-bar__random-btn" id="js-random-bg-btn" title="背景デザインをランダムに変更">
+          🎲 背景切替
+        </button>
+
+        <!-- 2. 文字サイズ変更ボタン -->
+        <div class="font-switcher" role="group" aria-label="文字サイズ変更">
+          <span class="font-switcher__label">文字サイズ:</span>
+          <button type="button" class="font-switcher__btn" data-size="small">小</button>
+          <button type="button" class="font-switcher__btn is-active" data-size="default">標準</button>
+          <button type="button" class="font-switcher__btn" data-size="large">大</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================
+    ヘッダー：ロゴ、ナビゲーション、ハンバーガーメニュー
+  ==================================================== -->
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="header__logo">
+        <a href="#" class="header__logo-link">
+          <span class="header__logo-symbol">◆</span> STUDIO NEXUS
+        </a>
+      </h1>
+
+      <!-- ナビゲーションメニュー -->
+      <nav class="header__nav" id="js-nav">
+        <ul class="header__menu">
+          <li class="header__menu-item"><a href="#works" class="header__menu-link">Works</a></li>
+          <li class="header__menu-item"><a href="#news" class="header__menu-link">News</a></li>
+          <li class="header__menu-item"><a href="#faq" class="header__menu-link">FAQ</a></li>
+          <li class="header__menu-item"><a href="#contact" class="header__menu-link header__menu-link--contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- 1. ハンバーガーメニューボタン（スマホ用） -->
+      <button type="button" class="header__hamburger" id="js-hamburger" aria-label="メニューを開く" aria-expanded="false">
+        <span class="header__hamburger-bar"></span>
+        <span class="header__hamburger-bar"></span>
+        <span class="header__hamburger-bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main>
+
+    <!-- ====================================================
+      4. ヒーローセクション（スライドショー）
+      - オブジェクトと配列で管理されたスライドデータ
+      - 自動再生 / ホバー停止 / 前後ボタン / 丸ボタン（JS自動生成）
+    ==================================================== -->
+    <section class="hero" id="hero">
+      <div class="hero__slider" id="js-slider">
+        <!-- スライドコンテナ（JavaScriptでslideDataから動的に生成） -->
+        <div class="hero__slides" id="js-slides-container"></div>
+
+        <!-- スライド送りボタン（前へ / 次へ） -->
+        <button type="button" class="hero__control hero__control--prev" id="js-slide-prev" aria-label="前のスライドへ">
+          &#10094;
+        </button>
+        <button type="button" class="hero__control hero__control--next" id="js-slide-next" aria-label="次のスライドへ">
+          &#10095;
+        </button>
+
+        <!-- 丸ボタンナビゲーション（JavaScriptで枚数に応じて自動生成） -->
+        <div class="hero__indicators" id="js-indicators"></div>
+      </div>
+    </section>
+
+
+
+
+    <!-- ====================================================
+      5. WORKSセクション（モーダルウィンドウ連携）
+      - 画像クリックで詳細モーダルを表示
+    ==================================================== -->
+    <section class="section works" id="works">
+      <div class="l-container">
+        <div class="section-header js-fade">
+          <span class="section-header__subtitle">OUR WORKS</span>
+          <h2 class="section-header__title">制作実績</h2>
+          <p class="section-header__lead">カードをクリックすると拡大プレビュー（モーダル）が開きます。</p>
+        </div>
+
+        <div class="works__grid">
+          <!-- 実績 1 -->
+          <article class="work-card js-fade js-modal-open"
+                   data-title="株式会社AURA | コーポレートサイト制作"
+                   data-desc="AI・SaaS事業を展開するスタートアップ企業のブランディングサイト。モダンなタイポグラフィと滑らかなアニメーションで信頼感を演出しました。"
+                   data-image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80"
+                   data-tag="Corporate / Web Design">
+            <div class="work-card__thumb">
+              <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80" alt="株式会社AURAのWebサイト" class="work-card__img">
+              <span class="work-card__badge">VIEW DETAIL</span>
+            </div>
+            <div class="work-card__body">
+              <span class="work-card__tag">Corporate</span>
+              <h3 class="work-card__title">株式会社AURA コーポレートサイト</h3>
+              <p class="work-card__summary">AI技術と洗練されたデザインが調和した先進的なWebサイト。</p>
+            </div>
+          </article>
+
+          <!-- 実績 2 -->
+          <article class="work-card js-fade js-modal-open"
+                   data-title="BLUE ARCHITECTURE | 建築設計事務所 ポートフォリオ"
+                   data-desc="ミニマルで建築的な余白を活かしたギャラリーサイト。作品写真が最も美しく引き立つグリッドレイアウトを採用しています。"
+                   data-image="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80"
+                   data-tag="Portfolio / Architecture">
+            <div class="work-card__thumb">
+              <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80" alt="BLUE ARCHITECTUREのWebサイト" class="work-card__img">
+              <span class="work-card__badge">VIEW DETAIL</span>
+            </div>
+            <div class="work-card__body">
+              <span class="work-card__tag">Architecture</span>
+              <h3 class="work-card__title">BLUE ARCHITECTURE 作品集</h3>
+              <p class="work-card__summary">空間の美しさをそのままWeb上に再現したミニマルなデザイン。</p>
+            </div>
+          </article>
+
+          <!-- 実績 3 -->
+          <article class="work-card js-fade js-modal-open"
+                   data-title="GREEN HARVEST | オーガニックECプラットフォーム"
+                   data-desc="産地直送のオーガニック食材を届けるECサイト。購入フローの分かりやすさとスマートフォンでの操作性を極限まで追求しました。"
+                   data-image="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1000&q=80"
+                   data-tag="EC / UI・UX">
+            <div class="work-card__thumb">
+              <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80" alt="GREEN HARVESTのWebサイト" class="work-card__img">
+              <span class="work-card__badge">VIEW DETAIL</span>
+            </div>
+            <div class="work-card__body">
+              <span class="work-card__tag">EC Platform</span>
+              <h3 class="work-card__title">GREEN HARVEST オンラインストア</h3>
+              <p class="work-card__summary">温かみのあるトーン＆マナーと快適な購買UXを実現。</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================
+      6. NEWSセクション（カテゴリーによる記事絞り込み）
+      - 「すべて」「お知らせ」「リリース」「イベント」でフィルタリング
+    ==================================================== -->
+    <section class="section news" id="news">
+      <div class="l-container">
+        <div class="section-header js-fade">
+          <span class="section-header__subtitle">LATEST UPDATES</span>
+          <h2 class="section-header__title">ニュース & お知らせ</h2>
+          <p class="section-header__lead">カテゴリーボタンをクリックして記事を絞り込めます。</p>
+        </div>
+
+        <!-- カテゴリー絞り込みボタン群 -->
+        <div class="news-filter js-fade" role="group" aria-label="カテゴリー絞り込み">
+          <button type="button" class="news-filter__btn is-active" data-filter="all">すべて</button>
+          <button type="button" class="news-filter__btn" data-filter="notice">お知らせ</button>
+          <button type="button" class="news-filter__btn" data-filter="release">プレスリリース</button>
+          <button type="button" class="news-filter__btn" data-filter="event">イベント</button>
+        </div>
+
+        <!-- ニュースリスト -->
+        <div class="news-list" id="js-news-list">
+          <!-- 記事 1 -->
+          <article class="news-item js-fade" data-category="release">
+            <div class="news-item__meta">
+              <time class="news-item__date" datetime="2026-10-01">2026.10.01</time>
+              <span class="news-item__category news-item__category--release">プレスリリース</span>
+            </div>
+            <h3 class="news-item__title">
+              <a href="#" class="news-item__link">次世代フロントエンド開発フレームワーク対応の新規Web制作プランを開始しました。</a>
+            </h3>
+          </article>
+
+          <!-- 記事 2 -->
+          <article class="news-item js-fade" data-category="event">
+            <div class="news-item__meta">
+              <time class="news-item__date" datetime="2026-09-25">2026.09.25</time>
+              <span class="news-item__category news-item__category--event">イベント</span>
+            </div>
+            <h3 class="news-item__title">
+              <a href="#" class="news-item__link">トライデントコンピュータ専門学校にて「実践JavaScript・UI演出講座」の特別講義を開催します。</a>
+            </h3>
+          </article>
+
+          <!-- 記事 3 -->
+          <article class="news-item js-fade" data-category="notice">
+            <div class="news-item__meta">
+              <time class="news-item__date" datetime="2026-09-18">2026.09.18</time>
+              <span class="news-item__category news-item__category--notice">お知らせ</span>
+            </div>
+            <h3 class="news-item__title">
+              <a href="#" class="news-item__link">秋季のデザインカンファレンス出展に伴うサポート窓口の営業日について。</a>
+            </h3>
+          </article>
+
+          <!-- 記事 4 -->
+          <article class="news-item js-fade" data-category="release">
+            <div class="news-item__meta">
+              <time class="news-item__date" datetime="2026-09-10">2026.09.10</time>
+              <span class="news-item__category news-item__category--release">プレスリリース</span>
+            </div>
+            <h3 class="news-item__title">
+              <a href="#" class="news-item__link">STUDIO NEXUSがデザインアワード2026「Webイノベーション部門」最優秀賞を受賞。</a>
+            </h3>
+          </article>
+
+          <!-- 記事 5 -->
+          <article class="news-item js-fade" data-category="event">
+            <div class="news-item__meta">
+              <time class="news-item__date" datetime="2026-08-30">2026.08.30</time>
+              <span class="news-item__category news-item__category--event">イベント</span>
+            </div>
+            <h3 class="news-item__title">
+              <a href="#" class="news-item__link">学生向けポートフォリオレビュー会＆サマーインターンシップ相談会の募集受付を開始。</a>
+            </h3>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================
+      3. FAQセクション（アコーディオン）
+      - parentElement / nextElementSibling などのDOMトラバーサルで開閉
+    ==================================================== -->
+    <section class="section faq" id="faq">
+      <div class="l-container l-container--narrow">
+        <div class="section-header js-fade">
+          <span class="section-header__subtitle">FREQUENTLY ASKED QUESTIONS</span>
+          <h2 class="section-header__title">よくある質問</h2>
+          <p class="section-header__lead">制作のご相談や納期・費用に関するご質問にお答えします。</p>
+        </div>
+
+        <div class="faq__list">
+          <!-- FAQ 1 -->
+          <div class="faq__item js-fade">
+            <button type="button" class="faq__question js-accordion-trigger" aria-expanded="false">
+              <span class="faq__q-mark">Q</span>
+              <span class="faq__q-text">Webサイトの制作期間はどのくらいかかりますか？</span>
+              <span class="faq__icon"></span>
+            </button>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                <span class="faq__a-mark">A</span>
+                <p class="faq__a-text">
+                  サイトの規模や機能要件によって異なりますが、一般的なコーポレートサイト（5〜10ページ程度）であれば、お打ち合わせから納品まで約1ヶ月〜2ヶ月半が目安となります。お急ぎの案件も柔軟に対応可能です。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq__item js-fade">
+            <button type="button" class="faq__question js-accordion-trigger" aria-expanded="false">
+              <span class="faq__q-mark">Q</span>
+              <span class="faq__q-text">スマートフォンのレスポンシブ対応やアクセシビリティ対応は含まれますか？</span>
+              <span class="faq__icon"></span>
+            </button>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                <span class="faq__a-mark">A</span>
+                <p class="faq__a-text">
+                  はい、すべてのプランにおいて標準でスマートフォン・タブレット・PCに最適化されたレスポンシブWebデザインを実装いたします。BEM設計に基づいた保守性の高いコードをご提供します。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq__item js-fade">
+            <button type="button" class="faq__question js-accordion-trigger" aria-expanded="false">
+              <span class="faq__q-mark">Q</span>
+              <span class="faq__q-text">デザインデータ（FigmaやXD）からのコーディングのみの依頼は可能ですか？</span>
+              <span class="faq__icon"></span>
+            </button>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                <span class="faq__a-mark">A</span>
+                <p class="faq__a-text">
+                  もちろん可能です。FigmaやAdobe XD、Photoshop等のデザインデータを元に、忠実でインタラクティブな動きを伴うフロントエンド実装をスピーディに行います。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq__item js-fade">
+            <button type="button" class="faq__question js-accordion-trigger" aria-expanded="false">
+              <span class="faq__q-mark">Q</span>
+              <span class="faq__q-text">公開後の運用保守や更新サポートはお願いできますか？</span>
+              <span class="faq__icon"></span>
+            </button>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                <span class="faq__a-mark">A</span>
+                <p class="faq__a-text">
+                  月額制の保守サポートプランをご用意しております。サーバー管理、セキュリティ対策、コンテンツの定期更新、アクセス解析レポートの作成までトータルでサポートいたします。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ====================================================
+      12. お問い合わせフォーム（簡易バリデーション）
+      13. パスワードの表示/非表示切り替え
+    ==================================================== -->
+    <section class="section contact" id="contact">
+      <div class="l-container l-container--narrow">
+        <div class="section-header js-fade">
+          <span class="section-header__subtitle">GET IN TOUCH</span>
+          <h2 class="section-header__title">お問い合わせ</h2>
+          <p class="section-header__lead">
+            制作のご相談やプロジェクトのお見積りなど、お気軽にお問い合わせください。<br>
+            必須項目を入力の上、送信ボタンを押してください。
+          </p>
+        </div>
+
+        <div class="contact-box js-fade">
+          <!-- 送信完了メッセージエリア（初期は非表示） -->
+          <div class="contact-box__success" id="js-contact-success">
+            <div class="contact-box__success-icon">🎉</div>
+            <h3 class="contact-box__success-title">お問い合わせを受け付けました</h3>
+            <p class="contact-box__success-text">
+              メッセージを送信いただきありがとうございます。担当者より2営業日以内にご連絡差し上げます。
+            </p>
+            <button type="button" class="c-btn c-btn--outline" id="js-contact-reset-btn">別のメッセージを送信する</button>
+          </div>
+
+          <!-- お問い合わせフォーム -->
+          <form class="contact-form" id="js-contact-form" novalidate>
+            <!-- お名前 -->
+            <div class="contact-form__group">
+              <label for="user-name" class="contact-form__label">
+                お名前 <span class="contact-form__required">必須</span>
+              </label>
+              <input type="text" id="user-name" name="name" class="contact-form__input" placeholder="山田 太郎">
+              <p class="contact-form__error" id="js-error-name">お名前を入力してください。</p>
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="contact-form__group">
+              <label for="user-email" class="contact-form__label">
+                メールアドレス <span class="contact-form__required">必須</span>
+              </label>
+              <input type="email" id="user-email" name="email" class="contact-form__input" placeholder="example@nexus.com">
+              <p class="contact-form__error" id="js-error-email">有効なメールアドレス（@を含む形式）を入力してください。</p>
+            </div>
+
+            <!-- 13. 確認用パスワード（表示/非表示切り替え付き） -->
+            <div class="contact-form__group">
+              <label for="user-password" class="contact-form__label">
+                照会用パスワード <span class="contact-form__required">必須 (6文字以上)</span>
+              </label>
+              <div class="contact-form__password-wrap">
+                <input type="password" id="user-password" name="password" class="contact-form__input" placeholder="半角英数6文字以上">
+                <button type="button" class="contact-form__password-toggle" id="js-password-toggle" aria-label="パスワードを表示する">
+                  表示
+                </button>
+              </div>
+              <p class="contact-form__hint">※お問い合わせ履歴の確認用パスワードです。</p>
+              <p class="contact-form__error" id="js-error-password">パスワードは6文字以上で入力してください。</p>
+            </div>
+
+            <!-- お問い合わせ種別 -->
+            <div class="contact-form__group">
+              <label for="inquiry-type" class="contact-form__label">お問い合わせ項目</label>
+              <select id="inquiry-type" name="type" class="contact-form__select">
+                <option value="web">Webサイト制作・リニューアル</option>
+                <option value="ui">UI/UXデザイン設計</option>
+                <option value="recruit">採用・インターンについて</option>
+                <option value="other">その他のお問い合わせ</option>
+              </select>
+            </div>
+
+            <!-- お問い合わせ内容 -->
+            <div class="contact-form__group">
+              <label for="user-message" class="contact-form__label">
+                お問い合わせ内容 <span class="contact-form__required">必須</span>
+              </label>
+              <textarea id="user-message" name="message" rows="5" class="contact-form__textarea" placeholder="ご相談内容や納期のご希望などを自由にご記入ください。"></textarea>
+              <p class="contact-form__error" id="js-error-message">お問い合わせ内容を10文字以上で入力してください。</p>
+            </div>
+
+            <!-- 利用規約同意チェック -->
+            <div class="contact-form__group">
+              <label class="contact-form__checkbox-label">
+                <input type="checkbox" id="user-agree" name="agree" class="contact-form__checkbox">
+                <span class="contact-form__checkbox-text">個人情報の取り扱い方針に同意する <span class="contact-form__required">必須</span></span>
+              </label>
+              <p class="contact-form__error" id="js-error-agree">送信にはプライバシーポリシーへの同意が必要です。</p>
+            </div>
+
+            <!-- 送信ボタン -->
+            <div class="contact-form__submit">
+              <button type="submit" class="c-btn c-btn--primary c-btn--large">
+                メッセージを送信する
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ====================================================
+    フッター
+    9. 外部サイトに自動的に「_blank」「rel="noopener noreferrer"」を付与
+  ==================================================== -->
+  <footer class="footer">
+    <div class="l-container">
+      <div class="footer__inner">
+        <div class="footer__info">
+          <p class="footer__logo">STUDIO NEXUS</p>
+          <p class="footer__address">
+            〒450-0002 愛知県名古屋市中村区名駅3丁目<br>
+            トライデントコンピュータ専門学校 Webデザイン学科
+          </p>
+        </div>
+
+        <div class="footer__links">
+          <h4 class="footer__heading">外部リンク（自動 target="_blank" 付与）</h4>
+          <ul class="footer__list">
+            <!-- 外部サイトリンク（JavaScriptが検知して target="_blank" と rel を付与） -->
+            <li><a href="https://trident.ac.jp/" class="footer__link">トライデントコンピュータ専門学校</a></li>
+            <li><a href="https://developer.mozilla.org/ja/docs/Web/JavaScript" class="footer__link">MDN Web Docs (JavaScript)</a></li>
+            <li><a href="https://github.com" class="footer__link">GitHub Official</a></li>
+            <!-- 内部アンカーリンク（_blank は付与されない） -->
+            <li><a href="#hero" class="footer__link">サイト内トップへ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; 2026 STUDIO NEXUS. All rights reserved. Trident Computer College Web Design Course.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ====================================================
+    10. トップへ戻るボタン（スクロール量に応じた表示切替）
+  ==================================================== -->
+  <button type="button" class="back-to-top" id="js-back-to-top" aria-label="ページの先頭へ戻る">
+    ▲
+  </button>
+
+
+  <!-- ====================================================
+    5. モーダルウィンドウ（作品詳細プレビュー）
+    - 外枠（オーバーレイ）と、コンテンツ雛形（templateタグ）
+  ==================================================== -->
+  <!-- モーダル外枠（背景暗転） -->
+  <div class="modal" id="js-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal__overlay" id="js-modal-overlay"></div>
+  </div>
+
+  <!-- モーダル用テンプレート（画面には表示されない雛形） -->
+  <template id="js-modal-template">
+    <div class="modal__container">
+      <button type="button" class="modal__close js-modal-close" aria-label="モーダルを閉じる">&times;</button>
+      <div class="modal__image-wrap">
+        <img src="" alt="" class="modal__image js-modal-img">
+      </div>
+      <div class="modal__content">
+        <span class="modal__tag js-modal-tag"></span>
+        <h3 class="modal__title js-modal-title"></h3>
+        <p class="modal__desc js-modal-desc"></p>
+      </div>
+    </div>
+  </template>
+
+</body>
+</html>
