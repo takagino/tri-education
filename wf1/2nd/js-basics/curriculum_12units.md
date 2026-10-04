@@ -13,7 +13,7 @@
 
 | 週 | コマ | 単元名・テーマ | 主な学習目標・UI実践 |
 |:---:|:---:|---|---|
-| **第1週** | 1, 2 | **単元1: JavaScriptの基礎知識・変数・データ型** | JSの役割、開発者ツール、console.log、let / const、文字列・数値・真偽値 |
+| **第1週** | 1, 2 | **単元1: 基礎知識・変数・データ型** | JSの役割、開発者ツール、console.log、let / const、文字列・数値・真偽値 |
 | **第2週** | 3, 4 | **単元2: DOMの取得と要素の書き換え** | DOMツリーの概念、getElementById、querySelector、textContent、innerHTML基礎 |
 | **第3週** | 5, 6 | **単元3: イベント処理とクラス操作によるUI切替** | addEventListener('click')、classList（add / remove / toggle）、ハンバーガーメニュー基礎 |
 | **第4週** | 7, 8 | **単元4: 条件分岐（if文）と属性操作** | if / else if / else、比較・論理演算子、setAttribute、パスワード表示切替 |
