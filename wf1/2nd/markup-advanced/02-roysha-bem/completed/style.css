@@ -48,8 +48,8 @@ img {
   font-size: 15px;
 }
 
-/* unit */
-.unit__catch {
+/* intro */
+.intro__catch {
   margin-bottom: 20px;
   color: #256BE6;
   font-size: 14px;
@@ -57,7 +57,7 @@ img {
   text-transform: uppercase;
 }
 
-.unit__title {
+.intro__title {
   margin-bottom: 40px;
   color: #262934;
   font-size: 36px;
@@ -65,7 +65,7 @@ img {
   line-height: 1.3;
 }
 
-.unit__text {
+.intro__text {
   margin-bottom: 40px;
 }
 
@@ -169,19 +169,19 @@ img {
 
 /* service.html
 -------------------------*/
-/* wedo */
-.wedo {
+/* services */
+.services {
   padding: 80px 0;
 }
 
-.wedo__inner {
+.services__inner {
   max-width: 1200px;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
 }
 
-.wedo__info {
+.services__info {
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
@@ -189,7 +189,7 @@ img {
   text-align: center;
 }
 
-.wedo__list {
+.services__list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   column-gap: 4.5%;
@@ -197,14 +197,14 @@ img {
   background-color: #F7FAFF;
 }
 
-.wedo__item {
+.services__item {
   padding: 40px;
   text-align: center;
   background-color: #fff;
 }
 
-.wedo__item .card__icon,
-.wedo__item .btn {
+.services__item .card__icon,
+.services__item .btn {
   margin-left: auto;
   margin-right: auto;
 }
@@ -230,7 +230,7 @@ img {
   text-align: center;
 }
 
-.offer__info .unit__title {
+.offer__info .intro__title {
   color: #fff;
 }
 
@@ -297,7 +297,7 @@ img {
   text-align: center;
 }
 
-.question__info .unit__title {
+.question__info .intro__title {
   color: #fff;
 }
 
@@ -306,12 +306,12 @@ img {
   margin-right: auto;
 }
 
-/* asked */
-.asked {
+/* faq */
+.faq {
   padding: 80px 0;
 }
 
-.asked__inner {
+.faq__inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 8%;
@@ -322,24 +322,24 @@ img {
   margin-right: auto;
 }
 
-.asked__info {
+.faq__info {
   order: 2;
 }
 
-.asked__list {
+.faq__list {
   order: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 46px 8%;
 }
 
-.asked__item {
+.faq__item {
   padding: 40px;
   border: 1px solid;
   text-align: center;
 }
 
-.asked__item .card__icon {
+.faq__item .card__icon {
   margin-left: auto;
   margin-right: auto;
 }
