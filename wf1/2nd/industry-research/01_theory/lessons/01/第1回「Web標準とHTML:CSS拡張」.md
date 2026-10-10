@@ -1,40 +1,5 @@
 # 第1回「Web標準とHTML/CSS拡張」（10/13）
 
-### 業界研究（火3）
-
----
-
-## 講義のアジェンダ
-
-1. **Web標準とマークアップ言語の基礎**
-    - Web標準（Web Standards）の定義と準拠メリット
-    - マークアップ言語の系譜（SGMLからHTML Living Standardへ）
-    - CSSの標準化とCSSモジュール（CSS Snapshot）
-2. **HTML文書の基本構造と文法規則**
-    - HTML文書の骨格と階層構造（DOCTYPE・html・head・body）
-    - グローバル属性（id・class・style・title・lang・tabindex）
-    - コンテンツカテゴリと要素の包含ルール（入れ子制限）
-3. **セマンティックWebと主要なHTML要素**
-    - セマンティックマークアップの意義
-    - 構造・セクションを定義する要素（main・header・footer・nav・article・section・aside）
-    - テキスト・図版・注釈の要素（h1〜h6・p・figure・blockquote・strong・em・time・ruby等）
-    - 廃止された要素（center・font・frameset等）
-4. **主要なHTMLコンポーネント（表組み・フォーム・メディア）**
-    - テーブル関連要素（table・tr・th・td・caption等）
-    - フォーム関連要素と属性（form・input・select・option・disabled・button等）
-    - リスト関連要素（ul・ol・li・dl・dt・dd）
-    - 埋め込み・進捗・スクリプト要素（iframe・video・audio・progress・script）
-5. **CSSの基本プロパティとレイアウト設計**
-    - 色・背景・フォントの指定（color・transparent・font-family等）
-    - ボックスモデルとサイズ計算（padding・margin・border・box-sizing）
-    - 表示形式と配置・スクロール制御（display・position・float・overflow）
-    - CSSの単位体系（絶対単位 vs 相対単位）
-6. **CSSの適用規則とセレクタの詳細度（Specificity）**
-    - カスケードとスタイルの適用優先順位（インラインスタイル・!important）
-    - セレクタの種類と詳細度の計算規則
-
----
-
 # **1. Web標準とマークアップ言語の基礎**
 
 ## **1-1. Web標準（Web Standards）とは**
