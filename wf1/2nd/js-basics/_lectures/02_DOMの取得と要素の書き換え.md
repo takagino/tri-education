@@ -40,8 +40,8 @@
 
 ## **本日のゴール**
 
-1. **DOM（Document Object Model）** の概念と、HTMLとJavaScriptがつながる仕組みを理解する。
-2. **`document.getElementById()`** と **`document.querySelector()`** を使い分け、狙ったHTML要素を正確に取得できる。
+1. **`document.getElementById()`** と **`document.querySelector()`** を使い分け、狙ったHTML要素を正確に取得できる。
+2. 要素の内部構造（`console.dir`）と **DOM（Document Object Model）ツリーの仕組み** を理解し、可視化ツールで構造を捉えられる。
 3. **`textContent`** と **`innerHTML`** の違いとセキュリティ上の注意点を理解し、要素内のテキストやHTML構造を書き換えられる。
 4. **`element.style.◯◯`** を使って、CSSプロパティ（色・背景色・フォントサイズなど）を動的に変更できる。
 5. ボタンクリックをきっかけに文字や色が変化するインタラクティブなUIを体験し、次回の本格的なイベント処理につなげる。
@@ -69,66 +69,13 @@ Googleフォームにて選択式（4択・全10問）で回答してくださ�
 
 ---
 
-# 2. **DOM（Document Object Model）とは？**
+# 2. **まずはHTML要素をJavaScriptに連れてこよう（要素の取得）**
 
-## 2-1. **HTMLとJavaScriptをつなぐ架け橋**
-
-これまでの学習では、HTMLは「ブラウザに文章や画像を表示するためのファイル」、JavaScriptは「計算や変数の管理をするプログラミング言語」として別々に扱ってきました。
-
-では、**JavaScriptはどうやってHTMLの文字を変えたり、色を変えたりしているのでしょうか？**
-
-その答えが **DOM（Document Object Model：ドキュメント・オブジェクト・モデル）** です。
-
-<aside>
-💡
-
-**身近なたとえで理解するDOM**
-
-- **HTMLファイル**：紙に書かれた**「建物の設計図」**（文字が並んでいるだけの静的なテキスト）
-- **ブラウザの処理**：設計図を読み込んで、画面上に実際に触れる**「実物の建物（操縦席）」**を組み立てる
-- **DOM**：建物の中にあるドア、照明のスイッチ、看板などを**「外から操作できるリモコンのつまみ（オブジェクト）」**として用意した仕組み
-- **JavaScript**：そのリモコンを手にとって、「看板の文字を書き換える」「照明の色を赤にする」と命令を出す人
-
-</aside>
-
-ブラウザはHTMLファイルを読み込むと、HTMLのタグ構造（`<html>`, `<body>`, `<h1>`, `<p>` など）を解析し、JavaScriptから扱える**オブジェクトの集まり**に変換します。
-この仕組みのおかげで、JavaScriptは `document` という入り口を通じてHTMLのあらゆる要素を操作できるようになるのです。
+Webページを動かすためのすべての第一歩は、**「HTMLに書かれた要素をJavaScriptの世界に連れてくる（取得する）」** ことです。まずは小難しい理屈抜きで、実際に要素を捕まえてコンソールに表示してみましょう！
 
 ---
 
-## 2-2. **DOMツリーの構造**
-
-HTMLはタグの中にタグが入る「入れ子（ネスト）構造」になっています。
-ブラウザはこの構造を、木の幹から枝が分かれて葉が茂るような**「ツリー構造（DOMツリー）」**として記憶しています。
-
-```text
-               document (最上位の入り口)
-                  │
-                <html>
-         ┌────────┴────────┐
-      <head>            <body>
-         │                 ├──────────────┐
-      <title>             <h1>           <p id="desc">
-         │                 │              │
-    "マイページ"      "こんにちは！"    "Webの世界へようこそ"
-   (テキストノード)   (テキストノード)   (テキストノード)
-```
-
-**【DOMツリーの重要な用語】**
-
-- **ノード（Node）**：ツリーを構成する1つひとつの要素や部品のこと。
-- **要素ノード（Element Node）**：`<h1>`, `<p>`, `<button>` などのHTMLタグそのもの。
-- **テキストノード（Text Node）**：タグの中に書かれている文字そのもの。
-- **親ノード / 子ノード**：外側にある要素が「親（Parent）」、内側にある要素が「子（Child）」。
-
-JavaScriptでWebページを動かす基本手順は、いつだって次の**たった2ステップ**です。
-
-1. **操作したい要素をDOMツリーから見つけて連れてくる（要素の取得）**
-2. **その要素のプロパティ（文字や見た目）を書き換える（要素の変更）**
-
----
-
-## 2-3. **開発環境の準備と `<script defer>` の重要作法**
+## 2-1. **開発環境の準備と `<script defer>` の重要作法**
 
 本日の実習環境を準備しましょう。
 
@@ -147,8 +94,8 @@ VSCodeで本日の学習フォルダ **`02_dom`** を開きます。
     └── main.js         （※本日コードを書くメインファイル）
 ```
 
-### 3. `index.html` の作成
-以下のHTMLを記述してください。
+### 3. `index.html` の作成（まずはHTMLを書く）
+まずは画面の土台となるHTMLを作成します。`index.html` を新規作成し、以下のコードを記述してください。
 
 ```html
 <!DOCTYPE html>
@@ -157,8 +104,6 @@ VSCodeで本日の学習フォルダ **`02_dom`** を開きます。
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>単元2: DOMの取得と要素の書き換え</title>
-  <!-- 外部JavaScriptファイルの読み込み -->
-  <script defer src="js/main.js"></script>
 </head>
 <body>
   <h1 id="main-title">JavaScriptで画面を動かそう</h1>
@@ -166,6 +111,19 @@ VSCodeで本日の学習フォルダ **`02_dom`** を開きます。
   <button id="change-btn">内容を変更する</button>
 </body>
 </html>
+```
+
+### 4. `<script>` 要素で外部ファイルを読み込む
+次に、`<head>` タグの中に `<script>` タグを追加して、外部JavaScriptファイル（`js/main.js`）を読み込みます。
+
+```html
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>単元2: DOMの取得と要素の書き換え</title>
+  <!-- 追加: defer属性をつけて外部JSを読み込む -->
+  <script defer src="js/main.js"></script>
+</head>
 ```
 
 <aside>
@@ -178,20 +136,22 @@ HTMLファイルは上から下に向かって順番に読み込まれます。
 
 その結果、「そんな要素はまだ存在しません！」となってしまい、JavaScriptが `null`（空っぽ）を取得してエラーになる事故が起きます。
 
-`defer` 属性を付けておくと、**「HTMLの構造を最後まで全部読み込んでDOMツリーを完成させてから、安全にJavaScriptを実行してね」** という合図になります。現代のWeb制作における超重要ルールです！
+`defer` 属性を付けておくと、**「HTMLの構造を最後まで全部読み込んでから、安全にJavaScriptを実行してね」** という合図になります。現代のWeb制作における超重要ルールです！
 
 </aside>
 
+### 5. `js/main.js` の読み込み確認
+`js/main.js` を作成し、ファイルが正しく読み込まれているか確認するために以下のコードを記述して保存（`Cmd + S`）してみましょう。
+
+```javascript
+console.log('main.js の読み込みに成功しました！🎉');
+```
+
+ブラウザで `index.html` を開き、デベロッパーツールの Console にメッセージが出力されていれば準備完了です！
+
 ---
 
-# 3. **HTML要素を取得する（getElementById と querySelector）**
-
-JavaScriptから要素をいじるには、まず「どの要素をいじるか」を指定して連れてこなければなりません。
-実務で最もよく使う**2大取得メソッド**を学びましょう。
-
----
-
-## 3-1. **ID名で要素を取得する：`document.getElementById()`**
+## 2-2. **ID名で要素を取得する：`document.getElementById()`**
 
 HTMLの **`id` 属性** を手掛かりに要素を1つだけ特定して取得する命令です。
 
@@ -211,18 +171,18 @@ console.log(mainTitle); // <h1 id="main-title">JavaScriptで画面を動かそ�
 <aside>
 ⚠️
 
-**初心者が100%ハマる罠：引数に `#` をつけてしまうミス**
+**注意：引数に `#` をつけない（ID名のみを指定する）**
 
-CSSではIDを `#main-title` と書きますが、`getElementById` は「ID名で探す」という専用命令なので、**シャープ（`#`）は不要**です！
+CSSではIDを `#main-title` と書きますが、`getElementById` は「ID名で探す」命令のため、**シャープ（`#`）は不要**です。
 
-- ❌ `document.getElementById('#main-title');` （探せなくて `null` になる）
+- ❌ `document.getElementById('#main-title');` （要素が見つからず `null` になる）
 - ⭕ `document.getElementById('main-title');` （IDの名前だけを渡す）
 
 </aside>
 
 ---
 
-## 3-2. **CSSセレクタで要素を取得する：`document.querySelector()`**
+## 2-3. **CSSセレクタで要素を取得する：`document.querySelector()`**
 
 CSSを書くときと全く同じセレクタ記法（タグ名、クラス名、ID名、属性セレクタなど）を使って要素を取得できる万能メソッドです。
 
@@ -255,7 +215,7 @@ const heading = document.querySelector('h1');
 
 ---
 
-## 3-3. **`getElementById` と `querySelector` の使い分け比較**
+## 2-4. **`getElementById` と `querySelector` の使い分け比較**
 
 どちらを使えばいいのか迷ったときは、以下の表を参考にしてください。
 
@@ -266,7 +226,7 @@ const heading = document.querySelector('h1');
 
 ---
 
-## 3-4. **要素が取得できているか確認する（console.log vs console.dir）**
+## 2-5. **要素が取得できているか確認する（console.log vs console.dir）**
 
 取得した要素を変数に入れたら、必ずコンソールに出力して中身を確認する習慣をつけましょう。
 
@@ -277,10 +237,28 @@ const title = document.getElementById('main-title');
 console.log(title);
 // 出力: <h1 id="main-title">JavaScriptで画面を動かそう</h1>
 
-// 2. オブジェクトが持っている「プロパティ一覧（秘密の部屋）」を覗きたいとき
+// 2. 要素が持っている「詳しい情報や設定値の一覧（秘密の部屋）」を覗きたいとき
 console.dir(title);
 // 出力: h1#main-title のツリー（textContent, style, id, innerHTML などがズラリと並ぶ）
 ```
+
+<aside>
+💡
+
+**`console.dir` を使うのはどんな時？（今後出てくる場面）**
+
+普段はHTMLタグの形が見える `console.log()` で十分ですが、**「要素が持っている詳しい情報（プロパティ一覧）を調べたいとき」** に `console.dir()` が大活躍します！
+
+1. **プロパティ名を忘れた・調べたいとき（本単元〜）**
+   - 「文字を変えるプロパティ名って `text` だっけ？ `textContent` だっけ？」と迷ったとき、`console.dir` で中身を覗けば正しいプロパティ名をすぐカンニングできます。
+2. **要素の「現在の状態」を詳しく調べたいとき（単元12：フォーム操作）**
+   - `<input>` 要素に「今どんな文字が入力されているか（`.value`）」や「チェックが入っているか（`.checked`）」など、画面のタグ見た目には現れない内部状態を確認するときに使います。
+3. **クリックされた要素の情報を丸ごと調べたいとき（単元8：イベント委譲）**
+   - ユーザーがクリックした対象（`e.target`）がどんなデータや親要素を持っているかを丸ごとデバッグするときに使います。
+
+👉 **「画面上のタグの見た目を見るなら `log`、裏側のプロパティ（機能やつまみ）を調べるなら `dir`」** と覚えておきましょう！
+
+</aside>
 
 <aside>
 🚨
@@ -298,21 +276,39 @@ console.dir(title);
 
 ---
 
-## 3-5. **特別なショートカット：`document.body`**
+## 2-6. **特別なショートカット：`document.body` と `document.documentElement`（html要素）**
 
-`<body>` タグはWebページ全体の親玉要素なので、IDやクラスがなくても **`document.body`** と書くだけで直接取得できます。
+Webページの最上位にある `<body>` や `<html>` は、わざわざ `getElementById` や `querySelector` を使わなくても、**専用のショートカットプロパティ**が用意されています。
 
 ```javascript
+// 1. <body> 要素を取得する
 console.log(document.body); // <body>...</body> 全体が取得できる
+
+// 2. <html> 要素（ルート要素）を取得する
+console.log(document.documentElement); // <html lang="ja">...</html> 全体が取得できる
 ```
+
+<aside>
+💡
+
+**注意：`document.html` ではなく `document.documentElement` を使用する**
+
+`<body>` 要素のショートカットが `document.body` であるため、`<html>` 要素も `document.html` と書いてしまいがちですが、**`document.html` というプロパティは存在しません（`undefined` になります）**。
+
+正しくは **`document.documentElement`**（ドキュメントのルート要素という意味）を使用します。
+サイト全体のダークモード切り替えや文字サイズ変更（`<html>` タグに属性やクラスを付与する処理）などでよく使われます。
+
+</aside>
 
 ---
 
 ## 💻 **【ミニワーク 1】要素を取得してコンソールに出力してみよう（10分）**
 
+まずは実際にHTML要素を捕まえて、コンソールに出力してみましょう！
+
 1. `js/main.js` を開き、`index.html` にある `<h1>`、`<p>`、`<button>` の3つの要素を取得して、それぞれ変数に代入してください。
 2. それぞれの変数を `console.log()` で出力し、正しく要素が取得できているか確認してください。
-3. いずれかの要素を `console.dir()` で出力し、どんなプロパティが存在するかスクロールして眺めてみましょう。
+3. いずれかの要素を `console.dir()` で出力し、三角アイコン（▶）をクリックしてどんなプロパティが存在するかスクロールして眺めてみましょう。
 
 ```javascript
 // js/main.js の記述例
@@ -320,12 +316,114 @@ const mainTitle = document.getElementById('main-title');
 const introText = document.getElementById('intro');
 const changeBtn = document.querySelector('#change-btn');
 
+// 通常のログ出力（HTMLタグの形で見える）
 console.log(mainTitle);
 console.log(introText);
 console.log(changeBtn);
 
+// 要素が持つ詳しい情報や設定値のツリー出力（秘密のプロパティ部屋！）
 console.dir(mainTitle);
 ```
+
+⭐️ **ミニワークの注目ポイント**：
+`console.dir(mainTitle)` を開くと、`textContent` や `innerHTML`、`style`、`id` など、何十個もの設定項目（プロパティ）がズラリと並んでいるはずです。「これらは一体何なのか？」…その答えが、次の章で学ぶ **DOM** です！
+
+---
+
+# 3. **種明かし：DOM（Document Object Model）とDOMツリーの仕組み**
+
+## 3-1. **DOMとは？（HTMLとJavaScriptをつなぐ架け橋）**
+
+ミニワーク1で `console.dir()` を実行したとき、HTMLのタグを取得しただけのはずなのに、**大量の情報や設定値（プロパティ）が詰まったデータ**が表示されたことが確認できたと思います。
+
+HTMLファイルに書かれたコードは、ファイル上では単なる「テキストデータ（文字情報）」です。
+しかしブラウザは、HTMLファイルを読み込むと同時に、その中に書かれたタグ（`<html>`, `<body>`, `<h1>` など）を解析し、**JavaScriptから操作できるように「たくさんの命令や値・設定項目の塊」としてメモリ上に展開**します。
+
+この「HTMLをJavaScriptから扱えるように変換した仕組み」のことを、**DOM（Document Object Model：ドキュメント・オブジェクト・モデル）** と呼びます。
+
+JavaScriptで `document.getElementById('main-title')` を実行したとき、取得しているのはHTMLファイルの文字そのものではなく、**ブラウザがメモリ上に展開した要素データ**です。だからこそ、JavaScriptから文字を変えたり色を変えたりといった操作が可能になります。
+
+---
+
+## 3-2. **DOMツリーの構造**
+
+HTMLはタグの中にタグが入る「入れ子（ネスト）構造」になっています。
+ブラウザはこの構造を、木の幹から枝が分かれて葉が茂るような**「ツリー構造（DOMツリー）」**として記憶しています。
+
+```text
+               document (最上位の入り口)
+                  │
+                <html>
+         ┌────────┴────────┐
+      <head>            <body>
+         │                 ├──────────────┐
+      <title>             <h1>           <p id="desc">
+         │                 │              │
+    "マイページ"      "こんにちは！"    "Webの世界へようこそ"
+   (テキストノード)   (テキストノード)   (テキストノード)
+```
+
+**【DOMツリーの主な構成要素】**
+
+| 用語 | 英語表記 | 説明・具体例 |
+| :--- | :--- | :--- |
+| **ノード** | `Node` | ツリーを構成する1つひとつの要素や部品の総称 |
+| **要素ノード** | `Element Node` | `<h1>`, `<p>`, `<button>` などのHTMLタグそのもの |
+| **テキストノード** | `Text Node` | タグの中に含まれる文字そのもの |
+| **親ノード / 子ノード** | `Parent / Child Node` | 相対的な階層関係。外側の要素が「親」、内側の要素が「子」 |
+
+---
+
+## 3-3. **DOMツリーを実際に可視化してみよう！（実演ツール紹介）**
+
+HTMLからDOMツリーがどのように組み立てられているかを視覚的に確認できるツールを紹介します。
+
+### 🌐 1. [DOM Visualizer](https://bioub.github.io/dom-visualizer/)（おすすめ！）
+HTMLを入力すると、SVGを使って美しい**樹形図（ツリーグラフィックス）**にリアルタイム変換してくれる無料ツールです。
+
+- **URL**: [https://bioub.github.io/dom-visualizer/](https://bioub.github.io/dom-visualizer/)
+
+**【試してみよう！】**
+1. 上記リンクをブラウザで開きます。
+2. 左上のテキストエリアに、今回の `index.html` の `<body>` 部分を貼り付けてみましょう。
+
+```html
+<h1 id="main-title">JavaScriptで画面を動かそう</h1>
+<p id="intro">この文章はJavaScriptによって書き換えられます。</p>
+<button id="change-btn">内容を変更する</button>
+```
+
+3. 右側の画面に、`BODY` から `H1`, `P`, `BUTTON` へと枝分かれしたツリー図が現れます！
+4. オプションの **「Show text nodes」** にチェックを入れてみてください。
+   タグノード（青い円）の先に、実際の文字（`"JavaScriptで画面を動かそう"` など）が **テキストノード** としてぶら下がっているのが一目で分かります。
+
+<aside>
+💡
+
+**トピックス：改行や空白も「テキストノード」になる**
+
+ツリーを可視化した際にタグの間に現れる黄色い `#text` ノードは、HTMLコード内の**「改行」や「インデント（半角スペース）」**です。
+ブラウザは目に見える文章だけでなく、コードを整えるための改行や空白文字もすべてテキストノードとしてDOMツリーに登録します。
+
+</aside>
+
+<aside>
+💡
+
+**なぜ「ツリー（木）」と呼ばれるのか？**
+一番上の根（ルート要素：`document` / `html`）を起点として下に向かって階層が広がっていく構造であるため、情報科学ではこれを**「木構造（Tree構造）」**と呼びます。
+JavaScriptはこのツリー構造を辿り、対象ノードのテキストや属性を変更します。
+
+</aside>
+
+---
+
+### 🔍 2. ブラウザの開発者ツール（Elementsタブ）
+外部ツールを使わなくても、日常の開発では**ブラウザの開発者ツール（Elementsタブ）**でDOMツリーを直接確認できます。
+
+1. 自分の `index.html` をブラウザで開き、右クリック →「検証」を開きます。
+2. 「Elements」タブの各タグの左側にある **三角アイコン（▶）** をクリックして開閉してみてください。
+3. これがブラウザが現在メモリ上で保持しているDOMツリーの階層構造です。
 
 ---
 
@@ -360,49 +458,81 @@ introText.textContent = `${userName}さんの所持ポイントは ${userPoints}
 
 ---
 
-## 4-2. **HTMLタグごと書き換える：`innerHTML`**
+## 4-2. **HTMLを含めて操作する：`innerHTML`**
 
-**`element.innerHTML`** は、要素の中身を「HTMLタグを含んだ文字列」として書き換えるプロパティです。
-渡された文字列の中に `<span>` や `<strong>` などのタグが含まれている場合、ブラウザはそれを**HTMLタグとして解釈して画面に描画**します。
+**`element.innerHTML`** は、要素の中身を「HTMLタグを含んだ文字列」として読み取ったり、書き換えたりするためのプロパティです。
 
 ```javascript
-// <strong> タグを含めて書き換える
+// 1. HTMLを含んだ中身を読み取る（参照）
+console.log(introText.innerHTML);
+// 出力: "この文章はJavaScriptによって書き換えられます。"
+// （※もし中に <strong> などのタグがあれば、タグも含めた文字列として取得できます）
+
+// 2. HTMLタグを含めて上書きする（代入）
 introText.innerHTML = 'ようこそ！<strong>特別なご案内</strong>があります。';
 ```
 
-ブラウザで確認すると、「特別なご案内」の部分が太字（`<strong>`）になって表示されます。
+渡された文字列の中に `<span>` や `<strong>` などのタグが含まれている場合、ブラウザはそれを**HTMLタグとして解釈して画面に描画**します（「特別なご案内」の部分が太字で表示されます）。
 
 ---
 
 ## 4-3. **`textContent` と `innerHTML` の決定的な違い**
 
-もし `textContent` にHTMLタグを渡すとどうなるでしょうか？
+`textContent` と `innerHTML` は、「**中身を読み取るとき（参照）**」と「**中身を書き換えるとき（代入）**」の両方で挙動が大きく異なります。
+
+2-6で学んだ `document.body` と、先ほどの `introText` を使って、2つの違いを比べてみましょう。
+
+### ① 中身を読み取るとき（参照）の違い
+
+`document.body` の中身をコンソールに出力して比較してみます。
 
 ```javascript
-// textContent にタグを渡した場合
-introText.textContent = '<strong>太字になるかな？</strong>';
-// 画面の表示: <strong>太字になるかな？</strong> （タグの文字がそのまま画面に出てしまう！）
+// 1. textContent で参照した場合
+console.log(document.body.textContent);
+// 出力: タグがすべて取り除かれ、body内の「純粋な文字テキスト」だけが取得される
 
-// innerHTML にタグを渡した場合
-introText.innerHTML = '<strong>太字になるかな？</strong>';
-// 画面の表示: 太字になるかな？ （太字として装飾されて表示される）
+// 2. innerHTML で参照した場合
+console.log(document.body.innerHTML);
+// 出力: <h1> や <p> などの「HTMLタグ構造を含んだ文字列」がそのまま取得される
 ```
 
-| プロパティ | タグの扱い | 安全性（セキュリティ） | 実務での基本指針 |
-| :--- | :--- | :--- | :--- |
-| **`textContent`** | タグを解釈せず、ただの文字として扱う | **安全**（悪意あるスクリプトが無効化される） | **原則こちらを使う**（文字を変えるだけなら100%これ） |
-| **`innerHTML`** | タグを解釈し、HTML要素として組み立てる | **注意が必要**（XSS脆弱性のリスクあり） | 新しいタグ構造を丸ごと流し込みたい場合のみ使用 |
+- **`textContent`**: 要素内に含まれるすべてのHTMLタグを削ぎ落とし、テキスト文字だけを抽出します。
+- **`innerHTML`**: 要素の内側にあるHTML構造（タグや属性、改行）をそのままの形で取り出します。
+
+### ② 中身を書き換えるとき（代入）の違い
+
+要素に HTMLタグを含んだ文字列を代入して比較してみます。
+
+```javascript
+// 1. textContent にタグを代入した場合
+introText.textContent = '<strong>太字になるかな？</strong>';
+// 画面の表示: <strong>太字になるかな？</strong>
+// （HTMLタグとして解釈されず、タグの文字がそのまま画面に表示される）
+
+// 2. innerHTML にタグを代入した場合
+introText.innerHTML = '<strong>太字になるかな？</strong>';
+// 画面の表示: 太字になるかな？ （太字に装飾されて表示される）
+// （HTMLタグとして解釈され、ブラウザが新しい要素として画面を組み立て直す）
+```
+
+### まとめ：2つのプロパティの比較
+
+| 項目 | `textContent` | `innerHTML` |
+| :--- | :--- | :--- |
+| **読み取り（参照）** | タグを除いた**純粋なテキストのみ**を取得 | タグを含めた**HTMLコード全体**を取得 |
+| **書き換え（代入）** | タグを解釈せず**そのまま文字として表示** | タグを解釈して**HTML要素として組み立てる** |
+| **安全性（セキュリティ）** | **安全**（悪意あるスクリプトが無効化される） | **注意が必要**（XSS脆弱性の原因になりうる） |
+| **使い分けの基準** | 単に文字・数値を書き換える場合（原則こちら） | 新しいHTMLタグ構造を追加・変更したい場合 |
 
 <aside>
 ⚠️
 
-**実務の重要セキュリティ：XSS（クロスサイトスクリプティング）の危険性**
+**セキュリティ上の注意：XSS（クロスサイトスクリプティング）の危険性**
 
-もしユーザーが問い合わせフォームなどで入力した名前（例えば `<script>悪意ある攻撃コード</script>`）を、そのまま `innerHTML` で画面に出力してしまうと、**ブラウザがその攻撃コードを本物のプログラムとして実行してしまいます**。
-これを **XSS脆弱性** と呼びます。
+もしユーザーが問い合わせフォームなどで入力した文字列（例えば `<script>攻撃用コード</script>`）を、そのまま `innerHTML` で画面に出力してしまうと、**ブラウザがそのスクリプトをプログラムとして実行してしまう脆弱性（XSS）**が発生します。
 
-一方、`textContent` を使っていれば、`<script>` という文字もただのテキスト（記号）として安全に無害化して表示してくれます。
-**「文字を変えるだけなら、迷わず `textContent` を使う」** これがWebエンジニアの鉄則です！
+一方、`textContent` を使用すれば、`<script>` という文字列もタグとして解釈されず、安全に無害化されたテキストとして画面に表示されます。
+**「HTMLタグを含める必要がなく、純粋なテキストのみを更新する場合は `textContent` を使用する」** ことが安全なWeb制作の基本原則です。
 
 </aside>
 
@@ -435,12 +565,11 @@ JavaScriptを使うと、要素のCSSスタイルも自由自在にリアルタ�
 ```javascript
 const mainTitle = document.getElementById('main-title');
 
-// 文字色を赤にする
+// 文字色を変更する
 mainTitle.style.color = '#ff3366';
 
-// ページ全体の背景色をダークモードにする
-document.body.style.backgroundColor = '#222222';
-document.body.style.color = '#ffffff';
+// 背景色を変更する
+mainTitle.style.backgroundColor = '#f0f4f8';
 ```
 
 ---
@@ -469,12 +598,12 @@ mainTitle.style.backgroundColor = 'yellow';
 
 ---
 
-## 5-3. **初心者がハマる罠：単位（`px` 等）の付け忘れ**
+## 5-3. **注意点：単位（`px` 等）を含めた文字列で指定する**
 
 CSSで数値プロパティ（`font-size` や `width` など）を指定するとき、数値だけでなく **`'px'` などの単位をつけた「文字列」** として代入する必要があります。
 
 ```javascript
-// ❌ NG：単位がないためCSSとして無視されてしまう
+// ❌ NG：単位がないためCSSとして反映されない
 mainTitle.style.fontSize = 32;
 
 // ⭕ OK：単位を含めた文字列として代入する
@@ -488,13 +617,13 @@ mainTitle.style.fontSize = `${newSize}px`;
 <aside>
 💡
 
-**現場の実践知識：`element.style` の限界と次回の予告**
+**補足：`element.style` の特徴とクラス操作への接続**
 
-`element.style.◯◯` を使うと、HTML要素に直接 `style="color: red;"` という「インラインスタイル」が書き込まれます。
-インラインスタイルはCSSの優先順位が非常に高いため、手軽に1〜2箇所を変えるには便利ですが、たくさんのスタイルを一度に変更しようとするとJavaScriptのコードがCSSまみれになって管理が破綻してしまいます。
+`element.style.◯◯` を使うと、HTML要素に直接 `style="..."` という「インラインスタイル」が書き込まれます。
+インラインスタイルは局所的なスタイルの変更には手軽ですが、多くのスタイルプロパティを一度に変更しようとするとJavaScript側のコードが複雑になってしまいます。
 
-現場のWeb制作では、**「あらかじめCSSに `.is-active` や `.is-dark` などのクラスを用意しておき、JavaScriptからはそのクラスを付け外しするだけにする」** という手法が標準です。
-この本格的なクラス操作テクニックは、次週の**単元3**でじっくり学習します！
+そのため、Web制作では**「あらかじめCSSに `.is-active` や `.is-dark` などの状態クラスを定義しておき、JavaScriptからはそのクラスを付け外しする」** という手法が広く使われます。
+このクラス操作テクニックは、次回の**単元3**で詳しく学習します。
 
 </aside>
 
@@ -688,7 +817,7 @@ CSSの `font-size: 24px;` をJavaScriptから変更するとき、正しい記�
 
 - **正解：D） `element.style.fontSize = '24px';`**
 - **解説**：
-  JavaScriptの `style` オブジェクトでは、ハイフン区切りのCSSプロパティをキャメルケース（`fontSize`）に変換します。また、値には必ず `'px'` などの単位を含めた文字列として代入する必要があります。
+  JavaScriptの `style` プロパティでは、ハイフン区切りのCSSプロパティをキャメルケース（`fontSize`）に変換します。また、値には必ず `'px'` などの単位を含めた文字列として代入する必要があります。
 </details>
 
 ---
@@ -745,10 +874,12 @@ CSSの `font-size: 24px;` をJavaScriptから変更するとき、正しい記�
 
 ## **本日のまとめ**
 
-1. **DOM（Document Object Model）**：HTMLをJavaScriptから扱えるオブジェクトの集まり（ツリー構造）に変換した仕組み。
-2. **要素の取得**：
+1. **要素の取得**：
    - `document.getElementById('id名')`：IDで高速に1つ取得（`#` は不要）。
    - `document.querySelector('セレクタ')`：CSSセレクタで柔軟に1つ取得（`.` や `#` が必要）。
+2. **DOM（Document Object Model）とDOMツリー**：
+   - HTMLをJavaScriptから扱える「命令や値の塊（逆さの木構造）」に変換した仕組み。
+   - `console.dir()` で中身のプロパティを覗いたり、可視化ツールでノードの枝分かれを確認できる。
 3. **内容の書き換え**：
    - `textContent`：純粋なテキストを安全に書き換える（実務の基本原則）。
    - `innerHTML`：HTMLタグを含めて動的に構造を書き換える（XSSに注意）。
