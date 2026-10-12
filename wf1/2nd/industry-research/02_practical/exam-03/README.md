@@ -12,8 +12,9 @@
 ├── README.md                     # 本ドキュメント（使い方ガイド）
 ├── R08-1-3_jitsugi_open.pdf      # 【公式元データ】検定試験問題PDF
 ├── 問題用紙.md                   # 本番形式の模擬問題用紙（Markdown）
-├── 問題用紙.html                 # Web画面表示用問題用紙（HTML）
+├── question.html                 # Web画面表示用問題用紙（HTML）
 ├── 解答・解説・採点マニュアル.md # 模範解答コード（Diff）・採点基準・指導のツボ
+├── answer.html                   # Web画面表示用模範解答・解説（HTML）
 ├── data3/                        # 【受検者配布用】素材データフォルダ
 │   ├── q1/                       # 作業1（フォルダ整理・相対パス修復、fs.jpg同梱）
 │   ├── q2/                       # 作業2（ナビリンク＆タイトル置換：app.html, faq.html）
@@ -39,11 +40,11 @@
    * 同時にデスクトップに空の提出用フォルダ **`wd3`** を作成させます。
 
 2. **試験の実施**
-   * [問題用紙.html](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/問題用紙.html)（ブラウザ閲覧用）または [問題用紙.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/問題用紙.md) を配布または画面表示します。
+   * [question.html](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/question.html)（ブラウザ閲覧用）または [問題用紙.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/問題用紙.md) を配布または画面表示します。
    * **制限時間：40分**（※本番の検定試験は60分ですが、本練習演習では40分で実施）
    * **ルール：全問（作業1～6）回答**（※本番は6問中5問選択ですが、練習のため全問実施）
    * 作業完了後、`wd3` 内に `a1` ～ `a6` の該当フォルダを作成し、完成データを保存させます。
 
 3. **採点・フィードバック**
-   * [解答・解説・採点マニュアル.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/解答・解説・採点マニュアル.md) に沿って自己採点または相互採点を行います。
-   * 各作業20点満点（合計100点満点、全問実施時は120点満点）。**60点以上で合格**となります。
+   * [answer.html](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/answer.html)（ブラウザ閲覧用）または [解答・解説・採点マニュアル.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-03/解答・解説・採点マニュアル.md) に沿って自己採点または相互採点を行います。
+   * 各作業20点満点（合計100点満点、全問実施時は120点満点）。**70点以上で合格**となります。
