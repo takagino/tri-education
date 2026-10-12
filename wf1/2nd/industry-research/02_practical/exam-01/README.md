@@ -10,7 +10,8 @@
 ```text
 02_practical/exam-01/
 ├── README.md                     # 本ドキュメント（使い方ガイド）
-├── 問題用紙.md                   # 本番形式の模擬問題用紙
+├── 問題用紙.md                   # 本番形式の模擬問題用紙（Markdown）
+├── 問題用紙.html                 # Web画面表示用問題用紙（HTML）
 ├── 解答・解説・採点マニュアル.md # 模範解答コード（Diff）・採点基準・指導のツボ
 ├── data3/                        # 【受検者配布用】素材データフォルダ
 │   ├── q1/                       # 作業1（フォルダ整理・相対パス修復、fs.jpg同梱）
@@ -37,9 +38,9 @@
    * 同時にデスクトップに空の提出用フォルダ **`wd3`** を作成させます。
 
 2. **試験の実施**
-   * [問題用紙.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-01/問題用紙.md) を配布または画面表示します。
-   * **制限時間：60分**（慣れてきたら45分・30分短縮版も効果的）
-   * **ルール：6問中5問を選択して回答**（1問は解かなくてよい）
+   * [問題用紙.html](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-01/問題用紙.html)（ブラウザ閲覧用）または [問題用紙.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-01/問題用紙.md) を配布または画面表示します。
+   * **制限時間：30分**（※本番の検定試験は60分ですが、本練習演習では30分で実施）
+   * **ルール：全問（作業1～6）回答**（※本番は6問中5問選択ですが、練習のため全問実施）
    * 作業完了後、`wd3` 内に `a1` ～ `a6` の該当フォルダを作成し、完成データを保存させます。
 
 3. **採点・フィードバック**
