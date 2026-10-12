@@ -6,6 +6,8 @@
 
 [01_Arduinoの基礎](https://app.notion.com/p/01_Arduino-3ecbdf471aca805198efd80b40681979?pvs=21)
 
+[02_**センサー入力値の調整**](https://app.notion.com/p/02_-3f3bdf471aca80408e5acdb3862906cb?pvs=21)
+
 # 1. はじめに
 
 ## 1-1. 今回学ぶこと
