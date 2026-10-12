@@ -39,7 +39,7 @@
 
 2. **試験の実施**
    * [問題用紙.html](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-01/問題用紙.html)（ブラウザ閲覧用）または [問題用紙.md](file:///Users/takagino/_Dev/01_Trident/tri-education/wf1/2nd/industry-research/02_practical/exam-01/問題用紙.md) を配布または画面表示します。
-   * **制限時間：30分**（※本番の検定試験は60分ですが、本練習演習では30分で実施）
+   * **制限時間：40分**（※本番の検定試験は60分ですが、本練習演習では40分で実施）
    * **ルール：全問（作業1～6）回答**（※本番は6問中5問選択ですが、練習のため全問実施）
    * 作業完了後、`wd3` 内に `a1` ～ `a6` の該当フォルダを作成し、完成データを保存させます。
 
