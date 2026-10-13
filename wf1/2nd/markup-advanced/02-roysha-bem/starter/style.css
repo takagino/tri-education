@@ -228,3 +228,104 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+/* help.html */
+.fees {
+    padding: 80px 0;
+}
+
+.fees__inner {
+    max-width: 1200px;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fees__info {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.fees__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 60px;
+}
+
+.fees__item {
+    text-align: center;
+}
+
+.fees__item .card__icon {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.question {
+    padding: 80px 0;
+    background-color: #123D88;
+}
+
+.question__inner {
+    max-width: 1200px;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.question__info {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+    text-align: center;
+}
+
+.question__info .intro__title {
+    color: #fff;
+}
+
+.question__info .btn {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq {
+    padding: 80px 0;
+}
+
+.faq__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 94px;
+    align-items: center;
+    max-width: 1200px;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq__info {
+    order: 2;
+}
+
+.faq__list {
+    order: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 46px;
+}
+
+.faq__item {
+    padding: 40px;
+    border: 1px solid;
+    text-align: center;
+}
+
+.faq__item .card__icon {
+    margin-left: auto;
+    margin-right: auto;
+}
