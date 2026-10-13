@@ -34,6 +34,19 @@ img {
     row-gap: 40px;
 }
 
+.card__icon {
+    margin-bottom: 40px;
+}
+
+.card__title {
+    margin-bottom: 20px;
+    color: #2F2F35;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 1.3;
+}
+
+
 /* CSSの書き方：基本スタイルと差分スタイルの分離 */
 
 /* 1. ベースとなる基本クラス（形状・サイズ・基本色） */
@@ -109,4 +122,10 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 96px;
+}
+
+.features__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px 44px;
 }
