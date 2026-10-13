@@ -112,7 +112,9 @@ img {
     font-size: 15px;
 }
 
-.features {}
+.features {
+    padding: 80px 0;
+}
 
 .features__inner {
     max-width: 1200px;
@@ -122,6 +124,7 @@ img {
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 96px;
+    align-items: center;
 }
 
 .features__list {
