@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>p5.js × センサー：ジェネラティブ・ハブ</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #030307;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* 上部フロートUIヘッダー */
+    #ui-container {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: rgba(15, 18, 28, 0.75);
+      padding: 10px 18px;
+      border-radius: 40px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    }
+
+    button {
+      background: linear-gradient(135deg, #00d26a, #00994d);
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 16px rgba(0, 210, 106, 0.5);
+    }
+    button:disabled {
+      background: #333842;
+      color: #888;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+
+    select {
+      background: rgba(30, 36, 52, 0.9);
+      color: #00ffcc;
+      border: 1px solid rgba(0, 255, 204, 0.3);
+      padding: 7px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      outline: none;
+      transition: border 0.2s;
+    }
+    select:hover {
+      border-color: #00ffcc;
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #8f9bb3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-text span {
+      color: #00ffcc;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
+    }
+    .hint-text {
+      color: #636e7b;
+      font-size: 11px;
+    }
+
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- コントロールUI -->
+  <div id="ui-container">
+    <button id="connect-btn">🔌 Arduinoと接続</button>
+
+    <!-- リアルタイム・テンプレート切替セレクト -->
+    <select id="art-select">
+      <option value="simple">🔰【ハンズオン】基本パルス (Simple)</option>
+      <option value="medusa" selected>① 深海の発光生物 (Medusa)</option>
+      <option value="mandala">② 幾何学曼荼羅 (Mandala)</option>
+      <option value="flow">③ オーロラ流線群 (Flow)</option>
+      <option value="bloom">④ デジタル開花 (Bloom)</option>
+      <option value="cosmic">⑤ コズミック・星雲 (Cosmic)</option>
+    </select>
+    <div class="status-text">
+      距離: <span id="dist-val">0.00</span> | 
+      明暗: <span id="light-val">0.00</span>
+    </div>
+
+    <div class="hint-text">
+      ※未接続時は「マウス移動」でシミュレート可
+    </div>
+  </div>
+
+  <!-- 1. p5.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
+
+  <!-- 2. 各アートクラス（テンプレート群）の読み込み -->
+  <script src="js/templates/SimplePulseArt.js"></script>
+  <script src="js/templates/MedusaArt.js"></script>
+  <script src="js/templates/MandalaArt.js"></script>
+  <script src="js/templates/FlowFieldArt.js"></script>
+  <script src="js/templates/BotanicalBloomArt.js"></script>
+  <script src="js/templates/CosmicMeshArt.js"></script>
+
+  <!-- 3. ハブ（アート選択・パラメータ調整・p5.jsメインループ） -->
+  <script src="js/sketch.js"></script>
+
+  <!-- 4. Web Serial API 通信とUIイベント -->
+  <script>
+    // セレクトボックスでアートをリアルタイム切り替え
+    const artSelect = document.getElementById('art-select');
+    artSelect.addEventListener('change', (e) => {
+      initArt(e.target.value);
+    });
+
+    // Web Serial 接続
+    const connectBtn = document.getElementById('connect-btn');
+    const DIST_MIN = 100, DIST_MAX = 600;
+    const LIGHT_MIN = 150, LIGHT_MAX = 850;
+
+    connectBtn.addEventListener('click', async () => {
+      try {
+        const port = await navigator.serial.requestPort();
+        await port.open({ baudRate: 9600 });
+
+        isConnected = true;
+        connectBtn.textContent = "🟢 通信中";
+        connectBtn.disabled = true;
+
+        const textDecoder = new TextDecoderStream();
+        port.readable.pipeTo(textDecoder.writable);
+        const reader = textDecoder.readable.getReader();
+
+        let buffer = "";
+
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+
+          buffer += value;
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed) continue;
+
+            const parts = trimmed.split(',');
+            if (parts.length === 2) {
+              const rawDist = parseInt(parts[0], 10);
+              const rawLight = parseInt(parts[1], 10);
+
+              if (!isNaN(rawDist) && !isNaN(rawLight)) {
+                // 距離: 手が近づくほど 1.0、遠いと 0.0
+                let clampedDist = constrain(rawDist, DIST_MIN, DIST_MAX);
+                distTarget = map(clampedDist, DIST_MIN, DIST_MAX, 1.0, 0.0);
+
+                // 明るさ: 明るいと 1.0、暗いと 0.0
+                let clampedLight = constrain(rawLight, LIGHT_MIN, LIGHT_MAX);
+                lightTarget = map(clampedLight, LIGHT_MIN, LIGHT_MAX, 0.0, 1.0);
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.error("Web Serial Error:", err);
+        alert("接続に失敗しました。Arduino IDEのシリアルモニタを閉じてから再接続してください。");
+      }
+    });
+  </script>
+</body>
+</html>
