@@ -1,1 +1,3 @@
-console.log('03_event_class success!');
+window.addEventListener('resize', () => {
+    console.log(`現在のブラウザ幅: ${window.innerWidth}px`);
+});
