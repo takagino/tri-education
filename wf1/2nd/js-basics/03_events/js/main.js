@@ -1,0 +1,1 @@
+console.log('03_event_class success!');
