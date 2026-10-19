@@ -16,16 +16,20 @@ body {
 
 .btn {
     margin: 1000px 0;
-    /* 追加 */
     padding: 12px 24px;
     font-size: 16px;
     border: 1px solid #cccccc;
     border-radius: 8px;
     background-color: #ffffff;
     cursor: pointer;
-    transition: all 0.3s ease;
+    /* transition: all 0.3s ease; */
 }
 
 .btn:hover {
     opacity: 0.8;
+}
+
+.btn.is-active {
+    background-color: #06c;
+    color: #fff;
 }
