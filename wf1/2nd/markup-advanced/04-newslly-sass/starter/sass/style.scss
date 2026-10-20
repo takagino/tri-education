@@ -108,7 +108,7 @@ body {
     padding-left: 26px;
     color: $color-label;
     font-size: 12px;
-    background: url(./images/icon_time.png) no-repeat left center;
+    background: url(../images/icon_time.png) no-repeat left center;
 }
 
 .btn {
@@ -139,6 +139,12 @@ body {
     &__title {
         @include title-main();
     }
+
+    &__list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px percentage(math.div(40, 800));
+    }
 }
 
 .trending {
@@ -148,6 +154,12 @@ body {
 
     &__title {
         @include title-main();
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px percentage(math.div(40, 800));
     }
 }
 

@@ -73,7 +73,7 @@ body img {
   padding-left: 26px;
   color: #bbbbbb;
   font-size: 12px;
-  background: url(./images/icon_time.png) no-repeat left center;
+  background: url(../images/icon_time.png) no-repeat left center;
 }
 
 .btn {
@@ -111,6 +111,11 @@ body img {
   line-height: 1.2916666667;
   text-transform: uppercase;
 }
+.news__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px 5%;
+}
 
 .trending__inner {
   max-width: 800px;
@@ -127,6 +132,11 @@ body img {
   font-weight: bold;
   line-height: 1.2916666667;
   text-transform: uppercase;
+}
+.trending__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px 5%;
 }
 
 /* about.html
