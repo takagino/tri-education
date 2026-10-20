@@ -132,6 +132,8 @@ body {
 /* index.html
 ------------------------------ */
 .news {
+    padding-bottom: 60px;
+
     &__inner {
         @include inner();
     }

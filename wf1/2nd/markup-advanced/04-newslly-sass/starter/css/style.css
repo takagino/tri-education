@@ -95,6 +95,9 @@ body img {
 
 /* index.html
 ------------------------------ */
+.news {
+  padding-bottom: 60px;
+}
 .news__inner {
   max-width: 800px;
   width: 87.5%;
