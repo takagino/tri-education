@@ -120,6 +120,10 @@ body img {
   gap: 60px 5%;
 }
 
+.trending {
+  padding: 60px 0;
+  background-color: #f6f6f6;
+}
 .trending__inner {
   max-width: 800px;
   width: 87.5%;

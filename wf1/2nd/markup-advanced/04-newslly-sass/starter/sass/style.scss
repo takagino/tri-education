@@ -150,6 +150,9 @@ body {
 }
 
 .trending {
+    padding: 60px 0;
+    background-color: $color-bg;
+
     &__inner {
         @include inner();
     }
