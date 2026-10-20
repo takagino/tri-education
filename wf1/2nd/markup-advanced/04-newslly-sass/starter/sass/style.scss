@@ -131,6 +131,25 @@ body {
 
 /* index.html
 ------------------------------ */
+.news {
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
+    }
+}
+
+.trending {
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
+    }
+}
 
 /* about.html
 ------------------------------ */

@@ -95,5 +95,39 @@ body img {
 
 /* index.html
 ------------------------------ */
+.news__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.news__title {
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-left: 10px solid #fa6980;
+  color: #202124;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.2916666667;
+  text-transform: uppercase;
+}
+
+.trending__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.trending__title {
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-left: 10px solid #fa6980;
+  color: #202124;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.2916666667;
+  text-transform: uppercase;
+}
+
 /* about.html
 ------------------------------ *//*# sourceMappingURL=style.css.map */
