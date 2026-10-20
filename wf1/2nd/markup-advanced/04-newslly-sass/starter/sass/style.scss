@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 $color-text: #888;
 $color-main: #202124;
 $color-accent: #fa6980;
@@ -6,9 +8,18 @@ $font-family-base: Helvetica,
     Arial,
     sans-serif;
 
+@mixin inner() {
+    max-width: 88%;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 body {
     color: $color-text;
     font-family: $font-family-base;
+    line-height: math.div(24, 14);
+    letter-spacing: #{math.div(50,1000)}em;
 
     img {
         max-width: 100%;
@@ -36,10 +47,7 @@ body {
     text-align: center;
 
     &__inner {
-        max-width: 88%;
-        width: 800px;
-        margin-left: auto;
-        margin-right: auto;
+        @include inner();
     }
 }
 
@@ -48,14 +56,15 @@ body {
     background-color: $color-main;
 
     &__inner {
-        max-width: 88%;
-        width: 800px;
-        margin-left: auto;
-        margin-right: auto;
+        @include inner();
     }
 
     small {
         font-size: 12px;
         color: #fff;
     }
+}
+
+.sidebar {
+    width: percentage(math.div(300, 800));
 }
