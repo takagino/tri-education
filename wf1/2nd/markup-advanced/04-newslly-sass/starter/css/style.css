@@ -92,6 +92,12 @@ body img {
 .btn:hover {
   background-color: #202124;
 }
+.btn--more {
+  background-color: #202124;
+}
+.btn--more:hover {
+  background-color: #888;
+}
 
 /* index.html
 ------------------------------ */
@@ -147,4 +153,48 @@ body img {
 }
 
 /* about.html
------------------------------- *//*# sourceMappingURL=style.css.map */
+------------------------------ */
+.blog {
+  padding-bottom: 60px;
+}
+.blog__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.blog__list {
+  display: grid;
+  gap: 60px 5%;
+}
+.blog__item .post__title {
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.discovery {
+  padding: 60px 0;
+  background-color: #f6f6f6;
+}
+.discovery__inner {
+  max-width: 800px;
+  width: 87.5%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.discovery__title {
+  margin-bottom: 30px;
+  padding-left: 10px;
+  border-left: 10px solid #fa6980;
+  color: #202124;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1.2916666667;
+  text-transform: uppercase;
+}
+.discovery__list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 60px 5%;
+}/*# sourceMappingURL=style.css.map */

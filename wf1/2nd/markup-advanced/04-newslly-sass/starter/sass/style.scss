@@ -127,6 +127,14 @@ body {
     &:hover {
         background-color: $color-main;
     }
+
+    &--more {
+        background-color: $color-main;
+
+        &:hover {
+            background-color: $color-text;
+        }
+    }
 }
 
 /* index.html
@@ -170,3 +178,43 @@ body {
 
 /* about.html
 ------------------------------ */
+.blog {
+    padding-bottom: 60px;
+
+
+    &__inner {
+        @include inner();
+    }
+
+    &__list {
+        display: grid;
+        gap: 60px percentage(math.div(40, 800));
+    }
+
+    &__item {
+        .post__title {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #DDDDDD;
+        }
+    }
+}
+
+.discovery {
+    padding: 60px 0;
+    background-color: $color-bg;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 60px percentage(math.div(40, 800));
+    }
+}
