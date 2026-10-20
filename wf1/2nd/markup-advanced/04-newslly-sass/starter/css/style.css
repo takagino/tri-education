@@ -39,7 +39,6 @@ body img {
 
 /* modules
 ------------------------------ */
-/* post */
 .post__category {
   margin-bottom: 10px;
   color: #fa6980;
@@ -47,7 +46,6 @@ body img {
   font-style: oblique;
   text-transform: uppercase;
 }
-
 .post__title {
   margin-bottom: 15px;
   color: #202124;
@@ -60,11 +58,9 @@ body img {
 .card {
   background-color: #fff;
 }
-
 .card__body {
   padding: 35px;
 }
-
 .card__title {
   margin-bottom: 15px;
   color: #202124;

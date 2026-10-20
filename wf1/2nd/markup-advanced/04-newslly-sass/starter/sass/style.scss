@@ -57,38 +57,40 @@ body {
 
 /* modules
 ------------------------------ */
-/* post */
-.post__category {
-    margin-bottom: 10px;
-    color: $color-accent;
-    font-size: 12px;
-    font-style: oblique;
-    text-transform: uppercase;
-}
+.post {
 
-.post__title {
-    margin-bottom: 15px;
-    color: $color-main;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: math.div(23, 18);
+    &__category {
+        margin-bottom: 10px;
+        color: $color-accent;
+        font-size: 12px;
+        font-style: oblique;
+        text-transform: uppercase;
+    }
+
+    &__title {
+        margin-bottom: 15px;
+        color: $color-main;
+        font-size: 18px;
+        font-weight: bold;
+        line-height: math.div(23, 18);
+    }
 }
 
 /* card */
 .card {
     background-color: #fff;
-}
 
-.card__body {
-    padding: 35px;
-}
+    &__body {
+        padding: 35px;
+    }
 
-.card__title {
-    margin-bottom: 15px;
-    color: $color-main;
-    font-size: 18px;
-    font-weight: bold;
-    line-height: math.div(23, 18);
+    &__title {
+        margin-bottom: 15px;
+        color: $color-main;
+        font-size: 18px;
+        font-weight: bold;
+        line-height: math.div(23, 18);
+    }
 }
 
 /* time */
