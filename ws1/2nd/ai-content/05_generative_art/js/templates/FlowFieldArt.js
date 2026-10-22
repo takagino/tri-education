@@ -45,7 +45,7 @@ class FlowFieldArt {
     }
   }
 
-  update(dist, light) {
+  update(dist, light = 0.8) {
     this.dist = dist;
     this.light = light;
   }

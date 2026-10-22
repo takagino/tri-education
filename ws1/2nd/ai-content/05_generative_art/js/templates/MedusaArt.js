@@ -32,7 +32,7 @@ class MedusaArt {
   }
 
   // センサー値の更新（0.0 〜 1.0）
-  update(dist, light) {
+  update(dist, light = 0.8) {
     this.dist = dist;
     this.light = light;
   }

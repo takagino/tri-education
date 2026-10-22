@@ -115,8 +115,7 @@
       <option value="cosmic">⑤ コズミック・星雲 (Cosmic)</option>
     </select>
     <div class="status-text">
-      距離: <span id="dist-val">0.00</span> | 
-      明暗: <span id="light-val">0.00</span>
+      センサー値: <span id="sensor-val">0.00</span> | 生値: <span id="raw-val">---</span>
     </div>
 
     <div class="hint-text">
@@ -127,7 +126,10 @@
   <!-- 1. p5.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.min.js"></script>
 
-  <!-- 2. 各アートクラス（テンプレート群）の読み込み -->
+  <!-- 2. センサー通信・値加工モジュール（独立部品） -->
+  <script src="js/sensor.js"></script>
+
+  <!-- 3. 各アートクラス（テンプレート群）の読み込み -->
   <script src="js/templates/SimplePulseArt.js"></script>
   <script src="js/templates/MedusaArt.js"></script>
   <script src="js/templates/MandalaArt.js"></script>
@@ -135,71 +137,17 @@
   <script src="js/templates/BotanicalBloomArt.js"></script>
   <script src="js/templates/CosmicMeshArt.js"></script>
 
-  <!-- 3. ハブ（アート選択・パラメータ調整・p5.jsメインループ） -->
+  <!-- 4. ハブ（アート選択・パラメータ調整・p5.jsメインループ） -->
   <script src="js/sketch.js"></script>
 
-  <!-- 4. Web Serial API 通信とUIイベント -->
+  <!-- 5. テンプレート切替イベント -->
   <script>
-    // セレクトボックスでアートをリアルタイム切り替え
     const artSelect = document.getElementById('art-select');
-    artSelect.addEventListener('change', (e) => {
-      initArt(e.target.value);
-    });
-
-    // Web Serial 接続
-    const connectBtn = document.getElementById('connect-btn');
-    const DIST_MIN = 100, DIST_MAX = 600;
-    const LIGHT_MIN = 150, LIGHT_MAX = 850;
-
-    connectBtn.addEventListener('click', async () => {
-      try {
-        const port = await navigator.serial.requestPort();
-        await port.open({ baudRate: 9600 });
-
-        isConnected = true;
-        connectBtn.textContent = "🟢 通信中";
-        connectBtn.disabled = true;
-
-        const textDecoder = new TextDecoderStream();
-        port.readable.pipeTo(textDecoder.writable);
-        const reader = textDecoder.readable.getReader();
-
-        let buffer = "";
-
-        while (true) {
-          const { value, done } = await reader.read();
-          if (done) break;
-
-          buffer += value;
-          const lines = buffer.split('\n');
-          buffer = lines.pop();
-
-          for (const line of lines) {
-            const trimmed = line.trim();
-            if (!trimmed) continue;
-
-            const parts = trimmed.split(',');
-            if (parts.length === 2) {
-              const rawDist = parseInt(parts[0], 10);
-              const rawLight = parseInt(parts[1], 10);
-
-              if (!isNaN(rawDist) && !isNaN(rawLight)) {
-                // 距離: 手が近づくほど 1.0、遠いと 0.0
-                let clampedDist = constrain(rawDist, DIST_MIN, DIST_MAX);
-                distTarget = map(clampedDist, DIST_MIN, DIST_MAX, 1.0, 0.0);
-
-                // 明るさ: 明るいと 1.0、暗いと 0.0
-                let clampedLight = constrain(rawLight, LIGHT_MIN, LIGHT_MAX);
-                lightTarget = map(clampedLight, LIGHT_MIN, LIGHT_MAX, 0.0, 1.0);
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.error("Web Serial Error:", err);
-        alert("接続に失敗しました。Arduino IDEのシリアルモニタを閉じてから再接続してください。");
-      }
-    });
+    if (artSelect) {
+      artSelect.addEventListener('change', (e) => {
+        initArt(e.target.value);
+      });
+    }
   </script>
 </body>
 </html>
