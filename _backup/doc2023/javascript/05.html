@@ -1,0 +1,1680 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript実習」05_クラス | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript実習」05_クラス</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">0. 前回の課題</h2>
+      <div class="clause">
+        <dl>
+          <dt>【優秀作品】</dt>
+          <dd>
+            <ul>
+              <li><a href="#" target="_blank"></a></li>
+            </ul>
+          </dd>
+        </dl>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">1. クラス</h2>
+      <div class="clause">
+        <dl>
+          <dt>【準備】</dt>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;クラス&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. クラスとは？</h3>
+        <div class="item">
+          <p>クラスとは<em>動作</em>や<em>状態</em>を定義した雛形のようなもの。クラスからはインスタンスと呼ばれるオブジェクトを作成できる。また、オブジェクト作成時に実行される処理（<em>コンストラクタ</em>）を実装することにより、プロパティに設定される値などをオブジェクトごとに変更できる。</p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-2. クラスの定義</h3>
+        <div class="item">
+          <dl>
+            <dt>【クラスの宣言】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+
+}
+
+/*
+クラス名はわかりやすい名前を
+先頭の文字は大文字にするのが慣例
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【コンストラクタの設定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(){
+
+  }
+};
+
+/*
+コンストラクタはオブジェクト作成時に呼び出される特別なメソッド
+1つのクラスに1つしか定義できない
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【引数の設定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+
+  }
+};
+
+/*
+引数に値を渡すことで、動作や状態をオブジェクトごとに変更できる
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【プロパティの設定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+    this.age = num;
+  }
+};
+
+/*
+プロパティはオブジェクトの状態を定義するもの
+プロパティには必ず「this」をつける
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【メソッドの設定】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+    this.age = num;
+  }
+
+  old() {
+    this.age++;
+  }
+};
+
+/*
+メソッドはオブジェクトの動作（振る舞い）を定義するもの
+メソッドはクラスの直下に記述する
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">1-3. インスタンス化</h3>
+        <div class="item">
+          <p>クラスからオブジェクトを生成する処理を<em>インスタンス化</em>と呼び、インスタンス化によって生成されるオブジェクトを<em>インスタンス</em>と呼ぶ。</p>
+          <p>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+    this.age = num;
+  }
+
+  old() {
+    this.age++;
+  }
+};
+
+const obj = new Person(42);
+console.log(obj);
+
+/*
+インスタンスを生成するには「new演算子」を使う
+*/</code></pre>
+      </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【プロパティの取得・変更】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+    this.age = num;
+  }
+
+  old() {
+    this.age++;
+  }
+};
+
+const obj = new Person(42);
+console.log(obj.age);
+console.log(obj['age']);
+
+/*
+生成されたインスタンスはオブジェクトなので、ドット記法またはブラケット記法でプロパティを取得できる
+*/
+
+obj.age = 52;
+console.log(obj.age);
+
+/*
+後から変更も可能
+*/</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【メソッドの実行】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Person{
+  constructor(num){
+    this.age = num;
+  }
+
+  old() {
+    this.age++;
+  }
+};
+
+const obj = new Person(42);
+
+obj.old();
+console.log(obj.age);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. 実践その1</h2>
+      <div class="clause">
+        <p>「クリックすると数字が増えていくボタン」を追加するクラスを考える。（<a href="assets/05/click01.html" target="_blank">見本</a>）</p>
+        <div class="item">
+          <dl>
+            <dt>【まずはクラスを使わず1つだけ】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;実践その1&lt;/title&gt;
+  &lt;style&gt;
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+    let num = 0;
+    const btn = document.createElement("button");
+
+    btn.textContent = num;
+    btn.addEventListener('click', () => {
+      num++;
+      btn.textContent = num;
+    });
+    document.body.appendChild(btn);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+          <p>上記のボタンを複数生成し色々と改造していきたい場合、後々不都合が起こってくるため、クラスを使ったほうが便利。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスの定義】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Button {
+  constructor() {
+    this.num = 0;
+
+    this.btn = document.createElement("button");
+    this.btn.textContent = this.num;
+    this.btn.addEventListener('click', () => {
+      this.num++;
+      this.btn.textContent = this.num;
+    });
+    document.body.appendChild(this.btn);
+  }
+};</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【インスタンス化】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Button {
+  constructor() {
+    this.num = 0;
+
+    this.btn = document.createElement("button");
+    this.btn.textContent = this.num;
+    this.btn.addEventListener('click', () => {
+      this.num++;
+      this.btn.textContent = this.num;
+    });
+    document.body.appendChild(this.btn);
+  }
+};
+
+new Button();</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【引数の追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Button {
+  constructor(num) {
+    this.num = num;
+
+    this.btn = document.createElement("button");
+    this.btn.textContent = this.num;
+    this.btn.addEventListener('click', () => {
+      this.num++;
+      this.btn.textContent = this.num;
+    });
+    document.body.appendChild(this.btn);
+  }
+};
+
+new Button(0);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【メソッドの追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;button id="bai"&gt;2倍&lt;/button&gt;</code></pre>
+            </dd>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Button {
+  constructor(num) {
+    this.num = num;
+
+    this.btn = document.createElement("button");
+    this.btn.textContent = this.num;
+    this.btn.addEventListener('click', () => {
+      this.num++;
+      this.btn.textContent = this.num;
+    });
+    document.body.appendChild(this.btn);
+  }
+
+  //追加
+  bai() {
+    this.num *= 2;
+    this.btn.textContent = this.num;
+  }
+};
+
+//変数に代入
+const btn = new Button();
+
+//ボタンをクリックしたらイベントを実行する
+const bai = document.querySelector('#bai');
+bai.addEventListener('click', () => {
+  btn.bai();
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>数字を1/2にするボタンを追加する。
+            <pre class="line-numbers"><code class="language-markup">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;クラス&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;button id="bai"&gt;2倍&lt;/button&gt;
+  &lt;button id="hanbun"&gt;1/2倍&lt;/button&gt;
+
+  &lt;script&gt;
+    class Button {
+      constructor(num, add) {
+        this.num = num;
+        this.add = add;
+        this.btn = document.createElement('button');
+
+        this.btn.textContent = this.num;
+        this.btn.addEventListener('click', () =&gt; {
+          this.num += this.add;
+          this.btn.textContent = this.num;
+        });
+        document.body.append(this.btn);
+      }
+
+      bai() {
+        this.num *= 2;
+        this.btn.textContent = this.num;
+      }
+
+      hanbun() {
+        this.num /= 2;
+        this.btn.textContent = this.num;
+      }
+    }
+
+    const btn = new Button(0, 10);
+    const bai = document.querySelector('#bai');
+    bai.addEventListener('click', () =&gt; {
+      btn.bai();
+    });
+
+    const hanbun = document.querySelector('#hanbun');
+    hanbun.addEventListener('click', () =&gt; {
+      btn.hanbun();
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+          </li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 実践その2</h2>
+      <div class="clause">
+        <p>動的に要素を追加し、一定時間ごとに「うにうに」させるクラスを考える。（<a href="assets/05/uniuni01.html" target="_blank">見本</a>）</p>
+        <div class="item">
+          <dl>
+            <dt>【まずはクラスを使わず1つだけ】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;練習その1&lt;/title&gt;
+  &lt;style&gt;
+  .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #09c;
+    opacity: .5;
+    position: absolute;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+    let x = 300;
+    let y = 300;
+    let timerId;
+
+    const circle = document.createElement("div");
+    circle.classList.add("circle");
+    circle.style.left = `${x}px`;
+    circle.style.top = `${y}px`;
+    document.body.appendChild(circle);
+
+    timerId = setInterval(() =>{
+      let ranX = Math.floor(Math.random() * 3) - 1;
+      let ranY = Math.floor(Math.random() * 3) - 1;
+      x += ranX;
+      y += ranY;
+      circle.style.left = `${x}px`;
+      circle.style.top = `${y}px`;
+    }, 30);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスの定義】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Circle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.timerId;
+
+    this.circle = document.createElement("div");
+    this.circle.classList.add("circle");
+    this.circle.style.left = `${this.x}px`;
+    this.circle.style.top = `${this.y}px`;
+    document.body.appendChild(this.circle);
+  }
+};
+
+const circle = new Circle(300, 300);</code></pre>
+            </dd>
+          </dl>
+          <p>★さらに円を追加してみる。</p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【moveメソッドの追加】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Circle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.timerId;
+
+    this.circle = document.createElement("div");
+    this.circle.classList.add("circle");
+    this.circle.style.left = `${this.x}px`;
+    this.circle.style.top = `${this.y}px`;
+    document.body.appendChild(this.circle);
+  }
+
+  move() {
+    this.timerId = setInterval(() => {
+      //オブジェクトに追加せず、メソッド内のみで使用する場合は変数で良い
+      let ranX = Math.floor(Math.random() * 3) - 1;
+      let ranY = Math.floor(Math.random() * 3) - 1;
+
+      this.x += ranX;
+      this.y += ranY;
+      this.circle.style.left = `${this.x}px`;
+      this.circle.style.top = `${this.y}px`;
+    }, 30);
+  }
+};
+
+const circle = new Circle(300, 300);
+//メソッドの実行
+circle.move();</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【数を増やす】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Circle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.timerId;
+
+    this.circle = document.createElement("div");
+    this.circle.classList.add("circle");
+    this.circle.style.left = `${this.x}px`;
+    this.circle.style.top = `${this.y}px`;
+    document.body.appendChild(this.circle);
+  }
+
+  move() {
+    this.timerId = setInterval(() => {
+      let ranX = Math.floor(Math.random() * 3) - 1;
+      let ranY = Math.floor(Math.random() * 3) - 1;
+
+      this.x += ranX;
+      this.y += ranY;
+      this.circle.style.left = `${this.x}px`;
+      this.circle.style.top = `${this.y}px`;
+    }, 30);
+  }
+};
+
+for (let i = 0; i &lt; 50; i++) {
+  let ranX = Math.floor(Math.random() * 300) + 50;
+  let ranY = Math.floor(Math.random() * 300) + 50;
+
+  const circle = new Circle(ranX, ranY);
+  circle.move();
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>円の大きさをランダムにする。（<a href="assets/05/uniuni02.html" target="_blank">見本</a>）（<a href="assets/05/uniuni05.html" target="_blank">見本</a>）</li>
+          <li>円をクリックしたら動き出すようにする。（<a href="assets/05/uniuni03.html" target="_blank">見本</a>）（<a href="assets/05/uniuni06.html" target="_blank">見本</a>）</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">4. 実践その3</h2>
+      <div class="clause">
+        <p>動的に要素を追加し、一定時間ごとに「ぼわぼわ」させるクラスを考える。（<a href="assets/05/bowabowa01.html" target="_blank">見本</a>）</p>
+        <div class="item">
+          <dl>
+            <dt>【まずはクラスを使わず1つだけ】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;実践その3&lt;/title&gt;
+  &lt;style&gt;
+  .circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #09c;
+    opacity: .5;
+    position: absolute;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+    let x = 300;
+    let y = 300;
+    let timerId;
+
+    let val = 0.8; //scaleの値を代入するための変数
+    let diff = 0.1; //scaleの値の変化量
+
+    const circle = document.createElement("div");
+    circle.classList.add("circle");
+    circle.style.left = `${this.x}px`;
+    circle.style.top = `${this.y}px`;
+    document.body.appendChild(circle);
+
+    timerId = setInterval(() =>{
+      if (val &lt;= 0.2) {
+        diff = 0.1;
+      }
+      if (val>= 1) {
+        diff = -0.1;
+      }
+
+      val += diff;
+      circle.style.transform = `scale(${val})`;
+    }, 30);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【条件分岐を1つにまとめる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">timerId = setInterval(() =>{
+  if (val &lt;= 0.2 || val >= 1) {
+    diff = -diff;
+  }
+
+  val += diff;
+  circle.style.transform = `scale(${val})`;
+}, 30);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>自分でクラス化してみる。</li>
+          <li>自由に改造してみる。</li>
+        </ol>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">★応用</h3>
+        <div class="item">
+          <dl>
+            <dt>【三角関数を使う（<a href="assets/05/bowabowa02.html" target="_blank">見本</a>）】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">this.degree = 90; //プロパティ変更
+
+timerId = setInterval(() =>{
+  this.degree += 10; //角度を変化させる
+  let sin = Math.sin(this.degree * (Math.PI / 180)); //角度をラジアンに変換し、sinの値を取得
+  let abs = Math.abs(sin); //sinの値の絶対値を取得
+  this.circle.style.transform = `scale(${abs})`;
+}, 30);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">5. 実践「レースゲーム」</h2>
+      <div class="clause">
+        <p><a href="assets/05/racing01.html" target="_blank">見本</a></p>
+        <p>※ゴールするタイミングで、上にある車が買ってしまう不具合あり。</p>
+        <div class="item">
+          <dl>
+            <dt>【要件】</dt>
+            <dd>
+              <ol>
+                <li>3名の名前が表示された「p.car」を動的に追加する。</li>
+                <li>スタートボタンをクリックしたら、3名の名前（車）がランダムなスピードで右に動く。</li>
+                <li>setIntervalで継続的に動かす。</li>
+                <li>ある一定の距離まで一番早く進んだ車の勝ち。</li>
+                <li>画面に勝者の名前が表示される。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設計：プロパティ（インスタンスごとに変えたい値）】</dt>
+            <dd>
+              <ul>
+                <li>車本体（p.car）</li>
+                <li>車に表示する名前</li>
+                <li>進むスピード</li>
+                <li>車の現在位置（x座標）</li>
+                <li>setIntervalを入れるための変数（timerId）</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【設計：メソッド（インスタンスの振る舞い）】</dt>
+            <dd>
+              <ul>
+                <li>setIntervalの設定をするメソッド（start）</li>
+                <li>setIntervalで設定したミリ秒ごとに実行されるメソッド（move）</li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTMLとCSSの準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Racing&lt;/title&gt;
+  &lt;style&gt;
+    #area {
+      width: 600px;
+      min-height: 100px;
+      border-right: 3px solid #f00;
+      background-color: #ddd;
+    }
+
+    .car {
+      width: 100px;
+      height: 50px;
+      margin-bottom: 20px;
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;p id="result"&gt;勝者は！？&lt;/p&gt;
+  &lt;button id="start">スタート！&lt;/button&gt;
+  &lt;div id="area"&gt;&lt;/div&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【3名の名前が表示された「p.car」を動的に追加する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Car {
+  constructor(name) {
+    this.name = name;
+    this.car = document.createElement("p");
+    this.car.classList.add("car");
+    this.car.textContent = this.name;
+    area.appendChild(this.car);
+  };
+};
+
+const area = document.querySelector('#area');
+const cars = [
+  new Car("高木"),
+  new Car("河口"),
+  new Car("水野"),
+];</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スタートボタンをクリックしたら、3名の名前（車）がランダムなスピードで右に動く】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Car {
+  constructor(name) {
+    this.name = name;
+    this.car = document.createElement("p");
+    this.car.classList.add("car");
+    this.car.textContent = this.name;
+    area.appendChild(this.car);
+
+    //位置の初期値と、ランダムなスピードを設定
+    this.x = 0;
+    this.speed = Math.floor(Math.random() * 50) + 50;
+  };
+
+  //メソッドの追加
+  move() {
+    this.x += this.speed;
+    this.car.style.transform = `translateX(${this.x}px)`;
+  };
+};
+
+const start = document.querySelector('#start');
+const area = document.querySelector('#area');
+const cars = [
+  new Car("高木"),
+  new Car("河口"),
+  new Car("水野"),
+];
+
+//クリックイベントを追加
+start.addEventListener('click', () => {
+  for (const car of cars) {
+    car.move();
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【setIntervalで継続的に動かす】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Car {
+  constructor(name) {
+    this.name = name;
+    this.car = document.createElement("p");
+    this.car.classList.add("car");
+    this.car.textContent = this.name;
+    area.appendChild(this.car);
+
+    this.x = 0;
+    this.speed = Math.floor(Math.random() * 50) + 50;
+  };
+
+  move() {
+    this.x += this.speed;
+    this.car.style.transform = `translateX(${this.x}px)`;
+  };
+
+  //メソッドの追加
+  start() {
+    this.timerId = setInterval(() => {
+      this.move();
+    }, 100);
+  };
+};
+
+const start = document.querySelector('#start');
+const area = document.querySelector('#area');
+const cars = [
+  new Car("高木"),
+  new Car("河口"),
+  new Car("水野"),
+];
+
+start.addEventListener('click', () => {
+  for (const car of cars) {
+    //実行するメソッドの変更
+    car.start();
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【ある一定の距離まで一番早く進んだ車の勝ち】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Car {
+  constructor(name) {
+    this.name = name;
+    this.car = document.createElement("p");
+    this.car.classList.add("car");
+    this.car.textContent = this.name;
+    area.appendChild(this.car);
+
+    this.x = 0;
+    this.speed = Math.floor(Math.random() * 50) + 50;
+  };
+
+  move() {
+    this.x += this.speed;
+    this.car.style.transform = `translateX(${this.x}px)`;
+
+    //条件を追加
+    if (this.x >= goal) {
+      clearTimeout(this.timerId);
+      this.car.style.transform = `translateX(${goal}px)`;
+      ranking.push(this.name);
+      result.textContent = `${ranking[0]}の勝ち!`;
+    }
+  };
+
+  start() {
+    this.timerId = setInterval(() => {
+      this.move();
+    }, 100);
+  };
+};
+
+const result = document.querySelector('#result'); //要素の取得
+const start = document.querySelector('#start');
+const area = document.querySelector('#area');
+const cars = [
+  new Car("高木"),
+  new Car("河口"),
+  new Car("水野"),
+];
+const goal = 500; //ゴールの位置を設定
+let ranking = []; //ゴールした車を入れるための配列
+
+start.addEventListener('click', () => {
+  for (const car of cars) {
+    car.start();
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">☆練習</h3>
+        <ol>
+          <li>スタートボタンを押すたびにレースがスタートするように改造。（<a href="./assets/05/racing02.html" target="_blank">見本</a>）</li>
+          <li>自由に改造してみる。</li>
+        </ol>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">6. 実践「数字クリックゲーム」</h2>
+      <div class="clause">
+        <p><a href="assets/05/number01.html" target="_blank">見本</a></p>
+        <div class="item">
+          <dl>
+            <dt>【要件】</dt>
+            <dd>
+              <ol>
+                <li>「スタートボタン」をクリックすると、1～25の数字が書かれたパネルを動的に生成する。</li>
+                <li>ゲームがスタートしたら「スタートボタン」を動作不能にする。</li>
+                <li>同時に、クリアまでのタイムを計測し始め、上部に「何番までクリックできたか」を表示させる。</li>
+                <li>1番から順番にクリックしていき、正解の場合は色が薄くなる。</li>
+                <li>25番まで全てクリックしたら上部にタイムを表示し、「スタートボタン」を復活させる。</li>
+                <li>再度「スタートボタン」をクリックしたら、新しくランダムにパネルが生成され、ゲームがスタートする。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【HTMLとCSSの準備】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Number&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      background: #efdec1;
+      font-size: 14px;
+      font-family: Verdana, sans-serif;
+    }
+
+    .container {
+      width: 400px;
+      margin: 8px auto;
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    #card {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #card li {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #fff;
+      color: #fff;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-sizing: border-box;
+      position: relative;
+      background: #000;
+    }
+
+    #card li:hover {
+      opacity: 0.5;
+    }
+
+    #btn {
+      display: block;
+      background: #3498db;
+      width: 100%;
+      padding: 8px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .inactive {
+      opacity: 0.5;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;section class="container"&gt;
+    &lt;p id="result"&gt;Click to START!&lt;/p&gt;
+    &lt;ul id="card"&gt;
+    &lt;/ul&gt;
+    &lt;button id="btn"&gt;START&lt;/button&gt;
+  &lt;/section&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【1から25までの数字をシャッフルする】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const numLength = 25;
+let numArr = [];
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+//シャッフル用の関数
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const shuffledNumber = shuffle(numArr);
+console.log(shuffledNumber);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【元の配列をシャッフルしないようにスプレッド構文を使う】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const numLength = 25;
+let numArr = [];
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const shuffledNumber = shuffle([...numArr]); //スプレッド構文にする
+console.log(shuffledNumber);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【クラスを設定しパネルを表示する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//クラスの宣言
+class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+
+    card.appendChild(this.li);
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+//パネルの追加元となる要素を取得しておく
+const card = document.querySelector('#card');
+
+const shuffledNumber = shuffle([...numArr]);
+
+//クラスからインスタンスを量産
+for (let i = 0; i &lt; numLength; i++) {
+  new Number(shuffledNumber[i]);
+}</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【スタートボタンをクリックしたらパネルを出す】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+
+    card.appendChild(this.li);
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+const btn = document.querySelector("#btn");
+
+//ボタンにクリックイベントを登録
+btn.addEventListener('click', () => {
+  //クラス名がついていたら何もしない
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+
+  //クラス名を追加
+  btn.classList.add('inactive');
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【パネルをクリックした際のメソッドを追加する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+
+    //クリックイベントを追加
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  //メソッドの追加
+  click() {
+    console.log('click!');
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【番号順にクリックできるようにする】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  click() {
+    //クラス名がついていたら何もしない
+    if (this.li.classList.contains('inactive')) {
+      return;
+    }
+
+    //クリックしたパネルの番号を変数の番号が同じだったら
+    if (this.num === numCurrent) {
+      this.li.classList.add('inactive');
+      numCurrent++;
+      console.log(numCurrent);
+    }
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+let numCurrent = 1; //クリックする番号を格納
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【すべてのボタンをクリックしたらスタートボタンを復活させる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  click() {
+    if (this.li.classList.contains('inactive')) {
+      return;
+    }
+
+    if (this.num === numCurrent) {
+      this.li.classList.add('inactive');
+      numCurrent++;
+
+      //パネルの数より大きくなったらスタートボタンのクラスを削除
+      if (numCurrent > numLength) {
+        btn.classList.remove('inactive');
+      }
+    }
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+let numCurrent = 1;
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【再スタートした際にパネルを削除する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  click() {
+    if (this.li.classList.contains('inactive')) {
+      return;
+    }
+
+    if (this.num === numCurrent) {
+      this.li.classList.add('inactive');
+      numCurrent++;
+
+      if (numCurrent > numLength) {
+        btn.classList.remove('inactive');
+      }
+    }
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+let numCurrent = 1;
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  //numCurrentを1に戻す
+  numCurrent = 1;
+
+  //「card」の中にある要素を全て削除（「js　子要素　全て削除」で検索）
+  while (card.firstChild) {
+    card.removeChild(card.firstChild);
+  }
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【残り枚数を表示する】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  click() {
+    if (this.li.classList.contains('inactive')) {
+      return;
+    }
+
+    if (this.num === numCurrent) {
+      this.li.classList.add('inactive');
+      numCurrent++;
+
+      //枚数を表示
+      result.textContent = `${numCurrent - 1} / ${numLength}`;
+
+      if (numCurrent > numLength) {
+        btn.classList.remove('inactive');
+      }
+    }
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+let numCurrent = 1;
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+const result = document.querySelector('#result'); //結果を表示する要素を取得
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  numCurrent = 1;
+  //枚数を表示
+  result.textContent = `${numCurrent - 1} / ${numLength}`;
+
+  while (card.firstChild) {
+    card.removeChild(card.firstChild);
+  }
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【経過時間を追加して完成】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">class Number {
+  constructor(num) {
+    this.num = num;
+    this.li = document.createElement('li');
+    this.li.textContent = this.num;
+    this.li.addEventListener('click', () => {
+      this.click();
+    });
+
+    card.appendChild(this.li);
+  }
+
+  click() {
+    if (this.li.classList.contains('inactive')) {
+      return;
+    }
+
+    if (this.num === numCurrent) {
+      this.li.classList.add('inactive');
+      numCurrent++;
+      result.textContent = `${numCurrent - 1} / ${numLength}`;
+
+      if (numCurrent > numLength) {
+        btn.classList.remove('inactive');
+
+        //クリア時間の表示
+        const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+        result.textContent = `Finished! ${elapsedTime} seconds!`;
+      }
+    }
+  }
+}
+
+const numLength = 25;
+let numArr = [];
+let numCurrent = 1;
+let startTime; //変数の追加
+
+for (let i = 1; i &lt;= numLength; i++) {
+  numArr.push(i);
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+const card = document.querySelector('#card');
+const result = document.querySelector('#result');
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('inactive')) {
+    return;
+  }
+  btn.classList.add('inactive');
+
+  //スタートボタンをクリックした時の時間を取得
+  startTime = Date.now();
+
+  numCurrent = 1;
+  result.textContent = `${numCurrent - 1} / ${numLength}`;
+
+  while (card.firstChild) {
+    card.removeChild(card.firstChild);
+  }
+
+  const shuffledNumber = shuffle([...numArr]);
+  for (let i = 0; i &lt; numLength; i++) {
+    new Number(shuffledNumber[i]);
+  }
+});</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">7. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>完成した「数字クリックゲーム」を出来る限り改造する。</p>
+          <ol>
+            <li>CSSで見た目を変える。</li>
+            <li>ミスした回数を表示する。</li>
+            <li>ベストスコアを表示する。</li>
+            <li>枚数を選べるようにする。</li>
+            <li>その他自分で改造してみる。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <ul>
+            <li>提出先：<a href="https://drive.google.com/drive/folders/1oHDYq9xgQyZdC5nLs85jprrIViesz9o_?usp=share_link">Googleドライブ</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">8. 時間があれば「神経衰弱」</h2>
+      <div class="clause">
+        <p><a href="assets/05/memory01.html" target="_blank">見本</a></p>
+        <div class="item">
+          <dl>
+            <dt>【要件】</dt>
+            <dd>
+              <ol>
+                <li>「スタートボタン」をクリックすると、0～9までの数字のセット計20枚のパネルを動的に生成する。（数字は非表示）</li>
+                <li>ゲームがスタートしたら「スタートボタン」を動作不能にする。</li>
+                <li>同時に、クリアまでのタイムを計測し始め、上部に「何セット揃ったか」を表示させる。</li>
+                <li>任意のパネル2枚を順にクリックし、正解の場合は色が薄くなる。</li>
+                <li>全てのセットが揃ったら上部にタイムを表示し、「スタートボタン」を復活させる。</li>
+                <li>再度「スタートボタン」をクリックしたら、新しくランダムにパネルが生成され、ゲームがスタートする。</li>
+              </ol>
+            </dd>
+          </dl>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ストップ Level.3 | JavaScript実習</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    .wrapper {
+      width: 90%;
+      max-width: 500px;
+      margin: 3em auto;
+      text-align: center;
+    }
+
+    .result {
+      margin-top: 1em;
+      font-size: 2em;
+      font-weight: bold;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="btn">
+      <button class="start">START</button>
+      <button class="stop">STOP</button>
+    </div>
+    <p class="result">0</p>
+    <p class="comment"></p>
+  </div>
+  <script>
+    const start = document.querySelector('.start');
+    const stop = document.querySelector('.stop');
+    const result = document.querySelector('.result');
+    const comment = document.querySelector('.comment');
+    let count = 0;
+    let timer;
+    let speed = 50;
+
+    start.addEventListener('click', () => {
+      count = 0;
+      clearInterval(timer);
+      comment.textContent = "";
+
+      timer = setInterval(() => {
+        result.textContent = ++count;
+      }, speed);
+    });
+
+    stop.addEventListener('click', () => {
+      clearInterval(timer);
+      if (count > 97 && count < 103) {
+        comment.textContent = "おしい！";
+        if (count == 100) {
+          comment.textContent = "すごい！";
+          speed *= 0.5;
+        };
+      };
+    });
+  </script>
+</body>
+</html>

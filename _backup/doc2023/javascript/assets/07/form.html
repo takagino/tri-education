@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="text" name="text">
+  <div>
+    <button id="add">追加</button>
+    <button id="delete">削除</button>
+    <button id="show">表示</button>
+    <button id="showAll">全て表示</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where, setDoc, addDoc, updateDoc, serverTimestamp, deleteDoc, deleteField } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5aE2BZ73zptpsVMhvki7SFroJHiB01Oc",
+      authDomain: "test-78fed.firebaseapp.com",
+      projectId: "test-78fed",
+      storageBucket: "test-78fed.appspot.com",
+      messagingSenderId: "722658321754",
+      appId: "1:722658321754:web:f95ad856c7e732b37f3f63"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const textField = document.querySelector('#text');
+    const addBtn = document.querySelector('#add');
+    const deleteBtn = document.querySelector('#delete');
+    const showBtn = document.querySelector('#show');
+    const allBtn = document.querySelector('#showAll');
+
+    addBtn.addEventListener('click', async () => {
+      const textValue = textField.value;
+
+      const docRef = doc(db, "users", textValue);
+      const data = {
+        timestamp: serverTimestamp()
+      }
+      await setDoc(docRef, data);
+    });
+
+    deleteBtn.addEventListener('click', async () => {
+      const textValue = textField.value;
+
+      const docRef = doc(db, "users", textValue);
+      await deleteDoc(docRef);
+    });
+
+    showBtn.addEventListener('click', async () => {
+      const textValue = textField.value;
+
+      const docRef = doc(db, "users", textValue);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        for (const [key, value] of Object.entries(docSnap.data())) {
+          console.log(`${key} : ${value}`);
+        };
+      } else {
+        console.log("No document!");
+      }
+    });
+
+    allBtn.addEventListener('click', async () => {
+      const colRef = collection(db, "users");
+      const docSnap = await getDocs(colRef);
+
+      docSnap.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        const dl = document.createElement('dl');
+        const dt = document.createElement('dt');
+        dt.textContent = doc.id;
+        dl.append(dt);
+
+        const dd = document.createElement('dd');
+        for (const [key, value] of Object.entries(doc.data())) {
+          dd.textContent = `${key}: ${value}`;
+        }
+        dl.append(dd);
+
+        document.body.append(dl);
+      });
+    });
+  </script>
+</body>
+</html>

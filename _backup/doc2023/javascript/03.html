@@ -1,0 +1,1485 @@
+<!doctype html>
+<html dir="ltr" lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>「JavaScript実習」03_オブジェクトの応用 | 2023年度授業資料</title>
+  <meta name="description" content="トライデントコンピュータ専門学校Webデザイン学科講師の高木が作った授業資料">
+  <meta name="author" content="horotaka takagi">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- syntax highlighter -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.css">
+
+  <!-- other css -->
+  <link rel="stylesheet" href="https://unpkg.com/ress/dist/ress.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- self css -->
+  <link rel="stylesheet" href="../assets/css/common.css">
+</head>
+
+<body>
+  <header class="l-header">
+    <p class="l-header__title"><a class="l-header__link" href="../index.html">2023年度授業資料</a></p>
+    <h1 class="l-header__title-sub">「JavaScript実習」03_オブジェクトの応用</h1>
+  </header>
+  <main class="l-main">
+    <article class="chapter">
+      <h2 class="chapter__title">1. オブジェクトの復習</h2>
+      <div class="clause">
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;オブジェクトの復習&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </p>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">1-1. オブジェクトとは</h3>
+        <div class="item">
+          <p>前回勉強した配列は複数の値に順番を付けてまとめたものでしたが、値に名前を付けて管理することができるオブジェクトを使うと、より便利になる。</p>
+          <p>
+            <pre class="line-numbers"><code class="language-javascript">/* 「x座標とy座標を格納するための配列」の場合
+--------------------*/
+const point = [100, 180];
+
+
+/* オブジェクトの形でわかりやすくする
+--------------------*/
+const point = {x: 100, y: 180};
+
+
+/* 改行を入れて見やすくする
+--------------------*/
+const point = {
+  x: 100,
+  y: 180,
+};
+
+console.log(point);</code></pre>
+          </p>
+          <p><img src="./assets/03/01.png" alt="" width="400"></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【オブジェクトの操作】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">const point = {
+  x: 100,
+  y: 180,
+};
+
+
+/* 値の取得
+--------------------*/
+console.log(point.x); //ドット記法
+console.log(point['y']); //ブラケット記法
+
+
+/* 値の変更
+--------------------*/
+point.x = 120;
+point['y'] = 200;
+
+
+/* 値の追加
+--------------------*/
+point.z = 90;
+
+
+/*値の削除
+--------------------*/
+delete point.y;
+
+console.log(point);</code></pre>
+            </dd>
+          </dl>
+        </div>
+        <dl>
+          <dt>☆練習</dt>
+          <dd>動的にbody要素にリンクボタン（a要素）を追加し、クラス名とリンク先を設定する。　|　<a href="./assets/03/object01.html" target="_blank">見本</a></dd>
+          <dd>
+            <pre class="line-numbers"><code class="language-markup">&lt;style&gt;
+  .btn {
+    display: inline-block;
+    padding: .5em 1em;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+  }
+&lt;/style&gt;</code></pre>
+          </dd>
+        </dl>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">2. オブジェクトに関する追加知識</h2>
+      <section class="clause">
+        <h3 class="clause__title">2-1. スプレッド演算子と分割代入</h3>
+        <p>
+          <pre class="line-numbers"><code class="language-javascript">/* スプレッド演算子
+--------------------*/
+const otherProps = {
+  r: 4,
+  color: 'red',
+}
+
+const point = {
+  x: 100,
+  y: 180,
+  ...otherProps,
+};
+
+console.log(point);
+
+
+/* 分割代入（プロパティ名と同じ変数に代入）
+--------------------*/
+const {x, color, ...others} = point;
+
+console.log(x);
+console.log(color);
+console.log(others);</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-2. オブジェクトの値を全て取り出す</h3>
+        <div class="item">
+          <p>
+        <pre class="line-numbers"><code class="language-javascript">const point = {
+  x: 100,
+  y: 180,
+  r: 4
+};
+
+/* 名前（キー）を取り出す
+--------------------*/
+const obj = Object.keys(point);
+
+for(const key of obj){
+  console.log(`キー: ${key}`);
+};
+
+
+/* 値を取り出す
+--------------------*/
+const obj = Object.values(point);
+
+for(const value of obj){
+  console.log(`値: ${value}`);
+};
+
+
+/* 名前（キー）と値を取り出す
+--------------------*/
+const obj = Object.entries(point);
+
+for(const [key, value] of obj){
+  console.log(`${key} : ${value}`);
+};</code></pre>
+        </p>
+        </div>
+        <dl>
+          <dt>☆練習</dt>
+          <dd>下記のオブジェクトを使用し、営業時間票をtable要素で表示する。　|　<a href="./assets/03/object02.html" target="_blank">見本</a></dd>
+          <dd>
+            <pre class="line-numbers"><code class="language-javascript">const timeTable = {
+  Sun: '定休日',
+  Mon: '10:00〜19:00',
+  Tue: '10:00〜19:00',
+  Wed: '10:00〜19:00',
+  Thu: '10:00〜19:00',
+  Fri: '10:00〜19:00',
+  Sat: '10:00〜14:00'
+};</code></pre>
+          </dd>
+        </dl>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">2-3. 配列とオブジェクトの合わせ技</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const teacher = [
+  {
+    name: "高木",
+    age: 42,
+    blood: "B"
+  },
+  {
+    name: "田中",
+    age: 35,
+    blood: "AB"
+  }
+];
+
+console.log(teacher[1].name);
+
+
+/* 値を取り出す
+--------------------*/
+for (const member of teacher) {
+  const obj = Object.entries(member);
+  for (const [key, value] of obj) {
+    console.log(`${key}: ${value}`);
+  }
+}</code></pre>
+        </p>
+      </section>
+    </article>
+    <article class="chapter">
+      <h2 class="chapter__title">3. 実践「クリックゲーム」</h2>
+      <div class="clause">
+        <p><a href="assets/03/click/" target="_blank">見本</a></p>
+        <p>
+          <img src="./assets/03/click/images/slime.png" alt="" width="64">
+        <img src="./assets/03/click/images/eye.png" alt="" width="64">
+        <img src="./assets/03/click/images/fish.png" alt="" width="64">
+      </p>
+        <dl>
+          <dt>【手順】</dt>
+          <dd>
+            <ol>
+              <li>HTMLとCSSの準備</li>
+              <li>オブジェクトの準備</li>
+              <li>最初のモンスターを表示する</li>
+              <li>モンスターをクリックしたらHPを減らす</li>
+              <li>HPが0になったら次のモンスターを表示する</li>
+              <li>すべてのモンスターを倒したらクリア</li>
+            </ol>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. HTMLとCSSの準備</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;クリックゲーム&lt;/title&gt;
+  &lt;style&gt;
+    dl {
+      text-align: center;
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    .name {
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+
+    .pic {
+      cursor: pointer;
+    }
+
+    .hp {
+      margin-top: .5em;
+      font-style: oblique;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;dl&gt;
+    &lt;dt class="name"&gt;名前&lt;/dt&gt;
+    &lt;dd&gt;&lt;img class="pic" src="https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png" alt="" width="200"&gt;&lt;/dd&gt;
+    &lt;dd class="hp"&gt;HP:0&lt;/dd&gt;
+  &lt;/dl&gt;
+  &lt;script&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. オブジェクトの準備</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+&lt;/script&gt;</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. 最初のモンスターを表示する</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+
+  //各要素を指定
+  const pic = document.querySelector('.pic');
+  const name = document.querySelector('.name');
+  const hp = document.querySelector('.hp');
+
+  //値を反映
+  pic.src = monsters[0].pic;
+  name.textContent = monsters[0].name;
+  hp.textContent = `HP:${monsters[0].hp}`;
+&lt;/script&gt;</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. モンスターをクリックしたらHPを減らす</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+
+  const pic = document.querySelector('.pic');
+  const name = document.querySelector('.name');
+  const hp = document.querySelector('.hp');
+
+  //変数追加
+  let currentHp;
+
+  pic.src = monsters[0].pic;
+  name.textContent = monsters[0].name;
+  hp.textContent = `HP:${monsters[0].hp}`;
+  currentHp = monsters[0].hp;
+
+  //クリックイベント追加
+  pic.addEventListener('click', () => {
+    currentHp--;
+    hp.textContent = `HP:${currentHp}`;
+  });
+&lt;/script&gt;</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. HPが0になったら次のモンスターを表示する</h3>
+        <div class="item">
+          <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+
+  const pic = document.querySelector('.pic');
+  const name = document.querySelector('.name');
+  const hp = document.querySelector('.hp');
+
+  //変数追加
+  let currentHp;
+  let currentMonster = 0;
+
+  //変数に変更
+  pic.src = monsters[currentMonster].pic;
+  name.textContent = monsters[currentMonster].name;
+  hp.textContent = `HP:${monsters[currentMonster].hp}`;
+  currentHp = monsters[currentMonster].hp;
+
+  pic.addEventListener('click', () => {
+    currentHp--;
+    hp.textContent = `HP:${currentHp}`;
+
+    //if文を追加
+    if (currentHp &lt;= 0) {
+      currentMonster++;
+    }
+  });
+&lt;/script&gt;</code></pre>
+        </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【関数にまとめる】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+
+  const pic = document.querySelector('.pic');
+  const name = document.querySelector('.name');
+  const hp = document.querySelector('.hp');
+
+  let currentHp;
+  let currentMonster = 0;
+
+  //関数にまとめる
+  const setMonster = () => {
+    pic.src = monsters[currentMonster].pic;
+    name.textContent = monsters[currentMonster].name;
+    hp.textContent = `HP:${monsters[currentMonster].hp}`;
+    currentHp = monsters[currentMonster].hp;
+  };
+
+  //ページ読み込み時に実行
+  setMonster();
+
+  pic.addEventListener('click', () => {
+    currentHp--;
+    hp.textContent = `HP:${currentHp}`;
+
+    if (currentHp &lt;= 0) {
+      currentMonster++;
+
+      //関数を実行
+      setMonster();
+    }
+  });
+&lt;/script&gt;</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-6. すべてのモンスターを倒したらクリア</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;script&gt;
+  const monsters = [
+    {
+      name: "スライム",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/slime.png",
+      hp: 4
+    },
+    {
+      name: "目玉",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/eye.png",
+      hp: 6
+    },
+    {
+      name: "半魚人",
+      pic: "https://trident.takagino.net/doc2023/javascript/assets/03/click/images/fish.png",
+      hp: 8
+    },
+  ];
+
+  const pic = document.querySelector('.pic');
+  const name = document.querySelector('.name');
+  const hp = document.querySelector('.hp');
+
+  let currentHp;
+  let currentMonster = 0;
+
+  const setMonster = () => {
+    pic.src = monsters[currentMonster].pic;
+    name.textContent = monsters[currentMonster].name;
+    hp.textContent = `HP:${monsters[currentMonster].hp}`;
+    currentHp = monsters[currentMonster].hp;
+  };
+
+  setMonster();
+
+  pic.addEventListener('click', () => {
+    currentHp--;
+    hp.textContent = `HP:${currentHp}`;
+
+    if (currentHp &lt;= 0) {
+      currentMonster++;
+
+      //if文に修正
+      if (currentMonster >= monsters.length) {
+        hp.textContent = `クリア！`;
+      } else {
+        setMonster();
+      }
+    }
+  });
+&lt;/script&gt;</code></pre>
+        </p>
+      </section>
+    </article>
+    <!-- <article class="chapter">
+      <h2 class="chapter__title">3. 実践「三択クイズ」</h2>
+      <div class="clause">
+        <p><a href="./assets/03/quiz.html" target="_blank">見本</a></p>
+        <dl>
+          <dt>【手順】</dt>
+          <dd>
+            <ol>
+              <li>HTMLとCSSの準備</li>
+              <li>データの準備</li>
+              <li>データの表示</li>
+              <li>選択肢をシャッフルする（難しい）</li>
+              <li>関数にまとめてきれいにする</li>
+              <li>正解を判定する</li>
+              <li>クラス名で判定する</li>
+              <li>関数に分離する</li>
+              <li>1度しか回答できないようにする</li>
+              <li>次の問題に進む</li>
+              <li>回答しないと進めないようにする</li>
+              <li>スコアの計算</li>
+              <li>「スコア」と「リトライボタン」の表示</li>
+              <li>整えて完成</li>
+            </ol>
+          </dd>
+        </dl>
+      </div>
+      <section class="clause">
+        <h3 class="clause__title">3-1. 準備</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;!DOCTYPE html&gt;
+&lt;html lang="ja"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Quiz&lt;/title&gt;
+  &lt;style&gt;
+    body {
+      background: #efdec1;
+      font-size: 14px;
+      font-family: Verdana, sans-serif;
+    }
+
+    .container {
+      width: 400px;
+      margin: 8px auto;
+      background: #fff;
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    #question {
+      margin-bottom: 16px;
+      font-weight: bold;
+    }
+
+    #choices {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 16px;
+    }
+
+    #choices>li {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    #choices>li:hover {
+      background: #f8f8f8;
+    }
+
+    #btn {
+      background: #3498db;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 4px 0 #2880b9;
+    }
+
+    #btn.disabled {
+      background: #ccc;
+      box-shadow: 0 4px 0 #bbb;
+      opacity: 0.7;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;section class="container"&gt;
+    &lt;p id="question"&gt;What is A?&lt;/p&gt;
+    &lt;ul id="choices"&gt;
+      &lt;li&gt;A0&lt;/li&gt;
+      &lt;li&gt;A1&lt;/li&gt;
+      &lt;li&gt;A2&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div id="btn" class="disabled"&gt;Next&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;script&gt;
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-2. データの準備</h3>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">//要素の取得
+const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+//オブジェクトでの問題設定
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+//現在何問目かを判別する変数
+let currentNum = 0;</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【事前確認】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">console.log(quizSet[currentNum].c);
+console.log(quizSet[currentNum].c[0]);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-3. データの表示</h3>
+        <div class="item">
+          <p>事前に、HTMLの内容を削除しておく。</p>
+          <p>
+          <pre class="line-numbers"><code class="language-markup">&lt;section class="container"&gt;
+  &lt;p id="question"&gt;&lt;/p&gt;
+  &lt;ul id="choices"&gt;
+  &lt;/ul&gt;
+  &lt;div id="btn" class="disabled"&gt;Next&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+//問題文の表示
+question.textContent = quizSet[currentNum].q;
+
+//選択肢の追加
+quizSet[currentNum].c.forEach(choice => {
+  const li = document.createElement('li');
+  li.textContent = choice;
+  choices.appendChild(li);
+});</code></pre>
+          </p>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-4. 選択肢をシャッフルする</h3>
+        <div class="item">
+          <p><a
+              href="https://ja.wikipedia.org/wiki/%E3%83%95%E3%82%A3%E3%83%83%E3%82%B7%E3%83%A3%E3%83%BC%E2%80%93%E3%82%A4%E3%82%A7%E3%83%BC%E3%83%84%E3%81%AE%E3%82%B7%E3%83%A3%E3%83%83%E3%83%95%E3%83%AB">フィッシャー・イェーツのシャッフル</a>
+          </p>
+          <p>
+          <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+question.textContent = quizSet[currentNum].q;
+
+//シャッフルの関数を追加
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+//実際の配列を関数に渡す
+const shuffledChoices = shuffle(quizSet[currentNum].c);
+
+//表示する配列を変更する
+shuffledChoices.forEach(choice => {
+  const li = document.createElement('li');
+  li.textContent = choice;
+  choices.appendChild(li);
+});</code></pre>
+          </p>
+        </div>
+        <div class="item">
+          <p><a href="assets/02/quiz0514.html" target="_blank">5月14日時点のデータ</a></p>
+        </div>
+        <div class="item">
+          <dl>
+            <dt>【注意】</dt>
+            <dd>
+              <pre class="line-numbers"><code class="language-javascript">//実際の配列を関数に渡すと元の配列も書き換わってしまう
+const shuffledChoices = shuffle(quizSet[currentNum].c);
+console.log(quizSet[currentNum].c);
+
+//スプレッド構文を使って新しい配列を作ると回避できる
+const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+console.log(quizSet[currentNum].c);</code></pre>
+            </dd>
+          </dl>
+        </div>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-5. 関数にまとめてきれいにする</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+//関数にまとめる
+function setQuiz() {
+  question.textContent = quizSet[currentNum].q;
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+    choices.appendChild(li);
+  });
+}
+
+setQuiz();</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-6. 正解を判定する</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function setQuiz() {
+  question.textContent = quizSet[currentNum].q;
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    //クリックイベントを追加
+    li.addEventListener('click', () => {
+      if (li.textContent === quizSet[currentNum].c[0]) {
+        console.log('correct');
+      } else {
+        console.log('wrong');
+      }
+    });
+
+    choices.appendChild(li);
+  });
+}
+
+setQuiz();</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-7. クラスで判定する</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">//クラスを変更するように修正
+li.addEventListener('click', () => {
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong');
+  }
+});</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-css">/* CSSを追加 */
+#choices > li.correct {
+  background: #d4edda;
+  border-color: #c3e6cb;
+  color: #155724;
+  font-weight: bold;
+}
+
+#choices > li.wrong {
+  background: #f8d8da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  font-weight: bold;
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-8. 関数に分離する</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+//関数に分離する
+function checkAnswer(li) {
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong');
+  }
+}
+
+function setQuiz() {
+  question.textContent = quizSet[currentNum].q;
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      //関数を実行する
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+}
+
+setQuiz();</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-9. 1度しか回答できないようにする</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+
+//判定用の変数を追加
+let isAnswered;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function checkAnswer(li) {
+  //1度クリックしたらそれ以降は何もしない
+  if (isAnswered) {
+    return;
+  }
+  isAnswered = true;
+
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong');
+  }
+}
+
+function setQuiz() {
+
+  //クイズがセットされたらボタンを押せるようにする
+  isAnswered = false;
+
+  question.textContent = quizSet[currentNum].q;
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+}
+
+setQuiz();</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-10. 次の問題に進む</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+let isAnswered;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function checkAnswer(li) {
+  if (isAnswered) {
+    return;
+  }
+  isAnswered = true;
+
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong');
+  }
+}
+
+function setQuiz() {
+  isAnswered = false;
+
+  question.textContent = quizSet[currentNum].q;
+
+  //もともとある要素を全て削除する
+  while (choices.firstChild) {
+    choices.removeChild(choices.firstChild);
+  }
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+}
+
+setQuiz();
+
+//ボタンにクリックイベントを追加
+btn.addEventListener('click', () => {
+  currentNum++;
+  setQuiz();
+});</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-11. 回答しないと進めないようにする</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+let isAnswered;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function checkAnswer(li) {
+  if (isAnswered) {
+    return;
+  }
+  isAnswered = true;
+
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+  } else {
+    li.classList.add('wrong');
+  }
+
+  //ボタンを押せるようにする
+  btn.classList.remove('disabled');
+}
+
+function setQuiz() {
+  isAnswered = false;
+
+  question.textContent = quizSet[currentNum].q;
+
+  while (choices.firstChild) {
+    choices.removeChild(choices.firstChild);
+  }
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+
+  //問題をすべて回答したら終了
+  if (currentNum === quizSet.length - 1) {
+    btn.textContent = 'Show Score';
+  }
+}
+
+setQuiz();
+
+btn.addEventListener('click', () => {
+
+  //回答するまではボタンを押せないようにする
+  if (btn.classList.contains('disabled')) {
+    return;
+  }
+  btn.classList.add('disabled');
+
+  currentNum++;
+  setQuiz();
+});</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-12. スコアの計算</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+let isAnswered;
+
+//スコア用の変数を追加
+let score = 0;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function checkAnswer(li) {
+  if (isAnswered) {
+    return;
+  }
+  isAnswered = true;
+
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+    //正解したらスコアを増やす
+    score++;
+  } else {
+    li.classList.add('wrong');
+  }
+
+  btn.classList.remove('disabled');
+}
+
+function setQuiz() {
+  isAnswered = false;
+
+  question.textContent = quizSet[currentNum].q;
+
+  while (choices.firstChild) {
+    choices.removeChild(choices.firstChild);
+  }
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+
+  if (currentNum === quizSet.length - 1) {
+    btn.textContent = 'Show Score';
+  }
+}
+
+setQuiz();
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('disabled')) {
+    return;
+  }
+  btn.classList.add('disabled');
+
+  //条件によって処理をわける
+  if (currentNum === quizSet.length - 1) {
+    console.log(`Score: ${score} / ${quizSet.length}`);
+  } else {
+    currentNum++;
+    setQuiz();
+  }
+});</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-13. 「スコア」と「リトライボタン」の表示</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;section class="container"&gt;
+  &lt;p id="question"&gt;&lt;/p&gt;
+  &lt;ul id="choices"&gt;
+  &lt;/ul&gt;
+  &lt;div id="btn" class="disabled"&gt;Next&lt;/div&gt;
+
+  &lt;!-- HTMLを追加 --&gt;
+  &lt;section id="result"&gt;
+    &lt;p&gt;Score: 3 / 3&lt;/p&gt;
+    &lt;a href=""&gt;Replay?&lt;/a&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-css">/* CSSを追加 */
+#btn, #result > a {
+  background: #3498db;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 4px 0 #2880b9;
+}
+
+#result {
+  position: absolute;
+  width: 300px;
+  background: #fff;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  top: 50px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+#result > p {
+  font-size: 24px;
+}
+
+#result > a {
+  display: block;
+  text-decoration: none;
+}</code></pre>
+        </p>
+      </section>
+      <section class="clause">
+        <h3 class="clause__title">3-14. 完成</h3>
+        <p>
+        <pre class="line-numbers"><code class="language-markup">&lt;section class="container"&gt;
+  &lt;p id="question"&gt;&lt;/p&gt;
+  &lt;ul id="choices"&gt;
+  &lt;/ul&gt;
+  &lt;div id="btn" class="disabled"&gt;Next&lt;/div&gt;
+
+  &lt;!-- classを追加 --&gt;
+  &lt;section id="result" class="hidden"&gt;
+    &lt;p&gt;Score: 3 / 3&lt;/p&gt;
+    &lt;a href=""&gt;Replay?&lt;/a&gt;
+  &lt;/section&gt;
+&lt;/section&gt;</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-css">/* CSSを追加 */
+
+#result.hidden {
+  display: none;
+}</code></pre>
+        </p>
+        <p>
+        <pre class="line-numbers"><code class="language-javascript">const question = document.querySelector('#question');
+const choices = document.querySelector('#choices');
+const btn = document.querySelector('#btn');
+
+//要素の取得
+const result = document.querySelector('#result');
+const scoreLabel = document.querySelector('#result > p');
+
+const quizSet = [
+  { q: 'What is A?', c: ['A0', 'A1', 'A2'] },
+  { q: 'What is B?', c: ['B0', 'B1', 'B2'] },
+  { q: 'What is C?', c: ['C0', 'C1', 'C2'] },
+];
+
+let currentNum = 0;
+let isAnswered;
+let score = 0;
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [arr[j], arr[i]] = [arr[i], arr[j]];
+  }
+  return arr;
+}
+
+function checkAnswer(li) {
+  if (isAnswered) {
+    return;
+  }
+  isAnswered = true;
+
+  if (li.textContent === quizSet[currentNum].c[0]) {
+    li.classList.add('correct');
+    score++;
+  } else {
+    li.classList.add('wrong');
+  }
+
+  btn.classList.remove('disabled');
+}
+
+function setQuiz() {
+  isAnswered = false;
+
+  question.textContent = quizSet[currentNum].q;
+
+  while (choices.firstChild) {
+    choices.removeChild(choices.firstChild);
+  }
+
+  const shuffledChoices = shuffle([...quizSet[currentNum].c]);
+  shuffledChoices.forEach(choice => {
+    const li = document.createElement('li');
+    li.textContent = choice;
+
+    li.addEventListener('click', () => {
+      checkAnswer(li);
+    });
+
+    choices.appendChild(li);
+  });
+
+  if (currentNum === quizSet.length - 1) {
+    btn.textContent = 'Show Score';
+  }
+}
+
+setQuiz();
+
+btn.addEventListener('click', () => {
+  if (btn.classList.contains('disabled')) {
+    return;
+  }
+  btn.classList.add('disabled');
+
+  if (currentNum === quizSet.length - 1) {
+
+    //スコアの表示
+    scoreLabel.textContent = `Score: ${score} / ${quizSet.length}`;
+    result.classList.remove('hidden');
+
+  } else {
+    currentNum++;
+    setQuiz();
+  }
+});</code></pre>
+        </p>
+      </section>
+    </article> -->
+    <article class="chapter">
+      <h2 class="chapter__title">4. 課題</h2>
+      <div class="clause">
+        <div class="item">
+          <p>完成した「クリックゲーム」を、以下のように出来る限り改造する。</p>
+          <p><a href="./assets/03/click-ver02/" target="_blank">見本</a></p>
+          <ol>
+            <li>モンスターを増やす。</li>
+            <li>表示される順番をランダムにする。</li>
+            <li>アニメーションを追加する。（アニメーションが終わってからモンスターが変わるように）</li>
+            <li>その他自分で改造してみる。</li>
+          </ol>
+        </div>
+        <div class="item">
+          <ul>
+            <li>提出先：<a href="https://drive.google.com/drive/folders/1Bzt6ZLTIpV0xODM_pKWd2fAFhvUfusFg?usp=share_link">Googleドライブ</a></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="l-footer">
+    <small>Copyright &copy; hirotaka takagi. All rights reserved.</small>
+  </footer>
+
+  <!-- syntax highlighter -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/plugins/line-numbers/prism-line-numbers.min.js"></script>
+  <!--
+    <pre class="line-numbers">
+      <code class="language-markup">
+        &lt; ... &gt;
+      </code>
+    </pre>
+  -->
+  <script src="../assets/js/common.js"></script>
+</body>
+
+</html>

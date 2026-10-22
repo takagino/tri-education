@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三択クイズ</title>
+  <link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css">
+  <style>
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    dl {
+      margin-bottom: 2em;
+    }
+
+    dt {
+      margin-bottom: .5em;
+      font-weight: bold;
+    }
+
+    .container {
+      width: 86%;
+      max-width: 800px;
+      margin: 3em auto;
+    }
+
+    input {
+      width: 50%;
+      margin-bottom: .5em;
+      padding: .2em .5em;
+    }
+
+    button {
+      margin-bottom: .5em;
+      padding: .2em 1em;
+    }
+
+    .link {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="form">
+      <dl>
+        <dt>【問題】</dt>
+        <dd id="q"></dd>
+      </dl>
+      <input type="text" id="a">
+      <button id="r">回答</button>
+    </div>
+    <ul class="link">
+      <li><a href="./create.html">問題を作る</a></li>
+    </ul>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCkUKZMaNfuLkzsp1tJKOSeraCFMIt_zZ8",
+      authDomain: "test-f409a.firebaseapp.com",
+      projectId: "test-f409a",
+      storageBucket: "test-f409a.appspot.com",
+      messagingSenderId: "792442032377",
+      appId: "1:792442032377:web:acf53bb803f06c268ad228"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let quiz = [];
+    let num = 0;
+    let correct = 0;
+    const limit = 5;
+    const question = document.querySelector('#q');
+    const answer = document.querySelector('#a');
+    const btn = document.querySelector('#r');
+    const list = document.querySelector('#list');
+
+    const colRef = collection(db, "quiz2");
+    const docSnap = await getDocs(colRef);
+
+    docSnap.forEach((doc) => {
+      quiz.push(doc.data());
+    });
+
+    question.textContent = quiz[num].q;
+
+    btn.addEventListener('click', async (e) => {
+      if (answer.value === quiz[num].a) {
+        correct++;
+      }
+
+      answer.value = '';
+      num++;
+      if (num < quiz.length && num < limit) {
+        question.textContent = quiz[num].q;
+      } else {
+        alert(`正解数：${correct}`);
+      };
+    });
+  </script>
+</body>
+</html>

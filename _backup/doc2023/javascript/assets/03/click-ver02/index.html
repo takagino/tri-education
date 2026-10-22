@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クリックゲーム</title>
+  <style>
+    dl {
+      text-align: center;
+    }
+
+    dd {
+      margin: 0;
+    }
+
+    .name {
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+
+    .pic {
+      cursor: pointer;
+      transition: .5s;
+    }
+
+    .kill {
+      transform: rotate(360deg) scale(0);
+    }
+
+    .hp {
+      margin-top: .5em;
+      font-style: oblique;
+    }
+  </style>
+</head>
+<body>
+  <dl>
+    <dt class="name">名前</dt>
+    <dd><img class="pic" src="./images/slime.png" alt="" width="200"></dd>
+    <dd class="hp">HP:0</dd>
+  </dl>
+  <script>
+    const pic = document.querySelector('.pic');
+    const name = document.querySelector('.name');
+    const hp = document.querySelector('.hp');
+    const monsters = [
+      {
+        name: "スライム",
+        pic: "slime.png",
+        hp: 4
+      },
+      {
+        name: "目玉",
+        pic: "eye.png",
+        hp: 6
+      },
+      {
+        name: "半魚人",
+        pic: "fish.png",
+        hp: 8
+      },
+      {
+        name: "貧乏神",
+        pic: "binbou.png",
+        hp: 3
+      },
+    ];
+    let randomMonsters = [];
+    let currentHp;
+    let currentMonster = 0;
+    let isClick = true;
+
+    const shuffle = (array) => {
+      for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      };
+
+      return array;
+    };
+
+    const setMonster = (array) => {
+      isClick = true;
+      pic.classList.remove('kill');
+      pic.src = `./images/${array[currentMonster].pic}`;
+      name.textContent = array[currentMonster].name;
+      hp.textContent = `HP:${array[currentMonster].hp}`;
+      currentHp = array[currentMonster].hp;
+    };
+
+    randomMonsters = shuffle([...monsters]);
+
+    setMonster(randomMonsters);
+
+    pic.addEventListener('click', () => {
+      if (isClick) {
+        currentHp--;
+        hp.textContent = `HP:${currentHp}`;
+
+        if (currentHp <= 0) {
+          currentMonster++;
+          if (currentMonster >= randomMonsters.length) {
+            hp.textContent = `クリア！`;
+          } else {
+            isClick = false;
+            pic.classList.add('kill');
+            setTimeout(() => {
+              setMonster(randomMonsters);
+            }, 500);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

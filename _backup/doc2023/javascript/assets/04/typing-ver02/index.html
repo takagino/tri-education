@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing</title>
+  <style>
+    body {
+      padding-top: 40px;
+      font-family: 'Courier New', monospace;
+      text-align: center;
+    }
+
+    #target {
+      font-size: 48px;
+      letter-spacing: .1em;
+    }
+
+    /*【課題2】ミスした場合に追加するクラス */
+    .miss {
+      color: #f00;
+    }
+  </style>
+</head>
+
+<body>
+  <p id="target">Press to space!</p>
+  <p id="result"></p>
+
+  <script>
+    const target = document.querySelector('#target');
+    const words = ["red", "blue", "pink", "brown", "orange", "yellow", "green", "purple", "black", "white"]; //【課題3】単語を増やす
+    let word;
+    let loc = 0;
+    let startTime;
+    let isPlaying = false;
+
+    const setWord = () => {
+      word = words.splice(Math.floor(Math.random() * words.length), 1)[0];
+      target.textContent = word;
+      loc = 0;
+    }
+
+    //【課題1】クリックイベントは削除
+    // document.addEventListener('click', () => {
+    //   if (isPlaying === true) {
+    //     return;
+    //   }
+
+    //   isPlaying = true;
+    //   startTime = Date.now();
+    //   setWord();
+    // });
+
+    document.addEventListener('keydown', e => {
+      if (e.key !== word[loc]) {
+        target.classList.add("miss"); //【課題2】ミスしたらクラス名を追加
+        return
+      }
+
+      loc++;
+      target.textContent = '_'.repeat(loc) + word.substring(loc);
+
+      if (loc === word.length) {
+        if (words.length === 7) { //【課題3】3問タイピングしたら終了
+          const result = document.querySelector('#result');
+          const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+          result.textContent = `Finished! ${elapsedTime} seconds!`;
+          return;
+        }
+
+        setWord();
+      }
+    });
+
+    //【共通】keyupイベントを追加
+    document.addEventListener('keyup', e => {
+
+      //【課題2】キーを離したらクラス名を削除
+      if (target.classList.contains("miss")) {
+        target.classList.remove("miss");
+      }
+
+      //【課題1】スペースキーを押してゲームスタート
+      if (e.key === " ") {
+        if (isPlaying === true) {
+          return;
+        }
+
+        isPlaying = true;
+        startTime = Date.now();
+        setWord();
+      }
+    });
+  </script>
+</body>
+
+</html>

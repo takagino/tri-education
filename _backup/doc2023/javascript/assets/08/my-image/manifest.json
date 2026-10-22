@@ -1,0 +1,8 @@
+{
+  "name": "眠気を覚ます",
+  "manifest_version": 3,
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

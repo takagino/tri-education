@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>実践その1</title>
+  <style>
+    .box {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #09c;
+      opacity: .5;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    class Box {
+      constructor(x, y, d) {
+        this.x = x;
+        this.y = y;
+        this.d = d;
+        this.timerId;
+
+        this.box = document.createElement("div");
+        this.box.classList.add("box");
+        this.box.style.width = `${this.d}px`;
+        this.box.style.height = `${this.d}px`;
+        this.box.style.left = `${this.x}px`;
+        this.box.style.top = `${this.y}px`;
+        document.body.appendChild(this.box);
+      }
+
+      move() {
+        clearInterval(this.timerId);
+        this.timerId = setInterval(() => {
+          let ranX = Math.floor(Math.random() * 3) - 1;
+          let ranY = Math.floor(Math.random() * 3) - 1;
+
+          this.x += ranX;
+          this.y += ranY;
+          this.box.style.left = `${this.x}px`;
+          this.box.style.top = `${this.y}px`;
+        }, 30);
+      }
+    };
+
+    const arr = [];
+    for (let i = 0; i < 50; i++) {
+      let ranX = Math.floor(Math.random() * 300) + 50;
+      let ranY = Math.floor(Math.random() * 300) + 50;
+      let ranD = Math.floor(Math.random() * 50) + 10;
+
+      const box = new Box(ranX, ranY, ranD);
+      box.box.addEventListener('click', () => {
+        box.move();
+      });
+    };
+  </script>
+</body>
+</html>
