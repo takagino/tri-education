@@ -2,79 +2,40 @@
 
 body {
   margin: 0;
-  padding: 40px 20px;
+  padding: 24px;
   font-family: sans-serif;
-  background-color: #f4f6f8;
-  color: #333333;
-}
-
-.container {
   max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  background-color: #ffffff;
-  padding: 32px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.section {
+section {
   margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px solid #eeeeee;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
 }
 
-.section-title {
-  font-size: 18px;
-  margin-bottom: 16px;
-  color: #555555;
-}
-
-.btn {
-  padding: 12px 24px;
-  font-size: 16px;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  background-color: #0066cc;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  opacity: 0.85;
-}
-
-/* 画像切り替えエリア */
-.image-box img {
-  width: 100%;
-  max-width: 500px;
+img {
+  max-width: 100%;
   height: auto;
-  border-radius: 8px;
   display: block;
-  margin: 0 auto 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease;
 }
 
-/* リンク切り替えエリア */
-.link-switch-box {
-  margin-top: 16px;
+button {
+  padding: 8px 16px;
+  cursor: pointer;
 }
 
-.link-wrapper {
-  margin-top: 16px;
+input {
+  padding: 8px;
+  font-size: 14px;
 }
 
-.external-link {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: bold;
-  color: #0066cc;
-  text-decoration: underline;
-  transition: color 0.2s ease;
+/* --- JavaScriptで切り替えるクラス --- */
+.is-active {
+  background-color: #0066cc;
+  color: #fff;
 }
 
-.external-link:hover {
-  color: #004499;
+.is-error {
+  border-color: red;
+  color: red;
 }
