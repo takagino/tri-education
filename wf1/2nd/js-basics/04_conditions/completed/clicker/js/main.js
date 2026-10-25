@@ -32,7 +32,7 @@ attackBtn.addEventListener('click', () => {
   // 4. 残りHPに応じた3パターンの条件分岐
   if (currentHp <= 0) {
     // 討伐完了！
-    battleMessage.textContent = '🎉 モンスターをたおした！ゲームクリア！';
+    battleMessage.textContent = 'モンスターをたおした！ゲームクリア！';
     hpDisplay.style.color = '#e74c3c';
     enemyImg.setAttribute('src', DEFEATED_IMG);
     enemyImg.setAttribute('alt', '倒れたモンスター');
