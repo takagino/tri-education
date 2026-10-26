@@ -10,6 +10,8 @@
 
 [03_CSSプリプロセッサ](https://app.notion.com/p/03_CSS-3f1bdf471aca801aaefedf63d430a800?pvs=21)
 
+[**04_相対単位の使い分け**](https://app.notion.com/p/04_Sass-28abdf471aca800caad6e31b9753972b?pvs=21)
+
 # 1. はじめに
 
 ## 1-1. 前回の復習
