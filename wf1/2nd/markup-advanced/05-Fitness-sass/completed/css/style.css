@@ -172,49 +172,4 @@ img {
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   text-align: center;
-}
-
-/* about.html */
-.clases {
-  padding-bottom: 100px;
-}
-.clases__inner {
-  max-width: 1200px;
-  width: 88%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.clases__info {
-  margin-bottom: 80px;
-}
-.clases__list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-.clases .btn {
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.testimonials {
-  background-color: #292F39;
-  color: #fff;
-}
-.testimonials .intro__title {
-  color: #fff;
-}
-.testimonials {
-  padding: 100px 0;
-}
-.testimonials__inner {
-  max-width: 1200px;
-  width: 88%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.testimonials__info {
-  margin-bottom: 80px;
-}
-.testimonials__list {
-  text-align: center;
 }/*# sourceMappingURL=style.css.map */
