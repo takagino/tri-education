@@ -1,0 +1,258 @@
+@use 'sass:math';
+
+$color-text: #9E9E9E;
+$color-base: #292F39;
+$color-main: #5EB6E1;
+$color-accent: #FF1D6A;
+
+$font-family-gothic: Helvetica,
+    Arial,
+    sans-serif;
+$font-family-mincho: 'Times New Roman',
+    Times,
+    serif;
+
+@mixin inner($mw: 1200px, $w: 88%) {
+    max-width: $mw;
+    width: $w;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin bg-color($c: $color-base) {
+    background-color: $c;
+    color: #fff;
+
+    .intro__title {
+        color: #fff;
+    }
+}
+
+body {
+    color: $color-text;
+    font-size: 16px;
+    font-family: $font-family-gothic;
+    line-height: math.div(27, 16);
+    letter-spacing: #{math.div(20, 1000)}em;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+.header {
+    padding: 40px 0 100px;
+
+    &__inner {
+        @include inner();
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.g-nav {
+    &__list {
+        display: grid;
+        grid-auto-flow: column;
+        gap: 30px;
+    }
+
+    &__item {
+        a {
+            color: $color-base;
+            font-weight: bold;
+            transition: .2s;
+
+            &:hover {
+                color: $color-accent;
+            }
+        }
+    }
+}
+
+.footer {
+    padding: 60px 0;
+    background-color: $color-main;
+    color: #fff;
+    text-align: center;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__copyright {
+        small {
+            font-size: 12px;
+        }
+    }
+}
+
+/* module */
+.intro {
+    &__title {
+        margin-bottom: 60px;
+        color: $color-base;
+        font-size: 32px;
+        font-family: $font-family-mincho;
+        font-weight: bold;
+        line-height: math.div(42, 32);
+
+        &::after {
+            content: "";
+            display: block;
+            width: 120px;
+            margin-top: 20px;
+            border-bottom: 2px solid $color-main;
+        }
+    }
+
+    &__content {
+        display: grid;
+        gap: 40px;
+    }
+
+    &--center {
+        text-align: center;
+
+        .intro__title {
+
+            &::after {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    }
+}
+
+.panel {
+    &__pic {
+        position: relative;
+    }
+
+    &__label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 30px 0;
+        background-color: rgba(0, 0, 0, .6);
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        line-height: math.div(31, 24);
+    }
+}
+
+.card {
+    &__title {
+        margin-top: 30px;
+        font-size: 24px;
+        font-weight: normal;
+        line-height: math.div(31, 24);
+    }
+
+    &__text {
+        margin-top: 20px;
+        color: $color-accent;
+        font-weight: bold;
+    }
+}
+
+.btn {
+    display: block;
+    width: 200px;
+    margin-top: 60px;
+    padding: 25px;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    background-color: $color-main;
+    transition: .2s;
+
+    &--notice {
+        background-color: $color-accent;
+    }
+
+    &:hover {
+        background-color: $color-base;
+    }
+}
+
+/* index.html */
+.message {
+    padding-bottom: 100px;
+
+    &__inner {
+        @include inner();
+        display: grid;
+        grid-template-columns: 620fr 500fr;
+        column-gap: percentage(math.div(80, 1200));
+        align-items: center;
+    }
+}
+
+.team {
+    @include bg-color();
+    padding: 100px 0;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__info {
+        margin-bottom: 80px;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        text-align: center;
+    }
+}
+
+/* about.html */
+.clases {
+    padding-bottom: 100px;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__info {
+        margin-bottom: 80px;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .btn {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.testimonials {
+    @include bg-color();
+    padding: 100px 0;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__info {
+        margin-bottom: 80px;
+    }
+
+    &__list {
+        text-align: center;
+    }
+}
