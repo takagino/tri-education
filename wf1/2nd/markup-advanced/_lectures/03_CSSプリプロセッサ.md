@@ -4,13 +4,11 @@
 
 [00_導入](https://app.notion.com/p/00_-3c8bdf471aca80e3a92afe2bc6031e14?pvs=21)
 
-[01_環境設定と確認課題](https://app.notion.com/p/01_-3f0bdf471aca80d0b9acf946b73cceaf?pvs=21)
+[01_**環境設定と確認課題**](https://app.notion.com/p/01_-3f0bdf471aca80d0b9acf946b73cceaf?pvs=21)
 
-[02_CSS設計とBEM](https://app.notion.com/p/02_CSS-BEM-3f1bdf471aca80f7b23cc380f650eb0f?pvs=21)
+[**02_CSS設計とBEM**](https://app.notion.com/p/02_CSS-BEM-3f1bdf471aca80f7b23cc380f650eb0f?pvs=21)
 
-[**03_CSSプリプロセッサ**](https://app.notion.com/p/03_CSS-27abdf471aca80fead8cd05a2271f051?pvs=21)
-
----
+[03_CSSプリプロセッサ](https://app.notion.com/p/03_CSS-3f1bdf471aca801aaefedf63d430a800?pvs=21)
 
 # 1. はじめに
 
@@ -32,31 +30,18 @@
 
 - **Block（ブロック）：** どこに移動させても自立して機能する独立した部品（`.intro`, `.card`, `.btn` など）。
 - **Element（エレメント）：** Blockを構成する中身の要素（`__` で接続、`.intro__title` など）。※孫つなぎ禁止！
-- **Modifier（モディファイア）：** 見た目や状態のバリエーション（`--` で接続、`.btn--info` など）。※基本クラスと併記！
+- **Modifier（モディファイア）：** 見た目や状態のバリエーション（`-` で接続、`.btn--info` など）。※基本クラスと併記！
 - **Mix（ミックス）：** 「配置用Element」＋「パーツ用Block」を同一タグに併記して、外側余白（margin）の責任を分離する。
-
-<aside>
-💡
-
-**前回の予告を覚えていますか？**
-
-「BEMはクラス名が長くなりやすく、素のCSSだと書くのが少し大変…」という唯一のデメリットがありました。
-
-今回学ぶ **「CSSプリプロセッサ（Sass）」** を導入することで、このデメリットが完全に解消され、**信じられないほど爆速かつ美しくBEMが記述できるようになります！**
-
-</aside>
 
 ---
 
-## 1-2. 前回の課題の確認
+## 1-2. 前回の課題
 
-前回取り組んだ課題「03-newslly-bem」の見本コードとプレビューです。
+[Newslly](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/03-newslly-bem/completed/)
 
-**【Newslly 見本（Webプレビュー）】**
+[About | Newslly](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/03-newslly-bem/completed/about.html)
 
-- [Top ページ](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/03-newslly-bem/completed/index.html)
-- [About ページ](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/03-newslly-bem/completed/about.html)
-- [完成コード（GitHub）](https://github.com/takagino/tri-education/tree/main/wf1/2nd/markup-advanced/03-newslly-bem/completed)
+[tri-education/wf1/2nd/markup-advanced/03-newslly-bem/completed at main · takagino/tri-education](https://github.com/takagino/tri-education/tree/main/wf1/2nd/markup-advanced/03-newslly-bem/completed)
 
 ---
 
@@ -67,21 +52,28 @@
 - Sassの基本機能（変数、ネスト、親セレクタ参照 `&`、四則演算、Mixin）
 - **BEM × Sass の最強の組み合わせ**
 
-**【サンプルデータ】**
+---
 
-[HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=drive_link)
+## **2-1. サンプルデータ**
+
+[HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=sharing)
 
 - **04-newslly-sass**：授業で一緒にマークアップするデータ
-- **05-smartspace-sass**：今回の課題データ
+- **05-Fitness-sass**：今回の課題データ
 
-**【Newslly 見本（Webプレビュー）】**
+---
 
-- [Top ページ](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/04-newslly-sass/completed/index.html)
-- [About ページ](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/04-newslly-sass/completed/about.html)
+## **2-2. 見本（Webプレビュー）**
 
-**【途中経過】**
+[Newslly](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/04-newslly-sass/completed/)
 
-- [04-newslly-sass/starter（GitHub）](https://github.com/takagino/tri-education/tree/main/wf1/2nd/markup-advanced/04-newslly-sass/starter)
+[ABOUT | Newslly](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/04-newslly-sass/completed/about.html)
+
+---
+
+## **2-3. 途中経過**
+
+[tri-education/wf1/2nd/markup-advanced/04-newslly-sass/starter at main · takagino/tri-education](https://github.com/takagino/tri-education/tree/main/wf1/2nd/markup-advanced/04-newslly-sass/starter)
 
 ---
 
@@ -100,7 +92,9 @@
 - Less
 - Lightning CSS
 
-> 参考：[State of CSS: Other Tools (Pre/Post-processors)](https://stateofcss.com/)
+**【参考】**
+
+[State of CSS 2025: Other Tools](https://2025.stateofcss.com/en-US/other-tools/#pre_post_processors)
 
 ---
 
@@ -115,6 +109,7 @@ Sassには歴史的に2つの書き方（構文）がありますが、**現在�
     - 普通のCSSをそのまま貼り付けても正常に動くため、直感的に学習できる。
 - **SASS記法（拡張子 `.sass`）※初期の記法**
     - 波括弧やセミコロンを省略し、インデントだけで表す記法（現在はほとんど使われません）。
+    - 
 
 ※本講義および実務で「Sassを学ぶ」という場合、実質的にはすべて**「SCSS」**のことを指します。ファイル拡張子も必ず **`.scss`** を使用します。
 
@@ -123,133 +118,118 @@ Sassには歴史的に2つの書き方（構文）がありますが、**現在�
 ## 3-2. コンパイル環境の構築（Live Sass Compiler）
 
 `.scss` ファイルはそのままブラウザに読み込ませても認識されません。
-そのため、**「`.scss` を保存した瞬間に、自動で通常の `.css` を書き出す（コンパイルする）」**仕組みを導入します。
+そのため**、「`.scss` を保存した瞬間に、自動で通常の `.css` を書き出す（コンパイルする）」**仕組みを導入します。
 
 本講義では、VSCodeの拡張機能として広く使われている **「Live Sass Compiler（Glenn Marks版）」** を使用します。
 
-### 【ステップ1：拡張機能のインストール】
+**【ステップ1：拡張機能のインストール】**
 
-1. VSCodeの左側メニュー「拡張機能」アイコンを選択（または `Cmd + Shift + X`）。
+1. VSCodeの左側メニュー「拡張機能」アイコンを選択。
 2. 検索バーに **`Live Sass Compiler`** と入力。
-3. 作者が **Glenn Marks**（ID: `glenn2223.live-sass`）となっている拡張機能を探して「インストール」をクリック。
+3. 作者が「**Glenn Marks」**となっている拡張機能を探して「インストール」をクリック。
 
-### 【ステップ2：自動起動（watchOnLaunch）と出力先の設定】
+**【ステップ2：自動起動（watchOnLaunch）と出力先の設定】**
 
 Live Sass Compilerは、初期状態では右下の「Watch Sass」を手動でクリックしないと動きません。
-しかし、設定を1箇所変更するだけで、**VSCodeでフォルダを開くだけで自動的に監視（Watch）が開始されるようになり、押し忘れトラブルをゼロにできます！**
+しかし、設定を1箇所変更するだけで、**VSCodeでフォルダを開くだけで自動的に監視（Watch）が開始されるようになり、押し忘れトラブルをゼロにできます。**
 
-#### 方法A：設定画面（GUI）から設定する場合
+**方法A：設定画面（GUI）から設定する場合**
+
 1. VSCodeの「設定」を開く（`Cmd + ,`）。
 2. 検索バーに **`watchOnLaunch`** と入力。
 3. **「Live Sass Compile > Settings: Watch On Launch」** にチェックを入れる。
 
-#### 方法B：settings.json で一括設定する場合（おすすめ）
+**方法B：settings.json で一括設定する場合（おすすめ）**
+
 `settings.json` に以下の設定を記述すると、自動起動と出力先（`css/` フォルダ）が一発で確実に整います。
 
 ```json
-{
-  // VSCode起動時に自動でSassの監視を開始（クリック忘れ防止！）
-  "liveSassCompile.settings.watchOnLaunch": true,
+// VSCode起動時に自動でSassの監視を開始（クリック忘れ防止！）
+"liveSassCompile.settings.watchOnLaunch": true,
 
-  // CSSの出力先とフォーマットの設定
-  "liveSassCompile.settings.formats": [
-    {
-      "format": "expanded",
-      "extensionName": ".css",
-      "savePath": "~/../css" // scssファイルがあるフォルダの隣にある「css」フォルダに出力
-    }
-  ],
+// CSSの出力先とフォーマットの設定
+"liveSassCompile.settings.formats": [
+	{
+		"format": "expanded",
+    "extensionName": ".css",
+    "savePath": "~/../css" // scssファイルがあるフォルダの隣にある「css」フォルダに出力
+  }
+],
 
-  // ソースマップ（デバッグ用）を生成する
-  "liveSassCompile.settings.generateMap": true
-}
+// ソースマップ（デバッグ用）を生成する
+"liveSassCompile.settings.generateMap": true
 ```
 
+**【ステップ3：sassフォルダとファイルを作成して動作確認】**
 
-### 【ステップ3：sassフォルダとファイルを作成して動作確認】
-
-設定ができたら、早速実際にファイルを作成して自動コンパイルを体験してみましょう！
+設定ができたら、早速実際にファイルを作成して自動コンパイルを体験してみましょう。
 （本日の課題フォルダ `04-newslly-sass` をVSCodeで開いた状態で作業します）
 
 1. **`sass` フォルダを新規作成する**
-   - プロジェクト内（`index.html` と同じ階層）に **`sass`** フォルダを作成します。
+    - プロジェクト内（`index.html` と同じ階層）に **`sass`** フォルダを作成します。
 2. **`style.scss` ファイルを新規作成する**
-   - 作成した `sass/` フォルダの中に、新規ファイル **`style.scss`** を作成します。
+    - 作成した `sass/` フォルダの中に、新規ファイル **`style.scss`** を作成します。
 3. **適当なスタイルを書いて保存（`Cmd + S`）する**
-   - 動作確認のため、以下のようなコードを書いて保存してみましょう。
-   ```scss
-   body {
-     margin: 0;
-   }
-   ```
+    - 動作確認のため、以下のようなコードを書いて保存してみましょう。
+    
+    ```scss
+    body {
+      margin: 0;
+    }
+    ```
+    
 4. **どこに何が生成されたか確認する！**
-   - 保存した瞬間、VSCodeの左側エクスプローラー（ファイル一覧）を見てみましょう。
-   - `sass/` フォルダの隣に、自動で **`css/`** フォルダが作成され、その中に **`style.css`** と **`style.css.map`** が書き出されているはずです！
+    - 保存した瞬間、VSCodeの左側エクスプローラー（ファイル一覧）を見てみましょう。
+    - `sass/` フォルダの隣に、自動で **`css/`** フォルダが作成され、その中に **`style.css`** と **`style.css.map`** が書き出されていれば成功です。
+        
+        ![Snapzy_2026-10-19_19-28-15_443.png](03_CSS%E3%83%97%E3%83%AA%E3%83%97%E3%83%AD%E3%82%BB%E3%83%83%E3%82%B5/Snapzy_2026-10-19_19-28-15_443.png)
+        
 
-```text
+```
 04-newslly-sass/
-  ├── index.html
-  ├── about.html
   ├── css/              ← 保存した瞬間に自動生成される！（直接編集しない）
   │    ├── style.css    ← ブラウザが読み込む通常のCSS
   │    └── style.css.map← デバッグ用のマップファイル
   └── sass/
-       └── style.scss   ← 私たちが編集する設計図！
+       └── style.scss   ← 私たちが編集する設計図
 ```
 
-> 💡 **自動生成されない場合：**
-> VSCode右下のステータスバーを確認してください。`Watching...` となっていれば監視中です。もし `Watch Sass` と表示されている場合は、クリックして監視を開始してください（またはVSCodeを一度再起動してみてください）。
+<aside>
+⚠️
+
+**自動生成されない場合**
+
+VSCode右下のステータスバーを確認してください。`Watching...` となっていれば監視中です。
+
+もし `Watch Sass` と表示されている場合は、クリックして監視を開始してください（またはVSCodeを一度再起動してみてください）。
+
+</aside>
 
 <aside>
 💡
 
-**ポイント：なぜ `~/../css` と書くのか？（どのフォルダを開いていても安心な理由）**
-
-今 `style.scss` を保存したとき、なぜ `sass/` の隣に `css/` フォルダが自動生成されたのでしょうか？
-その秘密が、ステップ2で設定した `"savePath": "~/../css"` です。
+**なぜ `~/../css` と書くのか？**
 
 設定値の頭にある **`~`（チルダ）** は、**「VSCodeでどのフォルダを開いているかに関わらず、編集中の `.scss` ファイル自身の場所を基準にする」** という特別な記法です。
 
-- `~` ：編集中の `.scss` ファイルがある場所（＝ `sass/` フォルダ）
-- `/..` ：1つ上の親階層へ戻る（＝ プロジェクトのルート階層）
-- `/css` ：そこにある `css/` フォルダ（存在しなければ自動作成して出力！）
-
-これがあるおかげで、大元のまとめフォルダを開いていようが、個別の課題フォルダを開いていようが、常に「編集中の `sass/` フォルダの隣にある `css/` フォルダ」を正確に探して出力してくれます。
+これがあるおかげで、大元のまとめフォルダを開いていようが、個別の課題フォルダを開いていようが、常に「編集中の `sass/` フォルダと同じディレクトリにある `css/` フォルダ」を正確に探して出力してくれます。
 
 </aside>
 
 ---
 
-## 3-3. フォルダ構成とおすすめの開き方
-
-### なぜ `sass` フォルダと `css` フォルダを分けるのか？
-「HTMLと同じ階層にそのままCSSを出力した方がシンプルでは？」と思うかもしれません。
-しかし、Web制作の現場では必ずフォルダを分けて管理します。
-
-1. **ファイルが散らかるのを防ぐ**
-   - ルートに `index.html`, `style.scss`, `style.css`, `style.css.map` が並ぶと、ファイルが増えた時に「どれが編集対象で、どれが読み込み用か」が分からなくなります。
-2. **「元データ（設計図）」と「成果物」の分離**
-   - **「人間が手で編集する設計図（`sass/`）」** と **「プログラムが自動生成した成果物（`css/`）」** をディレクトリで明確に分けるのが、開発における基本的なマナーです。
-
-### おすすめのVSCodeでの開き方
-Live Sass Compilerのチルダ設定（`~`）により、まとめフォルダを開いた状態でも問題なくコンパイルされますが、
-**「その日に取り組む課題フォルダ（例: `04-newslly-sass`）を直接VSCodeで開く」** ことをおすすめします。
-
-左側のエクスプローラー（ファイルツリー）がすっきりし、Git同期やパスの確認で迷子になりにくくなります。
-
----
-
 # 4. Sassでできること（基本機能）
 
-ステップ3で作成した `sass/style.scss` を使って、Sassの便利な基本機能を体験していきましょう。
+ステップ3で作成した **`sass/style.scss`** を使って、Sassの便利な基本機能を体験していきましょう。
 
 <aside>
 ⚠️
 
-**注意：`css/style.css` は直接編集しないこと！**
+**注意：`css/style.css` は直接編集しないこと**
 
 Sassを導入した後は、スタイルはすべて `sass/style.scss` に記述します。
 もし `css/style.css` を手作業で編集しても、次に `.scss` を保存した瞬間に上書きされて消えてしまいます。
+
 また、コンパイラが自動で文字コードを管理するため、ファイル冒頭の `@charset "utf-8";` も手動で書く必要はありません。
 
 </aside>
@@ -258,7 +238,7 @@ Sassを導入した後は、スタイルはすべて `sass/style.scss` に記述
 
 ## 4-1. 変数（Variables）
 
-ブランドカラーやフォント指定など、サイト内で繰り返し使う値を**変数（`$変数名: 値;`）**として1箇所で定義できます。
+ブランドカラーやフォント指定など、サイト内で繰り返し使う値を変数**（`$変数名: 値;`）**として1箇所で定義できます。
 
 ```scss
 // 変数の定義
@@ -353,20 +333,20 @@ body img {
 
 ---
 
-## 4-3. 親セレクタの参照（`&`）★BEMとの最強タッグ！
+## 4-3. 親セレクタの参照（`&`）
 
 ネストの中で **アンパサンド（`&`）** を使うと、**「親セレクタの名前をそのまま参照・展開」**することができます。
 
-### ① 擬似クラス（`:hover`, `:before` など）
+**① 擬似クラス（`:hover`, `:before` など）**
 
 ```scss
 .btn {
-  background-color: $color-main;
+  background-color: $color-accent;
   color: #fff;
   transition: 0.3s;
 
   &:hover {
-    background-color: $color-accent;
+    background-color: $color-main;
   }
 }
 ```
@@ -374,78 +354,56 @@ body img {
 ```css
 /* コンパイル後 */
 .btn {
-  background-color: #202124;
+  background-color: #FA6980;
   color: #fff;
   transition: 0.3s;
 }
 
 .btn:hover {
-  background-color: #FA6980;
+  background-color: #202124;
 }
 ```
 
-### ② BEMの命名規則と組み合わせる（最大の武器！）
+**② BEMの命名規則と組み合わせる**
 
 前回のBEMで「Elementは `親Block__element`、Modifierは `親Block--modifier`」と学びました。
-アンパサンド（`&`）を使うと、**親のBlock名を二度と手で打ち直す必要がなくなります！**
+アンパサンド（`&`）を使うと、**親のBlock名を二度と手で打ち直す必要がなくなります。**
 
 ```scss
 /* SCSSでの記述 */
-.post {
-  padding: 20px;
-  background-color: #fff;
+.header {
+  padding: 30px 0 60px;
+  text-align: center;
 
-  // &__category ➔ .post__category に展開される
-  &__category {
-    margin-bottom: 10px;
-    color: $color-accent;
-    font-size: 12px;
-  }
-
-  // &__title ➔ .post__title に展開される
-  &__title {
-    font-size: 18px;
-    font-weight: bold;
-
-    // &--border ➔ .post__title--border に展開される
-    &--border {
-      padding-bottom: 10px;
-      border-bottom: 1px solid #ddd;
-    }
+  &__inner {
+	  max-width: 88%;
+	  width: 800px;
+	  margin-left: auto;
+	  margin-right: auto;
   }
 }
 ```
 
 ```css
 /* コンパイル後の CSS */
-.post {
-  padding: 20px;
-  background-color: #fff;
+.header {
+  padding: 30px 0 60px;
+  text-align: center;
 }
 
-.post__category {
-  margin-bottom: 10px;
-  color: #FA6980;
-  font-size: 12px;
-}
-
-.post__title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.post__title--border {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+.header__inner {
+	max-width: 88%;
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
 }
 ```
 
 <aside>
-🌟
-
-**感動ポイント！**
+💡
 
 生成されるCSSは、詳細度が完全にフラットなシングルクラス（`.post__category`, `.post__title`）です。
+
 SCSS側では綺麗に1つのBlock内にまとまって書けるため、**「可読性の高さ」と「CSS詳細度の低さ」が完璧に両立**します。
 これこそが、現代のWeb制作現場で「BEM × Sass」が最強の組み合わせとして愛されている理由です。
 
@@ -453,7 +411,13 @@ SCSS側では綺麗に1つのBlock内にまとまって書けるため、**「�
 
 ---
 
-## 4-4. 四則演算とデザインカンプ計算（`sass:math`）
+## ⭐️ 練習
+
+ヘッダーとフッターを完成させてみましょう。
+
+---
+
+## 4-4. 四則演算（`sass:math`）
 
 Sassでは、スタイル値の中で加減乗除（`+`, `-`, `*`, `/`）の計算が直接行えます。
 
@@ -465,7 +429,7 @@ Sassでは、スタイル値の中で加減乗除（`+`, `-`, `*`, `/`）の計�
 }
 ```
 
-### ⚠️ 割り算には `@use 'sass:math';` を使う
+**【割り算の設定】**
 
 CSS自身にも `font: 14px/1.5 sans-serif;` や `grid-column: 1 / 3;` のようにスラッシュ（`/`）を使った区切り表現があります。
 そのため、現在のSassでは割り算の記号として `/` を直接使わず、**Sass公式の計算モジュール `math.div()`** を使用するルールになっています。
@@ -474,41 +438,49 @@ CSS自身にも `font: 14px/1.5 sans-serif;` や `grid-column: 1 / 3;` のよう
 
 ```scss
 @use 'sass:math';
+
+.box {
+  width: 100px + 50px;
+  font-size: 16px - 2px;
+  padding: 10px * 2;
+  line-height: math.div(24, 14); // 割り算 ➔ 1.7142857143
+}
 ```
 
 ---
 
-### 🎨【デザインカンプ再現の3大公式チートシート】
+## 4-5. デザインカンプ再現の3大公式チートシート
 
-デザインカンプ（XDやFigma）のプロパティ数値を電卓で計算することなく、**カンプの数値をそのまま放り込める3大公式**です。これだけ覚えておけば実務の計算は困りません！
+デザインカンプ（XDやFigma）のプロパティ数値を電卓で計算することなく、**カンプの数値をそのまま放り込める3大公式**です。これだけ覚えておけば実務の計算は困りません。
 
-#### 公式①：行送り（line-height）の計算
-- **公式：** `math.div(カンプの行送り値, カンプの文字サイズ)`
-- **例：** 文字サイズが `14px`、行送りが `24px` の場合
+**【行間（line-height）の計算】**
 
 ```scss
+/* **公式：** math.div(行送り値, 文字サイズ) */
+
 body {
   font-size: 14px;
   line-height: math.div(24, 14); // ➔ 1.7142857143
 }
 ```
 
-#### 公式②：文字詰め（letter-spacing）の計算
-- **公式：** `#{math.div(カンプの字間値, 1000)}em`
-- **例：** XDの字間（AV）が `50` の場合（※1000で割ってemに換算）
+**【文字間（letter-spacing）の計算】**
 
 ```scss
+/* **公式：** #{math.div(字間値, 1000)}em */
+
 body {
   letter-spacing: #{math.div(50, 1000)}em; // ➔ 0.05em
 }
 ```
-*(※ `#{ }` はインターポレーションと呼び、計算結果と単位 `em` を綺麗に結合するための記述です)*
 
-#### 公式③：横幅のパーセント（width %）の計算
-- **公式：** `percentage(math.div(ターゲット幅, 親の横幅))`
-- **例：** 親の幅が `800px` で、要素の幅が `300px` の場合
+※ `#{ }` はインターポレーションと呼び、計算結果と単位 `em` を綺麗に結合するための記述です。
+
+**【横幅のパーセント（width %）の計算】**
 
 ```scss
+/* **公式：** percentage(math.div(ターゲット幅, 親の横幅)) */
+
 .sidebar {
   width: percentage(math.div(300, 800)); // ➔ 37.5%
 }
@@ -516,11 +488,11 @@ body {
 
 ---
 
-## 4-5. 挿入（Mixin）
+## 4-6. 挿入（Mixin）
 
 サイト全体で何度も登場する「スタイルのセット（まとまり）」を定義し、スタンプのように呼び出して使い回す機能です。
 
-### ① 基本：引数なしの単純な共通化
+**【基本：引数なしの単純な共通化】**
 
 例えば、コンテナ枠の最大幅と中央揃え（`inner`）を共通化してみましょう。
 
@@ -560,9 +532,7 @@ body {
 }
 ```
 
----
-
-### ② 発展：引数（パラメータ）を使った柔軟なカスタマイズ
+**【発展：引数（パラメータ）を使った柔軟なカスタマイズ】**
 
 「基本は最大幅800pxだけど、特定の場所だけ1200pxに広げたい」といった場合、**引数（初期値付き）**を渡すことができます。
 
@@ -604,7 +574,7 @@ body {
 <aside>
 💡
 
-**コラム：引数の順番に注意！「変更頻度が高い値」を先頭に置くコツ**
+**「変更頻度が高い値」を引数の先頭に置くコツ**
 
 引数には初期値（デフォルト値）を設定できますが、**「どの順番で引数を並べるか」** が日々の使いやすさを大きく左右します。
 
@@ -620,16 +590,13 @@ Sassでは引数を前から順番に受け取るため、**1つ目の引数だ�
 もしこれが `@mixin inner($w: 88%, $mw: 800px)` のように逆の順番になっていたらどうでしょうか？
 幅（`$mw`）を変えたいだけなのに、変更しない `$w` まで `@include inner(88%, 1000px);` と毎回書く必要が出てしまいます。
 
-そのため、mixinを自作するときは、**「変更・上書きする可能性が一番高い引数（例：幅や背景色など）を1つ目に持ってくる」** のが実務における設計の鉄則です！
-
-> 💡 **補足：キーワード引数**  
-> Sassでは `@include inner($w: 100%);` のように引数名を直接指定して渡す「キーワード引数」も使えますが、引数の順番を美しく設計しておくことで、普段のコードを最も短くスマートに書くことができます。
+そのため、mixinを自作するときは、**「変更・上書きする可能性が一番高い引数（例：幅や背景色など）を1つ目に持ってくる」** のが実務における設計の鉄則です。
 
 </aside>
 
 ---
 
-## 4-6. コメントの使い分け
+## 4-7. コメントの使い分け
 
 Sassには2種類のコメント構文があります。
 
@@ -643,7 +610,7 @@ Sassには2種類のコメント構文があります。
 
 ---
 
-## 4-7. まとめ：BEM × Sass のコーディング鉄則
+## 4-8. まとめ：BEM × Sass のコーディング鉄則
 
 1. **ページは複数の「Block」の組み合わせで組み立てる。**
 2. **各Blockの内部で、アンパサンド（`&__element`, `&--modifier`）を使ってネスト記述する。**
@@ -652,24 +619,21 @@ Sassには2種類のコメント構文があります。
 5. **よく使うスタイルセット（innerなど）は `@mixin` で共通化する。**
 6. **デザインカンプのプロパティ値は、電卓を叩かず `sass:math` の公式を活用する。**
 
+**【その他のSassの機能】**
+
+[Sass: Sass Basics](https://sass-lang.com/guide/)
+
 ---
 
 # 5. 課題
 
-講義で学んだ「BEM」および「Sass（SCSS）」のルールに則って、課題「05-smartspace-sass」をマークアップしてください。
+「BEM＆Sass」のルールに則って「05-Fitness-sass」をマークアップする。
 
-**【課題データ】**
+[HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=sharing)
 
-[HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=drive_link)
+**【注意点】**
 
-- `05-smartspace-sass.zip`
-
-**【見本】**
-
-- [Top ページ（SmartSpace）](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/05-smartspace-sass/completed/index.html)
-- [About ページ（SmartSpace）](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/05-smartspace-sass/completed/about.html)
-- [完成コード（GitHub）](https://github.com/takagino/tri-education/tree/main/wf1/2nd/markup-advanced/05-smartspace-sass/completed)
-
-**【提出方法】**
-
-自身のGitHubリポジトリにコミット＆プッシュし、同期（提出）してください。
+- よく出てくる色は変数にすること。
+- フォントファミリーが2種類あるので、変数にすること。
+- inner（その他必要なもの）をmixinにすること。
+- 行間やも文字間の計算はSassの機能を使って行うこと。
