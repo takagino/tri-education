@@ -79,18 +79,18 @@ p5.sound では、画面のクリック時などに **`userStartAudio()`** と�
 
 # 3. 音を鳴らす（音声ファイルのロードと再生制御）
 
-まずは、ブラウザ上にボタンを用意し、好きな音楽ファイル（mp3）を読み込んで再生・一時停止する基本構成を作ってみましょう。
+まずは、好きな音楽ファイル（mp3）を読み込み、画面クリックやキーボード操作で再生・一時停止する基本構成を作ってみましょう。
 
 ## 3-1. プロジェクトの準備とディレクトリ構成
 
 本単元の作業フォルダを準備します。
-プロジェクト内に `assets/` フォルダを作成し、BGMとして鳴らしたい音声ファイル（`music.mp3`）を配置してください。
+プロジェクト内に `assets/` フォルダを作成し、BGMとして鳴らしたい音声ファイル（`bgm.mp3`）を配置してください。
 
 ```text
 05_audio_visual/
 ├── index.html
 ├── assets/
-│   └── music.mp3     // 好きな音楽ファイル（テンポがはっきりした曲がおすすめ）
+│   └── bgm.mp3       // 好きな音楽ファイル（テンポがはっきりした曲がおすすめ）
 └── js/
     └── sketch.js
 ```
@@ -105,6 +105,8 @@ p5.sound では、画面のクリック時などに **`userStartAudio()`** と�
 ---
 
 ## 3-2. HTMLの記述（p5.js と p5.sound の読み込み）
+
+前回の単元と同様に、画面いっぱいにキャンバスを描画するため `body` の中身は `<script>` タグのみの最小構成にします。
 
 **`index.html`**
 
@@ -121,48 +123,16 @@ p5.sound では、画面のクリック時などに **`userStartAudio()`** と�
       padding: 0;
       overflow: hidden;
       background-color: #0b0c10;
-      font-family: sans-serif;
-    }
-    #ui-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      z-index: 10;
-      color: #fff;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      background: linear-gradient(135deg, #00ffcc, #0077ff);
-      border: none;
-      border-radius: 8px;
-      color: #0b0c10;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 255, 204, 0.4);
-      transition: transform 0.1s, box-shadow 0.1s;
-    }
-    button:active {
-      transform: scale(0.96);
-    }
-    p {
-      margin: 8px 0 0 0;
-      font-size: 13px;
-      color: #8892b0;
     }
   </style>
-
-  <!-- ① p5.js 本体 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
-  <!-- ② p5.sound アドオンライブラリ -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/addons/p5.sound.min.js"></script>
 </head>
 <body>
-  <div id="ui-container">
-    <button id="play-btn">▶ PLAY MUSIC</button>
-    <p>画面クリックまたはボタンで再生 / 一時停止</p>
-  </div>
+  <!-- ① p5.js ライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"></script>
+  <!-- ② p5.sound アドオンライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5.sound/dist/p5.sound.min.js"></script>
 
+  <!-- ③ p5.js メインスケッチ -->
   <script src="./js/sketch.js"></script>
 </body>
 </html>
@@ -170,29 +140,97 @@ p5.sound では、画面のクリック時などに **`userStartAudio()`** と�
 
 ---
 
-## 3-3. `sketch.js` でのロードと再生制御
+## 3-3. 動作確認（ライブラリ読み込みの確認）
 
-p5.js には、大きな画像や音声ファイルを「描画が始まる前にあらかじめ完全に読み込み終わらせる」ための特別なライフサイクル関数 **`preload()`** が用意されています。
+音声ファイルを読み込む前に、まずは HTML で読み込んだ `p5.js` と `p5.sound` が正常にブラウザに認識されているかを最小限のコードで確認しましょう。
+
+**`js/sketch.js`（最小構成）**
+
+```javascript
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+
+  // ① p5.js のバージョン確認
+  console.log("p5.js version:", p5.prototype.VERSION);
+
+  // ② p5.sound が読み込まれているかチェック
+  if (typeof p5.SoundFile !== 'undefined') {
+    console.log("🟢 p5.sound が正常に読み込まれました！");
+    // Web Audio の状態確認（最初は suspended になるのが正常）
+    console.log("AudioContext state:", getAudioContext().state);
+  } else {
+    console.error("🔴 p5.sound の読み込みに失敗しています。HTMLのscriptタグを確認してください。");
+  }
+}
+
+function draw() {
+  background(11, 12, 16);
+
+  fill(255);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("p5.js & p5.sound 読み込みテスト中", width / 2, height / 2 - 20);
+
+  fill(136, 146, 176);
+  textSize(14);
+  text("ブラウザの開発者ツール（F12 / Option+Cmd+I）のコンソールを確認してください", width / 2, height / 2 + 20);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+<aside>
+💡 **コンソール（Console）の確認方法**
+
+ブラウザ上で右クリック ➔ **「検証（Inspect）」**（または `F12` / Macは `Option + Cmd + I`）を押し、**「Console」** タブを開きます。
+
+```text
+* Tone.js v15.0.2 *
+p5.js version: 2.x.x
+🟢 p5.sound が正常に読み込まれました！
+AudioContext state: suspended
+```
+
+- **「Tone.js v15.x.x」と表示されていれば正常です！**：`p5.sound` は内部のオーディオエンジンとして **Tone.js** を採用しており、読み込み時に自動でこのメッセージを出力します。
+- **`suspended`（一時停止中）**：2-2で解説した「Autoplay Policy（ユーザー操作があるまで音声を止める）」が正しく機能している正常な状態です。
+</aside>
+
+---
+
+## 3-4. 音声ファイルのロードと再生制御
+
+ライブラリの読み込みが確認できたら、次は実際に音声ファイル（`bgm.mp3`）を読み込んで再生・停止を制御してみましょう。
+
+p5.js v2 では、JavaScript標準の非同期処理構文である **`async / await`** を `setup()` 関数で直接使用できます。従来の `preload()` 関数を別途書く必要がなくなり、`async function setup()` の中で `await loadSound('assets/bgm.mp3')` と書くことで、音声ファイルの読み込み完了を待機してから初期設定をスマートに行うことができます。
 
 **`js/sketch.js`**
 
 ```javascript
 let bgm;
-let playBtn;
 
-// ① 描画開始前に音源を完全にプリロードする
-function preload() {
-  soundFormats('mp3', 'ogg', 'wav');
-  bgm = loadSound('assets/music.mp3');
-}
-
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  imageMode(CENTER);
+  angleMode(DEGREES);
   colorMode(HSB, 360, 100, 100, 100);
 
-  // HTMLのボタン要素を取得してクリックイベントを登録
-  playBtn = select('#play-btn');
-  playBtn.mousePressed(togglePlay);
+  // ① 音声ファイルの非同期読み込み（完了を待機）
+  bgm = await loadSound('assets/bgm.mp3');
+}
+
+// 画面クリックで再生 / 一時停止
+function mousePressed() {
+  togglePlay();
+}
+
+// スペースキーでも再生 / 一時停止
+function keyPressed() {
+  if (key === ' ') {
+    togglePlay();
+  }
 }
 
 // 再生と一時停止を切り替える関数
@@ -200,12 +238,13 @@ function togglePlay() {
   // ブラウザのAutoplay制約を安全に解除
   userStartAudio();
 
+  // 音声ファイルの読み込みが完了していない場合は何もしない
+  if (!bgm) return;
+
   if (bgm.isPlaying()) {
     bgm.pause();
-    playBtn.html('▶ PLAY MUSIC');
   } else {
     bgm.loop(); // ループ再生
-    playBtn.html('❚❚ PAUSE');
   }
 }
 
@@ -216,10 +255,12 @@ function draw() {
   textAlign(CENTER, CENTER);
   textSize(24);
 
-  if (bgm.isPlaying()) {
-    text("🎵 音楽を再生中...", width / 2, height / 2);
+  if (!bgm) {
+    text("⏳ 音声ファイルを読み込み中...", width / 2, height / 2);
+  } else if (bgm.isPlaying()) {
+    text("🎵 音楽を再生中...（クリックまたは[Space]で一時停止）", width / 2, height / 2);
   } else {
-    text("ボタンを押して音楽を再生してください", width / 2, height / 2);
+    text("▶ 画面クリック または [Space] キーで音楽を再生", width / 2, height / 2);
   }
 }
 
@@ -236,7 +277,7 @@ function windowResized() {
 必ず VS Code の **Live Server 拡張機能** などを使い、`http://127.0.0.1:5500/...` のローカルサーバー環境でブラウザを開いてください。
 </aside>
 
-ボタンをクリックして、音楽がスムーズにループ再生・一時停止されることを確認してください。
+画面をクリックするか、スペースキーを押して、音楽がスムーズにループ再生・一時停止されることを確認してください。
 
 ---
 
@@ -245,17 +286,12 @@ function windowResized() {
 音が鳴ったら、次は **「音のデータをリアルタイムに数値として取り出す」** ステップに進みます。
 音を解析するアプローチには大きく分けて2つあります。
 
-```mermaid
-flowchart TD
-    A["楽曲・音声信号"] --> B["① 音量解析 (p5.Amplitude)"]
-    A --> C["② 周波数解析 (p5.FFT)"]
-    
-    B --> B1["全体の音の大きさ (0.0 〜 1.0)<br>全体の脈動・明度変化に向いている"]
-    
-    C --> C1["低音 Bass (0〜255)<br>キック・ベース（迫力・衝撃波）"]
-    C --> C2["中音 Mid (0〜255)<br>ボーカル・シンセ（波形・形状変化）"]
-    C --> C3["高音 Treble (0〜255)<br>ハイハット・シンバル（スパーク・光の粒）"]
-```
+| 解析アプローチ | 使用クラス | 取得データ・数値範囲 | 主な対象（楽器・音） | 向いている演出・視覚効果 |
+|---|---|---|---|---|
+| **① 音量解析** | `p5.Amplitude` | 全体の音の大きさ (`0.0 〜 1.0`) | 楽曲全体のボリューム | 全体の脈動、明度変化、スケール変化 |
+| **② 周波数解析** | `p5.FFT` | **低音 Bass** (`0 〜 255`) | キック、ベース | 迫力・衝撃波（画面の拡大・脈動） |
+| **② 周波数解析** | `p5.FFT` | **中音 Mid** (`0 〜 255`) | ボーカル、シンセ | 形状変化・うねり（波打ち・変形） |
+| **② 周波数解析** | `p5.FFT` | **高音 Treble** (`0 〜 255`) | ハイハット、シンバル | スパーク・光の粒（火花・きらめき） |
 
 ---
 
@@ -329,32 +365,41 @@ fft = new p5.FFT(smoothing, bins);
 ```javascript
 let bgm;
 let fft;
-let playBtn;
 
-function preload() {
-  soundFormats('mp3', 'ogg', 'wav');
-  bgm = loadSound('assets/music.mp3');
-}
-
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  imageMode(CENTER);
+  angleMode(DEGREES);
   colorMode(HSB, 360, 100, 100, 100);
 
-  playBtn = select('#play-btn');
-  playBtn.mousePressed(togglePlay);
+  // 音声ファイルの非同期読み込み
+  bgm = await loadSound('assets/bgm.mp3');
 
   // FFT解析の初期化（平滑化0.8、64バンド）
   fft = new p5.FFT(0.8, 64);
 }
 
+// 画面クリックで再生 / 一時停止
+function mousePressed() {
+  togglePlay();
+}
+
+// スペースキーでも再生 / 一時停止
+function keyPressed() {
+  if (key === ' ') {
+    togglePlay();
+  }
+}
+
 function togglePlay() {
   userStartAudio();
+  if (!bgm) return;
+
   if (bgm.isPlaying()) {
     bgm.pause();
-    playBtn.html('▶ PLAY MUSIC');
   } else {
     bgm.loop();
-    playBtn.html('❚❚ PAUSE');
   }
 }
 
@@ -362,11 +407,19 @@ function draw() {
   // 残像エフェクト（暗い背景）
   background(220, 30, 10, 25);
 
+  if (!bgm) {
+    fill(0, 0, 80);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("⏳ 音声ファイルを読み込み中...", width / 2, height / 2);
+    return;
+  }
+
   if (!bgm.isPlaying()) {
     fill(0, 0, 80);
     textAlign(CENTER, CENTER);
     textSize(20);
-    text("上のボタンを押して音楽を再生してください", width / 2, height / 2);
+    text("画面クリック または [Space] キーで音楽を再生してください", width / 2, height / 2);
     return;
   }
 
@@ -479,22 +532,12 @@ function touchStarted() {
 - 描画する部品を独立したクラス（`Orb.js`, `Ripple.js`, `WaveLine.js`）として切り分け、
 - それぞれ **「外部から数値（`update(val)`）を受け取って動くだけ」** という設計にしました。
 
-```mermaid
-flowchart LR
-    subgraph 前回：単元4
-        S1["Arduino 距離センサー"] -->|sensorValue: 0.0〜1.0| H1["ハブ (sketch.js)"]
-        H1 -->|sensorValue| O1["Orb.js (発光球)"]
-        H1 -->|sensorValue| R1["Ripple.js (波紋)"]
-        H1 -->|sensorValue| W1["WaveLine.js (波線)"]
-    end
-
-    subgraph 今回：単元5
-        M1["音楽 (p5.FFT)"] -->|Bass / Mid / Treble| H2["ハブ (sketch.js)"]
-        H2 -->|normBass (低音)| O1
-        H2 -->|normTreble (高音)| R1
-        H2 -->|normMid (中音)| W1
-    end
-```
+| 対象部品（クラス） | 前回（単元4）：センサー連動 | 今回（単元5）：音響連動（VJ） |
+|---|---|---|
+| **ハブ (`sketch.js`) への入力** | Arduino 距離センサー値 (`0.0 〜 1.0`) | 音楽の周波数解析（`p5.FFT`） |
+| **`Orb.js` (発光球)** | `sensorValue`（手の距離で鼓動） | **`normBass`（低音）**：キック音でドクンと鼓動 |
+| **`Ripple.js` (波紋)** | `sensorValue`（手の距離で波紋拡大） | **`normTreble`（高音）**：ハイハット音でパッと弾ける |
+| **`WaveLine.js` (波線)** | `sensorValue`（手の距離で波立ち） | **`normMid`（中音）**：ボーカル・シンセで波打つ |
 
 前回のクラスのコード（`Orb.js`, `Ripple.js`, `WaveLine.js`）は、**なんと1行も書き換える必要がありません！**
 ハブである `sketch.js` の中で、**「渡す数値をセンサー値から、FFTで解析した音のエネルギー（0.0〜1.0）へ差し替えるだけ」** で、前回のジェネラティブアートが瞬時に超絶クオリティのVJアートへと生まれ変わります。
@@ -509,7 +552,7 @@ flowchart LR
 05_audio_visual/
 ├── index.html
 ├── assets/
-│   └── music.mp3
+│   └── bgm.mp3
 └── js/
     ├── sketch.js
     └── templates/
@@ -521,6 +564,11 @@ flowchart LR
 **`index.html`** に前回のクラスファイルを読み込ませます：
 
 ```html
+  <!-- ① p5.js ライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"></script>
+  <!-- ② p5.sound アドオンライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5.sound/dist/p5.sound.min.js"></script>
+
   <!-- クラス部品テンプレートの読み込み -->
   <script src="./js/templates/Orb.js"></script>
   <script src="./js/templates/Ripple.js"></script>
@@ -560,7 +608,6 @@ for (let orb of orbs) {
 ```javascript
 let bgm;
 let fft;
-let playBtn;
 
 // クラスのインスタンス配列
 let orbs = [];
@@ -572,12 +619,7 @@ let smoothBass = 0;
 let smoothMid = 0;
 let smoothTreble = 0;
 
-function preload() {
-  soundFormats('mp3', 'ogg', 'wav');
-  bgm = loadSound('assets/music.mp3');
-}
-
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   imageMode(CENTER);
@@ -585,8 +627,8 @@ function setup() {
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
-  playBtn = select('#play-btn');
-  playBtn.mousePressed(togglePlay);
+  // 音声ファイルの非同期読み込み
+  bgm = await loadSound('assets/bgm.mp3');
 
   fft = new p5.FFT(0.8, 64);
 
@@ -611,14 +653,26 @@ function setup() {
   }
 }
 
+// 画面クリックで再生 / 一時停止
+function mousePressed() {
+  togglePlay();
+}
+
+// スペースキーでも再生 / 一時停止
+function keyPressed() {
+  if (key === ' ') {
+    togglePlay();
+  }
+}
+
 function togglePlay() {
   userStartAudio();
+  if (!bgm) return;
+
   if (bgm.isPlaying()) {
     bgm.pause();
-    playBtn.html('▶ PLAY MUSIC');
   } else {
     bgm.loop();
-    playBtn.html('❚❚ PAUSE');
   }
 }
 
@@ -626,11 +680,19 @@ function draw() {
   // 残像エフェクト
   background(220, 30, 8, 20);
 
+  if (!bgm) {
+    fill(0, 0, 80);
+    textAlign(CENTER, CENTER);
+    textSize(22);
+    text("⏳ 音声ファイルを読み込み中...", width / 2, height / 2);
+    return;
+  }
+
   if (!bgm.isPlaying()) {
     fill(0, 0, 80);
     textAlign(CENTER, CENTER);
     textSize(22);
-    text("上のボタンを押して VJ をスタート！", width / 2, height / 2);
+    text("画面クリック または [Space] キーで VJ をスタート！", width / 2, height / 2);
     return;
   }
 
@@ -693,15 +755,11 @@ function windowResized() {
 
 このように、**「音楽（時間軸のルール）」** と **「フィジカル（空間軸の人間操作）」** が融合したとき、画面を見ている人には **「まるで自分が魔法の手で音楽と映像を直接操っている」** かのような強烈な手応え（マルチモーダル体験）が生まれます。
 
-```mermaid
-flowchart TD
-    Sound["🎵 音楽 (p5.FFT)"] -->|"リズム・帯域エネルギー (Bass/Mid/Treble)"| Hub["司令塔 (sketch.js)"]
-    Sensor["✋ Arduino 距離センサー"] -->|"空間・手の距離 (normVal)"| Hub
-    
-    Hub -->|"Bass × 手の距離"| Orb["Orb (低音で跳ね、手で色が変わる)"]
-    Hub -->|"Treble × 手の距離"| Ripple["Ripple (高音で弾け、手で拡大)"]
-    Hub -->|"Mid × 手の距離"| Wave["WaveLine (中音で波打ち、手で歪む)"]
-```
+| 入力ソース | 取得データ | 渡されるクラス | マルチモーダル演出効果 |
+|---|---|---|---|
+| **🎵 音楽 (`p5.FFT`)**<br>×<br>**✋ Arduino 距離センサー** | 低音（Bass）<br>×<br>手の距離 (`sensorValue`) | **`Orb`**<br>(発光球) | **低音でドクンと跳ね、手を近づけると色相が劇変・激しく鼓動** |
+| **🎵 音楽 (`p5.FFT`)**<br>×<br>**✋ Arduino 距離センサー** | 中音（Mid）<br>×<br>手の距離 (`sensorValue`) | **`WaveLine`**<br>(波打つライン) | **メロディで波打ち、手を近づけると振幅とうねりが空間ごと歪む** |
+| **🎵 音楽 (`p5.FFT`)**<br>×<br>**✋ Arduino 距離センサー** | 高音（Treble）<br>×<br>手の距離 (`sensorValue`) | **`Ripple`**<br>(波紋) | **シンバルで弾け、手を近づけると波紋の広がりと残像がブースト** |
 
 ---
 
@@ -713,7 +771,7 @@ flowchart TD
 05_audio_visual/
 ├── index.html
 ├── assets/
-│   └── music.mp3
+│   └── bgm.mp3
 └── js/
     ├── sensor.js     // ★ 単元4の通信モジュール！
     ├── sketch.js     // ★ 統合ハブ
@@ -723,9 +781,14 @@ flowchart TD
         └── WaveLine.js
 ```
 
-**`index.html`** の `<head>` に `sensor.js` を追加します：
+**`index.html`** にスクリプトタグを追加します：
 
 ```html
+  <!-- ① p5.js ライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"></script>
+  <!-- ② p5.sound アドオンライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5.sound/dist/p5.sound.min.js"></script>
+
   <!-- シリアル通信モジュール -->
   <script src="./js/sensor.js"></script>
 
@@ -762,7 +825,6 @@ let sensorValue  = 0.0; // 0.0 (遠い) 〜 1.0 (近い)
 // サウンド & FFT
 let bgm;
 let fft;
-let playBtn;
 
 let smoothBass   = 0;
 let smoothMid    = 0;
@@ -773,12 +835,7 @@ let orbs = [];
 let ripples = [];
 let waveLines = [];
 
-function preload() {
-  soundFormats('mp3', 'ogg', 'wav');
-  bgm = loadSound('assets/music.mp3');
-}
-
-function setup() {
+async function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CENTER);
   imageMode(CENTER);
@@ -786,8 +843,8 @@ function setup() {
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
-  playBtn = select('#play-btn');
-  playBtn.mousePressed(togglePlay);
+  // 音声ファイルの非同期読み込み
+  bgm = await loadSound('assets/bgm.mp3');
 
   fft = new p5.FFT(0.8, 64);
 
@@ -804,14 +861,19 @@ function setup() {
   }
 }
 
+// 画面クリックで音楽の再生/一時停止
+function mousePressed() {
+  togglePlay();
+}
+
 function togglePlay() {
   userStartAudio();
+  if (!bgm) return;
+
   if (bgm.isPlaying()) {
     bgm.pause();
-    playBtn.html('▶ PLAY MUSIC');
   } else {
     bgm.loop();
-    playBtn.html('❚❚ PAUSE');
   }
 }
 
@@ -829,7 +891,7 @@ function draw() {
   }
 
   // ② 音響解析（FFT）処理
-  if (bgm.isPlaying()) {
+  if (bgm && bgm.isPlaying()) {
     fft.analyze();
     let rawBass   = fft.getEnergy("bass");
     let rawMid    = fft.getEnergy("mid");
@@ -878,18 +940,23 @@ function drawStatusUI() {
     ? `🟢 Arduino 接続中 (raw: ${Sensor.raw} ➔ val: ${sensorValue.toFixed(2)})`
     : `⚪ [C] キーを押して Arduino を接続`;
 
-  let audioText = bgm.isPlaying()
+  let audioText = (bgm && bgm.isPlaying())
     ? `🎵 音楽再生中 (Bass: ${(smoothBass*100).toFixed(0)}% / Treble: ${(smoothTreble*100).toFixed(0)}%)`
-    : `❚❚ 音楽停止中`;
+    : `❚❚ 音楽停止中（クリックまたは[Space]で再生）`;
 
   text(`${serialText}  |  ${audioText}`, 20, height - 20);
   pop();
 }
 
-// キーボードの [C] キーで Arduino 接続
+// キーボード操作
 function keyPressed() {
+  // [C] キーで Arduino 接続
   if ((key === 'c' || key === 'C') && !Sensor.isConnected) {
     Sensor.connect();
+  }
+  // [Space] キーで音楽の再生/一時停止
+  if (key === ' ') {
+    togglePlay();
   }
 }
 
@@ -899,7 +966,7 @@ function windowResized() {
 ```
 
 ### 体験してみよう！
-1. ブラウザをリロードし、**「▶ PLAY MUSIC」** ボタンを押して音楽を再生します。
+1. ブラウザをリロードし、**画面をクリック（または `[Space]` キー）** して音楽を再生します。
    （音がリズムに合わせて心地よく画面を揺らします）
 2. キーボードの **`[C]` キー** を押し、Arduino Nano R4 のシリアルポートを選択して接続します。
 3. センサーの前に手をかざしてみましょう。
