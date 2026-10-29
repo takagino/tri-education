@@ -29,14 +29,16 @@ Web Audioの強力な拡張ライブラリ **「p5.sound」** を導入し、音
 さらに、前回学んだ **「ハブ（`sketch.js`）と部品（クラス）の疎結合設計」** の真価を発揮させます。前回作ったクラス（`Orb.js`, `Ripple.js`, `WaveLine.js`）のコードを壊すことなくそのまま流用し、**「音 × 映像 × センサー」が三位一体となった本格的なインタラクティブ・オーディオビジュアル（VJシステム）** を構築します。
 
 - **Web Audio APIの仕組みとブラウザの安全ルール「Autoplay Policy（自動再生の禁止）」**
-- **p5.soundの導入とオーディオファイル（mp3/wav）のロード・再生・ループ制御**
+- **オシレーター（`p5.Oscillator`）による周波数（Hz）の発音と、キーボード楽器の作成**
+- **音階のイメージ（色相・スピード・サイズ）を引数で受け取り、弾けて消える円のクラス設計（`NoteCircle`）**
+- **p5.soundによるオーディオファイル（mp3/wav）のロード・再生・ループ制御**
 - **音の大きさ（音量）をリアルタイムに測る「`p5.Amplitude`」**
 - **音を解剖する魔法の数理「高速フーリエ変換（`p5.FFT`）」と周波数帯域（低音 Bass / 中音 Mid / 高音 Treble）**
 - **マイク入力（`p5.AudioIn`）への切り替えと、声や拍手でのインタラクション**
 - **「クラス設計」の真価：前回の `Orb`, `Ripple`, `WaveLine` を1行も書き換えずに音でドライブする流用術**
 - **音響エネルギーを美しく整えるデータパイプライン（`getEnergy` ➔ `map` ➔ `lerp`）**
 - **「音（リズム・ビート）」×「センサー（手の接近・明暗）」が掛け合わさるマルチモーダル演出の構築**
-- **生成AIを活用して、音楽の帯域に激しく反応するオリジナルVJクラスを量産する**
+- **生成AIを活用して、音や音楽の帯域に反応するオリジナルクラスを改造・量産する**
 
 ---
 
@@ -73,40 +75,25 @@ Webで音を扱う際、**全Webエンジニアが必ず直面する最も重要
 このロックを解除せずに音を再生しようとすると、コンソールに以下のような警告が出ます：
 `The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page.`
 
-p5.sound では、画面のクリック時などに **`userStartAudio()`** という関数を呼ぶか、クリックイベントの中で `.play()` を実行することで、この制約を安全にクリアできます。
+p5.sound では、画面のクリック時やキー操作時などに **`userStartAudio()`** という関数を呼ぶことで、この制約を安全にクリアできます。
 
 ---
 
-# 3. 音を鳴らす（音声ファイルのロードと再生制御）
+# 3. プログラムで音を作って鳴らす（周波数とオーディオビジュアル楽器）
 
-まずは、好きな音楽ファイル（mp3）を読み込み、画面クリックやキーボード操作で再生・一時停止する基本構成を作ってみましょう。
+音楽ファイル（mp3）を読み込む前に、まずは **プログラム自身の力で「音の波（周波数）」を生成して鳴らす** 体験から始めましょう！
+音の高さ（周波数 Hz）の仕組みを体感し、キーボードを叩くと音と光が弾ける「オーディオビジュアル楽器」を作ります。
 
-## 3-1. プロジェクトの準備とディレクトリ構成
+## 3-1. HTMLの記述と動作確認（p5.js と p5.sound の読み込み）
 
-本単元の作業フォルダを準備します。
-プロジェクト内に `assets/` フォルダを作成し、BGMとして鳴らしたい音声ファイル（`bgm.mp3`）を配置してください。
+本単元の作業フォルダを作成し、まずは最小構成の `index.html` と `js/sketch.js` を準備します。
 
 ```text
 05_audio_visual/
 ├── index.html
-├── assets/
-│   └── bgm.mp3       // 好きな音楽ファイル（テンポがはっきりした曲がおすすめ）
 └── js/
     └── sketch.js
 ```
-
-<aside>
-💡 **音源について**
-
-テンポ感があり、ドラムのキック（低音）やハイハット（高音）がはっきりしている楽曲（EDM、HipHop、エレクトロニック、クラブミュージック等）を選ぶと、後の周波数解析（FFT）でビジュアルが気持ちよく跳ねます。
-著作権フリーのBGMサイト（DOVA-SYNDROME、甘茶の音楽工房、OtoLogic等）からダウンロードしたmp3でOKです。
-</aside>
-
----
-
-## 3-2. HTMLの記述（p5.js と p5.sound の読み込み）
-
-前回の単元と同様に、画面いっぱいにキャンバスを描画するため `body` の中身は `<script>` タグのみの最小構成にします。
 
 **`index.html`**
 
@@ -138,13 +125,9 @@ p5.sound では、画面のクリック時などに **`userStartAudio()`** と�
 </html>
 ```
 
----
+HTMLで読み込んだ `p5.js` と `p5.sound` が正常にブラウザに認識されているかを、最小限のコードで確認しましょう。
 
-## 3-3. 動作確認（ライブラリ読み込みの確認）
-
-音声ファイルを読み込む前に、まずは HTML で読み込んだ `p5.js` と `p5.sound` が正常にブラウザに認識されているかを最小限のコードで確認しましょう。
-
-**`js/sketch.js`（最小構成）**
+**`js/sketch.js`（読み込み確認）**
 
 ```javascript
 function setup() {
@@ -154,7 +137,7 @@ function setup() {
   console.log("p5.js version:", p5.prototype.VERSION);
 
   // ② p5.sound が読み込まれているかチェック
-  if (typeof p5.SoundFile !== 'undefined') {
+  if (typeof p5.Oscillator !== 'undefined') {
     console.log("🟢 p5.sound が正常に読み込まれました！");
     // Web Audio の状態確認（最初は suspended になるのが正常）
     console.log("AudioContext state:", getAudioContext().state);
@@ -199,9 +182,516 @@ AudioContext state: suspended
 
 ---
 
-## 3-4. 音声ファイルのロードと再生制御
+## 3-2. 周波数（Hz）を指定して音を鳴らす（`p5.Oscillator`）
 
-ライブラリの読み込みが確認できたら、次は実際に音声ファイル（`bgm.mp3`）を読み込んで再生・停止を制御してみましょう。
+音の正体は **「空気の振動（波）」** です。
+1秒間に何回振動するかを **「周波数（単位：Hz / ヘルツ）」** と呼び、この数値が小さいほど「低い音」、大きいほど「高い音」になります。
+
+`p5.sound` の **`p5.Oscillator`（オシレーター / 発振器）** を使うと、プログラムで好きな周波数の音波を生成して鳴らすことができます。
+
+| 波形の種類（引数） | 音色の特徴 |
+|---|---|
+| **`'sine'`**（サイン波・正弦波） | 最も純粋で丸みのある柔らかい音（時報やフルートのような音） |
+| **`'triangle'`**（三角波） | サイン波に近いが、少しだけ倍音を含んだ 따뜻한（あたたかい）音 |
+| **`'sawtooth'`**（ノコギリ波） | 倍音を豊富に含む、華やかでエッジの効いたシンセサイザーらしい音 |
+| **`'square'`**（矩形波） | ファミコン（8bitゲーム）のBGMのようなレトロなデジタル音 |
+
+まずは画面を押している間だけ音が鳴り、マウスの左右の位置で周波数（音の高さ）が変化するスケッチを書いてみましょう。
+
+**`js/sketch.js`**
+
+```javascript
+let osc;
+let isPlaying = false;
+let currentFreq = 440; // 初期周波数：440Hz（ラ / A4の音）
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100);
+
+  // ① サイン波（'sine'）のオシレーターを生成
+  osc = new p5.Oscillator('sine');
+  osc.amp(0); // 最初は音量を 0（無音）にしておく
+}
+
+function mousePressed() {
+  // ② ブラウザのAutoplay制限を解除して発音スタート
+  userStartAudio();
+  osc.start();
+  osc.amp(0.3, 0.05); // 0.05秒かけて音量0.3へ滑らかに上げる（プチッというノイズ防止）
+  isPlaying = true;
+}
+
+function mouseReleased() {
+  // ③ マウスを離したら0.1秒かけて音量を0にする
+  osc.amp(0, 0.1);
+  isPlaying = false;
+}
+
+function draw() {
+  background(220, 30, 10);
+
+  if (isPlaying) {
+    // マウスのX座標を 200Hz（低い音）〜 800Hz（高い音）にマッピング
+    currentFreq = map(mouseX, 0, width, 200, 800);
+    osc.freq(currentFreq);
+
+    // 周波数に合わせて円のサイズと色を変化させる
+    let hueVal = map(currentFreq, 200, 800, 0, 300);
+    let circleSize = map(currentFreq, 200, 800, 300, 80); // 低い音ほど大きく、高い音ほど小さく
+    fill(hueVal, 80, 100, 80);
+    noStroke();
+    circle(mouseX, height / 2, circleSize);
+  }
+
+  // 画面テキスト表示
+  fill(0, 0, 100);
+  textAlign(CENTER, CENTER);
+  textSize(24);
+  if (isPlaying) {
+    text(`🔊 周波数: ${ currentFreq.toFixed(1) } Hz（マウスを左右に動かしてみよう）`, width / 2, height / 2 - 180);
+  } else {
+    text("🖱️ 画面をマウスで長押しすると音が鳴ります", width / 2, height / 2);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+マウスを押しながら左右に動かしてみてください。
+**「周波数（Hz）の数値が小さい＝低い音」「数値が大きい＝高い音」** という関係が直感的にわかります。この感覚が、後半で学ぶ **「周波数解析（FFT）」** の重要な基礎になります！
+
+---
+
+## 3-3. ドレミファソラシドをキーボードに割り当てて鳴らす
+
+周波数の仕組みがわかったら、次はパソコンのキーボード（`A` `S` `D` `F` `G` `H` `J` `K` キー）に **「ド・レ・ミ・ファ・ソ・ラ・シ・ド」** の周波数を割り当てて、ピアノのように演奏できるようにしてみましょう。
+
+### 音階と周波数（Hz）の対応表
+
+| キー | 音名（日本） | 音名（英語） | 周波数（Hz） | 特徴 |
+|---|---|---|---|---|
+| **`A`** | ド | C4 | `261.63` | 基準となる安定した低めの音 |
+| **`S`** | レ | D4 | `293.66` | 少し浮かび上がる音 |
+| **`D`** | ミ | E4 | `329.63` | 明るく華やかな響き |
+| **`F`** | ファ | F4 | `349.23` | 少し落ち着いた広がりのある音 |
+| **`G`** | ソ | G4 | `392.00` | 力強く澄んだ響き |
+| **`H`** | ラ | A4 | `440.00` | オーケストラのチューニング基準音（時報の音） |
+| **`J`** | シ | B4 | `493.88` | 高いドへ向かう緊張感のある音 |
+| **`K`** | ド（高） | C5 | `523.25` | 低いド（261.63Hz）の**ちょうど2倍**の周波数！ |
+
+<aside>
+💡 **豆知識：1オクターブ上がると周波数は「2倍」になる**
+
+低い「ド（C4）」の周波数 `261.63Hz` と、1オクターブ高い「ド（C5）」の周波数 `523.25Hz` を比べると、**ちょうど2倍** になっていることがわかります。音楽と数学（物理）はこのように密接に繋がっています。
+</aside>
+
+キーボードを押したときに「ポーン」と心地よく鳴って自然に消える（減衰する）音にするため、ここでは周波数を一時的に鳴らして自動でフェードアウトさせられる **`js/sketch.js`** を作成します。
+
+**`js/sketch.js`**
+
+```javascript
+let osc;
+let currentNoteName = "";
+let currentFreq = 0;
+
+// キーボードのキーと音階データの対応辞書（オブジェクト）
+const NOTE_MAP = {
+  'a': { name: 'ド (C4)', freq: 261.63 },
+  's': { name: 'レ (D4)', freq: 293.66 },
+  'd': { name: 'ミ (E4)', freq: 329.63 },
+  'f': { name: 'ファ (F4)', freq: 349.23 },
+  'g': { name: 'ソ (G4)', freq: 392.00 },
+  'h': { name: 'ラ (A4)', freq: 440.00 },
+  'j': { name: 'シ (B4)', freq: 493.88 },
+  'k': { name: 'ド (C5)', freq: 523.25 }
+};
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100);
+
+  // 三角波（'triangle'）で少し温かみのあるシンセ音にする
+  osc = new p5.Oscillator('triangle');
+  osc.amp(0);
+}
+
+function keyPressed() {
+  // 押されたキーを小文字に変換して辞書にあるかチェック
+  let k = key.toLowerCase();
+  if (NOTE_MAP[k]) {
+    userStartAudio();
+
+    let note = NOTE_MAP[k];
+    currentNoteName = note.name;
+    currentFreq = note.freq;
+
+    // 周波数を設定して発音し、すっと音量を上げてから自然に減衰させる
+    osc.start();
+    osc.freq(note.freq);
+    osc.amp(0.4, 0.02); // 0.02秒で音量0.4に立ち上げる（アタック）
+    osc.amp(0.0, 0.4);  // その後0.4秒かけて音量0へ減衰させる（リリース）
+  }
+}
+
+function draw() {
+  background(220, 30, 10);
+
+  fill(0, 0, 100);
+  textAlign(CENTER, CENTER);
+  textSize(22);
+  text("🎹 キーボードの [A][S][D][F][G][H][J][K] キーを押して演奏してみよう！", width / 2, height / 2 - 40);
+
+  if (currentNoteName !== "") {
+    fill(180, 80, 100);
+    textSize(36);
+    text(`♪ ${currentNoteName} : ${currentFreq} Hz`, width / 2, height / 2 + 30);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+ブラウザをクリックしてから、キーボードの `A` `S` `D` `F` `G` `H` `J` `K` を順番に叩いてみてください！
+綺麗な「ドレミファソラシド」が鳴り響けば成功です。
+
+---
+
+## 3-4. 画面中央からランダムに動き、徐々に消えていく円のクラスを作る
+
+音が鳴るようになったら、次は **「音が鳴った瞬間にビジュアルが弾ける」** 仕組みを作ります。
+まずは、**「画面中央からランダムな方向へ飛び出し、徐々に透明になって消えていく円のクラス（`NoteCircle`）」** を設計しましょう。
+
+単元4で学んだ通り、`js/templates/` フォルダを作ってクラスを別ファイル（`NoteCircle.js`）として切り出します。
+
+```text
+05_audio_visual/
+├── index.html
+└── js/
+    ├── sketch.js
+    └── templates/
+        └── NoteCircle.js   // ★ 音に合わせて飛び出す円のクラス
+```
+
+### STEP 1：まずは引数なしで動く基本の `NoteCircle.js` を作る
+
+画面中央（`width / 2, height / 2`）で生まれ、ランダムな角度（`0〜360度`）に向かって進みながら、透明度（`alpha`）が `100` から `0` へと減っていくクラスです。
+
+**`js/templates/NoteCircle.js`（基本版）**
+
+```javascript
+class NoteCircle {
+  constructor() {
+    // 画面中央からスタート
+    this.x = width / 2;
+    this.y = height / 2;
+
+    // 飛び出す角度（0〜360度）をランダムに決める
+    let angle = random(360);
+    let speed = 5; // 移動スピード
+
+    // 角度とスピードから、X方向・Y方向の移動量（速度ベクトル）を計算
+    this.vx = cos(angle) * speed;
+    this.vy = sin(angle) * speed;
+
+    this.size = 60;     // 円のサイズ
+    this.hue = 180;     // 色相（0〜360）
+    this.alpha = 100;   // 透明度（100で出現し、0になると消える）
+    this.fadeSpeed = 1.5; // 消えていく速さ
+  }
+
+  // 毎フレームの座標移動とフェードアウト更新
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.alpha -= this.fadeSpeed; // 徐々に透明にする
+  }
+
+  // 描画処理
+  render() {
+    push();
+    translate(this.x, this.y);
+    noStroke();
+    fill(this.hue, 80, 100, this.alpha);
+    circle(0, 0, this.size);
+    pop();
+  }
+
+  // 寿命が尽きた（完全に透明になった）かどうかを判定するメソッド
+  isDead() {
+    return this.alpha <= 0;
+  }
+}
+```
+
+**`index.html`** に `NoteCircle.js` の読み込みを追加します（`sketch.js` の前に記述します）：
+
+```html
+  <!-- ① p5.js ライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5@2/lib/p5.min.js"></script>
+  <!-- ② p5.sound アドオンライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/p5.sound/dist/p5.sound.min.js"></script>
+
+  <!-- クラス部品の読み込み -->
+  <script src="./js/templates/NoteCircle.js"></script>
+
+  <!-- ③ p5.js メインスケッチ -->
+  <script src="./js/sketch.js"></script>
+```
+
+---
+
+## 3-5. キーボードに割り当て、それぞれの音階をイメージした色・スピードなどを引数で渡す
+
+今のままでは、どのキー（ド〜高いド）を押してもすべて同じ色（水色）・同じスピード・同じサイズの円しか出ません。
+そこで、`NoteCircle` の **`constructor(hue, speed, size)` に引数を渡せるように進化** させ、音階ごとのイメージをビジュアルに反映させましょう！
+
+### 音階ごとのビジュアルイメージ設計
+
+| キー | 音階 | 音のイメージ | 色相 (`hue`) | スピード (`speed`) | サイズ (`size`) |
+|---|---|---|---|---|---|
+| **`A`** | ド (C4) | どっしり重い基底の音 | `0`（赤） | `2.5`（ゆっくり） | `110`（特大） |
+| **`S`** | レ (D4) | 温かく動き出す音 | `35`（オレンジ） | `3.5` | `95` |
+| **`D`** | ミ (E4) | 明るく輝く音 | `60`（黄色） | `4.5` | `85` |
+| **`F`** | ファ (F4) | 穏やかで爽やかな音 | `130`（緑） | `5.5` | `75` |
+| **`G`** | ソ (G4) | 澄み渡る空のような音 | `190`（シアン） | `6.5` | `65` |
+| **`H`** | ラ (A4) | 凛としたクールな音 | `230`（青） | `7.5` | `55` |
+| **`J`** | シ (B4) | 鋭く神秘的な音 | `280`（紫） | `9.0` | `45` |
+| **`K`** | ド (C5) | 軽やかに弾ける高い音 | `330`（マゼンタ） | `11.0`（高速！） | `35`（小粒） |
+
+### STEP 2：引数を受け取るように `NoteCircle.js` をアップデート
+
+**`js/templates/NoteCircle.js`（引数対応版）**
+
+```javascript
+class NoteCircle {
+  // ★ 引数で「色相(hue)」「速さ(speed)」「大きさ(size)」を受け取る！
+  constructor(hue, speed, size) {
+    this.x = width / 2;
+    this.y = height / 2;
+
+    // 360度ランダムな方向へ飛び出す（少しだけスピードに個体差をつける）
+    let angle = random(360);
+    let actualSpeed = speed * random(0.8, 1.2);
+    this.vx = cos(angle) * actualSpeed;
+    this.vy = sin(angle) * actualSpeed;
+
+    this.hue = hue;
+    this.size = size * random(0.85, 1.15);
+    this.alpha = 100;
+    this.fadeSpeed = random(1.2, 2.0);
+  }
+
+  update() {
+    this.x += this.vx;
+    this.y += this.vy;
+    // だんだんサイズも少し広がりながら消えていく演出
+    this.size *= 1.005;
+    this.alpha -= this.fadeSpeed;
+  }
+
+  render() {
+    push();
+    translate(this.x, this.y);
+    noStroke();
+
+    // 外側の淡い光（グロー効果）
+    fill(this.hue, 80, 100, this.alpha * 0.3);
+    circle(0, 0, this.size * 1.5);
+
+    // メインの円
+    fill(this.hue, 80, 100, this.alpha);
+    circle(0, 0, this.size);
+    pop();
+  }
+
+  isDead() {
+    return this.alpha <= 0;
+  }
+}
+```
+
+### STEP 3：`sketch.js` でキーを押すたびに音と円を生成する
+
+1回のキー押しで少し華やかに見えるよう、1音につき3個の円を同時に飛び出させてみましょう。
+
+**`js/sketch.js`**
+
+```javascript
+let osc;
+let circles = []; // 画面上の円を管理する配列
+let currentNoteInfo = null;
+
+// キーボードと「音階・周波数・色・スピード・サイズ」の対応データ
+const NOTE_MAP = {
+  'a': { name: 'ド (C4)',   freq: 261.63, hue: 0,   speed: 2.5,  size: 110 },
+  's': { name: 'レ (D4)',   freq: 293.66, hue: 35,  speed: 3.5,  size: 95  },
+  'd': { name: 'ミ (E4)',   freq: 329.63, hue: 60,  speed: 4.5,  size: 85  },
+  'f': { name: 'ファ (F4)', freq: 349.23, hue: 130, speed: 5.5,  size: 75  },
+  'g': { name: 'ソ (G4)',   freq: 392.00, hue: 190, speed: 6.5,  size: 65  },
+  'h': { name: 'ラ (A4)',   freq: 440.00, hue: 230, speed: 7.5,  size: 55  },
+  'j': { name: 'シ (B4)',   freq: 493.88, hue: 280, speed: 9.0,  size: 45  },
+  'k': { name: 'ド (C5)',   freq: 523.25, hue: 330, speed: 11.0, size: 35  }
+};
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  angleMode(DEGREES); // 角度を0〜360度で扱う
+  colorMode(HSB, 360, 100, 100, 100);
+
+  osc = new p5.Oscillator('triangle');
+  osc.amp(0);
+}
+
+function keyPressed() {
+  let k = key.toLowerCase();
+  if (NOTE_MAP[k]) {
+    userStartAudio();
+
+    let note = NOTE_MAP[k];
+    currentNoteInfo = note;
+
+    // ① 周波数を鳴らす
+    osc.start();
+    osc.freq(note.freq);
+    osc.amp(0.4, 0.02);
+    osc.amp(0.0, 0.45);
+
+    // ② 音階のイメージ引数（hue, speed, size）を渡して円インスタンスを生成！
+    for (let i = 0; i < 3; i++) {
+      circles.push(new NoteCircle(note.hue, note.speed, note.size));
+    }
+  }
+}
+
+function draw() {
+  // 少し残像が残るように透明度付きの背景を塗る
+  background(220, 30, 8, 25);
+
+  // 配列内のすべての円を更新・描画（後ろからループして消えた円を安全に削除）
+  for (let i = circles.length - 1; i >= 0; i--) {
+    circles[i].update();
+    circles[i].render();
+
+    // 寿命が尽きた（透明になった）円を配列から削除する
+    if (circles[i].isDead()) {
+      circles.splice(i, 1);
+    }
+  }
+
+  // ガイドUIの表示
+  drawGuideUI();
+}
+
+function drawGuideUI() {
+  fill(0, 0, 100, 80);
+  textAlign(CENTER, CENTER);
+  textSize(18);
+  text("🎹 [A]ド [S]レ [D]ミ [F]ファ [G]ソ [H]ラ [J]シ [K]ド を叩いて演奏しよう！", width / 2, 40);
+
+  if (currentNoteInfo) {
+    fill(currentNoteInfo.hue, 80, 100);
+    textSize(28);
+    text(`${currentNoteInfo.name} (${currentNoteInfo.freq} Hz)`, width / 2, 80);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+キーボードの `A`〜`K` をリズミカルに叩いてみてください！
+低い「ド（`A`）」を叩くと**大きな赤い円がゆったりと重厚に広がり**、高い「ド（`K`）」を叩くと**小さなピンクの光の粒が高速でスパーク**します。
+
+---
+
+## 3-6. 【練習】生成AIを使ってクラスを改造・新規作成してみよう
+
+ここまでできたら、練習として生成AI（ChatGPT / Claude / Gemini 等）を活用し、`NoteCircle` クラスを改造するか、まったく別の新しいビジュアルクラスを作ってみましょう！
+
+例えば、**「低い音（A〜Fキー）は重厚な波紋クラス、高い音（G〜Kキー）は弾ける星型クラス」** のようにクラスを使い分けると、世界観が一気に広がります。
+
+### クラス改造・新規作成用 AI プロンプト
+
+以下のプロンプトをコピーし、**【作りたい表現・改造内容】** を自分のアイデアに書き換えてAIに入力してください。
+
+```markdown
+あなたはクリエイティブコーディング（p5.js）のスペシャリストです。
+キーボードで「ドレミファソラシド」を鳴らした瞬間に画面中央から出現し、徐々に消えていくビジュアルエフェクトのJavaScriptクラスを作成してください。
+
+### 1. 作りたい表現・改造内容
+【ここに作りたい動きや形を記述してください】
+（例:
+- 「回転しながら飛び出し、重力に引かれて下へ放物線を描いて落ちていく星型パーティクル」
+- 「中央から外側へ向かってリング状の波紋が3重に広がりながら消えていくエフェクト」
+- 「ジグザグ（稲妻のよう）にランダム折れ線を描きながら外へ走るネオンレーザー」
+- 「螺旋（スパイラル）を描きながら渦巻き状に広がって消えていく光の粒」など）
+
+### 2. 必須のクラス設計（インターフェース仕様）
+現在の `sketch.js` からそのまま呼び出せるよう、以下のメソッドと引数を厳守してください：
+
+1. `constructor(hue, speed, size)`:
+   - 画面中央（`width / 2`, `height / 2`）を初期位置とすること。
+   - 引数で受け取った `hue`（色相: 0〜360）、`speed`（移動や拡大の速さ）、`size`（基本サイズ）を反映させること。
+   - 透明度 `this.alpha = 100` を持ち、時間とともに減少させること。
+
+2. `update()`:
+   - 座標の移動、回転角の更新、サイズの変形、および `this.alpha` の減衰処理を行うこと。
+
+3. `render()`:
+   - キャンバスはすでに `colorMode(HSB, 360, 100, 100, 100)` および `angleMode(DEGREES)` に設定されています。
+   - 必ず `push()` と `pop()` で囲み、`translate(this.x, this.y)` を使って描画すること。
+
+4. `isDead()`:
+   - `return this.alpha <= 0;` で寿命判定を返すこと。
+
+### 3. 出力ルール
+- 完成した JavaScript のクラスコードのみを出力してください。
+- 初心者にもわかりやすい日本語の解説コメントを付けてください。
+```
+
+<aside>
+💡 **発展アイデア**
+- 新しいクラス（例：`NoteStar.js`）として保存した場合、`index.html` で読み込んだ上で、`sketch.js` の `new NoteCircle(...)` の部分を `new NoteStar(...)` に書き換えるだけで一発で差し替えられます！
+- `NOTE_MAP` のデータに `shape: 'star'` などの項目を増やして、音階ごとに呼び出すクラスを変えてみるのもおすすめです。
+</aside>
+
+---
+
+# 4. 音楽ファイルを鳴らす（音声ファイルのロードと再生制御）
+
+プログラムで単音を鳴らす仕組みと「周波数（Hz）」の感覚が掴めたら、次はいよいよ好きな音楽ファイル（mp3）を丸ごと読み込み、画面クリックやキーボード操作で再生・一時停止する基本構成を作ってみましょう。
+
+## 4-1. プロジェクトの準備とディレクトリ構成
+
+プロジェクト内に `assets/` フォルダを作成し、BGMとして鳴らしたい音声ファイル（`bgm.mp3`）を配置してください。
+
+```text
+05_audio_visual/
+├── index.html
+├── assets/
+│   └── bgm.mp3       // 好きな音楽ファイル（テンポがはっきりした曲がおすすめ）
+└── js/
+    └── sketch.js
+```
+
+<aside>
+💡 **音源について**
+
+テンポ感があり、ドラムのキック（低音）やハイハット（高音）がはっきりしている楽曲（EDM、HipHop、エレクトロニック、クラブミュージック等）を選ぶと、後の周波数解析（FFT）でビジュアルが気持ちよく跳ねます。
+著作権フリーのBGMサイト（DOVA-SYNDROME、甘茶の音楽工房、OtoLogic等）からダウンロードしたmp3でOKです。
+</aside>
+
+---
+
+## 4-2. 音声ファイルのロードと再生制御
+
+続いて、実際に音声ファイル（`bgm.mp3`）を読み込んで再生・停止を制御してみましょう。
 
 p5.js v2 では、JavaScript標準の非同期処理構文である **`async / await`** を `setup()` 関数で直接使用できます。従来の `preload()` 関数を別途書く必要がなくなり、`async function setup()` の中で `await loadSound('assets/bgm.mp3')` と書くことで、音声ファイルの読み込み完了を待機してから初期設定をスマートに行うことができます。
 
@@ -281,7 +771,7 @@ function windowResized() {
 
 ---
 
-# 4. 音を視覚化する（振幅 Amplitude と 周波数解析 FFT）
+# 5. 音を視覚化する（振幅 Amplitude と 周波数解析 FFT）
 
 音が鳴ったら、次は **「音のデータをリアルタイムに数値として取り出す」** ステップに進みます。
 音を解析するアプローチには大きく分けて2つあります。
@@ -295,7 +785,7 @@ function windowResized() {
 
 ---
 
-## 4-1. 音の大きさ（音量）を測る：`p5.Amplitude`
+## 5-1. 音の大きさ（音量）を測る：`p5.Amplitude`
 
 **`p5.Amplitude`** は、現在鳴っている音の「総合的な音量（振幅の大きさ）」を `0.0（無音）〜 1.0（最大音量）` の数値で返してくれる最もシンプルな解析クラスです。
 
@@ -328,10 +818,10 @@ function draw() {
 
 ---
 
-## 4-2. 音を解剖する魔法の数理：`p5.FFT`（高速フーリエ変換）
+## 5-2. 音を解剖する魔法の数理：`p5.FFT`（高速フーリエ変換）
 
 ### FFT（Fast Fourier Transform）とは？
-どんなに複雑な音楽も、数学的には **「様々な高さ（周波数）の純音（サイン波）が幾重にも重なり合ってできたもの」** です。
+第3章で「ド（261Hz）〜 高いド（523Hz）」のサイン波・三角波を鳴らしましたが、どんなに複雑な音楽も、数学的には **「様々な高さ（周波数 Hz）の純音（サイン波）が幾重にも重なり合ってできたもの」** です。
 FFT（高速フーリエ変換）とは、この混ざり合った音の波を瞬時に分解し、**「どの周波数（低音・中音・高音）が、いまどれくらいの強さで鳴っているか」** を配列として取り出すアルゴリズムです。
 
 ### `p5.FFT` の生成と初期設定
@@ -345,7 +835,7 @@ fft = new p5.FFT(smoothing, bins);
 
 ---
 
-## 4-3. 3大エネルギー帯域の抽出：`getEnergy()`
+## 5-3. 3大エネルギー帯域の抽出：`getEnergy()`
 
 `fft.analyze()` を実行すると、周波数のスペクトル配列（波形データ）が生成されます。
 さらに便利なのが、人間が直感的に理解しやすい音楽帯域を 0〜255 の数値で一発で取り出せる **`fft.getEnergy()`** メソッドです！
@@ -495,7 +985,7 @@ function windowResized() {
 
 ---
 
-# 5. マイク入力への切り替え（オプション）
+# 6. マイク入力への切り替え（オプション）
 
 音楽ファイルだけでなく、PCの内蔵マイクを使って **「自分の声」** や **「手拍子」「口笛」** でアートを動かすことも極めて簡単に実装できます。
 
@@ -524,7 +1014,7 @@ function touchStarted() {
 
 ---
 
-# 6. 単元4のクラスをそのまま流用する（モジュール化の真価）
+# 7. 単元4のクラスをそのまま流用する（モジュール化の真価）
 
 ここからが本単元のハイライトです！
 
@@ -544,7 +1034,7 @@ function touchStarted() {
 
 ---
 
-## 6-1. ディレクトリ構成の確認
+## 7-1. ディレクトリ構成の確認
 
 前回の `js/templates/` フォルダの中身をそのまま配置します。
 
@@ -580,7 +1070,7 @@ function touchStarted() {
 
 ---
 
-## 6-2. 音響エネルギーのデータパイプライン
+## 7-2. 音響エネルギーのデータパイプライン
 
 FFTから取得した `bass`, `mid`, `treble` は `0〜255` の整数です。
 前回のクラスたちは `0.0〜1.0` の正規化された数値を受け取る設計になっているため、おなじみの3ステップで整形します：
@@ -601,7 +1091,7 @@ for (let orb of orbs) {
 
 ---
 
-## 6-3. 音響連動VJ `sketch.js` の実装
+## 7-3. 音響連動VJ `sketch.js` の実装
 
 **`js/sketch.js`**
 
@@ -743,7 +1233,7 @@ function windowResized() {
 
 ---
 
-# 7. 音 × センサーのマルチモーダル統合（VJシステムの完成）
+# 8. 音 × センサーのマルチモーダル統合（VJシステムの完成）
 
 いよいよ最後のピース、**Arduinoの物理センサー（赤外線距離センサー）** を再び接続します！
 
@@ -763,7 +1253,7 @@ function windowResized() {
 
 ---
 
-## 7-1. `sensor.js` の復活と HTML への追加
+## 8-1. `sensor.js` の復活と HTML への追加
 
 単元4で作成した独立通信モジュール **`js/sensor.js`** をプロジェクトに配置します。
 
@@ -803,7 +1293,7 @@ function windowResized() {
 
 ---
 
-## 7-2. 統合ハブ `js/sketch.js` の完全実装コード
+## 8-2. 統合ハブ `js/sketch.js` の完全実装コード
 
 音楽の周波数エネルギーと、センサーの手の接近値（`0.0〜1.0`）を美しく掛け合わせて各クラスに渡します。
 
@@ -977,11 +1467,11 @@ function windowResized() {
 
 ---
 
-# 8. 生成AIを活用したオリジナルVJクラスの量産
+# 9. 生成AIを活用したオリジナルVJクラスの量産
 
 単元4と同様に、生成AI（ChatGPT, Claude, Gemini等）を活用して、音とセンサーの両方に反応する **「新しい第4のVJクラス」** を自作してみましょう！
 
-## 8-1. VJクラス生成用 AI プロンプト（テンプレート）
+## 9-1. VJクラス生成用 AI プロンプト（テンプレート）
 
 以下のプロンプトをコピーし、**【作りたい演出モチーフ】** を書き換えてAIに入力してください。
 
@@ -1023,9 +1513,9 @@ function windowResized() {
 
 ---
 
-# 9. 課題
+# 10. 課題
 
-## 9-1. 課題内容
+## 10-1. 課題内容
 本日の総まとめとして、**「音楽（またはマイク入力）」と「Arduinoの距離センサー」を融合させた、オリジナルのインタラクティブ・オーディオビジュアル（VJ）作品** を制作してください。
 
 ### 【制作条件】
@@ -1040,6 +1530,6 @@ function windowResized() {
 
 ---
 
-## 9-2. 次回へのステップ
+## 10-2. 次回へのステップ
 次回（単元7）は、いよいよ **「音楽そのものを自分でプログラミングして創り出す」** 体験へ進みます！
 ブラウザ完結の最先端ライブコーディング環境 **「Strudel (https://strudel.cc/ )」** を使ってオリジナルのビートやループトラックを作成し、今日作ったジェネラティブアートと合体させます。お楽しみに！
