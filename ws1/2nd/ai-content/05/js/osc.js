@@ -1,8 +1,9 @@
 let osc;
 let currentFreq = 0;
 let currentNoteName = "";
-let circles = []; // ① 画面上の円を管理する配列
+let circles = [];
 
+// ① キーボードと「音階・周波数・色・スピード・サイズ」の対応データ
 const NOTE_MAP = {
     'a': { name: 'ド (C4)', freq: 261.63, hue: 0, speed: 2.5, size: 110 },
     's': { name: 'レ (D4)', freq: 293.66, hue: 35, speed: 3.5, size: 95 },
@@ -38,8 +39,10 @@ function keyPressed() {
         osc.freq(note.freq);
         osc.amp(0.3, 0.05);
 
-        // ② 新しい円インスタンスを生成して配列に追加
-        circles.push(new NoteCircle(note.hue, note.speed, note.size));
+        // ② 音階のイメージ引数（hue, speed, size）を渡して円インスタンスを生成
+        for (let i = 0; i < 3; i++) {
+            circles.push(new NoteCircle(note.hue, note.speed, note.size));
+        }
     }
 }
 
@@ -50,13 +53,12 @@ function keyReleased() {
 function draw() {
     background(220, 30, 10);
 
-    // ③ 配列内のすべての円を更新・描画（後ろからループして寿命が尽きた円を安全に削除）
     for (let i = circles.length - 1; i >= 0; i--) {
         circles[i].update();
         circles[i].render();
 
         if (circles[i].isDead()) {
-            circles.splice(i, 1); // 配列から削除
+            circles.splice(i, 1);
         }
     }
 
