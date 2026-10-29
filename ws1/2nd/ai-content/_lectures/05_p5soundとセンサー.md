@@ -211,13 +211,13 @@ function setup() {
 
   // ① サイン波（'sine'）のオシレーターを生成
   osc = new p5.Oscillator('sine');
-  osc.amp(0); // 最初は音量を 0（無音）にしておく
+  osc.amp(0);  // 最初は音量を 0（無音）にしておく
+  osc.start(); // オシレーターを起動して待機
 }
 
 function mousePressed() {
-  // ② ブラウザのAutoplay制限を解除して発音スタート
+  // ② ブラウザのAutoplay制限を解除して音量を上げる
   userStartAudio();
-  osc.start();
   osc.amp(0.3, 0.05); // 0.05秒かけて音量0.3へ滑らかに上げる（プチッというノイズ防止）
   isPlaying = true;
 }
@@ -288,7 +288,7 @@ function windowResized() {
 低い「ド（C4）」の周波数 `261.63Hz` と、1オクターブ高い「ド（C5）」の周波数 `523.25Hz` を比べると、**ちょうど2倍** になっていることがわかります。音楽と数学（物理）はこのように密接に繋がっています。
 </aside>
 
-キーボードを押したときに「ポーン」と心地よく鳴って自然に消える（減衰する）音にするため、ここでは周波数を一時的に鳴らして自動でフェードアウトさせられる **`js/sketch.js`** を作成します。
+キーボードを押したとき（`keyPressed`）に指定した周波数で音を鳴らし、キーを離したとき（`keyReleased`）に音がスーッと消える **`js/sketch.js`** を作成します。
 
 **`js/sketch.js`**
 
@@ -315,7 +315,8 @@ function setup() {
 
   // 三角波（'triangle'）で少し温かみのあるシンセ音にする
   osc = new p5.Oscillator('triangle');
-  osc.amp(0);
+  osc.amp(0);  // 最初は音量を 0（無音）にしておく
+  osc.start(); // オシレーターを起動して待機
 }
 
 function keyPressed() {
@@ -328,12 +329,15 @@ function keyPressed() {
     currentNoteName = note.name;
     currentFreq = note.freq;
 
-    // 周波数を設定して発音し、すっと音量を上げてから自然に減衰させる
-    osc.start();
+    // 周波数を設定し、すっと音量を上げる
     osc.freq(note.freq);
-    osc.amp(0.4, 0.02); // 0.02秒で音量0.4に立ち上げる（アタック）
-    osc.amp(0.0, 0.4);  // その後0.4秒かけて音量0へ減衰させる（リリース）
+    osc.amp(0.4, 0.02); // 0.02秒で音量0.4に立ち上げる
   }
+}
+
+function keyReleased() {
+  // キーを離したら0.2秒かけて自然に音量を0にする
+  osc.amp(0, 0.2);
 }
 
 function draw() {
@@ -544,7 +548,8 @@ function setup() {
   colorMode(HSB, 360, 100, 100, 100);
 
   osc = new p5.Oscillator('triangle');
-  osc.amp(0);
+  osc.amp(0);  // 最初は音量を 0（無音）にしておく
+  osc.start(); // オシレーターを起動して待機
 }
 
 function keyPressed() {
@@ -555,17 +560,20 @@ function keyPressed() {
     let note = NOTE_MAP[k];
     currentNoteInfo = note;
 
-    // ① 周波数を鳴らす
-    osc.start();
+    // ① 周波数を設定して音量を上げる
     osc.freq(note.freq);
     osc.amp(0.4, 0.02);
-    osc.amp(0.0, 0.45);
 
     // ② 音階のイメージ引数（hue, speed, size）を渡して円インスタンスを生成！
     for (let i = 0; i < 3; i++) {
       circles.push(new NoteCircle(note.hue, note.speed, note.size));
     }
   }
+}
+
+function keyReleased() {
+  // キーを離したら0.2秒かけて自然に音量を0にする
+  osc.amp(0, 0.2);
 }
 
 function draw() {
