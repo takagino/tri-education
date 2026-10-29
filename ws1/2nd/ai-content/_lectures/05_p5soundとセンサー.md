@@ -32,11 +32,10 @@ Web Audioの強力な拡張ライブラリ **「p5.sound」** を導入し、音
 - **オシレーター（`p5.Oscillator`）による周波数（Hz）の発音と、キーボード楽器の作成**
 - **音階のイメージ（色相・スピード・サイズ）を引数で受け取り、弾けて消える円のクラス設計（`NoteCircle`）**
 - **p5.soundによるオーディオファイル（mp3/wav）のロード・再生・ループ制御**
-- **音の大きさ（音量）をリアルタイムに測る「`p5.Amplitude`」**
 - **音を解剖する魔法の数理「高速フーリエ変換（`p5.FFT`）」と周波数帯域（低音 Bass / 中音 Mid / 高音 Treble）**
 - **マイク入力（`p5.AudioIn`）への切り替えと、声や拍手でのインタラクション**
 - **「クラス設計」の真価：前回の `Orb`, `Ripple`, `WaveLine` を1行も書き換えずに音でドライブする流用術**
-- **音響エネルギーを美しく整えるデータパイプライン（`getEnergy` ➔ `map` ➔ `lerp`）**
+- **音響エネルギーを美しく整えるデータパイプライン（`fft.analyze()` ➔ `map` ➔ `lerp`）**
 - **「音（リズム・ビート）」×「センサー（手の接近・明暗）」が掛け合わさるマルチモーダル演出の構築**
 - **生成AIを活用して、音や音楽の帯域に反応するオリジナルクラスを改造・量産する**
 
@@ -820,8 +819,9 @@ async function setup() {
   angleMode(DEGREES);
   colorMode(HSB, 360, 100, 100, 100);
 
-  // ① 音声ファイルの非同期読み込み（完了を待機）
+  // ① 音声ファイルの非同期読み込み（完了を待機）とループ設定
   bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop(); // ループ再生をONにする（再生自体は play() で始まる）
 }
 
 // 画面クリックで再生 / 一時停止
@@ -847,7 +847,7 @@ function togglePlay() {
   if (bgm.isPlaying()) {
     bgm.pause();
   } else {
-    bgm.loop(); // ループ再生
+    bgm.play(); // 再生スタート
   }
 }
 
@@ -884,86 +884,239 @@ function windowResized() {
 
 ---
 
-# 5. 音を視覚化する（振幅 Amplitude と 周波数解析 FFT）
+# 5. 音を視覚化する（周波数解析 FFT）
 
 音が鳴ったら、次は **「音のデータをリアルタイムに数値として取り出す」** ステップに進みます。
-音を解析するアプローチには大きく分けて2つあります。
+メディアアートやVJ演出の主役となるのが、音を周波数帯域ごとに分解する **「周波数解析（`p5.FFT`）」** です！
 
-| 解析アプローチ | 使用クラス | 取得データ・数値範囲 | 主な対象（楽器・音） | 向いている演出・視覚効果 |
+| 周波数帯域 | 使用クラス | 取得データ・数値範囲 | 主な対象（楽器・音） | 向いている演出・視覚効果 |
 |---|---|---|---|---|
-| **① 音量解析** | `p5.Amplitude` | 全体の音の大きさ (`0.0 〜 1.0`) | 楽曲全体のボリューム | 全体の脈動、明度変化、スケール変化 |
-| **② 周波数解析** | `p5.FFT` | **低音 Bass** (`0 〜 255`) | キック、ベース | 迫力・衝撃波（画面の拡大・脈動） |
-| **② 周波数解析** | `p5.FFT` | **中音 Mid** (`0 〜 255`) | ボーカル、シンセ | 形状変化・うねり（波打ち・変形） |
-| **② 周波数解析** | `p5.FFT` | **高音 Treble** (`0 〜 255`) | ハイハット、シンバル | スパーク・光の粒（火花・きらめき） |
+| **低音 Bass** | `p5.FFT` | 低音域の強さ (`0.0 〜 1.0`) | キック、ベース | 迫力・衝撃波（画面の拡大・脈動） |
+| **中音 Mid** | `p5.FFT` | 中音域の強さ (`0.0 〜 1.0`) | ボーカル、シンセ | 形状変化・うねり（波打ち・変形） |
+| **高音 Treble** | `p5.FFT` | 高音域の強さ (`0.0 〜 1.0`) | ハイハット、シンバル | スパーク・光の粒（火花・きらめき） |
 
 ---
 
-## 5-1. 音の大きさ（音量）を測る：`p5.Amplitude`
-
-**`p5.Amplitude`** は、現在鳴っている音の「総合的な音量（振幅の大きさ）」を `0.0（無音）〜 1.0（最大音量）` の数値で返してくれる最もシンプルな解析クラスです。
-
-```javascript
-let amplitude;
-
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  amplitude = new p5.Amplitude(); // 音量解析オブジェクトの生成
-}
-
-function draw() {
-  background(220, 30, 10, 20);
-
-  // 現在の音量レベルを取得（0.0 〜 1.0）
-  let level = amplitude.getLevel();
-
-  // 音量に合わせて中央の円を拡大
-  let size = map(level, 0, 0.5, 50, 400);
-
-  fill(180, 80, 100);
-  noStroke();
-  circle(width / 2, height / 2, size);
-}
-```
-
-音量解析だけでも円の大きさをビートに合わせて変化させられますが、これだけでは **「重低音のズシンというドラム」** も **「甲高いシンバルのシャーンという音」** も区別できず、すべてひとまとめに反応してしまいます。
-
-そこで登場するのが、メディアアートやVJ演出の主役である **「周波数解析（FFT）」** です！
-
----
-
-## 5-2. 音を解剖する魔法の数理：`p5.FFT`（高速フーリエ変換）
+## 5-1. 音を解剖する魔法の数理：`p5.FFT`（高速フーリエ変換）
 
 ### FFT（Fast Fourier Transform）とは？
 第3章で「ド（261Hz）〜 高いド（523Hz）」のサイン波・三角波を鳴らしましたが、どんなに複雑な音楽も、数学的には **「様々な高さ（周波数 Hz）の純音（サイン波）が幾重にも重なり合ってできたもの」** です。
-FFT（高速フーリエ変換）とは、この混ざり合った音の波を瞬時に分解し、**「どの周波数（低音・中音・高音）が、いまどれくらいの強さで鳴っているか」** を配列として取り出すアルゴリズムです。
+FFT（高速フーリエ変換）とは、この混ざり合った音の波を瞬時に分解し、**「どの周波数（低音・中音・高音）が、いまどれくらいの強さで鳴っているか」** を `0.0 〜 1.0` の配列として取り出すアルゴリズムです。
 
-### `p5.FFT` の生成と初期設定
+### `p5.FFT` の生成と音源の接続
 ```javascript
-fft = new p5.FFT(smoothing, bins);
+fft = new p5.FFT(bins);
+bgm.connect(fft); // 音源（bgm）をFFT解析器に接続する
 ```
-- **`smoothing`（平滑化係数 / 0.0〜1.0）**:
-  数値をどれくらい滑らかにするか。`0.8` 前後に設定すると、ノイズが抑えられ心地よい追従になります（Lerpと同じ考え方です）。
-- **`bins`（周波数分解能 / 16〜1024の2の累乗）**:
-  周波数をいくつの帯域に切り分けるか。通常は `64` や `128` で十分高精細です。
+- **`bins`（周波数分解能 / 32〜32768の2の累乗）**:
+  周波数をいくつの帯域（配列の要素数）に切り分けるかを指定します（デフォルトは `32`）。通常は **`64`** や **`128`** で十分高精細です。
 
 ---
 
-## 5-3. 3大エネルギー帯域の抽出：`getEnergy()`
+## 5-2. スペクトル配列を観察し、3大エネルギー帯域を探る
 
-`fft.analyze()` を実行すると、周波数のスペクトル配列（波形データ）が生成されます。
-さらに便利なのが、人間が直感的に理解しやすい音楽帯域を 0〜255 の数値で一発で取り出せる **`fft.getEnergy()`** メソッドです！
+`let spectrum = fft.analyze()` を実行すると、低い音（インデックス `0`）から高い音（インデックス `63`）まで、各周波数帯の強さが **`0.0 〜 1.0`** の数値で入った配列 `spectrum` が返ってきます。
 
-| 帯域キーワード | 周波数帯 | 主な楽器・音の特徴 | VJ・アート演出での定番の役割 |
+ここでは、以下の **3つのステップ** で段階的に `spectrum` の正体を観察し、自分の選んだ楽曲（`bgm.mp3`）でよく跳ねる「低音・中音・高音」の番号を見つけ出しましょう！
+
+1. **STEP 1**：`spectrum` 配列の中身をコンソールに出力して確認する
+2. **STEP 2**：`spectrum` 配列をそのまま棒グラフ（イコライザー）として画面に可視化する
+3. **STEP 3**：平方根 `sqrt()` で中音・高音を見やすくし、観察して見つけた番号（3大エネルギー）でビジュアルを動かす
+
+---
+
+### STEP 1：まずは `spectrum` 配列をコンソールに出してみる
+
+`fft.analyze()` がどんなデータを返しているのか、キーボードの **`[L]` キー** を押した瞬間に `console.log(spectrum)` でコンソールに出力して確認してみましょう。
+
+**`js/sketch.js`（STEP 1：コンソール確認）**
+
+```javascript
+let bgm;
+let fft;
+
+async function setup() {
+  createCanvas(windowWidth, windowHeight);
+  colorMode(HSB, 360, 100, 100, 100);
+
+  // 音声ファイルの非同期読み込みとループ設定
+  bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop();
+
+  // FFT解析の初期化（64バンド）と音源の接続
+  fft = new p5.FFT(64);
+  bgm.connect(fft);
+}
+
+function mousePressed() {
+  togglePlay();
+}
+
+function keyPressed() {
+  if (key === ' ') {
+    togglePlay();
+  }
+  // ★ [L] キーを押した瞬間の spectrum 配列をコンソールに出力！
+  if (key === 'l' || key === 'L') {
+    let spectrum = fft.analyze();
+    console.log("📊 現在の spectrum 配列 (64個):", spectrum);
+  }
+}
+
+function togglePlay() {
+  userStartAudio();
+  if (!bgm) return;
+
+  if (bgm.isPlaying()) {
+    bgm.pause();
+  } else {
+    bgm.play();
+  }
+}
+
+function draw() {
+  background(220, 30, 10);
+
+  fill(0, 0, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  if (!bgm) {
+    text("⏳ 音声ファイルを読み込み中...", width / 2, height / 2);
+  } else if (bgm.isPlaying()) {
+    text("🎵 再生中！ [L] キーを押してコンソール（F12）を確認してみよう", width / 2, height / 2);
+  } else {
+    text("▶ 画面クリック または [Space] キーで音楽を再生", width / 2, height / 2);
+  }
+}
+```
+
+音楽を再生中に `[L]` キーを押し、ブラウザのコンソールを開いて展開してみてください。
+- `Float32Array(64) [0.18, 0.35, 0.42, 0.21, ...]` のように、`0` 番から `63` 番まで **64個の小数（`0.0 〜 1.0`）** が並んでいることがわかります。
+- **左側（`0` 番に近い方）が「低い音」**、**右側（`63` 番に近い方）が「高い音」** の強さを表しています。
+
+---
+
+### STEP 2：`spectrum` 配列をそのまま棒グラフとして可視化する
+
+コンソールの数字だけでは動きがわかりづらいため、64個のデータをそのまま `for` 文で64本のシンプルな棒グラフ（イコライザー）として画面に描画し、下にインデックス番号（`0〜63`）を表示してみましょう。
+
+**`js/sketch.js`（STEP 2：棒グラフの可視化）**
+
+```javascript
+let bgm;
+let fft;
+
+async function setup() {
+  createCanvas(windowWidth, windowHeight);
+  rectMode(CENTER);
+  colorMode(HSB, 360, 100, 100, 100);
+
+  bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop();
+
+  fft = new p5.FFT(64);
+  bgm.connect(fft);
+}
+
+function mousePressed() {
+  togglePlay();
+}
+
+function keyPressed() {
+  if (key === ' ') togglePlay();
+}
+
+function togglePlay() {
+  userStartAudio();
+  if (!bgm) return;
+  if (bgm.isPlaying()) bgm.pause();
+  else bgm.play();
+}
+
+function draw() {
+  background(220, 30, 10);
+
+  if (!bgm || !bgm.isPlaying()) {
+    fill(0, 0, 80);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("画面クリック または [Space] キーで音楽を再生してください", width / 2, height / 2);
+    return;
+  }
+
+  // ① FFT解析を実行（64個の配列を取得）
+  let spectrum = fft.analyze();
+
+  // ② 64個のデータをそのまま棒グラフとして並べて描画
+  let barWidth = width / spectrum.length;
+  noStroke();
+
+  for (let i = 0; i < spectrum.length; i++) {
+    // そのままの値（0.0〜0.5程度）をバーの高さに変換
+    let barHeight = map(spectrum[i], 0, 0.5, 0, height * 0.6);
+    let x = i * barWidth + barWidth / 2;
+
+    // すべて同じ色（シアン）でバーを描画
+    fill(180, 80, 100);
+    rect(x, height - barHeight / 2 - 25, barWidth - 2, barHeight);
+
+    // 各バーの下にインデックス番号（0〜63）を表示
+    fill(0, 0, 70);
+    textAlign(CENTER, BOTTOM);
+    textSize(10);
+    text(i, x, height - 5);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+再生すると、音楽に合わせて64本のバーがリアルタイムに跳ねます！
+同時に、**「左側（低音）のバーは大きく跳ねるけれど、右側（中音・高音）のバーは値が小さくてほとんど動いて見えない」** ことに気づくはずです。
+
+---
+
+### STEP 3：平方根 `sqrt()` で中音・高音を見やすくし、観察して3大エネルギーの番号を探る
+
+一般的な音楽は、物理的な音のエネルギーが「低音」に大きく集中しており、「中音」「高音」の数値は `0.01` や `0.002` といった非常に小さな値になります。
+
+<aside>
+💡 **プロのVJテクニック：平方根 `sqrt()` で小さな値（中音・高音）をグッと持ち上げる**
+
+**`0.0 〜 1.0` の小数に対して平方根 `sqrt(値)` をとる** と、人間の耳の感覚（対数特性）に近づき、**小さな値だけをグッと大きく持ち上げる** ことができます！
+- 例：`0.01`（とても小さい高音） ➔ `sqrt(0.01)` ＝ **`0.10`（10倍に拡大！）**
+- 例：`0.04`（中くらいの音） ➔ `sqrt(0.04)` ＝ **`0.20`（5倍に拡大！）**
+- 例：`0.49`（大きい低音） ➔ `sqrt(0.49)` ＝ **`0.70`（大きすぎず程よくキープ）**
+</aside>
+
+#### 📐 平方根（ルート / `sqrt`）とは？
+
+**平方根（Square Root）** とは、数学の「$\sqrt{\quad}$（ルート）」のことで、**「同じ数を2回掛けて（2乗して）、その数になる元の数」** を求める計算です。p5.js では英語の **Sq**uare **R**oo**t** を略した **`sqrt()`** 関数を使います。
+
+- **普通の整数（1より大きい数）の場合**：
+  - $3 \times 3 = 9$ なので、`sqrt(9)` は **`3`** になります（元の数より小さくなる）。
+  - $2 \times 2 = 4$ なので、`sqrt(4)` は **`2`** になります。
+- **`0.0 〜 1.0` の小数の場合（ここがポイント！）**：
+  - `1` より小さい小数は、掛け算すると `0.1 × 0.1 = 0.01` のように **どんどん小さくなる** 性質があります。
+  - そのため、逆算である平方根 `sqrt()` をとると、`sqrt(0.01)` ➔ **`0.1`** のように **数値がグッと大きくなる** のです！
+  - しかも、`sqrt(0) = 0`、`sqrt(1) = 1` なので、**最小値 `0.0` と最大値 `1.0` の範囲（枠）からはみ出さずに、小さな値だけを底上げできる** という、映像表現にとって非常に便利な性質を持っています。
+
+`sqrt(spectrum[i])` を使うと、右側のバー（中音・高音）もしっかり跳ねて見えるようになります。
+グラフの下に表示されているインデックス番号（`0〜63`）を観察し、自分の楽曲でよく動いている番号を以下の3つの帯域から探してみましょう！
+
+| 帯域 | `spectrum` 配列の目安位置（64バンド時） | 主な楽器・音の特徴 | VJ・アート演出での定番の役割 |
 |---|---|---|---|
-| **`"bass"`** | 低音域（約20〜140Hz） | ドラムのキック、ベース音、爆発音 | **画面全体の拡大・衝撃波・カメラシェイク・心臓の脈動** |
-| **`"mid"`** | 中音域（約400〜2600Hz） | 人の声（ボーカル）、ピアノ、メロディシンセ | **メインオブジェクトの形状変化・うねり・波打ち** |
-| **`"treble"`** | 高音域（約5200〜14000Hz） | ハイハット、シンバル、ベル、金属音 | **光のスパーク、火花、細かなパーティクルの放出、発光** |
+| **低音 (`bass`)** | **`0 〜 7` 番**（例：`spectrum[2]`） | ドラムのキック、ベース音、爆発音 | **画面全体の拡大・衝撃波・心臓の脈動** |
+| **中音 (`mid`)** | **`8 〜 23` 番**（例：`spectrum[12]`） | ボーカル、ピアノ、メロディシンセ | **メインオブジェクトの形状変化・うねり・波打ち** |
+| **高音 (`treble`)** | **`24 〜 63` 番**（例：`spectrum[28]`） | ハイハット、シンバル、金属音 | **光のスパーク、火花、細かなパーティクルの放出** |
 
 ### イコライザー波形と3大エネルギーを可視化するコード
 
-実際に周波数波形と3大エネルギー（Bass / Mid / Treble）を画面に描画して観察してみましょう。
+下のコードを実行し、画面下部のバーの番号（`0〜63`）を観察しながら、`spectrum[2]`, `spectrum[12]`, `spectrum[28]` の番号を自分の曲で一番気持ちよく跳ねる番号に書き換えて試してみましょう！
 
-**`js/sketch.js`**
+**`js/sketch.js`（STEP 3：`sqrt()` 補正＋3大エネルギーで図形を動かす）**
 
 ```javascript
 let bgm;
@@ -976,11 +1129,13 @@ async function setup() {
   angleMode(DEGREES);
   colorMode(HSB, 360, 100, 100, 100);
 
-  // 音声ファイルの非同期読み込み
+  // 音声ファイルの非同期読み込みとループ設定
   bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop();
 
-  // FFT解析の初期化（平滑化0.8、64バンド）
-  fft = new p5.FFT(0.8, 64);
+  // FFT解析の初期化（64バンド）と音源の接続
+  fft = new p5.FFT(64);
+  bgm.connect(fft);
 }
 
 // 画面クリックで再生 / 一時停止
@@ -1002,7 +1157,7 @@ function togglePlay() {
   if (bgm.isPlaying()) {
     bgm.pause();
   } else {
-    bgm.loop();
+    bgm.play();
   }
 }
 
@@ -1026,65 +1181,59 @@ function draw() {
     return;
   }
 
-  // ① FFT解析を実行（スペクトル配列を取得）
+  // ① FFT解析を実行（0.0 〜 1.0 のスペクトル配列を取得）
   let spectrum = fft.analyze();
 
-  // ② 3大エネルギーを取得（0 〜 255）
-  let bass   = fft.getEnergy("bass");
-  let mid    = fft.getEnergy("mid");
-  let treble = fft.getEnergy("treble");
+  // ② グラフを観察して見つけた番号から 3大エネルギーを取得（sqrtで小さな値を持ち上げる）
+  // ★ 自分の曲に合わせて [2], [12], [28] の番号を変えてみよう！
+  let bass   = sqrt(spectrum[2]);  // 低音域（0〜7番あたりでよく跳ねる番号）
+  let mid    = sqrt(spectrum[12]); // 中音域（8〜23番あたりでよく跳ねる番号）
+  let treble = sqrt(spectrum[28]); // 高音域（24〜63番あたりでよく跳ねる番号）
 
-  // ③ 画面下部にイコライザー波形を描画
+  // ③ 画面下部にイコライザー波形と番号（0〜63）を描画
   let barWidth = width / spectrum.length;
   noStroke();
   for (let i = 0; i < spectrum.length; i++) {
-    let barHeight = map(spectrum[i], 0, 255, 0, height * 0.4);
+    let boostedVal = sqrt(spectrum[i]);
+    let barHeight = map(boostedVal, 0, 0.8, 0, height * 0.4);
+    let x = i * barWidth + barWidth / 2;
+
     let hueVal = map(i, 0, spectrum.length, 160, 320);
     fill(hueVal, 80, 100, 80);
-    rect(i * barWidth, height - barHeight, barWidth - 2, barHeight);
+    rect(x, height - barHeight / 2 - 20, barWidth - 2, barHeight);
+
+    // インデックス番号を表示
+    fill(0, 0, 70);
+    textAlign(CENTER, BOTTOM);
+    textSize(9);
+    text(i, x, height - 4);
   }
 
-  // ④ 画面中央に 3大エネルギーを円で可視化
-  push();
-  translate(width / 2, height / 2 - 50);
+  // ④ 3大エネルギー（低音・中音・高音）を3つの円で並べて可視化
+  noStroke();
 
-  // 【低音 Bass】中央の巨大な円（キックでドクンと跳ねる）
-  let bassSize = map(bass, 0, 255, 60, 300);
-  fill(340, 80, 100, 40);
-  circle(0, 0, bassSize * 1.4);
-  fill(340, 90, 100, 80);
-  circle(0, 0, bassSize);
+  // 【低音 Bass】左の円（赤ピンク）
+  let bassSize = map(bass, 0, 1.0, 20, 250);
+  fill(340, 80, 100);
+  circle(width * 0.25, height * 0.35, bassSize);
 
-  // 【中音 Mid】回転する多角形（ボーカル・メロディで変形）
-  let midSize = map(mid, 0, 255, 40, 180);
-  push();
-  rotate(frameCount * 0.02);
-  noFill();
-  stroke(180, 80, 100, 90);
-  strokeWeight(3);
-  rectMode(CENTER);
-  rect(0, 0, midSize, midSize);
-  pop();
+  // 【中音 Mid】中央の円（シアン）
+  let midSize = map(mid, 0, 1.0, 20, 250);
+  fill(180, 80, 100);
+  circle(width * 0.5, height * 0.35, midSize);
 
-  // 【高音 Treble】周囲にきらめく火花（シンバルで弾ける）
-  let trebleCount = floor(map(treble, 0, 255, 0, 16));
-  stroke(60, 90, 100, 90);
-  strokeWeight(4);
-  for (let i = 0; i < trebleCount; i++) {
-    let angle = TWO_PI / trebleCount * i + frameCount * 0.05;
-    let dist = bassSize * 0.7 + random(10, 40);
-    point(cos(angle) * dist, sin(angle) * dist);
-  }
-
-  pop();
+  // 【高音 Treble】右の円（イエロー）
+  let trebleSize = map(treble, 0, 1.0, 20, 250);
+  fill(60, 80, 100);
+  circle(width * 0.75, height * 0.35, trebleSize);
 
   // 数値デバッグ表示
   fill(0, 0, 100);
   textAlign(LEFT, TOP);
-  textSize(14);
-  text(`Bass   : ${bass}`, 20, height - 80);
-  text(`Mid    : ${mid}`, 20, height - 60);
-  text(`Treble : ${treble}`, 20, height - 40);
+  textSize(15);
+  text(`Bass   [2番]  : ${bass.toFixed(3)}`, 20, 20);
+  text(`Mid    [12番] : ${mid.toFixed(3)}`, 20, 45);
+  text(`Treble [28番] : ${treble.toFixed(3)}`, 20, 70);
 }
 
 function windowResized() {
@@ -1093,8 +1242,8 @@ function windowResized() {
 ```
 
 ブラウザで再生してみてください。
-低音（バスドラム）が鳴るたびに赤い円がドクンと膨張し、中音でシアンの四角形がゆらぎ、シンバルが鳴ると金色の火花が飛び散るはずです。
-このように、**「音を帯域別に分けて異なるビジュアル要素に割り振る」** ことが、本格的なオーディオビジュアル制作の第一歩です。
+低音（バスドラム）が鳴るたびに左の赤い円が膨らみ、ボーカルやメロディ（中音）で中央のシアンの円が動き、ハイハットやシンバル（高音）で右の黄色い円が反応するはずです。
+このように、**「グラフを観察して音を帯域別に分け、異なるビジュアル要素に割り振る」** ことが、本格的なオーディオビジュアル制作の第一歩です。
 
 ---
 
@@ -1109,17 +1258,17 @@ let fft;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   
-  // マイク入力の初期化と開始
+  // マイク入力の初期化
   mic = new p5.AudioIn();
-  mic.start();
 
-  // マイクの音声をFFTの入力ソースに設定！
-  fft = new p5.FFT(0.8, 64);
-  fft.setInput(mic);
+  // マイクの音声をFFTの入力ソースに接続！
+  fft = new p5.FFT(64);
+  mic.connect(fft);
 }
 
-function touchStarted() {
-  userStartAudio(); // マイクの起動ロック解除
+function mousePressed() {
+  userStartAudio(); // ブラウザの音声ロック解除
+  mic.start();      // マイク入力を開始
 }
 ```
 
@@ -1138,9 +1287,9 @@ function touchStarted() {
 | 対象部品（クラス） | 前回（単元4）：センサー連動 | 今回（単元5）：音響連動（VJ） |
 |---|---|---|
 | **ハブ (`sketch.js`) への入力** | Arduino 距離センサー値 (`0.0 〜 1.0`) | 音楽の周波数解析（`p5.FFT`） |
-| **`Orb.js` (発光球)** | `sensorValue`（手の距離で鼓動） | **`normBass`（低音）**：キック音でドクンと鼓動 |
-| **`Ripple.js` (波紋)** | `sensorValue`（手の距離で波紋拡大） | **`normTreble`（高音）**：ハイハット音でパッと弾ける |
-| **`WaveLine.js` (波線)** | `sensorValue`（手の距離で波立ち） | **`normMid`（中音）**：ボーカル・シンセで波打つ |
+| **`Orb.js` (発光球)** | `sensorValue`（手の距離で鼓動） | **`smoothBass`（低音）**：キック音でドクンと鼓動 |
+| **`Ripple.js` (波紋)** | `sensorValue`（手の距離で波紋拡大） | **`smoothTreble`（高音）**：ハイハット音でパッと弾ける |
+| **`WaveLine.js` (波線)** | `sensorValue`（手の距離で波立ち） | **`smoothMid`（中音）**：ボーカル・シンセで波打つ |
 
 前回のクラスのコード（`Orb.js`, `Ripple.js`, `WaveLine.js`）は、**なんと1行も書き換える必要がありません！**
 ハブである `sketch.js` の中で、**「渡す数値をセンサー値から、FFTで解析した音のエネルギー（0.0〜1.0）へ差し替えるだけ」** で、前回のジェネラティブアートが瞬時に超絶クオリティのVJアートへと生まれ変わります。
@@ -1185,12 +1334,11 @@ function touchStarted() {
 
 ## 7-2. 音響エネルギーのデータパイプライン
 
-FFTから取得した `bass`, `mid`, `treble` は `0〜255` の整数です。
-前回のクラスたちは `0.0〜1.0` の正規化された数値を受け取る設計になっているため、おなじみの3ステップで整形します：
+FFTの `spectrum` から取得した値は高音ほど小さいため、平方根 `sqrt()` で小さな値を持ち上げた上で、前回のクラスたちが受け取る `0.0〜1.0` の範囲へ感度調整と平滑化（Lerp）を行います：
 
 ```javascript
-// 1. 低音（0〜255）を 0.0〜1.0 に正規化
-let targetBass = map(bass, 0, 255, 0.0, 1.0);
+// 1. 平方根 sqrt() で小さな値を持ち上げ、0.0〜1.0 の範囲に感度調整
+let targetBass = constrain(map(sqrt(spectrum[2]), 0, 0.8, 0.0, 1.0), 0.0, 1.0);
 
 // 2. Lerp平滑化で突発的なカクつきを吸収し、ヌルヌル動かす
 smoothBass = lerp(smoothBass, targetBass, 0.15);
@@ -1230,10 +1378,13 @@ async function setup() {
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
-  // 音声ファイルの非同期読み込み
+  // 音声ファイルの非同期読み込みとループ設定
   bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop();
 
-  fft = new p5.FFT(0.8, 64);
+  // FFT解析の初期化（64バンド）と音源の接続
+  fft = new p5.FFT(64);
+  bgm.connect(fft);
 
   // ① Orb（発光球）を30個生成
   for (let i = 0; i < 30; i++) {
@@ -1275,7 +1426,7 @@ function togglePlay() {
   if (bgm.isPlaying()) {
     bgm.pause();
   } else {
-    bgm.loop();
+    bgm.play();
   }
 }
 
@@ -1299,16 +1450,16 @@ function draw() {
     return;
   }
 
-  // 1. FFT解析と帯域別エネルギー抽出
-  fft.analyze();
-  let rawBass   = fft.getEnergy("bass");
-  let rawMid    = fft.getEnergy("mid");
-  let rawTreble = fft.getEnergy("treble");
+  // 1. FFT解析と帯域別エネルギー抽出（sqrtで小さな値を持ち上げる）
+  let spectrum  = fft.analyze();
+  let rawBass   = sqrt(spectrum[2]);  // 低音
+  let rawMid    = sqrt(spectrum[12]); // 中音
+  let rawTreble = sqrt(spectrum[28]); // 高音
 
-  // 2. 正規化とLerp平滑化
-  smoothBass   = lerp(smoothBass,   map(rawBass,   0, 255, 0.0, 1.0), 0.15);
-  smoothMid    = lerp(smoothMid,    map(rawMid,    0, 255, 0.0, 1.0), 0.15);
-  smoothTreble = lerp(smoothTreble, map(rawTreble, 0, 255, 0.0, 1.0), 0.2);
+  // 2. 0.0〜1.0 への感度調整とLerp平滑化
+  smoothBass   = lerp(smoothBass,   constrain(map(rawBass,   0, 0.8, 0.0, 1.0), 0.0, 1.0), 0.15);
+  smoothMid    = lerp(smoothMid,    constrain(map(rawMid,    0, 0.4, 0.0, 1.0), 0.0, 1.0), 0.15);
+  smoothTreble = lerp(smoothTreble, constrain(map(rawTreble, 0, 0.2, 0.0, 1.0), 0.0, 1.0), 0.2);
 
   // 3. 各クラスに最適な周波数帯域を割り振って更新・描画！
 
@@ -1446,10 +1597,13 @@ async function setup() {
   colorMode(HSB, 360, 100, 100, 100);
   noStroke();
 
-  // 音声ファイルの非同期読み込み
+  // 音声ファイルの非同期読み込みとループ設定
   bgm = await loadSound('assets/bgm.mp3');
+  bgm.loop();
 
-  fft = new p5.FFT(0.8, 64);
+  // FFT解析の初期化（64バンド）と音源の接続
+  fft = new p5.FFT(64);
+  bgm.connect(fft);
 
   // インスタンスの一括生成
   for (let i = 0; i < 35; i++) {
@@ -1476,7 +1630,7 @@ function togglePlay() {
   if (bgm.isPlaying()) {
     bgm.pause();
   } else {
-    bgm.loop();
+    bgm.play();
   }
 }
 
@@ -1493,16 +1647,16 @@ function draw() {
     sensorValue = lerp(sensorValue, sensorTarget, SENSOR_LERP);
   }
 
-  // ② 音響解析（FFT）処理
+  // ② 音響解析（FFT）処理（sqrtで小さな値を持ち上げる）
   if (bgm && bgm.isPlaying()) {
-    fft.analyze();
-    let rawBass   = fft.getEnergy("bass");
-    let rawMid    = fft.getEnergy("mid");
-    let rawTreble = fft.getEnergy("treble");
+    let spectrum  = fft.analyze();
+    let rawBass   = sqrt(spectrum[2]);  // 低音
+    let rawMid    = sqrt(spectrum[12]); // 中音
+    let rawTreble = sqrt(spectrum[28]); // 高音
 
-    smoothBass   = lerp(smoothBass,   map(rawBass,   0, 255, 0.0, 1.0), 0.15);
-    smoothMid    = lerp(smoothMid,    map(rawMid,    0, 255, 0.0, 1.0), 0.15);
-    smoothTreble = lerp(smoothTreble, map(rawTreble, 0, 255, 0.0, 1.0), 0.2);
+    smoothBass   = lerp(smoothBass,   constrain(map(rawBass,   0, 0.8, 0.0, 1.0), 0.0, 1.0), 0.15);
+    smoothMid    = lerp(smoothMid,    constrain(map(rawMid,    0, 0.4, 0.0, 1.0), 0.0, 1.0), 0.15);
+    smoothTreble = lerp(smoothTreble, constrain(map(rawTreble, 0, 0.2, 0.0, 1.0), 0.0, 1.0), 0.2);
   }
 
   // ③【マルチモーダル合成】音のビート ＋ 手の距離を合成してクラスへ届ける！
@@ -1633,7 +1787,7 @@ function windowResized() {
 
 ### 【制作条件】
 1. **p5.sound による周波数解析（FFT）の実装**:
-   - `fft.getEnergy()` を使用し、少なくとも2つ以上の周波数帯域（低音 Bass、中音 Mid、高音 Treble など）を抽出して、それぞれ異なるビジュアル要素へマッピングすること。
+   - `fft.analyze()` で取得したスペクトル配列を使用し、少なくとも2つ以上の周波数帯域（低音 Bass、中音 Mid、高音 Treble など）を抽出して、それぞれ異なるビジュアル要素へマッピングすること。
 2. **クラスの活用（3つ以上）**:
    - `Orb`, `Ripple`, `WaveLine` の改造、または生成AIで出力した完全オリジナルクラスを含め、独立したクラスファイルを最低3つ以上組み込むこと。
 3. **センサー（Web Serial）との複合演出**:
