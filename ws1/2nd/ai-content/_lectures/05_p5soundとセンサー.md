@@ -383,7 +383,14 @@ function windowResized() {
 
 ### STEP 1：まずは引数なしで動く基本の `NoteCircle.js` を作る
 
-画面中央（`width / 2, height / 2`）で生まれ、ランダムな角度（`0〜360度`）に向かって進みながら、透明度（`alpha`）が `100` から `0` へと減っていくクラスです。
+画面中央（`width / 2, height / 2`）で生まれ、ランダムな角度（`0〜360度`）に向かって進みながら、寿命（`lifespan`）が `100` から `0` へと減っていくクラスです。
+
+<aside>
+💡 **なぜ `lifespan`（寿命）という変数を使うのか？**
+
+Processing や p5.js の世界的な定番教材（Daniel Shiffman 氏の『The Nature of Code』等）では、出現して消えるオブジェクト（パーティクル）の残り時間を **`this.lifespan`（または `this.lifetime`）** という変数で管理するのが王道パターンです。
+`lifespan`（100〜0）を使えば、描画時の**透明度（Alpha）**だけでなく、**円のサイズも寿命に合わせて `map()` で徐々に小さくする**といった連動が簡単に書け、数値が `0` 以下になった瞬間に `isDead()` で配列から安全に削除できます。
+</aside>
 
 **`js/templates/NoteCircle.js`（基本版）**
 
@@ -402,17 +409,17 @@ class NoteCircle {
     this.vx = cos(angle) * speed;
     this.vy = sin(angle) * speed;
 
-    this.size = 60;     // 円のサイズ
-    this.hue = 180;     // 色相（0〜360）
-    this.alpha = 100;   // 透明度（100で出現し、0になると消える）
-    this.fadeSpeed = 1.5; // 消えていく速さ
+    this.size = 60;       // 出現時の円のサイズ
+    this.hue = 180;       // 色相（0〜360）
+    this.lifespan = 100;  // 寿命（100で出現し、0になると消滅する）
+    this.fadeSpeed = 1.5; // 寿命が減っていく速さ
   }
 
-  // 毎フレームの座標移動とフェードアウト更新
+  // 毎フレームの座標移動と寿命の更新
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    this.alpha -= this.fadeSpeed; // 徐々に透明にする
+    this.lifespan -= this.fadeSpeed; // 寿命を少しずつ減らす
   }
 
   // 描画処理
@@ -420,14 +427,19 @@ class NoteCircle {
     push();
     translate(this.x, this.y);
     noStroke();
-    fill(this.hue, 80, 100, this.alpha);
-    circle(0, 0, this.size);
+
+    // 寿命（100〜0）に合わせて、円のサイズも this.size から 0 へ徐々に小さくする
+    let currentSize = map(this.lifespan, 100, 0, this.size, 0);
+
+    // 寿命（lifespan: 100〜0）をそのまま透明度（Alpha）として使う
+    fill(this.hue, 80, 100, this.lifespan);
+    circle(0, 0, currentSize);
     pop();
   }
 
-  // 寿命が尽きた（完全に透明になった）かどうかを判定するメソッド
+  // 寿命が尽きたかどうかを判定するメソッド
   isDead() {
-    return this.alpha <= 0;
+    return this.lifespan <= 0;
   }
 }
 ```
@@ -447,11 +459,100 @@ class NoteCircle {
   <script src="./js/sketch.js"></script>
 ```
 
+### STEP 2：`sketch.js` でキーを押すたびに円を出現させる（引数なし版）
+
+3-3で作った `sketch.js` に配列 `circles = []` を追加し、キーを押した瞬間に `circles.push(new NoteCircle())` で円を生み出してみましょう。
+
+**`js/sketch.js`（引数なし版）**
+
+```javascript
+let osc;
+let circles = []; // 画面上の円を管理する配列
+let currentNoteName = "";
+let currentFreq = 0;
+
+// キーボードのキーと音階データの対応辞書（オブジェクト）
+const NOTE_MAP = {
+  'a': { name: 'ド (C4)', freq: 261.63 },
+  's': { name: 'レ (D4)', freq: 293.66 },
+  'd': { name: 'ミ (E4)', freq: 329.63 },
+  'f': { name: 'ファ (F4)', freq: 349.23 },
+  'g': { name: 'ソ (G4)', freq: 392.00 },
+  'h': { name: 'ラ (A4)', freq: 440.00 },
+  'j': { name: 'シ (B4)', freq: 493.88 },
+  'k': { name: 'ド (C5)', freq: 523.25 }
+};
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  angleMode(DEGREES); // ★ NoteCircle内で角度（0〜360度）を使うため追加
+  colorMode(HSB, 360, 100, 100, 100);
+
+  osc = new p5.Oscillator('triangle');
+  osc.amp(0);
+  osc.start();
+}
+
+function keyPressed() {
+  let k = key.toLowerCase();
+  if (NOTE_MAP[k]) {
+    userStartAudio();
+
+    let note = NOTE_MAP[k];
+    currentNoteName = note.name;
+    currentFreq = note.freq;
+
+    // ① 周波数を設定し、すっと音量を上げる
+    osc.freq(note.freq);
+    osc.amp(0.4, 0.02);
+
+    // ② 新しい円インスタンスを生成して配列に追加！（まずは引数なし）
+    circles.push(new NoteCircle());
+  }
+}
+
+function keyReleased() {
+  osc.amp(0, 0.2);
+}
+
+function draw() {
+  background(220, 30, 10);
+
+  // ★ 配列内のすべての円を更新・描画（後ろからループして寿命が尽きた円を安全に削除）
+  for (let i = circles.length - 1; i >= 0; i--) {
+    circles[i].update();
+    circles[i].render();
+
+    if (circles[i].isDead()) {
+      circles.splice(i, 1); // 配列から削除
+    }
+  }
+
+  // 画面テキスト表示
+  fill(0, 0, 100);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+  text("🎹 キーボードの [A]〜[K] キーを押すと音と一緒に円が飛び出します！", width / 2, 40);
+
+  if (currentNoteName !== "") {
+    fill(180, 80, 100);
+    textSize(28);
+    text(`♪ ${currentNoteName} : ${currentFreq} Hz`, width / 2, 80);
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+```
+
+まずはこの状態でブラウザを動かし、キーを叩くたびに画面中央から水色の円がランダムな方向へ飛び出してスーッと消えていくことを確認してください！
+
 ---
 
 ## 3-5. キーボードに割り当て、それぞれの音階をイメージした色・スピードなどを引数で渡す
 
-今のままでは、どのキー（ド〜高いド）を押してもすべて同じ色（水色）・同じスピード・同じサイズの円しか出ません。
+3-4で円が飛び出すようになりましたが、今のままではどのキー（ド〜高いド）を押してもすべて同じ色（水色）・同じスピード・同じサイズの円しか出ません。
 そこで、`NoteCircle` の **`constructor(hue, speed, size)` に引数を渡せるように進化** させ、音階ごとのイメージをビジュアルに反映させましょう！
 
 ### 音階ごとのビジュアルイメージ設計
@@ -467,7 +568,9 @@ class NoteCircle {
 | **`J`** | シ (B4) | 鋭く神秘的な音 | `280`（紫） | `9.0` | `45` |
 | **`K`** | ド (C5) | 軽やかに弾ける高い音 | `330`（マゼンタ） | `11.0`（高速！） | `35`（小粒） |
 
-### STEP 2：引数を受け取るように `NoteCircle.js` をアップデート
+### STEP 1：引数を受け取るように `NoteCircle.js` をアップデート
+
+3-4で作った `NoteCircle.js` の `constructor(hue, speed, size)` に引数を追加し、固定値だった `speed`・`size`・`hue` を引数から受け取るように変更します（変更するのは `constructor` 内の数行だけです）。
 
 **`js/templates/NoteCircle.js`（引数対応版）**
 
@@ -475,51 +578,53 @@ class NoteCircle {
 class NoteCircle {
   // ★ 引数で「色相(hue)」「速さ(speed)」「大きさ(size)」を受け取る！
   constructor(hue, speed, size) {
+    // 画面中央からスタート
     this.x = width / 2;
     this.y = height / 2;
 
-    // 360度ランダムな方向へ飛び出す（少しだけスピードに個体差をつける）
+    // 飛び出す角度（0〜360度）をランダムに決める
     let angle = random(360);
-    let actualSpeed = speed * random(0.8, 1.2);
-    this.vx = cos(angle) * actualSpeed;
-    this.vy = sin(angle) * actualSpeed;
 
-    this.hue = hue;
-    this.size = size * random(0.85, 1.15);
-    this.alpha = 100;
-    this.fadeSpeed = random(1.2, 2.0);
+    // 角度と引数で受け取った speed から、X方向・Y方向の移動量を計算
+    this.vx = cos(angle) * speed;
+    this.vy = sin(angle) * speed;
+
+    this.size = size;     // ★ 引数のサイズを設定
+    this.hue = hue;       // ★ 引数の色相を設定
+    this.lifespan = 100;  // 寿命（100で出現し、0になると消滅する）
+    this.fadeSpeed = 1.5; // 寿命が減っていく速さ
   }
 
+  // 毎フレームの座標移動と寿命の更新
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    // だんだんサイズも少し広がりながら消えていく演出
-    this.size *= 1.005;
-    this.alpha -= this.fadeSpeed;
+    this.lifespan -= this.fadeSpeed; // 寿命を少しずつ減らす
   }
 
+  // 描画処理
   render() {
     push();
     translate(this.x, this.y);
     noStroke();
 
-    // 外側の淡い光（グロー効果）
-    fill(this.hue, 80, 100, this.alpha * 0.3);
-    circle(0, 0, this.size * 1.5);
+    // 寿命（100〜0）に合わせて、円のサイズも this.size から 0 へ徐々に小さくする
+    let currentSize = map(this.lifespan, 100, 0, this.size, 0);
 
-    // メインの円
-    fill(this.hue, 80, 100, this.alpha);
-    circle(0, 0, this.size);
+    // 寿命（lifespan: 100〜0）をそのまま透明度（Alpha）として使う
+    fill(this.hue, 80, 100, this.lifespan);
+    circle(0, 0, currentSize);
     pop();
   }
 
+  // 寿命が尽きたかどうかを判定するメソッド
   isDead() {
-    return this.alpha <= 0;
+    return this.lifespan <= 0;
   }
 }
 ```
 
-### STEP 3：`sketch.js` でキーを押すたびに音と円を生成する
+### STEP 2：`sketch.js` で音階ごとの引数を渡して円を生成する
 
 1回のキー押しで少し華やかに見えるよう、1音につき3個の円を同時に飛び出させてみましょう。
 
@@ -646,17 +751,17 @@ function windowResized() {
 1. `constructor(hue, speed, size)`:
    - 画面中央（`width / 2`, `height / 2`）を初期位置とすること。
    - 引数で受け取った `hue`（色相: 0〜360）、`speed`（移動や拡大の速さ）、`size`（基本サイズ）を反映させること。
-   - 透明度 `this.alpha = 100` を持ち、時間とともに減少させること。
+   - 寿命 `this.lifespan = 100` を持ち、時間とともに減少させること。
 
 2. `update()`:
-   - 座標の移動、回転角の更新、サイズの変形、および `this.alpha` の減衰処理を行うこと。
+   - 座標の移動、回転角の更新、サイズの変形、および `this.lifespan` の減衰処理を行うこと。
 
 3. `render()`:
    - キャンバスはすでに `colorMode(HSB, 360, 100, 100, 100)` および `angleMode(DEGREES)` に設定されています。
-   - 必ず `push()` と `pop()` で囲み、`translate(this.x, this.y)` を使って描画すること。
+   - 必ず `push()` と `pop()` で囲み、`translate(this.x, this.y)` を使って描画し、透明度には `this.lifespan` を利用すること。
 
 4. `isDead()`:
-   - `return this.alpha <= 0;` で寿命判定を返すこと。
+   - `return this.lifespan <= 0;` で寿命判定を返すこと。
 
 ### 3. 出力ルール
 - 完成した JavaScript のクラスコードのみを出力してください。
