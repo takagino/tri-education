@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06_while文と重複防止ロジック</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>while文と重複防止ロジック</h1>
+
+    <!-- 演習1：目標が出るまで回すシミュレーター -->
+    <section class="demo-box">
+      <h2>「大吉」が出るまで引き続ける</h2>
+      <button type="button" id="draw-until-btn" class="action-btn">大吉が出るまで引く</button>
+      <div id="draw-log" class="log-area">結果がここに表示されます</div>
+    </section>
+
+    <!-- 演習2：連続重複防止メッセージ -->
+    <section class="demo-box">
+      <h2>名言ジェネレーター（連続重複防止）</h2>
+      <blockquote id="quote-text" class="quote-display">ボタンを押してください</blockquote>
+      <p id="quote-author" class="quote-author">-</p>
+      <button type="button" id="quote-btn" class="action-btn">次の名言を表示</button>
+    </section>
+  </div>
+</body>
+</html>
+
