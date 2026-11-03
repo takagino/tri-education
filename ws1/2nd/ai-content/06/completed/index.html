@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_p5playの基礎 - 見本一覧</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #12131a;
+            color: #f1f2f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 8px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subtitle {
+            color: #a4b0be;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card {
+            background: #1e272e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: #2ed573;
+            box-shadow: 0 8px 25px rgba(46, 213, 115, 0.15);
+            background: #252f38;
+        }
+
+        .card.final {
+            border-color: #feca57;
+            background: linear-gradient(135deg, #1e272e, #2d3436);
+        }
+
+        .card.final:hover {
+            border-color: #ff9f43;
+            box-shadow: 0 8px 25px rgba(254, 202, 87, 0.25);
+        }
+
+        .card-info h2 {
+            margin: 0 0 6px 0;
+            font-size: 18px;
+            color: #ffffff;
+        }
+
+        .card.final .card-info h2 {
+            color: #feca57;
+        }
+
+        .card-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #a4b0be;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            font-size: 20px;
+            color: #747d8c;
+            margin-left: 20px;
+            transition: transform 0.2s;
+        }
+
+        .card:hover .arrow {
+            color: #2ed573;
+            transform: translateX(4px);
+        }
+
+        .card.final:hover .arrow {
+            color: #feca57;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #57606f;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎮 06_p5playの基礎 - 成果物・練習問題見本</h1>
+        <p class="subtitle">各練習問題の動作確認および、最終完成ミニゲーム「Coin Hunter」のプレイができます。</p>
+
+        <div class="card-list">
+            <a href="./practice1/index.html" class="card">
+                <div class="card-info">
+                    <h2>⭐️ 練習 1: 流れる敵キャラ</h2>
+                    <p>素のスプライトとして敵を作成し、画像設定・等速移動・無重力ジャンプを体験</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <a href="./practice2/index.html" class="card">
+                <div class="card-info">
+                    <h2>⭐️ 練習 2: 浮かぶ足場 (static)</h2>
+                    <p>重力の追加と、落ちない足場 (static) ＆ 落ちずに直進する敵 (kinematic) の共存</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <a href="./practice3/index.html" class="card">
+                <div class="card-info">
+                    <h2>⭐️ 練習 3: 敵との衝突判定</h2>
+                    <p>コイン獲得クリア ＋ 敵キャラ衝突ゲームオーバー判定（単体） ＋ 接地ジャンプ</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <a href="./practice4/index.html" class="card">
+                <div class="card-info">
+                    <h2>⭐️ 練習 4: コインのグループ化</h2>
+                    <p>Group で8個のコインをランダム配置し、スコア加算と全コイン獲得クリアを実装</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+            <a href="./final/index.html" class="card final">
+                <div class="card-info">
+                    <h2>🌟 完成版: Coin Hunter</h2>
+                    <p>タイトル画面・リトライ機能・allSprites.draw() 制御・UI描画を統合した完成ミニゲーム</p>
+                </div>
+                <div class="arrow">→</div>
+            </a>
+        </div>
+
+        <div class="footer">
+            Trident College of Information Technology / Web Design Course
+        </div>
+    </div>
+</body>
+
+</html>

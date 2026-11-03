@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⭐️ 練習 3: 敵との衝突判定</title>
+
+    <!-- ① p5.js 本体 (v1.11系推奨) -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.min.js"></script>
+
+    <!-- ② 物理演算エンジン Planck.js (p5playの直前に必須) -->
+    <script src="https://p5play.org/v3/planck.min.js"></script>
+
+    <!-- ③ p5play v3 本体 -->
+    <script src="https://p5play.org/v3/p5play.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #1a1a24;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        canvas {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #d2dae2;
+            text-decoration: none;
+            font-size: 13px;
+            background: rgba(30, 39, 46, 0.85);
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.2s;
+            z-index: 1000;
+        }
+
+        .back-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="../index.html" class="back-link">← 見本一覧に戻る</a>
+    <script src="./sketch.js"></script>
+</body>
+
+</html>
