@@ -1,0 +1,141 @@
+@use "sass:math";
+
+// =================================================================
+//  Variables
+// =================================================================
+
+// --- Colors ---
+$color-bg: #f9f8f6;            // サンドホワイト（ベース背景）
+$color-bg-subtle: #eeece8;     // パネル背景・ハイライト
+$color-dark: #121314;          // チャコールブラック（文字・ダーク背景）
+$color-text: #4a4b4d;          // 本文テキスト
+$color-text-muted: #828387;    // 補足・メタ情報
+$color-accent: #b58d57;        // ウォームゴールド / ブロンズ
+$color-border: #dcd9d2;        // ボーダー
+$color-white: #ffffff;
+
+// --- Typography ---
+$font-size-base: 16;
+$font-family-base: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+$font-family-serif: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
+
+// =================================================================
+//  Functions
+// =================================================================
+
+// ① pxをremに変換する関数
+@function rem($px-value) {
+  @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// ② Figmaのトラッキング値をemに変換する関数
+@function ls($figma-value) {
+  @return #{math.div($figma-value, 1000)}em;
+}
+
+// =================================================================
+//  Mixins
+// =================================================================
+
+// コンテナ幅・中央寄せインナー
+// ※ カンプ（1440px）上で小数が生じないよう、ジャスト1200pxの整数固定幅に設計
+@mixin inner($w: 1200px) {
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// =================================================================
+//  Base
+// =================================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 1440px;
+  color: $color-text;
+  font-size: rem(16);
+  font-family: $font-family-base;
+  line-height: 1.75;
+  background-color: $color-bg;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+// =================================================================
+//  Modules (BEM)
+//  ※ 授業で学んだ「Mix（ミックス）」や「Modifier（モディファイヤー）」を
+//     意識して、再利用しやすいモジュールを設計していきましょう。
+// =================================================================
+
+/* --- Section Header Module --- */
+.sec-head {
+  // TODO: __num, __title, __lead
+  // TODO: モディファイヤー --split（左右振り分け）, --light（暗背景用）
+}
+
+/* --- Button Module --- */
+.btn {
+  // TODO: ボタンの内側余白（padding）は rem で指定（カンプで測れる整数）
+  // TODO: モディファイヤー --pill（カプセル型）, --dark, --light, --text（アンダーライン型）, --sm
+}
+
+/* --- Tag Module --- */
+.tag {
+  // TODO: --dark, --outline
+}
+
+/* --- Work Card Module --- */
+.work-card {
+  // TODO: __visual, __body, __meta, __title, __text, __tag
+  // TODO: モディファイヤー --wide（2カラムぶち抜きの大型カード）
+}
+
+/* --- Approach Item Module (About Page) --- */
+.approach-item {
+  // TODO: __num, __title, __text
+  // TODO: モディファイヤー --featured（ハイライト）
+}
+
+// =================================================================
+//  Layout / Sections
+// =================================================================
+
+/* --- Header & Footer --- */
+.header {
+  // TODO
+}
+
+.footer {
+  // TODO
+}
+
+/* --- index.html Sections --- */
+.hero {
+  // TODO: __visual, __statement, __headline, __desc
+}
+
+.works {
+  // TODO: __grid, __action
+}
+
+/* --- about.html Sections --- */
+.philosophy {
+  // TODO: __list
+}
+
+.atelier {
+  // TODO: __box, __visual, __content, __actions
+}

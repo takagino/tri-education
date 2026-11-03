@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480">
+  <defs>
+    <linearGradient id="g_800" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#25282a" />
+      <stop offset="100%" stop-color="#141414" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g_800)" />
+  <!-- Architectural grid lines -->
+  <line x1="0" y1="144.0" x2="800" y2="144.0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="0" y1="336.0" x2="800" y2="336.0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="200.0" y1="0" x2="200.0" y2="480" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="600.0" y1="0" x2="600.0" y2="480" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  
+  <!-- Architectural silhouette / geometry -->
+  <polygon points="160.0,408.0 400.0,120.0 640.0,408.0" fill="none" stroke="#c5a880" stroke-width="1.5" opacity="0.4"/>
+  <rect x="280.0" y="216.0" width="240.0" height="192.0" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <g fill="#ffffff" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <text x="400.0" y="250.0" font-size="22" font-weight="600" letter-spacing="4">TERRACE PAVILION</text>
+    <text x="400.0" y="282.0" font-size="12" fill="#c5a880" letter-spacing="2">CULTURAL / KARUIZAWA</text>
+  </g>
+</svg>

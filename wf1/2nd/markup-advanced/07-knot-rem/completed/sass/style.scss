@@ -1,0 +1,643 @@
+@use "sass:math";
+
+// =================================================================
+//  Variables
+// =================================================================
+
+// --- Colors ---
+$color-bg: #f9f8f6;            // サンドホワイト（ベース背景）
+$color-bg-subtle: #eeece8;     // パネル背景・ハイライト
+$color-dark: #121314;          // チャコールブラック（メイン文字・ダーク背景）
+$color-text: #4a4b4d;          // 本文テキスト
+$color-text-muted: #828387;    // 補足・メタ情報
+$color-accent: #b58d57;        // ウォームゴールド / ブロンズ（アクセント）
+$color-border: #dcd9d2;        // 繊細な細いボーダー
+$color-white: #ffffff;
+
+// --- Typography ---
+$font-size-base: 16;
+$font-family-base: "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+$font-family-serif: "Times New Roman", "Yu Mincho", "Hiragino Mincho ProN", serif;
+
+// =================================================================
+//  Functions
+// =================================================================
+
+// pxをremに変換する
+@function rem($px-value) {
+  @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// Figmaのトラッキング値をemに変換する
+@function ls($figma-value) {
+  @return #{math.div($figma-value, 1000)}em;
+}
+
+// =================================================================
+//  Mixins
+// =================================================================
+
+// コンテナ幅・中央寄せインナー
+// ※ カンプ（1440px）上で小数が生じないよう、ジャスト1200pxの整数固定幅に設計
+@mixin inner($w: 1200px) {
+  width: $w;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// =================================================================
+//  Base
+// =================================================================
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 1440px;           // Figmaインポート時のスクロールバー等による小数を防止
+  color: $color-text;
+  font-size: rem(16);
+  font-family: $font-family-base;
+  line-height: 1.75;           // 16px * 1.75 = ジャスト28pxの整数行高
+  background-color: $color-bg;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.25s ease;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+// =================================================================
+//  Modules (BEM)
+// =================================================================
+
+/* --- Section Header Module --- */
+.sec-head {
+  margin-bottom: rem(64);
+
+  &__num {
+    display: inline-block;
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: ls(200);
+    color: $color-accent;
+    margin-bottom: rem(16);
+    text-transform: uppercase;
+  }
+
+  &__title {
+    color: $color-dark;
+    font-size: rem(40);        // 固定の美しい整数フォントサイズ（40px）
+    font-weight: 400;
+    line-height: 1.2;          // 40px * 1.2 = 48pxの整数
+    letter-spacing: ls(-10);
+  }
+
+  &__lead {
+    margin-top: rem(24);
+    font-size: rem(16);
+    line-height: 1.75;         // 16px * 1.75 = 28pxの整数
+    color: $color-text;
+    width: rem(520);           // 固定幅で小数を防止
+  }
+
+  // Modifier: 左右振り分け
+  &--split {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid $color-border;
+    padding-bottom: rem(32);
+
+    .sec-head__lead {
+      margin-top: 0;
+      text-align: right;
+    }
+  }
+
+  // Modifier: 暗背景用（白文字）
+  &--light {
+    .sec-head__num {
+      color: lighten($color-accent, 15%);
+    }
+
+    .sec-head__title {
+      color: $color-white;
+    }
+
+    .sec-head__lead {
+      color: rgba($color-white, 0.7);
+    }
+  }
+}
+
+/* --- Button Module --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: rem(8);
+  font-weight: 500;
+  line-height: 1;              // 行高1で余計な端数をカット
+  letter-spacing: ls(80);
+  transition: all 0.3s ease;
+
+  // カプセル型ピルボタン（整数パディング：上下14px、左右32px）
+  &--pill {
+    padding: rem(14) rem(32);
+    border-radius: 9999px;
+    font-size: rem(14);
+    text-transform: uppercase;
+  }
+
+  // ソリッドダークボタン
+  &--dark {
+    background-color: $color-dark;
+    color: $color-white;
+    border: 1px solid $color-dark;
+
+    &:hover {
+      background-color: transparent;
+      color: $color-dark;
+    }
+  }
+
+  // ライトボタン（暗背景用）
+  &--light {
+    background-color: $color-white;
+    color: $color-dark;
+    border: 1px solid $color-white;
+
+    &:hover {
+      background-color: transparent;
+      color: $color-white;
+    }
+  }
+
+  // テキストリンク型（矢印付き・アンダーライン）
+  &--text {
+    padding: rem(4) 0;
+    font-size: rem(14);
+    color: $color-dark;
+    border-bottom: 1px solid $color-dark;
+
+    &::after {
+      content: "→";
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+
+    &:hover {
+      opacity: 1;
+      &::after {
+        transform: translateX(rem(6));
+      }
+    }
+  }
+
+  // サイズモディファイヤー（上下10px、左右20px）
+  &--sm {
+    padding: rem(10) rem(20);
+    font-size: rem(12);
+  }
+}
+
+/* --- Tag / Badge Module --- */
+.tag {
+  display: inline-block;
+  padding: rem(6) rem(12);     // 整数パディング
+  font-size: rem(11);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: ls(100);
+  text-transform: uppercase;
+  border-radius: rem(2);
+
+  &--dark {
+    background-color: $color-dark;
+    color: $color-white;
+  }
+
+  &--outline {
+    border: 1px solid $color-border;
+    color: $color-text-muted;
+  }
+}
+
+/* --- Work Card Module --- */
+.work-card {
+  display: flex;
+  flex-direction: column;
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.05);
+
+    .work-card__visual img {
+      transform: scale(1.03);
+    }
+  }
+
+  &__visual {
+    position: relative;
+    overflow: hidden;
+    height: rem(420);          // 整数高さ（420px）
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  &__tag {
+    position: absolute;
+    top: rem(16);
+    left: rem(16);
+    z-index: 2;
+  }
+
+  &__body {
+    padding: rem(32);          // 整数パディング（32px）
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: rem(12);
+    line-height: 1;
+    color: $color-text-muted;
+    letter-spacing: ls(50);
+    margin-bottom: rem(12);
+  }
+
+  &__title {
+    color: $color-dark;
+    font-size: rem(22);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: ls(-10);
+    margin-bottom: rem(12);
+  }
+
+  &__text {
+    font-size: rem(14);
+    line-height: 1.7;
+    color: $color-text;
+    flex-grow: 1;
+    margin-bottom: rem(24);
+  }
+
+  // Modifier: Wide（2列ぶち抜きの大型フィーチャーカード）
+  // 1200px幅 ＝ 画像700px ＋ 本文500px でジャスト分割！
+  &--wide {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: rem(700) rem(500);
+    border: 1px solid $color-border;
+
+    .work-card__visual {
+      height: rem(480);
+    }
+
+    .work-card__body {
+      padding: rem(48);        // 整数パディング（48px）
+      justify-content: center;
+    }
+
+    .work-card__title {
+      font-size: rem(28);
+      margin-bottom: rem(16);
+    }
+  }
+}
+
+/* --- Approach Item Module (About Page) --- */
+// 1200px幅 ＝ 80px ＋ 360px ＋ 640px ＋ gap 60px*2 ＝ ぴったり1200px！
+.approach-item {
+  display: grid;
+  grid-template-columns: rem(80) rem(360) rem(640);
+  align-items: baseline;
+  column-gap: rem(60);
+  padding: rem(40) 0;
+  border-bottom: 1px solid $color-border;
+  transition: background-color 0.25s ease;
+
+  &__num {
+    font-family: $font-family-serif;
+    font-size: rem(28);
+    line-height: 1;
+    color: $color-accent;
+    font-weight: 400;
+  }
+
+  &__title {
+    color: $color-dark;
+    font-size: rem(22);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: ls(-10);
+  }
+
+  &__text {
+    font-size: rem(15);
+    line-height: 1.8;
+    color: $color-text;
+  }
+
+  // Modifier: Featured（特定項目のハイライト）
+  &--featured {
+    background-color: $color-bg-subtle;
+    padding-left: rem(32);
+    padding-right: rem(32);
+    border-radius: rem(4);
+    border-bottom: none;
+    margin: rem(8) 0;
+
+    .approach-item__num {
+      color: $color-dark;
+      font-weight: 700;
+    }
+  }
+}
+
+// =================================================================
+//  Layout / Sections (Basic 2 Sections per Page)
+// =================================================================
+
+/* --- Header --- */
+.header {
+  padding: rem(24) 0;          // 整数パディング（24px）
+  background-color: $color-bg;
+  border-bottom: 1px solid rgba($color-border, 0.6);
+
+  &__inner {
+    @include inner();
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    column-gap: rem(40);
+  }
+
+  &__menu {
+    display: flex;
+    column-gap: rem(32);
+    font-size: rem(13);
+    font-weight: 600;
+    letter-spacing: ls(100);
+    text-transform: uppercase;
+  }
+
+  &__link {
+    padding: rem(4) 0;
+    position: relative;
+
+    &--active {
+      color: $color-dark;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: $color-dark;
+      }
+    }
+  }
+}
+
+/* =================================================================
+   PAGE 1: index.html (2 Sections: Hero & Works)
+   ================================================================= */
+
+/* --- Main Section 1: Hero --- */
+.hero {
+  padding: rem(48) 0 rem(96);
+
+  &__inner {
+    @include inner();
+  }
+
+  &__visual {
+    overflow: hidden;
+    border-radius: rem(2);
+    margin-bottom: rem(48);
+
+    img {
+      width: 100%;
+      height: rem(540);        // 整数高さ（540px）
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  // 非対称ステートメントレイアウト（1200px ＝ 左640px ＋ gap 64px ＋ 右496px）
+  &__statement {
+    display: grid;
+    grid-template-columns: rem(640) rem(496);
+    column-gap: rem(64);
+    align-items: flex-start;
+  }
+
+  &__headline {
+    color: $color-dark;
+    font-size: rem(48);        // ジャスト48pxの整数見出し
+    font-weight: 300;
+    line-height: 1.25;         // 48px * 1.25 = 60pxの整数
+    letter-spacing: ls(-20);
+
+    strong {
+      font-weight: 600;
+      color: $color-accent;
+    }
+  }
+
+  &__desc {
+    font-size: rem(15);
+    line-height: 1.8;
+
+    p + p {
+      margin-top: rem(16);
+    }
+  }
+
+  &__cta {
+    margin-top: rem(32);
+  }
+}
+
+/* --- Main Section 2: Works --- */
+.works {
+  padding: rem(96) 0 rem(120);
+  background-color: $color-white;
+  border-top: 1px solid $color-border;
+
+  &__inner {
+    @include inner();
+  }
+
+  // 1200px ＝ 580px ＋ 580px ＋ gap 40px でピタッと計算！
+  &__grid {
+    display: grid;
+    grid-template-columns: rem(580) rem(580);
+    gap: rem(40);
+  }
+
+  &__action {
+    margin-top: rem(64);
+    text-align: center;
+  }
+}
+
+/* =================================================================
+   PAGE 2: about.html (2 Sections: Philosophy & Atelier)
+   ================================================================= */
+
+/* --- Main Section 1: Philosophy --- */
+.philosophy {
+  padding: rem(80) 0 rem(96);
+
+  &__inner {
+    @include inner();
+  }
+
+  &__list {
+    margin-top: rem(48);
+  }
+}
+
+/* --- Main Section 2: Atelier (Studio Space & Contact Panel) --- */
+.atelier {
+  padding: rem(96) 0 rem(120);
+  background-color: $color-dark;
+  color: $color-white;
+
+  &__inner {
+    @include inner();
+  }
+
+  // 1200px ＝ パディング48px*2(96px) ＋ 左512px ＋ gap 64px ＋ 右528px ＝ 1200px！
+  &__box {
+    display: grid;
+    grid-template-columns: rem(512) rem(528);
+    column-gap: rem(64);
+    align-items: center;
+    background-color: #1a1b1d;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: rem(48);
+    border-radius: rem(4);
+  }
+
+  &__visual {
+    overflow: hidden;
+    height: rem(400);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  &__content {
+    .sec-head {
+      margin-bottom: rem(32);
+    }
+  }
+
+  &__actions {
+    margin-top: rem(40);
+    display: flex;
+    gap: rem(16);
+  }
+}
+
+/* --- Footer --- */
+.footer {
+  padding: rem(80) 0 rem(40);
+  background-color: $color-bg;
+  border-top: 1px solid $color-border;
+  font-size: rem(13);
+
+  &__inner {
+    @include inner();
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: rem(48);
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__info {
+    width: rem(400);
+  }
+
+  &__logo {
+    margin-bottom: rem(20);
+    display: inline-block;
+  }
+
+  &__address {
+    font-style: normal;
+    color: $color-text-muted;
+    line-height: 1.8;
+  }
+
+  &__nav {
+    display: flex;
+    column-gap: rem(64);
+  }
+
+  &__nav-title {
+    color: $color-dark;
+    font-weight: 700;
+    margin-bottom: rem(16);
+    letter-spacing: ls(100);
+    text-transform: uppercase;
+  }
+
+  &__nav-list li + li {
+    margin-top: rem(10);
+  }
+
+  &__bottom {
+    padding-top: rem(32);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: $color-text-muted;
+  }
+}

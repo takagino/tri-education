@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio &amp; Philosophy | KNOT ARCHITECTS</title>
+  <!-- Modern CSS Reset (destyle.css) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- Header Module -->
+  <header class="header">
+    <div class="header__inner">
+      <div class="header__logo">
+        <a href="./index.html">
+          <img src="./images/logo.svg" alt="KNOT ARCHITECTS" width="280" height="40">
+        </a>
+      </div>
+      <div class="header__nav">
+        <nav class="header__menu">
+          <a class="header__link" href="./index.html">Works</a>
+          <a class="header__link header__link--active" href="./about.html">Studio</a>
+          <a class="header__link" href="#contact">Contact</a>
+        </nav>
+        <!-- BEM Mix: Header element meets Button block -->
+        <a class="header__btn btn btn--sm btn--pill btn--dark" href="#contact">Inquire</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- =============================================================
+         Main Section 1: Philosophy & Approach
+         エディトリアルな3列グリッドリスト + 注目項目のハイライトモディファイヤー
+         ============================================================= -->
+    <section class="philosophy">
+      <div class="philosophy__inner">
+        <!-- Section Header Module (Split Modifier) -->
+        <div class="sec-head sec-head--split">
+          <div>
+            <span class="sec-head__num">01 // PHILOSOPHY</span>
+            <h1 class="sec-head__title">Architecture of Resonance</h1>
+          </div>
+          <p class="sec-head__lead">奇をてらう造形ではなく、光・風・素材の対話から生まれる静謐な建築。</p>
+        </div>
+
+        <ul class="philosophy__list">
+          <!-- Approach 1: Regular Item -->
+          <li class="approach-item">
+            <span class="approach-item__num">01</span>
+            <h2 class="approach-item__title">Light &amp; Void<br><small>光と余白の幾何学</small></h2>
+            <p class="approach-item__text">空間を満たすのではなく、いかに削ぎ落とし、純粋な自然光の移ろいを受け止める「器」をつくるか。刻々と変化する陰影が、日々の営みに深い静寂をもたらします。</p>
+          </li>
+
+          <!-- Approach 2: Featured Item (BEM Modifier: approach-item--featured) -->
+          <li class="approach-item approach-item--featured">
+            <span class="approach-item__num">02</span>
+            <h2 class="approach-item__title">Material Integrity<br><small>素材本来の質感と経年美</small></h2>
+            <p class="approach-item__text">石、木、コンクリート、鉄。フェイクの化粧材を排し、素地のままの素材を厳選。年月を重ねるほどに風合いを増し、土地の記憶とともに育つ建築を目指します。</p>
+          </li>
+
+          <!-- Approach 3: Regular Item -->
+          <li class="approach-item">
+            <span class="approach-item__num">03</span>
+            <h2 class="approach-item__title">Contextual Dialogue<br><small>風土と環境との対話</small></h2>
+            <p class="approach-item__text">敷地が持つ固有の高低差、卓越風、日照、隣接する植生を徹底的に分析。周辺環境から孤立するのではなく、景観の一部として溶け込む配置計画を徹底します。</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- =============================================================
+         Main Section 2: Atelier & Consultation
+         ダークトーンの建築的パネルモジュール + 相談案内
+         ============================================================= -->
+    <section class="atelier" id="contact">
+      <div class="atelier__inner">
+        <div class="atelier__box">
+          <div class="atelier__visual">
+            <img src="./images/pic_studio.svg" alt="Tokyo Atelier & Archive" width="600" height="420">
+          </div>
+
+          <div class="atelier__content">
+            <!-- Section Header Module with light modifier -->
+            <div class="sec-head sec-head--light">
+              <span class="sec-head__num">02 // ATELIER &amp; INQUIRY</span>
+              <h2 class="sec-head__title">Dialogue in the Studio</h2>
+              <p class="sec-head__lead">南青山のアトリエでは、過去の模型・素材サンプル・図面アーカイブをご覧いただきながら、建築のご相談を随時承っております。</p>
+            </div>
+
+            <div class="atelier__actions">
+              <!-- BEM Mix: Button with pill and light modifiers -->
+              <a class="btn btn--pill btn--light" href="mailto:info@knot-architects.jp">Consultation Booking</a>
+              <a class="btn btn--pill btn--dark" style="border-color: rgba(255,255,255,0.3);" href="./index.html">Back to Works</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer Module -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <div class="footer__info">
+          <a class="footer__logo" href="./index.html">
+            <img src="./images/logo.svg" alt="KNOT ARCHITECTS" width="280" height="40">
+          </a>
+          <address class="footer__address">
+            KNOT ARCHITECTS 一級建築士事務所<br>
+            東京都港区南青山5-12-8 Aoyama Atelier 3F<br>
+            Tel. 03-6800-4421 / info@knot-architects.jp
+          </address>
+        </div>
+        <nav class="footer__nav">
+          <div>
+            <p class="footer__nav-title">Navigation</p>
+            <ul class="footer__nav-list">
+              <li><a href="./index.html">Selected Works</a></li>
+              <li><a href="./about.html">Studio Philosophy</a></li>
+              <li><a href="#contact">Consultation</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer__nav-title">Social &amp; Press</p>
+            <ul class="footer__nav-list">
+              <li><a href="#">Instagram</a></li>
+              <li><a href="#">ArchDaily</a></li>
+              <li><a href="#">Architecture Digest</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          <small>&copy; 2026 KNOT ARCHITECTS All Rights Reserved.</small>
+        </p>
+        <p class="footer__location">Tokyo &bull; Kyoto &bull; Karuizawa</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560">
+  <defs>
+    <linearGradient id="g_1200" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f2421" />
+      <stop offset="100%" stop-color="#141414" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g_1200)" />
+  <!-- Architectural grid lines -->
+  <line x1="0" y1="168.0" x2="1200" y2="168.0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="0" y1="392.0" x2="1200" y2="392.0" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="300.0" y1="0" x2="300.0" y2="560" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="900.0" y1="0" x2="900.0" y2="560" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  
+  <!-- Architectural silhouette / geometry -->
+  <polygon points="240.0,476.0 600.0,140.0 960.0,476.0" fill="none" stroke="#c5a880" stroke-width="1.5" opacity="0.4"/>
+  <rect x="420.0" y="252.0" width="360.0" height="224.0" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+
+  <g fill="#ffffff" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif">
+    <text x="600.0" y="290.0" font-size="22" font-weight="600" letter-spacing="4">HOUSE OF LIGHT &amp; SHADOW</text>
+    <text x="600.0" y="322.0" font-size="12" fill="#c5a880" letter-spacing="2">RESIDENCE IN KAMAKURA, 2025</text>
+  </g>
+</svg>
