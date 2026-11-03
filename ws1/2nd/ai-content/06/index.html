@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>06_p5playの基礎</title>
+
+    <!-- ① p5.js 本体 (v1.11系推奨) -->
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.4/lib/p5.min.js"></script>
+
+    <!-- ② 物理演算エンジン Planck.js (p5playの直前に必須) -->
+    <script src="https://p5play.org/v3/planck.min.js"></script>
+
+    <!-- ③ p5play v3 本体 -->
+    <script src="https://p5play.org/v3/p5play.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #1a1a24;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        canvas {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- メインスクリプト -->
+    <script src="./js/sketch.js"></script>
+</body>
+
+</html>
