@@ -4,12 +4,12 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #f8fafc;
+  background-color: #eef2ff;
   color: #1e293b;
 }
 
 header {
-  background-color: #0f172a;
+  background-color: #1e1b4b;
   color: #ffffff;
   padding: 16px 24px;
 }
@@ -30,8 +30,8 @@ main {
 
 h1 {
   font-size: 24px;
-  color: #0f172a;
-  border-bottom: 3px solid #2563eb;
+  color: #1e1b4b;
+  border-bottom: 3px solid #4f46e5;
   padding-bottom: 12px;
   margin-top: 0;
   margin-bottom: 24px;
@@ -39,8 +39,8 @@ h1 {
 
 h2 {
   font-size: 18px;
-  color: #1e40af;
-  border-left: 4px solid #2563eb;
+  color: #3730a3;
+  border-left: 4px solid #4f46e5;
   padding-left: 12px;
   margin-top: 32px;
   margin-bottom: 14px;

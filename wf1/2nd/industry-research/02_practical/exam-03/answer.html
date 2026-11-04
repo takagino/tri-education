@@ -118,7 +118,6 @@
       color: var(--color-heading);
     }
 
-    /* ソースコードブロック */
     pre {
       background-color: #0f172a;
       color: #e2e8f0;
@@ -139,7 +138,6 @@
       font-size: inherit;
     }
 
-    /* Diff行ハイライト */
     .diff-add {
       color: #4ade80;
       background-color: rgba(34, 197, 94, 0.12);
@@ -154,7 +152,6 @@
       width: 100%;
     }
 
-    /* 採点ボックス */
     .scoring-box {
       background: #fffbeb;
       border: 1px solid #fde68a;
@@ -178,7 +175,6 @@
       padding-left: 20px;
     }
 
-    /* ナビゲーションチップ */
     .nav-links {
       display: flex;
       flex-wrap: wrap;
@@ -208,19 +204,15 @@
       body {
         padding: 16px 12px 48px;
       }
-
       .container {
         padding: 28px 20px;
       }
-
       h1 {
         font-size: 22px;
       }
-
       h2 {
         font-size: 18px;
       }
-
       h3 {
         font-size: 16px;
       }
@@ -266,27 +258,27 @@
 ├── css/
 │   └── style.css
 └── images/
-    ├── logo.png
-    └── banner.jpg</code></pre>
+    ├── site_logo.png
+    └── keyvisual.jpg</code></pre>
 
         <h4>index.html の変更箇所（Diff）</h4>
         <pre><code> &lt;head&gt;
    &lt;meta charset="UTF-8"&gt;
-   &lt;title&gt;ウェブデザインアカデミー&lt;/title&gt;
+   &lt;title&gt;あおぞら写真館&lt;/title&gt;
 <span class="diff-del">-  &lt;link rel="stylesheet" href="style.css"&gt;</span>
 <span class="diff-add">+  &lt;link rel="stylesheet" href="css/style.css"&gt;</span>
  &lt;/head&gt;
  &lt;body&gt;
    &lt;header&gt;
      &lt;div class="logo"&gt;
-<span class="diff-del">-      &lt;img src="logo.png" alt="WEB DESIGN ACADEMY"&gt;</span>
-<span class="diff-add">+      &lt;img src="images/logo.png" alt="WEB DESIGN ACADEMY"&gt;</span>
+<span class="diff-del">-      &lt;img src="site_logo.png" alt="AOZORA PHOTO STUDIO"&gt;</span>
+<span class="diff-add">+      &lt;img src="images/site_logo.png" alt="AOZORA PHOTO STUDIO"&gt;</span>
      &lt;/div&gt;
    &lt;/header&gt;
    &lt;main&gt;
      &lt;div class="hero"&gt;
-<span class="diff-del">-      &lt;img src="banner.jpg" alt="受講生募集中 バナー"&gt;</span>
-<span class="diff-add">+      &lt;img src="images/banner.jpg" alt="受講生募集中 バナー"&gt;</span>
+<span class="diff-del">-      &lt;img src="keyvisual.jpg" alt="春の記念撮影キャンペーン キービジュアル"&gt;</span>
+<span class="diff-add">+      &lt;img src="images/keyvisual.jpg" alt="春の記念撮影キャンペーン キービジュアル"&gt;</span>
      &lt;/div&gt;</code></pre>
 
         <div class="scoring-box">
@@ -304,43 +296,42 @@
       <!-- 作業 2 -->
       <article id="task2">
         <h3>作業 2：グローバルナビのリンク設定 ＆ テキスト置換（配点: 20点）</h3>
-        <p>全4ファイルのナビゲーションリンクを設定し、ダミー文字（A/B/C）を各ページのタイトルに置き換える問題です。<br>
-        <strong>※本回では <code>app.html</code>（参加申込）と <code>faq.html</code>（FAQ）が対象です。</strong></p>
+        <p>全4ファイルのナビゲーションリンクを設定し、ダミー文字（A/B/C）を各ページのタイトルに置き換える問題です。</p>
+        <p>※本回では <strong><code>app.html</code>（エントリー方法）</strong> と <strong><code>faq.html</code>（よくある質問）</strong> が指定されています。</p>
 
         <h4>各HTML共通のナビゲーション（Diff）</h4>
         <pre><code>     &lt;nav&gt;
        &lt;ul&gt;
-<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;HOME&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;競技概要&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;参加申込&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;FAQ&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-add">+        &lt;li&gt;&lt;a href="index.html"&gt;HOME&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-add">+        &lt;li&gt;&lt;a href="info.html"&gt;競技概要&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-add">+        &lt;li&gt;&lt;a href="app.html"&gt;参加申込&lt;/a&gt;&lt;/li&gt;</span>
-<span class="diff-add">+        &lt;li&gt;&lt;a href="faq.html"&gt;FAQ&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;TOP&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;コンテスト概要&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;エントリー方法&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-del">-        &lt;li&gt;&lt;a href="#"&gt;よくある質問&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-add">+        &lt;li&gt;&lt;a href="index.html"&gt;TOP&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-add">+        &lt;li&gt;&lt;a href="info.html"&gt;コンテスト概要&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-add">+        &lt;li&gt;&lt;a href="app.html"&gt;エントリー方法&lt;/a&gt;&lt;/li&gt;</span>
+<span class="diff-add">+        &lt;li&gt;&lt;a href="faq.html"&gt;よくある質問&lt;/a&gt;&lt;/li&gt;</span>
        &lt;/ul&gt;
      &lt;/nav&gt;</code></pre>
 
         <h4>各HTMLの見出し修正（Diff）</h4>
         <pre><code>/* info.html */
 <span class="diff-del">-    &lt;h1&gt;A&lt;/h1&gt;</span>
-<span class="diff-add">+    &lt;h1&gt;競技概要&lt;/h1&gt;</span>
+<span class="diff-add">+    &lt;h1&gt;コンテスト概要&lt;/h1&gt;</span>
 
 /* app.html */
 <span class="diff-del">-    &lt;h1&gt;B&lt;/h1&gt;</span>
-<span class="diff-add">+    &lt;h1&gt;参加申込&lt;/h1&gt;</span>
+<span class="diff-add">+    &lt;h1&gt;エントリー方法&lt;/h1&gt;</span>
 
 /* faq.html */
 <span class="diff-del">-    &lt;h1&gt;C&lt;/h1&gt;</span>
-<span class="diff-add">+    &lt;h1&gt;FAQ&lt;/h1&gt;</span></code></pre>
+<span class="diff-add">+    &lt;h1&gt;よくある質問&lt;/h1&gt;</span></code></pre>
 
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
-            <li><strong>リンク先ファイル名ミス（-5点/箇所）</strong>：過去問慣れしてしまい <code>skilltest.html</code> や <code>form.html</code> と書いてしまうミス（問題文で <code>app.html</code>, <code>faq.html</code> と指定されています）。</li>
             <li><strong>リンクの更新漏れ（-3点/箇所）</strong>：1ファイルだけ修正して他の3ファイルの修正を忘れるミス。</li>
-            <li><strong>テキストのタイポ（-3点/箇所）</strong>：「参加申込み」「よくある質問」などタイトルと一致しない表記ゆれ。</li>
-            <li><strong>cssフォルダの入れ忘れ（-5点）</strong>：HTMLだけ <code>a2</code> に入れて <code>css</code> フォルダを入れ忘れるミス。</li>
+            <li><strong>テキストのタイポ（-3点/箇所）</strong>：タイトルと一致しない表記ゆれ。</li>
+            <li><strong>cssフォルダの入れ忘れ（-5点）</strong>：HTMLだけ <code>a2</code> に入れて <code>css</code> フォルダを入れ忘れ、スタイルが外れてしまうミス。</li>
           </ul>
         </div>
       </article>
@@ -354,7 +345,7 @@
 
         <h4>style.css の変更箇所（Diff）</h4>
         <pre><code> #wrap {
-   width: 800px;
+   width: 780px;
 <span class="diff-add">+  margin: 0 auto;</span>
    background-color: #ffffff;
  }</code></pre>
@@ -364,7 +355,7 @@
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
             <li><strong>text-align: center を指定してしまう（-15点）</strong>：コンテナ自体ではなく中のテキストが中央揃えになってしまうミス。</li>
-            <li><strong>上下中央寄せの不要なプロパティ（減点対象外または軽微減点）</strong>：余計な flex や position を使ってレイアウトを崩さないこと。</li>
+            <li><strong>上下中央寄せの不要なプロパティ（減点対象外または軽微減点）</strong>：問題文に「横方向の中央であって、縦方向の中央に配置する必要はない」とあるため、余計な flex や position を使ってレイアウトを崩さないこと。</li>
           </ul>
         </div>
       </article>
@@ -382,13 +373,14 @@
 <span class="diff-add">+  color: #ffffff;</span>
    padding: 12px 16px;
    font-size: 22px;
+   border-radius: 4px;
  }</code></pre>
         <p style="font-size: 14px; color: var(--color-text-muted);">※ <code>background: #bbaa77;</code> でも可。</p>
 
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
-            <li><strong>16進数カラーコードのタイプミス（各-10点）</strong>：<code>#bba77</code>（桁不足）や小文字/大文字の誤記など。指示通りのコード <code>#bbaa77</code> を指定すること。</li>
+            <li><strong>16進数カラーコードのタイプミス（各-10点）</strong>：桁不足や誤記など。問題文で <code>#bbaa77</code>, <code>#ffffff</code> と6桁指定されている場合は、指示通りの文字列で記述するのが安全です。</li>
             <li><strong>プロパティの取り違え（-10点）</strong>：<code>color</code> と <code>background-color</code> を逆に設定してしまうミス。</li>
           </ul>
         </div>
@@ -407,27 +399,27 @@
    padding: 30px 20px;
    font-family: sans-serif;
    color: #1e293b;
-   background-color: #f0f4f8;
-<span class="diff-add">+  background-image: url("img/bg_grid.png");</span>
+   background-color: #fff8ed;
+<span class="diff-add">+  background-image: url("img/bg_dot.png");</span>
  }
 
  #wrap {
    width: 560px;
    margin: 0 auto;
    background-color: #ffffff;
-<span class="diff-add">+  background-image: url("img/bg_card_top.png");</span>
+<span class="diff-add">+  background-image: url("img/head_accent.png");</span>
 <span class="diff-add">+  background-repeat: repeat-x;</span>
 <span class="diff-add">+  background-position: top left;</span>
    border-radius: 6px;
  }</code></pre>
-        <p style="font-size: 14px; color: var(--color-text-muted);">※ ショートハンド記法 <code>background: #ffffff url("img/bg_card_top.png") repeat-x top;</code> でも可。</p>
+        <p style="font-size: 14px; color: var(--color-text-muted);">※ ショートハンド記法 <code>background: #ffffff url("img/head_accent.png") repeat-x top;</code> でも可。</p>
 
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
-            <li><strong>画像の選択ミス（-10点/箇所）</strong>：ダミー画像（ストライプやドット）を選んでしまう。</li>
-            <li><strong>相対パスの間違い（-10点）</strong>：<code>url("bg_grid.png")</code> のように <code>img/</code> が抜けて画像が表示されない。</li>
-            <li><strong>リピート指定の不足（-3点）</strong>：上部のバーが意図せず全体にタイル状に敷き詰められてしまう（`repeat-x` や `no-repeat` の未指定）。</li>
+            <li><strong>画像の選択ミス（-10点/箇所）</strong>：ダミー画像を選んでしまう。</li>
+            <li><strong>相対パスの間違い（-10点）</strong>：<code>url("bg_dot.png")</code> のように <code>img/</code> が抜けて画像が表示されない。</li>
+            <li><strong>リピート指定の不足（-3点）</strong>：上部のバーが意図せず全体にタイル状に敷き詰められてしまう（<code>repeat-x</code> や <code>no-repeat</code> の未指定）。</li>
           </ul>
         </div>
       </article>
@@ -441,24 +433,24 @@
 
         <h4>index.html の main 要素内の正解コード</h4>
         <pre><code>  &lt;main&gt;
-    &lt;h1&gt;ウェブデザイン技能検定 3級対策セミナー&lt;/h1&gt;
+    &lt;h1&gt;地域総合防災訓練・避難体験デイのご案内&lt;/h1&gt;
 
-    &lt;h2&gt;セミナーの概要&lt;/h2&gt;
-    &lt;p&gt;本セミナーでは、ウェブデザイン技能検定3級の学科および実技試験合格に向けた基礎知識と制作技術を体系的に習得します。&lt;/p&gt;
+    &lt;h2&gt;訓練の目的&lt;/h2&gt;
+    &lt;p&gt;災害発生時の初期対応や安全な避難経路の確認、応急手当の基本を地域住民の皆さまと実践的に確認することを目的としています。&lt;/p&gt;
 
-    &lt;h2&gt;当日のタイムスケジュール&lt;/h2&gt;
+    &lt;h2&gt;当日の訓練プログラム&lt;/h2&gt;
     &lt;ol&gt;
-      &lt;li&gt;受付および資料配布&lt;/li&gt;
-      &lt;li&gt;学科試験の重要ポイント解説&lt;/li&gt;
-      &lt;li&gt;実技試験の模擬演習&lt;/li&gt;
-      &lt;li&gt;質疑応答とアドバイス&lt;/li&gt;
+      &lt;li&gt;避難受付および班分け確認&lt;/li&gt;
+      &lt;li&gt;初期消火と消火器の操作体験&lt;/li&gt;
+      &lt;li&gt;応急手当とAEDの使用実習&lt;/li&gt;
+      &lt;li&gt;非常食の試食と備蓄品展示&lt;/li&gt;
     &lt;/ol&gt;
 
-    &lt;h2&gt;受講時の持ち物&lt;/h2&gt;
+    &lt;h2&gt;参加時の服装・持ち物&lt;/h2&gt;
     &lt;ul&gt;
-      &lt;li&gt;筆記用具&lt;/li&gt;
-      &lt;li&gt;受講票&lt;/li&gt;
-      &lt;li&gt;本人確認書類&lt;/li&gt;
+      &lt;li&gt;動きやすい服装と履き慣れた運動靴&lt;/li&gt;
+      &lt;li&gt;飲み物（水分補給用）&lt;/li&gt;
+      &lt;li&gt;タオルおよび筆記用具&lt;/li&gt;
     &lt;/ul&gt;
   &lt;/main&gt;</code></pre>
 
@@ -466,7 +458,7 @@
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
             <li><strong>指定タグの未使用（各-5点）</strong>：問題文に「h1, h2, p, ol, ul のすべてをもれなく使用し」とあるため、1つでも欠けると減点。</li>
-            <li><strong>リストマーカーをテキストに残してしまう（-5点）</strong>：<code>&lt;li&gt;1. 受付および資料配布&lt;/li&gt;</code> や <code>&lt;li&gt;・筆記用具&lt;/li&gt;</code> のように、数字や中黒をテキストに残してしまうミス（CSSのリストスタイルで自動表示させるのが正解）。</li>
+            <li><strong>リストマーカーをテキストに残してしまう（-5点）</strong>：<code>&lt;li&gt;1. 避難受付および班分け確認&lt;/li&gt;</code> や <code>&lt;li&gt;・動きやすい服装と履き慣れた運動靴&lt;/li&gt;</code> のように、数字や中黒をテキストに残してしまうミス（CSSのリストスタイルで自動表示させるのが正解）。</li>
             <li><strong>指定外タグの使用（-3点）</strong>：不要な <code>&lt;div&gt;</code> や <code>&lt;span&gt;</code>、<code>&lt;br&gt;</code> での段落分け。</li>
           </ul>
         </div>

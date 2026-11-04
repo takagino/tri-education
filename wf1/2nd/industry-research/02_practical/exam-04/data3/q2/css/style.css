@@ -4,21 +4,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  color: #333333;
-  background-color: #f1f5f9;
+  color: #1e293b;
+  background-color: #e0e7ff;
 }
 
 header {
-  background-color: #ffffff;
-  border-bottom: 2px solid #e2e8f0;
-  padding: 16px 24px;
+  background-color: #1e1b4b;
+  border-bottom: 4px solid #f59e0b;
+  padding: 18px 28px;
 }
 
 .site-title {
   font-size: 20px;
   font-weight: bold;
-  color: #0f172a;
-  margin-bottom: 12px;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 
 nav ul {
@@ -26,36 +26,38 @@ nav ul {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 16px;
+  gap: 14px;
 }
 
 nav li a {
   display: block;
-  padding: 6px 14px;
-  background-color: #e2e8f0;
-  color: #334155;
+  padding: 6px 16px;
+  background-color: #312e81;
+  color: #fef3c7;
+  border: 1px solid #6366f1;
   text-decoration: none;
   border-radius: 4px;
   font-size: 14px;
 }
 
 nav li a:hover {
-  background-color: #cbd5e1;
+  background-color: #4338ca;
 }
 
 main {
   width: 720px;
   margin: 30px auto;
   background-color: #ffffff;
-  padding: 30px;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  padding: 32px;
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(30, 27, 75, 0.08);
 }
 
 h1 {
   font-size: 22px;
-  color: #1e293b;
-  border-bottom: 2px solid #3b82f6;
-  padding-bottom: 8px;
+  color: #1e1b4b;
+  background-color: #eef2ff;
+  border-bottom: 2px solid #4338ca;
+  padding: 10px 14px;
   margin-top: 0;
 }
