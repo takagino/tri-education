@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ウェブデザイン技能検定 3級 実技試験 模範解答・解説（令和8年度 第2回）</title>
+  <title>ウェブデザイン技能検定3級 実技試験 模範解答・解説（第4回）</title>
   <style>
     :root {
       --color-text: #1f2937;
@@ -204,24 +205,29 @@
       body {
         padding: 16px 12px 48px;
       }
+
       .container {
         padding: 28px 20px;
       }
+
       h1 {
         font-size: 22px;
       }
+
       h2 {
         font-size: 18px;
       }
+
       h3 {
         font-size: 16px;
       }
     }
   </style>
 </head>
+
 <body>
   <main class="container">
-    <h1>ウェブデザイン技能検定 3級 実技試験 模範解答・解説（令和8年度 第2回）</h1>
+    <h1>ウェブデザイン技能検定3級 実技試験 模範解答・解説（第4回）</h1>
 
     <div class="nav-links">
       <span style="font-size: 13px; font-weight: 700; align-self: center;">作業ジャンプ:</span>
@@ -284,7 +290,8 @@
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
-            <li><strong>フォルダ名間違い（-10点〜-20点）</strong>：<code>images</code> を <code>image</code> や <code>img</code> にしてしまうミス。指示画像 <code>fs.jpg</code> の名前を必ず確認すること。</li>
+            <li><strong>フォルダ名間違い（-10点〜-20点）</strong>：<code>images</code> を <code>image</code> や <code>img</code>
+              にしてしまうミス。指示画像 <code>fs.jpg</code> の名前を必ず確認すること。</li>
             <li><strong>リンク切れ（-5点/箇所）</strong>：相対パスが正しく書き換わっておらず、ブラウザ上でCSSや画像が読み込まれていない。</li>
             <li><strong>不要なファイル残存（-2点）</strong>：移動ではなくコピーをしてしまい、ルート直下にも画像が残っている状態。</li>
           </ul>
@@ -297,7 +304,7 @@
       <article id="task2">
         <h3>作業 2：グローバルナビのリンク設定 ＆ テキスト置換（配点: 20点）</h3>
         <p>全4ファイルのナビゲーションリンクを設定し、ダミー文字（A/B/C）を各ページのタイトルに置き換える問題です。</p>
-        
+
 
         <h4>各HTML共通のナビゲーション（Diff）</h4>
         <pre><code>     &lt;nav&gt;
@@ -331,7 +338,8 @@
           <ul>
             <li><strong>リンクの更新漏れ（-3点/箇所）</strong>：1ファイルだけ修正して他の3ファイルの修正を忘れるミス。</li>
             <li><strong>テキストのタイポ（-3点/箇所）</strong>：タイトルと一致しない表記ゆれ。</li>
-            <li><strong>cssフォルダの入れ忘れ（-5点）</strong>：HTMLだけ <code>a2</code> に入れて <code>css</code> フォルダを入れ忘れ、スタイルが外れてしまうミス。</li>
+            <li><strong>cssフォルダの入れ忘れ（-5点）</strong>：HTMLだけ <code>a2</code> に入れて <code>css</code> フォルダを入れ忘れ、スタイルが外れてしまうミス。
+            </li>
           </ul>
         </div>
       </article>
@@ -349,13 +357,15 @@
 <span class="diff-add">+  margin: 0 auto;</span>
    background-color: #ffffff;
  }</code></pre>
-        <p style="font-size: 14px; color: var(--color-text-muted);">※ <code>margin: auto;</code> や <code>margin-left: auto; margin-right: auto;</code> でも正解です。</p>
+        <p style="font-size: 14px; color: var(--color-text-muted);">※ <code>margin: auto;</code> や
+          <code>margin-left: auto; margin-right: auto;</code> でも正解です。</p>
 
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
             <li><strong>text-align: center を指定してしまう（-15点）</strong>：コンテナ自体ではなく中のテキストが中央揃えになってしまうミス。</li>
-            <li><strong>上下中央寄せの不要なプロパティ（減点対象外または軽微減点）</strong>：問題文に「横方向の中央であって、縦方向の中央に配置する必要はない」とあるため、余計な flex や position を使ってレイアウトを崩さないこと。</li>
+            <li><strong>上下中央寄せの不要なプロパティ（減点対象外または軽微減点）</strong>：問題文に「横方向の中央であって、縦方向の中央に配置する必要はない」とあるため、余計な flex や
+              position を使ってレイアウトを崩さないこと。</li>
           </ul>
         </div>
       </article>
@@ -380,7 +390,8 @@
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
-            <li><strong>16進数カラーコードのタイプミス（各-10点）</strong>：桁不足や誤記など。問題文で <code>#222222</code>, <code>#ffffff</code> と6桁指定されている場合は、指示通りの文字列で記述するのが安全です。</li>
+            <li><strong>16進数カラーコードのタイプミス（各-10点）</strong>：桁不足や誤記など。問題文で <code>#222222</code>, <code>#ffffff</code>
+              と6桁指定されている場合は、指示通りの文字列で記述するのが安全です。</li>
             <li><strong>プロパティの取り違え（-10点）</strong>：<code>color</code> と <code>background-color</code> を逆に設定してしまうミス。</li>
           </ul>
         </div>
@@ -412,14 +423,17 @@
 <span class="diff-add">+  background-position: top left;</span>
    border-radius: 6px;
  }</code></pre>
-        <p style="font-size: 14px; color: var(--color-text-muted);">※ ショートハンド記法 <code>background: #ffffff url("img/title_line.png") repeat-x top;</code> でも可。</p>
+        <p style="font-size: 14px; color: var(--color-text-muted);">※ ショートハンド記法
+          <code>background: #ffffff url("img/title_line.png") repeat-x top;</code> でも可。</p>
 
         <div class="scoring-box">
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
             <li><strong>画像の選択ミス（-10点/箇所）</strong>：ダミー画像を選んでしまう。</li>
-            <li><strong>相対パスの間違い（-10点）</strong>：<code>url("tile_check.png")</code> のように <code>img/</code> が抜けて画像が表示されない。</li>
-            <li><strong>リピート指定の不足（-3点）</strong>：上部のバーが意図せず全体にタイル状に敷き詰められてしまう（<code>repeat-x</code> や <code>no-repeat</code> の未指定）。</li>
+            <li><strong>相対パスの間違い（-10点）</strong>：<code>url("tile_check.png")</code> のように <code>img/</code> が抜けて画像が表示されない。
+            </li>
+            <li><strong>リピート指定の不足（-3点）</strong>：上部のバーが意図せず全体にタイル状に敷き詰められてしまう（<code>repeat-x</code> や
+              <code>no-repeat</code> の未指定）。</li>
           </ul>
         </div>
       </article>
@@ -429,7 +443,8 @@
       <!-- 作業 6 -->
       <article id="task6">
         <h3>作業 6：テキストデータのHTMLセマンティック構造化（配点: 20点）</h3>
-        <p>プレーンテキスト（<code>sample.txt</code>）から適切なタグ（<code>h1</code>, <code>h2</code>, <code>p</code>, <code>ol</code>, <code>ul</code>）を選択し、もれなく適用する問題です。</p>
+        <p>プレーンテキスト（<code>sample.txt</code>）から適切なタグ（<code>h1</code>, <code>h2</code>, <code>p</code>, <code>ol</code>,
+          <code>ul</code>）を選択し、もれなく適用する問題です。</p>
 
         <h4>index.html の main 要素内の正解コード</h4>
         <pre><code>  &lt;main&gt;
@@ -458,12 +473,16 @@
           <h4>採点基準・よくある減点ミス</h4>
           <ul>
             <li><strong>指定タグの未使用（各-5点）</strong>：問題文に「h1, h2, p, ol, ul のすべてをもれなく使用し」とあるため、1つでも欠けると減点。</li>
-            <li><strong>リストマーカーをテキストに残してしまう（-5点）</strong>：<code>&lt;li&gt;1. ペイントソフトの基本操作練習&lt;/li&gt;</code> や <code>&lt;li&gt;・参加確認メール（画面提示または印刷）&lt;/li&gt;</code> のように、数字や中黒をテキストに残してしまうミス（CSSのリストスタイルで自動表示させるのが正解）。</li>
-            <li><strong>指定外タグの使用（-3点）</strong>：不要な <code>&lt;div&gt;</code> や <code>&lt;span&gt;</code>、<code>&lt;br&gt;</code> での段落分け。</li>
+            <li><strong>リストマーカーをテキストに残してしまう（-5点）</strong>：<code>&lt;li&gt;1. ペイントソフトの基本操作練習&lt;/li&gt;</code> や
+              <code>&lt;li&gt;・参加確認メール（画面提示または印刷）&lt;/li&gt;</code> のように、数字や中黒をテキストに残してしまうミス（CSSのリストスタイルで自動表示させるのが正解）。
+            </li>
+            <li><strong>指定外タグの使用（-3点）</strong>：不要な <code>&lt;div&gt;</code> や
+              <code>&lt;span&gt;</code>、<code>&lt;br&gt;</code> での段落分け。</li>
           </ul>
         </div>
       </article>
     </section>
   </main>
 </body>
+
 </html>
