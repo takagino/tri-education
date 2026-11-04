@@ -19,22 +19,45 @@ $font-family-base: Helvetica,
 }
 
 @mixin title-main() {
-    margin-bottom: 30px;
-    padding-left: 10px;
+    margin-bottom: rem(30);
+    padding-left: rem(10);
     border-left: 10px solid $color-accent;
     color: $color-main;
-    font-size: 24px;
+    font-size: clamp(rem(18), 3vw, rem(24));
     font-weight: bold;
     line-height: math.div(31, 24);
     text-transform: uppercase;
 }
 
+// 基準となるルートフォントサイズ（ブラウザ標準）
+$font-size-base: 16;
+
+// ① pxをremに変換する関数
+@function rem($px-value) {
+    @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// ② pxをemに変換する関数
+@function em($font-size-self: 16, $px-value) {
+    @return #{math.div($px-value, $font-size-self)}em;
+}
+
+// ③ XD/Figmaのトラッキング値（文字間）をemに変換する関数
+@function ls($xd-value) {
+    @return #{math.div($xd-value, 1000)}em;
+}
+
+// ④ 親要素の幅に対する「%」を自動計算する関数
+@function pct($target-px, $parent-px) {
+    @return math.percentage(math.div($target-px, $parent-px));
+}
+
 body {
     color: $color-text;
-    font-size: 14px;
+    font-size: rem(14);
     font-family: $font-family-base;
     line-height: math.div(24, 14);
-    letter-spacing: #{math.div(50,1000)}em;
+    letter-spacing: ls(50);
 
     img {
         max-width: 100%;
@@ -44,7 +67,7 @@ body {
 }
 
 .header {
-    padding: 30px 0 60px;
+    padding: rem(30) 0 rem(60);
     text-align: center;
 
     &__inner {
@@ -53,7 +76,7 @@ body {
 }
 
 .footer {
-    padding: 100px 0 40px;
+    padding: rem(100) 0 rem(40);
     background-color: $color-main;
 
     &__inner {
@@ -61,7 +84,7 @@ body {
     }
 
     small {
-        font-size: 12px;
+        font-size: rem(12);
         color: #fff;
     }
 }
@@ -71,17 +94,17 @@ body {
 .post {
 
     &__category {
-        margin-bottom: 10px;
+        margin-bottom: rem(10);
         color: $color-accent;
-        font-size: 12px;
+        font-size: rem(12);
         font-style: oblique;
         text-transform: uppercase;
     }
 
     &__title {
-        margin-bottom: 15px;
+        margin-bottom: rem(15);
         color: $color-main;
-        font-size: 18px;
+        font-size: rem(18);
         font-weight: bold;
         line-height: math.div(23, 18);
     }
@@ -91,35 +114,35 @@ body {
     background-color: #fff;
 
     &__body {
-        padding: 35px;
+        padding: rem(35);
     }
 
     &__title {
-        margin-bottom: 15px;
+        margin-bottom: rem(15);
         color: $color-main;
-        font-size: 18px;
+        font-size: rem(18);
         font-weight: bold;
         line-height: math.div(23, 18);
     }
 }
 
 .time {
-    margin-top: 20px;
-    padding-left: 26px;
+    margin-top: rem(20);
+    padding-left: rem(26);
     color: $color-label;
-    font-size: 12px;
+    font-size: rem(12);
     background: url(../images/icon_time.png) no-repeat left center;
 }
 
 .btn {
     display: block;
-    width: 160px;
-    margin-top: 25px;
+    width: em(12, 200);
+    margin-top: rem(25);
     margin-left: auto;
-    padding: 14px;
+    padding: rem(14);
     background-color: $color-accent;
     color: #fff;
-    font-size: 12px;
+    font-size: rem(12);
     font-weight: bold;
     text-align: center;
     text-transform: uppercase;
@@ -140,7 +163,7 @@ body {
 /* index.html
 ------------------------------ */
 .news {
-    padding-bottom: 60px;
+    padding-bottom: rem(60);
 
     &__inner {
         @include inner();
@@ -153,12 +176,12 @@ body {
     &__list {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 60px percentage(math.div(40, 800));
+        gap: rem(60) percentage(math.div(40, 800));
     }
 }
 
 .trending {
-    padding: 60px 0;
+    padding: rem(60) 0;
     background-color: $color-bg;
 
     &__inner {
@@ -179,7 +202,7 @@ body {
 /* about.html
 ------------------------------ */
 .blog {
-    padding-bottom: 60px;
+    padding-bottom: rem(60);
 
 
     &__inner {
@@ -188,20 +211,20 @@ body {
 
     &__list {
         display: grid;
-        gap: 60px percentage(math.div(40, 800));
+        gap: rem(60) percentage(math.div(40, 800));
     }
 
     &__item {
         .post__title {
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: rem(15);
+            padding-bottom: rem(10);
             border-bottom: 1px solid #DDDDDD;
         }
     }
 }
 
 .discovery {
-    padding: 60px 0;
+    padding: rem(60) 0;
     background-color: $color-bg;
 
     &__inner {
@@ -215,6 +238,6 @@ body {
     &__list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 60px percentage(math.div(40, 800));
+        gap: rem(60) percentage(math.div(40, 800));
     }
 }
