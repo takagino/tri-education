@@ -1298,8 +1298,8 @@ function draw() {
 
 ## 9-1. ステップ①：ステージ再生成関数（createGameWorld と startGame）の切り出し
 
-まず解決したいのが、**「ゲームオーバーやクリア後に SPACE キーでリトライできる機能」** です。
-リトライできるようにするには：
+まず解決したいのが、**「ゲーム開始時やリトライ時にステージを新しく生成・リセットできる機能」** です。
+ゲームを再開できるようにするには：
 1. 今あるスプライト（敵や残ったコイン）をすべて消去する。
 2. スコアをゼロに戻す。
 3. 最初と同じように足場・コイン・敵・プレイヤーを新しく配置し直す。
@@ -1308,11 +1308,6 @@ function draw() {
 そのため、これまで `setup()` の中に直接書いていたスプライト生成コードを、**`createGameWorld()` という関数** に切り出します：
 
 ```javascript
-function setup() {
-    new Canvas(800, 500);
-    // setupの中はキャンバス作成だけにスッキリさせる！
-}
-
 // ゲームの足場・コイン・敵・プレイヤーを生成する関数
 function createGameWorld() {
     // ① プレイヤーの作成
@@ -1330,12 +1325,11 @@ function createGameWorld() {
 }
 ```
 
-そして、ゲーム開始時やリトライ時に呼ぶ **`startGame()` 関数** を用意します：
+そして、ステージを全消去して再生成する **`startGame()` 関数** を用意します：
 
 ```javascript
 function startGame() {
     score = 0;
-    gameState = 'PLAY';
 
     // ★ 既存のスプライトを全消去して真っさらにリセット！
     allSprites.remove();
@@ -1348,15 +1342,45 @@ function startGame() {
 > **`allSprites.remove()` の威力**
 > p5play にはすべてのスプライトをまとめた `allSprites` という特別なグループが自動で用意されています。`allSprites.remove()` を呼ぶだけで、画面上に残っているすべてのスプライトが一瞬で消去されます！
 
+#### 動作確認：`setup()` から `startGame()` を呼び出す
+
+関数を切り出せたら、`setup()` の中から `startGame()` を呼び出すように変更します：
+
+```javascript
+function setup() {
+    new Canvas(800, 500);
+    startGame(); // ステージを生成してスタート！
+}
+```
+
+ここで一度ブラウザをリロードして動作確認してみましょう。
+スプライト生成を関数に切り出した後も、**これまでと同じようにプレイヤーや足場が表示され、問題なく動いていれば切り出し成功** です！
+
 ---
 
 ## 9-2. ステップ②：ゲームステート（gameState）による画面遷移
 
+関数への切り出しが確認できたら、いよいよ画面遷移を作りましょう。
 今までは `isGameOver` や `isClear` というフラグで管理していましたが、これだと「スタート前の待機画面」が作れません。
 そこで、ゲームの現在の状態を1つの文字列変数 **`gameState`** で管理します：
 
 ```javascript
 let gameState = 'START'; // 'START'（タイトル）, 'PLAY'（プレイ中）, 'GAMEOVER'（ミス）, 'CLEAR'（クリア）
+```
+
+### `startGame()` に `gameState = 'PLAY';` を追加する
+
+先ほど作った `startGame()` 関数の中に、**「ゲームプレイ中」の状態へ切り替えるコードを1行追加** します：
+
+```javascript
+function startGame() {
+    score = 0;
+    gameState = 'PLAY'; // ★ ここに1行追加！プレイ中状態へ切り替える
+
+    allSprites.remove();
+    world.gravity.y = 20;
+    createGameWorld();
+}
 ```
 
 これにより、コイン獲得時や敵接触時の処理もステート変更に書き換えます：
@@ -1378,50 +1402,7 @@ function hitEnemy(player, enemy) {
 
 ---
 
-## 9-3. ステップ③：超重要！`allSprites.draw()` と描画レイヤーの順序
-
-ここで、p5play でUIや文字を表示する際の **「最大の落とし穴」** について学びましょう。
-
-タイトル画面やゲームオーバー画面で、画面全体を暗くする半透明の四角（マスク）や文字を普通に `draw()` 内で描画しようとすると……
-**「あれ！？ 足場やコインが文字の手前に飛び出してきて、文字が隠れてしまう！」** という大問題が起きます。
-
-なぜでしょうか？
-p5play は、**プログラマが何も書かなくても、`draw()` 関数の最後（一番手前）に自動ですべてのスプライトを描画してしまう** という仕様があるからです。
-
-```mermaid
-graph TD
-    A["通常の動作（自動描画）<br>背景 ➔ 文字（text） ➔ スプライト（自動）"] --> B["❌ 文字の上に足場やコインが重なって隠れる！"]
-    C["allSprites.draw() を使う場合<br>背景 ➔ allSprites.draw() ➔ 文字（text）"] --> D["⭕ スプライトの手前に文字が綺麗に重なる！"]
-```
-
-### 解決策：手動描画 `allSprites.draw()`
-文字や画面オーバーレイを描く **前** に、明示的に **`allSprites.draw();`** を呼び出します！
-一度手動で `allSprites.draw()` を呼ぶと、p5play の自動描画はストップし、描画順序を思い通りにコントロールできるようになります。
-
-```javascript
-function draw() {
-    clear();
-    background('#1e272e');
-
-    if (gameState === 'PLAY') {
-        // プレイヤー操作や敵の流し込み処理
-    }
-
-    // ★ スプライトを先に手動描画する！
-    allSprites.draw();
-
-    // ★ その手前に、UIやオーバーレイ文字を重ねて描画する！
-    if (gameState === 'START') {
-        // スタート画面の表示
-    } else if (gameState === 'PLAY') {
-        // スコア表示
-    } // ...
-}
-```
-
----
-
-## 9-4. ステップ④：UI描画（drawUI）とオーバーレイ（drawOverlay）の部品化
+## 9-3. ステップ③：UI描画（drawUI）とオーバーレイ（drawOverlay）の部品化
 
 タイトル画面・ゲームオーバー画面・クリア画面は、どれも「画面を薄暗い黒で覆い、真ん中に大きなタイトルと、下に『SPACEキーでスタート/リトライ』を表示する」という共通のデザインです。
 これを1つの関数に部品化して、**共通オーバーレイ描画関数 `drawOverlay`** を作ります：
@@ -1467,7 +1448,92 @@ function drawUI() {
 }
 ```
 
-これで `draw()` のステート分岐の中で、`drawOverlay('COIN HUNTER', '#feca57', 'SPACEキーでゲームスタート！')` と1行書くだけでリッチな画面が表示できるようになります！
+これらを使って、`draw()` の中で `gameState` に応じた画面の表示とSPACEキーでのスタート/リトライ処理を書いてみましょう：
+
+```javascript
+function draw() {
+    clear();
+    background('#1e272e');
+
+    // ① プレイ中：プレイヤーの移動や敵のループ処理、スコア表示
+    if (gameState === 'PLAY') {
+        // ... 移動や敵の処理 ...
+        drawUI();
+    }
+    // ② スタート画面
+    else if (gameState === 'START') {
+        drawOverlay('COIN HUNTER', '#feca57', 'SPACEキーでゲームスタート！');
+        if (kb.presses('space')) {
+            startGame();
+        }
+    }
+    // ③ ゲームオーバー画面
+    else if (gameState === 'GAMEOVER') {
+        drawOverlay('GAME OVER', '#ff4757', 'SPACEキーでリトライ');
+        if (kb.presses('space')) {
+            startGame();
+        }
+    }
+    // ④ ゲームクリア画面
+    else if (gameState === 'CLEAR') {
+        drawOverlay('GAME CLEAR!', '#2ed573', 'SPACEキーでリトライ');
+        if (kb.presses('space')) {
+            startGame();
+        }
+    }
+}
+```
+
+---
+
+## 9-4. ステップ④：超重要！`allSprites.draw()` と描画レイヤーの順序
+
+ここでブラウザをリロードして、スタート画面を見てみましょう。
+**「あれ！？ タイトルの文字の手前に、足場やコインが飛び出してきて被ってしまっている……！」** という現象に気づくはずです。
+
+なぜでしょうか？
+p5play は、**プログラマが何も書かなくても、`draw()` 関数の最後（一番手前）に自動ですべてのスプライトを描画してしまう** という仕様があるからです。
+そのため、私たちが `drawOverlay()` で描いた半透明の黒マスクや文字の上に、足場やコインが後から重なって描かれてしまっています。
+
+```mermaid
+graph TD
+    A["通常の動作（自動描画）<br>背景 ➔ 文字・マスク ➔ スプライト（最後に自動描画）"] --> B["❌ 文字の上に足場やコインが飛び出して被る！"]
+    C["allSprites.draw() を使う場合<br>背景 ➔ allSprites.draw() ➔ 文字・マスク"] --> D["⭕ スプライトの手前に文字が綺麗に重なる！"]
+```
+
+### 解決策：手動描画 `allSprites.draw()`
+文字や画面オーバーレイを描く **前** に、明示的に **`allSprites.draw();`** を呼び出します！
+一度手動で `allSprites.draw()` を呼ぶと、p5play の自動描画はストップし、描画順序を思い通りにコントロールできるようになります。
+
+```javascript
+function draw() {
+    clear();
+    background('#1e272e');
+
+    if (gameState === 'PLAY') {
+        // プレイヤー移動や敵のループ処理
+    }
+
+    // ★ ここに1行追加！スプライトを先に手動描画する！
+    allSprites.draw();
+
+    // ★ その手前に、UIやオーバーレイ文字を重ねて描画する！
+    if (gameState === 'START') {
+        drawOverlay('COIN HUNTER', '#feca57', 'SPACEキーでゲームスタート！');
+        if (kb.presses('space')) startGame();
+    } else if (gameState === 'PLAY') {
+        drawUI();
+    } else if (gameState === 'GAMEOVER') {
+        drawOverlay('GAME OVER', '#ff4757', 'SPACEキーでリトライ');
+        if (kb.presses('space')) startGame();
+    } else if (gameState === 'CLEAR') {
+        drawOverlay('GAME CLEAR!', '#2ed573', 'SPACEキーでリトライ');
+        if (kb.presses('space')) startGame();
+    }
+}
+```
+
+これで、スプライトの手前に綺麗に半透明マスクとタイトル文字が重なり、完璧なUIになりました！
 
 ---
 
