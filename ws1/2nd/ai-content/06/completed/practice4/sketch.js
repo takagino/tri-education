@@ -10,7 +10,6 @@ let playerImg;
 let enemyImg;
 let coinImg;
 
-let score = 0;
 let totalCoins = 8;
 let isGameOver = false;
 let isClear = false;
@@ -88,7 +87,6 @@ function spawnEnemy() {
 
 function getCoin(player, coin) {
     coin.remove();
-    score += 10;
     if (coins.length === 0) {
         isClear = true;
     }
@@ -137,12 +135,6 @@ function draw() {
     } else {
         player.vel.x = 0;
     }
-
-    // スコアと状態の表示
-    fill(255);
-    textSize(20);
-    textAlign(LEFT, TOP);
-    text(`Score: ${score}`, 20, 20);
 
     textAlign(CENTER, CENTER);
     textSize(36);
