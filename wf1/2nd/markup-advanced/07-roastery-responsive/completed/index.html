@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <!-- [3-2] Viewportの設定（ズーム禁止設定は入れない） -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KOMA ROASTERY | スペシャリティコーヒー＆自家焙煎カフェ</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <!-- =================================================================
+       Header Module（全ページ共通）
+       ================================================================= -->
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="header__logo">
+        <a class="header__logo-link" href="./index.html">
+          <!-- [6-3 ②] 高解像度ディスプレイ（Retina: 1x / 2x）対応 -->
+          <img
+            class="header__logo-pic"
+            src="./images/img_logo.png"
+            srcset="./images/img_logo.png 1x, ./images/img_logo@2x.png 2x"
+            alt="KOMA ROASTERY"
+            width="200"
+            height="36"
+          >
+        </a>
+      </h1>
+      <nav class="gnav">
+        <ul class="gnav__list">
+          <li class="gnav__item"><a class="gnav__link gnav__link--current" href="./index.html">TOP</a></li>
+          <li class="gnav__item"><a class="gnav__link" href="./about.html">ABOUT &amp; INFO</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- =================================================================
+         Section 1: Hero
+         ・[6-3 ①] <picture> によるアートディレクション（700px以上でPC横長画像に切り替え）
+         ・[6-1 ①] ユーティリティクラス（.u-show-sp）による <br> の表示・非表示
+         ・[6-1 ②] 文節単位の <span> + display: inline-block による改行制御
+         ================================================================= -->
+    <section class="hero">
+      <div class="hero__inner">
+        <picture class="hero__image">
+          <!-- 700px以上（PC/タブレット）のときに読み込む横長画像 -->
+          <source media="(width >= 700px)" srcset="./images/pic_hero_pc.jpg">
+          <!-- 700px未満（スマホ）のときに読み込む縦長・寄り画像 -->
+          <source srcset="./images/pic_hero_sp.jpg">
+          <!-- フォールバック兼、alt・サイズ属性の定義 -->
+          <img
+            src="./images/pic_hero_pc.jpg"
+            alt="KOMA ROASTERYのカフェ空間とハンドドリップコーヒー"
+            width="1200"
+            height="520"
+            loading="eager"
+          >
+        </picture>
+
+        <div class="hero__body intro intro--center">
+          <p class="intro__catch">SPECIALTY COFFEE &amp; ROASTERY</p>
+          <!-- [6-1 ②] 文節単位の <span> + inline-block -->
+          <h2 class="intro__title">
+            <span>心地よい空間で、</span><span>心を満たす一杯を。</span>
+          </h2>
+          <div class="intro__content">
+            <!-- [6-1 ①] スマホ表示のときだけ <br class="u-show-sp"> で改行 -->
+            <p>
+              最高の一杯をお届けするために、<br class="u-show-sp">厳選されたスペシャリティコーヒー豆だけを使用しています。
+            </p>
+          </div>
+          <a class="btn btn--center" href="./about.html">私たちについて</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Section 2: Concept（モバイル1カラム ➔ 700px以上で2カラム横並び）
+         ・[6-3 ③] <picture> による次世代画像フォーマット（AVIF / WebP / PNG）の出し分け
+         ・[6-1 ③] <wbr> と word-break: keep-all による改行候補点の指定
+         ================================================================= -->
+    <section class="concept">
+      <div class="concept__inner">
+        <picture class="concept__pic">
+          <!-- AVIF対応ブラウザなら最軽量のAVIFを読み込む -->
+          <source type="image/avif" srcset="./images/pic_roast.avif">
+          <!-- AVIF非対応・WebP対応ならWebPを読み込む -->
+          <source type="image/webp" srcset="./images/pic_roast.webp">
+          <!-- どちらも非対応の環境なら従来のPNGを読み込む -->
+          <img
+            src="./images/pic_roast.png"
+            alt="ヴィンテージ焙煎機で丁寧にローストされるコーヒー豆"
+            width="560"
+            height="400"
+          >
+        </picture>
+
+        <div class="concept__info intro">
+          <p class="intro__catch">OUR ROASTING PHILOSOPHY</p>
+          <h2 class="intro__title">
+            <span>豆の個性を引き出す、</span><span>毎朝の少量自家焙煎</span>
+          </h2>
+          <div class="intro__content">
+            <!-- [6-1 ③] <wbr> + word-break: keep-all -->
+            <p class="lead-text">
+              私たちは美味しいコーヒーを通じて、<wbr>何気ない日常を<wbr>特別なひとときに変える<wbr>お手伝いをします。
+            </p>
+            <p>
+              世界中の農園から直接買い付けたシングルオリジン豆を、その日の気温と湿度に合わせて店舗奥の焙煎機で丁寧にローストしています。
+            </p>
+          </div>
+          <a class="btn btn--accent" href="./about.html">焙煎所・店舗情報を見る</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================
+         Section 3: Seasonal Menu
+         ・[7-1] メディアクエリ不要の「内包的レスポンシブ」
+           grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+         ================================================================= -->
+    <section class="menu">
+      <div class="menu__inner">
+        <div class="menu__info intro intro--center">
+          <p class="intro__catch">SEASONAL MENU</p>
+          <h2 class="intro__title">
+            <span>季節のおすすめメニュー</span>
+          </h2>
+          <div class="intro__content">
+            <p>
+              画面幅に応じて「1列 ➔ 2列 ➔ 3列」へメディアクエリなしで自動的に折り返すカードグリッドです。
+            </p>
+          </div>
+        </div>
+
+        <div class="menu__list">
+          <article class="menu__item card">
+            <div class="card__pic">
+              <img src="./images/pic_menu01.jpg" alt="ハンドドリップコーヒー" width="560" height="380">
+            </div>
+            <div class="card__body">
+              <span class="card__tag">SINGLE ORIGIN</span>
+              <h3 class="card__title">ハンドドリップ（エチオピア）</h3>
+              <p class="card__text">華やかなジャスミンの香りと、白桃のような瑞々しい甘みが広がる浅煎りコーヒー。</p>
+              <p class="card__price">¥650</p>
+            </div>
+          </article>
+
+          <article class="menu__item card">
+            <div class="card__pic">
+              <img src="./images/pic_menu02.jpg" alt="クラフトオーツラテ" width="560" height="380">
+            </div>
+            <div class="card__body">
+              <span class="card__tag">ESPRESSO</span>
+              <h3 class="card__title">クラフト・オーツラテ</h3>
+              <p class="card__text">深煎りエスプレッソのコクに、香ばしいオーツミルクの自然な甘みを合わせました。</p>
+              <p class="card__price">¥680</p>
+            </div>
+          </article>
+
+          <article class="menu__item card">
+            <div class="card__pic">
+              <img src="./images/pic_menu03.jpg" alt="自家製カルダモンロール" width="560" height="380">
+            </div>
+            <div class="card__body">
+              <span class="card__tag">BAKERY</span>
+              <h3 class="card__title">自家製カルダモンロール</h3>
+              <p class="card__text">粗挽きカルダモンを贅沢に練り込み、毎朝店内のオーブンで焼き上げる北欧風パン。</p>
+              <p class="card__price">¥480</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =================================================================
+       Footer Module（全ページ共通）
+       ================================================================= -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copyright">
+        <small>&copy; 2026 KOMA ROASTERY All Rights Reserved.</small>
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
+

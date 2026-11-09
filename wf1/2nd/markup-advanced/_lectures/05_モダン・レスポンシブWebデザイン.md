@@ -90,20 +90,20 @@ $font-size-base: 16;
 
 ---
 
-## 2-1. サンプルデータ（仮）
+## 2-1. サンプルデータ
 
 [HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=sharing)
 
-- **授業用演習データ**：準備中（後日配布）
+- **授業用演習データ**：07-roastery-responsive
 - **課題データ**：準備中（後日配布）
-
-※ 現在デザインデータを調整中です。授業内での指示に従ってください。
 
 ---
 
-## 2-2. 見本（仮）
+## 2-2. 見本
 
-[Renome（参考・前期見本）](https://takagino.github.io/doc-markup-advanced/06-renome-sass/completed/index.html)
+[KOMA ROASTERY - TOP](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/07-roastery-responsive/completed/index.html)
+
+[KOMA ROASTERY - ABOUT & INFO](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/07-roastery-responsive/completed/about.html)
 
 ---
 
@@ -285,16 +285,16 @@ CSSの学習を始めたばかりの段階では、スタイルシートの最�
 .btn {
   width: 100%;
 }
-.card { ... }
+.concept { ... }
 .footer { ... }
 
 /* --- 数百〜数千行下 --- */
-@media (width >= 768px) {
+@media (width >= 700px) {
   .header { ... }
   .btn {
-    width: auto; // 上のスタイルを打ち消し・上書き
+    width: 15rem; // 上のスタイルを打ち消し・上書き
   }
-  .card { ... }
+  .concept { ... }
   .footer { ... }
 }
 ```
@@ -302,7 +302,7 @@ CSSの学習を始めたばかりの段階では、スタイルシートの最�
 一見すると整理されているように見えますが、実務の大規模なWeb制作では以下のような **深刻な問題** を引き起こします：
 1. **画面のスクロール往復地獄：** `.btn` のスタイルを確認・修正したいだけなのに、ファイルの上（モバイル用）と最下部（PC用）を何度も激しくスクロールして往復しなければならない。
 2. **モジュールの独立性（カプセル化）の破壊：** BEMで「パーツ単位で完結する設計」を目指しているのに、そのパーツのコードがファイル内でバラバラに引き裂かれてしまう。
-3. **消し忘れによるデッドコード：** 不要になった `.card` をHTMLから削除した際、末尾のメディアクエリ内にある `.card` を消し忘れて、使われない無駄なコードが残り続ける。
+3. **消し忘れによるデッドコード：** 不要になったパーツをHTMLから削除した際、末尾のメディアクエリ内にあるセレクタを消し忘れて、使われない無駄なコードが残り続ける。
 
 ---
 
@@ -316,21 +316,20 @@ CSSの学習を始めたばかりの段階では、スタイルシートの最�
 /* ✅ 改善案（生のCSS）：セレクタのすぐ下にメディアクエリを並べて書く */
 .btn {
   width: 100%;
-  padding: 12px;
+  padding: 1.1em 1.5em;
 }
-@media (width >= 768px) {
+@media (width >= 700px) {
   .btn {
-    width: auto;
-    padding: 12px 24px;
+    width: 15rem;
   }
 }
 
-.card {
-  padding: 16px;
+.concept {
+  padding: 4rem 0;
 }
-@media (width >= 768px) {
-  .card {
-    padding: 24px;
+@media (width >= 700px) {
+  .concept {
+    padding: 5rem 0;
   }
 }
 ```
@@ -341,11 +340,10 @@ CSSの学習を始めたばかりの段階では、スタイルシートの最�
 /* ✅ モダンCSS（ネスト仕様）：セレクタの内部に直接入れ子にする */
 .btn {
   width: 100%;
-  padding: 12px;
+  padding: 1.1em 1.5em;
 
-  @media (width >= 768px) {
-    width: auto;
-    padding: 12px 24px;
+  @media (width >= 700px) {
+    width: 15rem;
   }
 }
 ```
@@ -355,13 +353,13 @@ CSSの学習を始めたばかりの段階では、スタイルシートの最�
 ### しかし、生のCSSには「新たな壁」が立ちはだかる……
 この書き方を生のCSSで推し進めると、次の実務上の重大な問題が発生します。
 
-> **「`768px`」というブレイクポイントの数値が、CSSのあちこちに無数にハードコード（直接書き込み）されてしまう！**
+> **「`700px`」というブレイクポイントの数値が、CSSのあちこちに無数にハードコード（直接書き込み）されてしまう！**
 
 もしプロジェクトの途中でクライアントやデザイナーから、
-**「タブレットの切り替えを、デザインの都合で 768px から 800px に変更したい」**
+**「タブレットの切り替えを、デザインの都合で 700px から 768px に変更したい」**
 と言われたらどうなるでしょうか？
 
-CSSファイル全体から何十箇所、何百箇所と散らばった `@media (width >= 768px)` を手作業で検索・置換しなければならず、置換漏れやタイプミスによる大惨事につながります。
+CSSファイル全体から何十箇所、何百箇所と散らばった `@media (width >= 700px)` を手作業で検索・置換しなければならず、置換漏れやタイプミスによる大惨事につながります。
 
 ---
 
@@ -378,16 +376,17 @@ Sassを使えば、**「セレクタのすぐ下にネストして書きたい�
 @use "sass:map";
 
 // 1. ブレイクポイントの数値をマップで一元管理！
+// （※今回の授業演習データ「07-roastery-responsive」では md: 700px に設定）
 $breakpoints: (
   "sm": 640px,  // 大型スマホ〜小型タブレット
-  "md": 768px,  // 一般的なタブレット
+  "md": 700px,  // タブレット・PC切り替え（案件に応じて 768px 等に変更）
   "lg": 1024px, // ノートPC・デスクトップ
   "xl": 1280px  // 大型ディスプレイ
 );
 
 // 2. メディアクエリを自動生成するMixin
-@mixin mq($bp: "md") {
-  $width: map.get($breakpoints, $bp);
+@mixin mq($breakpoint: md) {
+  $width: map.get($breakpoints, $breakpoint);
 
   @media (width >= $width) {
     @content; // @include したブロックの中身（CSSルール）がここに展開される！
@@ -395,7 +394,7 @@ $breakpoints: (
 }
 ```
 
-- **`map.get($breakpoints, $bp)`**：マップから指定されたキー（`"md"`など）の数値（`768px`）を取り出します。
+- **`map.get($breakpoints, $breakpoint)`**：マップから指定されたキー（`"md"`など）の数値（`700px`）を取り出します。
 - **`@content`**：Mixinを呼び出した側（`@include mq(md) { ... }`）の中に書かれたCSSのスタイル宣言が、そのままメディアクエリの内部に流し込まれます。
 
 ---
@@ -405,31 +404,25 @@ $breakpoints: (
 この `@mixin mq()` を使うと、BEMブロックの中に直接レスポンシブの振る舞いを美しく閉じ込めることができます。
 
 ```scss
-// 実装コード（SCSS）
-.card {
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 8px;
+// 実装コード（SCSS：07-roastery-responsive の .concept セクション）
+.concept {
+  padding: rem(64) 0;
+  background-color: $color-bg;
 
-  &__inner {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    // タブレット以上（768px〜）で横並びに切り替え
-    @include mq(md) {
-      flex-direction: row;
-      align-items: center;
-      gap: 24px;
-    }
+  @include mq(md) {
+    padding: rem(80) 0;
   }
 
-  &__title {
-    font-size: 16px;
+  &__inner {
+    @include inner();
+    display: grid;
+    gap: rem(36);
+    align-items: center;
 
-    // デスクトップ以上（1024px〜）で文字サイズを大きく
-    @include mq(lg) {
-      font-size: 20px;
+    // 700px以上で2カラム横並びに切り替え
+    @include mq(md) {
+      grid-template-columns: 1fr 1fr;
+      column-gap: rem(64);
     }
   }
 }
@@ -437,29 +430,28 @@ $breakpoints: (
 
 ```css
 /* コンパイル後の CSS（自動生成された結果） */
-.card {
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 8px;
+.concept {
+  padding: 4rem 0;
+  background-color: #f2ece1;
 }
-.card__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-@media (width >= 768px) {
-  .card__inner {
-    flex-direction: row;
-    align-items: center;
-    gap: 24px;
+@media (width >= 700px) {
+  .concept {
+    padding: 5rem 0;
   }
 }
-.card__title {
-  font-size: 16px;
+.concept__inner {
+  max-width: 1200px;
+  width: 88%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  gap: 2.25rem;
+  align-items: center;
 }
-@media (width >= 1024px) {
-  .card__title {
-    font-size: 20px;
+@media (width >= 700px) {
+  .concept__inner {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4rem;
   }
 }
 ```
@@ -881,16 +873,11 @@ p {
 レスポンシブWebでは、単に1枚の画像を拡大縮小するだけでは不十分なケースが多々あります。
 そこで使用するのが **HTML5の `<picture>` 要素** です。
 
-```mermaid
-graph TD
-    PICTURE["<picture> 要素"] --> COND1["<source media='(width >= 768px)' srcset='hero-pc.webp'>"]
-    PICTURE --> COND2["<source srcset='hero-sp.webp'>"]
-    PICTURE --> FALLBACK["<img src='hero-pc.jpg' alt='メインビジュアル'>"]
-
-    COND1 -->|768px以上| PC_IMG["PC用の横長写真を表示"]
-    COND2 -->|それ以外| SP_IMG["SP用の縦長・アップ写真を表示"]
-    FALLBACK -->|未対応環境| DEF_IMG["標準の画像表示・アクセシビリティ担保"]
-```
+| `<picture>` 内の要素 | 適用条件 | 役割・表示内容 |
+| --- | --- | --- |
+| `<source media="(width >= 768px)" srcset="hero-pc.webp">` | 768px以上 | PC用の横長写真を表示 |
+| `<source srcset="hero-sp.webp">` | それ以外（768px未満） | SP用の縦長・アップ写真を表示 |
+| `<img src="hero-pc.jpg" alt="メインビジュアル">` | 未対応環境・共通 | 標準の画像表示・アクセシビリティ担保 |
 
 ### ① アートディレクション（画面幅に応じたトリミング・写真の変更）
 PCでは「横長で広大な風景写真」、スマホでは「被写体にグッと寄った縦長の写真」を見せたい場合、CSSの `display: none;` で2枚の `<img>` を切り替えてはいけません（**ブラウザが両方の画像を無駄にダウンロードして通信量を圧迫してしまうため**）。
@@ -926,7 +913,10 @@ PCでは「横長で広大な風景写真」、スマホでは「被写体にグ
 iPhoneやMacBookなどの高解像度画面では、通常の画像をそのまま表示するとボヤけて見えます。
 `srcset` 属性に `2x`（2倍密度用）を指定することで、くっきり美しい画像を提供できます。
 
+**同じデザインのまま解像度（1x / 2x）だけを出し分ける場合は、`<picture>` で囲む必要はなく、通常の `<img>` 要素単体に `srcset` を書くだけで完結します。**
+
 ```html
+<!-- ① 通常の img 要素単体で高解像度対応する場合（<picture>不要） -->
 <img 
   src="./images/logo.png" 
   srcset="./images/logo.png 1x, ./images/logo@2x.png 2x" 
@@ -934,6 +924,22 @@ iPhoneやMacBookなどの高解像度画面では、通常の画像をそのま�
   width="180" 
   height="48"
 >
+```
+
+また、「PCとスマホで別画像に切り替える（`<picture>`）」と「高解像度対応（`1x` / `2x`）」の両方を組み合わせたい場合は、`<source>` と `<img>` それぞれの `srcset` にカンマ区切りで指定します。
+
+```html
+<!-- ② <picture> によるPC/SP切り替え ＋ 高解像度対応を組み合わせる場合 -->
+<picture class="hero__image">
+  <source media="(width >= 768px)" srcset="./images/hero_pc.jpg 1x, ./images/hero_pc@2x.jpg 2x">
+  <img 
+    src="./images/hero_sp.jpg" 
+    srcset="./images/hero_sp.jpg 1x, ./images/hero_sp@2x.jpg 2x" 
+    alt="緑豊かなオフィスで打ち合わせをするスタッフ" 
+    width="1200" 
+    height="600"
+  >
+</picture>
 ```
 
 ---
@@ -1029,29 +1035,23 @@ graph TD
 
 // 2. 子要素側で「コンテナの幅」に応じたスタイルを指定する
 .card {
-  display: flex;
-  flex-direction: column; // デフォルトは縦積み
+  display: grid; // デフォルトは1カラム（縦積み）
   gap: 16px;
 
-  // 親コンテナの横幅が 480px 以上になったら横並びに変化！
-  @container (min-width: 480px) {
-    flex-direction: row;
+  // 親コンテナの横幅が 480px 以上になったら2カラム（横並び）に変化！
+  @container (width >= 480px) {
+    grid-template-columns: 2fr 3fr; // 画像（40%）: テキスト（60%）の比率で横並び
     align-items: center;
-
-    &__image {
-      width: 40%;
-    }
-
-    &__body {
-      width: 60%;
-    }
   }
 }
 ```
 
 ### メディアクエリとコンテナクエリの使い分け
-- **メディアクエリ（マクロレイアウト）：** ページ全体の骨格（ヘッダー、メイン領域、サイドバーの配置など）の制御。
-- **コンテナクエリ（ミクロレイアウト）：** ボタン、カード、バナーなどの独立した再利用可能コンポーネント内のレイアウト制御。
+
+| 手法 | 対象スケール | 判定基準 | 主な用途 |
+| --- | --- | --- | --- |
+| **メディアクエリ** | マクロレイアウト | 画面全体（ビューポート）の幅 | ページ全体の骨格（ヘッダー、メイン領域、サイドバーの配置など）の制御 |
+| **コンテナクエリ** | ミクロレイアウト | 親要素（コンテナ）の幅 | ボタン、カード、バナーなどの独立した再利用可能コンポーネント内のレイアウト制御 |
 
 ---
 
