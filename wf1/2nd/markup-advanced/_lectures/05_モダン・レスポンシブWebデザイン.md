@@ -636,19 +636,19 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 最も手軽ですが、多用しすぎないよう注意が必要な方法です。
 
 ```html
-<p class="hero__desc">
-  最高の一杯をお届けするために、<br class="u-show-sp">
-  厳選されたスペシャリティコーヒー豆だけを使用しています。
+<!-- index.html（.hero 内のリード文） -->
+<p>
+  最高の一杯をお届けするために、<br class="u-show-sp">厳選されたスペシャリティコーヒー豆だけを使用しています。
 </p>
 ```
 
 ```scss
-// ユーティリティクラスの定義
+// [6-1 手法①] ユーティリティクラスによる <br> の表示・非表示
 .u-show-sp {
   display: block;
 
   @include mq(md) {
-    display: none; // タブレット以上では改行を消す
+    display: none; // 700px以上では改行を無効化
   }
 }
 
@@ -656,7 +656,7 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
   display: none;
 
   @include mq(md) {
-    display: block; // タブレット以上でのみ改行する
+    display: block; // 700px以上でのみ改行を有効化
   }
 }
 ```
@@ -677,14 +677,15 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 文節ごとに `<span>` で囲み、インラインブロック化することで、「枠に収まる限りは横に並び、入り切らなくなったら文節の区切りで自然に改行する」という挙動を作れます。
 
 ```html
-<h2 class="concept__title">
-  <span>心地よい空間で、</span>
-  <span>心を満たすひとときを。</span>
+<!-- index.html（.hero 内のメイン見出し） -->
+<h2 class="intro__title">
+  <span>心地よい空間で、</span><span>心を満たす一杯を。</span>
 </h2>
 ```
 
 ```scss
-.concept__title {
+// [6-1 手法②] 文節単位の <span> + inline-block
+.intro__title {
   span {
     display: inline-block; // 文節のかたまりを保持して折り返す
   }
@@ -698,14 +699,18 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 中国語・日本語・韓国語（CJK環境）では通常、文字単位で自由に折り返されます。`word-break: keep-all;` を指定すると単語の途中での改行が禁止されます。そこに **`<wbr>`（Word Break Opportunity：改行候補点）** を挿入すると、「ここなら折り返してOK」という位置を明示的に指定できます。
 
 ```html
+<!-- index.html（.concept 内のリード文） -->
 <p class="lead-text">
-  私たちは美味しい料理を通じて、<wbr>何気ない日常を<wbr>特別な記念日に変えるお手伝いをします。
+  私たちは美味しいコーヒーを通じて、<wbr>何気ない日常を<wbr>特別なひとときに変える<wbr>お手伝いをします。
 </p>
 ```
 
 ```scss
+// [6-1 手法③] <wbr> と組み合わせる文節折り返し用クラス
 .lead-text {
-  word-break: keep-all; // 単語の途中で切れるのを防ぐ
+  font-weight: bold;
+  color: $color-main;
+  word-break: keep-all; // 単語の途中で切れるのを防ぐ（<wbr>の位置で改行）
   overflow-wrap: break-word; // 長い英単語などが枠を突き破るのを防ぐ保険
 }
 ```
@@ -717,12 +722,12 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 2023年以降、CSSに待望のテキスト折り返し制御プロパティが登場しました！
 
 ```scss
-// 見出しの行の長さを均等にバランス調整する（見出し専用）
-.section-title {
+// [6-1 手法④] 見出しの行の長さを均等にバランス調整する（見出し専用）
+.intro__title {
   text-wrap: balance;
 }
 
-// 段落の最後の行に「1文字だけポツンと落ちる（Orphan）」のを自動防止する
+// [6-1 手法④] 段落の最後の行に「1文字だけポツンと落ちる（Orphan）」のを自動防止する
 p {
   text-wrap: pretty;
 }
@@ -743,28 +748,39 @@ p {
 表の構造（行と列の対応関係）をそのまま維持したい場合に最適です。
 
 ```html
+<!-- about.html（営業時間・焙煎スケジュール） -->
 <div class="table-scroll">
   <table class="schedule-table">
     <thead>
       <tr>
         <th>曜日</th>
-        <th>ランチ (11:30-15:00)</th>
-        <th>ディナー (18:00-22:00)</th>
+        <th>モーニング (8:00-11:00)</th>
+        <th>カフェ＆ランチ (11:00-17:00)</th>
+        <th>イブニング (17:00-20:00)</th>
         <th>備考</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <th>月〜金</th>
-        <td>営業中（L.O. 14:30）</td>
-        <td>営業中（L.O. 21:00）</td>
-        <td>平日限定ランチあり</td>
+        <td>営業中（焼きたてパン提供）</td>
+        <td>営業中（L.O. 16:30）</td>
+        <td>豆販売・テイクアウトのみ</td>
+        <td>平日限定モーニングセットあり</td>
       </tr>
       <tr>
         <th>土日祝</th>
-        <td>営業中（L.O. 15:00）</td>
-        <td>営業中（L.O. 21:30）</td>
-        <td>コース料理のみ</td>
+        <td>ワークショップ開催（要予約）</td>
+        <td>営業中（L.O. 16:30）</td>
+        <td>営業中（L.O. 19:30）</td>
+        <td>限定シングルオリジン提供日</td>
+      </tr>
+      <tr>
+        <th>水曜</th>
+        <td>生豆の選別・焙煎仕込み</td>
+        <td>定休日</td>
+        <td>定休日</td>
+        <td>祝日の場合は翌木曜が休業</td>
       </tr>
     </tbody>
   </table>
@@ -772,21 +788,39 @@ p {
 ```
 
 ```scss
+/* --- [6-2 パターンA] 横スクロール方式のテーブル --- */
 .table-scroll {
   overflow-x: auto; // 横スクロールを可能にする
-  -webkit-overflow-scrolling: touch; // iOSでの慣性スクロール
-  padding-bottom: 8px; // スクロールバーと表の被りを防ぐ
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: rem(8);
+  background-color: $color-white;
+  border-radius: rem(8);
+}
 
-  table {
-    width: 100%;
-    min-width: 600px; // 表が潰れない最小幅を確保！
-    border-collapse: collapse;
+.schedule-table {
+  width: 100%;
+  min-width: 640px; // スマホでも表が潰れない最小幅を確保！
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: rem(16) rem(20);
+    border: 1px solid $color-border;
+    white-space: nowrap; // セル内の不自然な改行を防ぐ
+    font-size: rem(14);
+    text-align: left;
   }
 
-  th, td {
-    padding: 12px 16px;
-    border: 1px solid #e0e0e0;
-    white-space: nowrap; // セル内の不自然な改行を防ぐ
+  thead th {
+    background-color: $color-main;
+    color: $color-white;
+    font-weight: bold;
+  }
+
+  tbody th {
+    background-color: $color-bg;
+    color: $color-main;
+    font-weight: bold;
   }
 }
 ```
@@ -797,7 +831,7 @@ p {
 **【UX向上のヒント】スクロール可能であることをユーザーに伝える**
 
 スマホではデフォルトでスクロールバーが非表示になるため、ユーザーが「表の右側が隠れていること」に気づかない恐れがあります。
-表の右端に「うっすらグラデーションの影」をCSSでつけたり、「※横にスクロールしてご覧いただけます ⇄」という注記テキストを添えるのが現場の親切な設計です。
+表の右端に「うっすらグラデーションの影」をCSSでつけたり、「※スマートフォンでは表を横にスクロールしてご覧いただけます ⇄」という注記テキストを添えるのが現場の親切な設計です（`about.html` の `.schedule__note` を参照）。
 
 </aside>
 
@@ -807,60 +841,75 @@ p {
 項目数が少なく、縦に並べ替えても意味が通じる表（2列の表）に有効です。
 
 ```html
+<!-- about.html（店舗情報・会社概要） -->
 <table class="company-table">
   <tbody>
     <tr>
-      <th>会社名</th>
-      <td>株式会社サンプルデザイン</td>
+      <th>店名</th>
+      <td>KOMA ROASTERY（コマ ロースタリー）</td>
     </tr>
     <tr>
       <th>所在地</th>
-      <td>愛知県名古屋市中村区名駅3丁目</td>
+      <td>〒450-0002 愛知県名古屋市中村区名駅3-10-15</td>
     </tr>
     <tr>
-      <th>設立</th>
-      <td>2020年4月1日</td>
+      <th>設立 / 創業</th>
+      <td>2021年4月1日</td>
+    </tr>
+    <tr>
+      <th>事業内容</th>
+      <td>スペシャリティコーヒー生豆の輸入・自家焙煎・卸売、カフェ運営</td>
     </tr>
   </tbody>
 </table>
 ```
 
 ```scss
+/* --- [6-2 パターンB] カード型変形方式のテーブル --- */
 .company-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: $color-white;
+  border-top: 1px solid $color-border;
 
-  // モバイル表示：tableの構造をblockに崩して縦積みにする
-  tr, th, td {
+  // モバイル表示（デフォルト）：tableの構造をblockに崩して縦積みにする
+  tr,
+  th,
+  td {
     display: block;
     width: 100%;
   }
 
   th {
-    padding: 12px 16px 4px;
-    background-color: #f7f7f7;
+    padding: rem(14) rem(16) rem(6);
+    background-color: $color-bg;
+    color: $color-main;
     font-weight: bold;
     text-align: left;
   }
 
   td {
-    padding: 4px 16px 16px;
-    border-bottom: 1px solid #eee;
+    padding: rem(10) rem(16) rem(16);
+    border-bottom: 1px solid $color-border;
   }
 
-  // タブレット以上：本来の横並びテーブルに戻す
+  // 700px以上：本来の横並びテーブルに戻す
   @include mq(md) {
     tr {
       display: table-row;
     }
-    th, td {
+
+    th,
+    td {
       display: table-cell;
       width: auto;
-      padding: 16px;
-      border-bottom: 1px solid #eee;
+      padding: rem(18) rem(24);
+      border-bottom: 1px solid $color-border;
+      vertical-align: middle;
     }
+
     th {
-      width: 200px;
+      width: rem(200);
     }
   }
 }
@@ -875,9 +924,9 @@ p {
 
 | `<picture>` 内の要素 | 適用条件 | 役割・表示内容 |
 | --- | --- | --- |
-| `<source media="(width >= 768px)" srcset="hero-pc.webp">` | 768px以上 | PC用の横長写真を表示 |
-| `<source srcset="hero-sp.webp">` | それ以外（768px未満） | SP用の縦長・アップ写真を表示 |
-| `<img src="hero-pc.jpg" alt="メインビジュアル">` | 未対応環境・共通 | 標準の画像表示・アクセシビリティ担保 |
+| `<source media="(width >= 700px)" srcset="./images/pic_hero_pc.jpg">` | 700px以上 | PC用の横長写真を表示 |
+| `<source srcset="./images/pic_hero_sp.jpg">` | それ以外（700px未満） | SP用の縦長・アップ写真を表示 |
+| `<img src="./images/pic_hero_pc.jpg" alt="メインビジュアル">` | 未対応環境・共通 | 標準の画像表示・アクセシビリティ担保 |
 
 ### ① アートディレクション（画面幅に応じたトリミング・写真の変更）
 PCでは「横長で広大な風景写真」、スマホでは「被写体にグッと寄った縦長の写真」を見せたい場合、CSSの `display: none;` で2枚の `<img>` を切り替えてはいけません（**ブラウザが両方の画像を無駄にダウンロードして通信量を圧迫してしまうため**）。
@@ -885,15 +934,20 @@ PCでは「横長で広大な風景写真」、スマホでは「被写体にグ
 `<picture>` 要素を使えば、**条件に一致した片方の画像のみをブラウザが判定してダウンロード** します。
 
 ```html
+<!-- index.html（.hero 内のメインビジュアル） -->
 <picture class="hero__image">
-  <!-- 768px以上（PC/タブレット）のときに読み込む画像 -->
-  <source media="(width >= 768px)" srcset="./images/hero_pc.jpg">
-  
-  <!-- 768px未満（スマホ）のときに読み込む画像 -->
-  <source srcset="./images/hero_sp.jpg">
-  
-  <!-- 未対応ブラウザ用のフォールバック兼、アクセシビリティ情報の定義 -->
-  <img src="./images/hero_pc.jpg" alt="緑豊かなオフィスで打ち合わせをするスタッフ" width="1200" height="600" loading="eager">
+  <!-- 700px以上（PC/タブレット）のときに読み込む横長画像 -->
+  <source media="(width >= 700px)" srcset="./images/pic_hero_pc.jpg">
+  <!-- 700px未満（スマホ）のときに読み込む縦長・寄り画像 -->
+  <source srcset="./images/pic_hero_sp.jpg">
+  <!-- フォールバック兼、alt・サイズ属性の定義 -->
+  <img
+    src="./images/pic_hero_pc.jpg"
+    alt="KOMA ROASTERYのカフェ空間とハンドドリップコーヒー"
+    width="1200"
+    height="520"
+    loading="eager"
+  >
 </picture>
 ```
 
@@ -916,13 +970,14 @@ iPhoneやMacBookなどの高解像度画面では、通常の画像をそのま�
 **同じデザインのまま解像度（1x / 2x）だけを出し分ける場合は、`<picture>` で囲む必要はなく、通常の `<img>` 要素単体に `srcset` を書くだけで完結します。**
 
 ```html
-<!-- ① 通常の img 要素単体で高解像度対応する場合（<picture>不要） -->
-<img 
-  src="./images/logo.png" 
-  srcset="./images/logo.png 1x, ./images/logo@2x.png 2x" 
-  alt="コーポレートロゴ" 
-  width="180" 
-  height="48"
+<!-- ① 通常の img 要素単体で高解像度対応する場合（<picture>不要：ロゴなど） -->
+<img
+  class="header__logo-pic"
+  src="./images/img_logo.png"
+  srcset="./images/img_logo.png 1x, ./images/img_logo@2x.png 2x"
+  alt="KOMA ROASTERY"
+  width="200"
+  height="36"
 >
 ```
 
@@ -931,13 +986,13 @@ iPhoneやMacBookなどの高解像度画面では、通常の画像をそのま�
 ```html
 <!-- ② <picture> によるPC/SP切り替え ＋ 高解像度対応を組み合わせる場合 -->
 <picture class="hero__image">
-  <source media="(width >= 768px)" srcset="./images/hero_pc.jpg 1x, ./images/hero_pc@2x.jpg 2x">
+  <source media="(width >= 700px)" srcset="./images/pic_hero_pc.jpg 1x, ./images/pic_hero_pc@2x.jpg 2x">
   <img 
-    src="./images/hero_sp.jpg" 
-    srcset="./images/hero_sp.jpg 1x, ./images/hero_sp@2x.jpg 2x" 
-    alt="緑豊かなオフィスで打ち合わせをするスタッフ" 
+    src="./images/pic_hero_sp.jpg" 
+    srcset="./images/pic_hero_sp.jpg 1x, ./images/pic_hero_sp@2x.jpg 2x" 
+    alt="KOMA ROASTERYのカフェ空間とハンドドリップコーヒー" 
     width="1200" 
-    height="600"
+    height="520"
   >
 </picture>
 ```
@@ -948,15 +1003,19 @@ iPhoneやMacBookなどの高解像度画面では、通常の画像をそのま�
 JPEGやPNGよりも軽量で高品質な次世代フォーマット（WebPやAVIF）を配信する場合も、`<picture>` が大活躍します。
 
 ```html
-<picture>
+<!-- index.html（.concept 内の焙煎機写真） -->
+<picture class="concept__pic">
   <!-- AVIF対応ブラウザなら最軽量のAVIFを読み込む -->
-  <source type="image/avif" srcset="./images/banner.avif">
-  
+  <source type="image/avif" srcset="./images/pic_roast.avif">
   <!-- AVIF非対応・WebP対応ならWebPを読み込む -->
-  <source type="image/webp" srcset="./images/banner.webp">
-  
-  <!-- どちらも非対応の古い環境なら従来のPNGを読み込む -->
-  <img src="./images/banner.png" alt="春のキャンペーンバナー" width="600" height="300">
+  <source type="image/webp" srcset="./images/pic_roast.webp">
+  <!-- どちらも非対応の環境なら従来のPNGを読み込む -->
+  <img
+    src="./images/pic_roast.png"
+    alt="ヴィンテージ焙煎機で丁寧にローストされるコーヒー豆"
+    width="560"
+    height="400"
+  >
 </picture>
 ```
 
@@ -972,11 +1031,12 @@ JPEGやPNGよりも軽量で高品質な次世代フォーマット（WebPやAVI
 カード一覧レイアウトを作る際、メディアクエリを1行も書かずに、スマホ（1列）→ タブレット（2列）→ PC（3〜4列）へ自動変形させることができます。
 
 ```scss
-.card-grid {
+// index.html の .menu__list（季節のおすすめメニュー）
+.menu__list {
   display: grid;
-  // 魔法の1行：各アイテムの最小幅を「280px」、余ったスペースは均等配分（1fr）
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
+  // 魔法の1行：各アイテムの最小幅を「260px」、余ったスペースは均等配分（1fr）
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: rem(32);
 }
 ```
 
@@ -986,17 +1046,17 @@ graph TD
     WIDTH --> COND_B["幅が 900px の時"]
     WIDTH --> COND_C["幅が 1200px の時"]
 
-    COND_A --> RES_A["280px が 2つ入る ➔ 2列レイアウト"]
-    COND_B --> RES_B["280px が 3つ入る ➔ 3列レイアウト"]
-    COND_C --> RES_C["280px が 4つ入る ➔ 4列レイアウト"]
+    COND_A --> RES_A["260px が 2つ入る ➔ 2列レイアウト"]
+    COND_B --> RES_B["260px が 3つ入る ➔ 3列レイアウト"]
+    COND_C --> RES_C["260px が 4つ入る ➔ 4列レイアウト"]
 ```
 
 ### コードの解説
 - **`repeat()`**：繰り返しの定義。
 - **`auto-fit`**：親の幅に入る分だけ自動で列を生成し、余った隙間があれば要素を拡大して埋める。
-- **`minmax(280px, 1fr)`**：1列の幅は「最小でも280px、最大なら空きスペースを均等配分（1fr）」。
+- **`minmax(260px, 1fr)`**：1列の幅は「最小でも260px、最大なら空きスペースを均等配分（1fr）」。
 
-メディアクエリで `@media (width >= 768px)` などをいちいち指定する必要がなく、画面幅が何ピクセルであっても常に最適な列数で美しくフィットします。
+メディアクエリで `@media (width >= 700px)` などをいちいち指定する必要がなく、画面幅が何ピクセルであっても常に最適な列数で美しくフィットします。
 
 ---
 
@@ -1016,7 +1076,7 @@ graph TD
     end
 ```
 
-画面全体の幅は `1200px`（PCサイズ）であるため、メディアクエリ `@media (width >= 1024px)` では、**サイドバーの中にある狭いカードまで横長レイアウトに変形してしまい、デザインが崩壊してしまいます。**
+画面全体の幅は `1200px`（PCサイズ）であるため、メディアクエリ `@media (width >= 700px)` では、**サイドバーの中にある狭いカードまで横長レイアウトに変形してしまい、デザインが崩壊してしまいます。**
 
 要素が本当に知りたいのは「画面全体の幅」ではなく、**「自分が収められている親コンテナの幅」** なのです。
 
@@ -1027,21 +1087,26 @@ graph TD
 現在、コンテナクエリはすべてのモダンブラウザで完全サポートされています。
 
 ```scss
-// 1. 親要素を「コンテナ（測定対象）」として宣言する
+// [8-2] 1. 親要素を「コンテナ（横幅の測定対象）」として宣言
 .card-wrapper {
   container-type: inline-size; // 横幅の変化を監視する
   container-name: cardContainer; // （省略可能）コンテナに名前をつける
 }
 
-// 2. 子要素側で「コンテナの幅」に応じたスタイルを指定する
+// [8-2] 2. カードモジュール（デフォルトは1カラム縦積み）
 .card {
-  display: grid; // デフォルトは1カラム（縦積み）
-  gap: 16px;
+  display: grid;
+  gap: rem(20);
+  padding: rem(24);
+  border: 1px solid $color-border;
+  border-radius: rem(12);
+  background-color: $color-white;
 
-  // 親コンテナの横幅が 480px 以上になったら2カラム（横並び）に変化！
+  // 親コンテナ（.card-wrapper）の横幅が 480px 以上になったら2カラム横並びに変化！
   @container (width >= 480px) {
     grid-template-columns: 2fr 3fr; // 画像（40%）: テキスト（60%）の比率で横並び
     align-items: center;
+    gap: rem(28);
   }
 }
 ```
