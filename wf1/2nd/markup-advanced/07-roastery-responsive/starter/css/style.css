@@ -12,6 +12,24 @@ img {
   vertical-align: bottom;
 }
 
+p {
+  text-wrap: pretty;
+}
+
+/* utility */
+.u-show-sp {
+  display: block;
+}
+@media (width >= 768px) {
+  .u-show-sp {
+    display: none;
+  }
+}
+
+.u-keepall {
+  word-break: keep-all;
+}
+
 /* module */
 .intro__catch {
   margin-bottom: 0.75rem;
@@ -26,6 +44,10 @@ img {
   font-size: clamp(1.375rem, 3vw, 2.125rem);
   font-weight: bold;
   line-height: 1.35;
+  text-wrap: blance;
+}
+.intro__title span {
+  display: inline-block;
 }
 .intro__content {
   display: grid;
@@ -49,4 +71,13 @@ img {
   width: 88%;
   margin-left: auto;
   margin-right: auto;
+}
+.hero__image img {
+  border-radius: 25px;
+}
+
+.lead-text {
+  font-weight: bold;
+  color: #2c4c3e;
+  word-break: keep-all;
 }/*# sourceMappingURL=style.css.map */

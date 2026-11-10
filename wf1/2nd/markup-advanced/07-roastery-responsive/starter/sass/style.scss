@@ -88,6 +88,23 @@ img {
     vertical-align: bottom;
 }
 
+p {
+    text-wrap: pretty;
+}
+
+/* utility */
+.u-show-sp {
+    display: block;
+
+    @include mq() {
+        display: none;
+    }
+}
+
+.u-keepall {
+    word-break: keep-all;
+}
+
 /* module */
 .intro {
     &__catch {
@@ -104,6 +121,11 @@ img {
         font-size: clamp(rem(22), 3vw, rem(34));
         font-weight: bold;
         line-height: 1.35;
+        text-wrap: blance;
+
+        span {
+            display: inline-block;
+        }
     }
 
     &__content {
@@ -127,4 +149,16 @@ img {
     &__inner {
         @include inner();
     }
+
+    &__image {
+        img {
+            border-radius: 25px;
+        }
+    }
+}
+
+.lead-text {
+    font-weight: bold;
+    color: $color-main;
+    word-break: keep-all;
 }
