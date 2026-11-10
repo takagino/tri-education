@@ -88,14 +88,38 @@ img {
     vertical-align: bottom;
 }
 
-.btn {
-    display: inline-block;
-    width: 100%;
-    padding: 12px;
-    background-color: #ddd;
+/* module */
+.intro {
+    &__catch {
+        margin-bottom: rem(12);
+        color: $color-accent;
+        font-size: rem(13);
+        font-weight: bold;
+        letter-spacing: 0.1em;
+    }
 
-    @include mq(lg) {
-        width: auto;
-        padding: 12px 24px;
+    &__title {
+        margin-bottom: rem(24);
+        color: $color-main;
+        font-size: clamp(rem(22), 3vw, rem(34));
+        font-weight: bold;
+        line-height: 1.35;
+    }
+
+    &--center {
+        text-align: center;
+    }
+}
+
+/* index.html */
+.hero {
+    padding: rem(40) 0 rem(64);
+
+    @include mq() {
+        padding: rem(56) 0 rem(80);
+    }
+
+    &__inner {
+        @include inner();
     }
 }
