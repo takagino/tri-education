@@ -121,6 +121,10 @@ p {
   text-align: center;
 }
 
+.card-wrapper {
+  container-type: inline-size;
+}
+
 .card {
   display: grid;
   gap: 1.25rem;

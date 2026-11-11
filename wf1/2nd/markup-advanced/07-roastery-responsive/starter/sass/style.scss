@@ -206,6 +206,11 @@ p {
     }
 }
 
+.card-wrapper {
+    // width: 480px;
+    container-type: inline-size;
+}
+
 .card {
     display: grid;
     gap: rem(20);
