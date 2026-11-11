@@ -387,3 +387,41 @@ p {
         }
     }
 }
+
+/* about.html */
+.pickup {
+    padding: rem(56) 0 rem(64);
+
+    @include mq() {
+        padding: rem(72) 0 rem(80);
+    }
+
+    &__inner {
+        @include inner();
+    }
+}
+
+.schedule {
+    padding: rem(64) 0;
+    background-color: $color-bg;
+
+    @include mq() {
+        padding: rem(80) 0;
+    }
+
+    &__inner {
+        @include inner();
+    }
+}
+
+.company {
+    padding: rem(64) 0;
+
+    @include mq() {
+        padding: rem(80) 0;
+    }
+
+    &__inner {
+        @include inner();
+    }
+}
