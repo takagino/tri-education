@@ -330,6 +330,7 @@ p {
 .schedule-table {
   width: 100%;
   border-collapse: collapse;
+  background-color: #ffffff;
 }
 .schedule-table th,
 .schedule-table td {
