@@ -31,7 +31,9 @@ $breakpoints: (
     // 一般的なタブレット
     "lg": 1024px,
     // ノートPC・デスクトップ
-    "xl": 1280px // 大型ディスプレイ
+    "xl": 1280px,
+    // 大型ディスプレイ
+    "table": 1112px
 );
 
 // --- Functions ---
@@ -412,10 +414,24 @@ p {
     &__inner {
         @include inner();
     }
+
+    &__note {
+        @include mq(table) {
+            display: none;
+        }
+    }
+}
+
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: rem(8);
+    border-radius: rem(8);
 }
 
 .schedule-table {
     width: 100%;
+    min-width: 700px;
     border-collapse: collapse;
     background-color: $color-white;
 
@@ -423,6 +439,7 @@ p {
     td {
         padding: rem(16) rem(20);
         border: 1px solid $color-border;
+        white-space: nowrap;
         font-size: rem(14);
         text-align: left;
     }
@@ -449,5 +466,54 @@ p {
 
     &__inner {
         @include inner();
+    }
+}
+
+/* --- [6-2 パターンB] カード型変形方式のテーブル --- */
+.company-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: $color-white;
+    border-top: 1px solid $color-border;
+
+    // モバイル表示（デフォルト）：tableの構造をblockに崩して縦積みにする
+    tr,
+    th,
+    td {
+        display: block;
+        width: 100%;
+    }
+
+    th {
+        padding: rem(14) rem(16) rem(6);
+        background-color: $color-bg;
+        color: $color-main;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    td {
+        padding: rem(10) rem(16) rem(16);
+        border-bottom: 1px solid $color-border;
+    }
+
+    // 700px以上：本来の横並びテーブルに戻す
+    @include mq(md) {
+        tr {
+            display: table-row;
+        }
+
+        th,
+        td {
+            display: table-cell;
+            width: auto;
+            padding: rem(18) rem(24);
+            border-bottom: 1px solid $color-border;
+            vertical-align: middle;
+        }
+
+        th {
+            width: rem(200);
+        }
     }
 }
