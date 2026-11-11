@@ -327,6 +327,28 @@ p {
   margin-right: auto;
 }
 
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.schedule-table th,
+.schedule-table td {
+  padding: 1rem 1.25rem;
+  border: 1px solid #dfd6c7;
+  font-size: 0.875rem;
+  text-align: left;
+}
+.schedule-table thead th {
+  background-color: #2c4c3e;
+  color: #ffffff;
+  font-weight: bold;
+}
+.schedule-table tbody th {
+  background-color: #f2ece1;
+  color: #2c4c3e;
+  font-weight: bold;
+}
+
 .company {
   padding: 4rem 0;
 }

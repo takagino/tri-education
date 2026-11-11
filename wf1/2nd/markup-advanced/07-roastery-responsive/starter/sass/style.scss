@@ -414,6 +414,31 @@ p {
     }
 }
 
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: rem(16) rem(20);
+        border: 1px solid $color-border;
+        font-size: rem(14);
+        text-align: left;
+    }
+
+    thead th {
+        background-color: $color-main;
+        color: $color-white;
+        font-weight: bold;
+    }
+
+    tbody th {
+        background-color: $color-bg;
+        color: $color-main;
+        font-weight: bold;
+    }
+}
+
 .company {
     padding: rem(64) 0;
 
