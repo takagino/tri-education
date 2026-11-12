@@ -33,3 +33,19 @@ omikujiBtn.addEventListener('click', () => {
     omikujiResult.textContent = fortunes[randomIndex];
     omikujiMessage.textContent = messages[randomIndex];
 });
+
+const cards = document.querySelectorAll('.card');
+const drawCardBtn = document.getElementById('draw-card-btn');
+
+drawCardBtn.addEventListener('click', () => {
+    // 1. すべてのカードから is-active を削除（リセット）
+    for (let i = 0; i < cards.length; i++) {
+        cards[i].classList.remove('is-active');
+    }
+
+    // 2. 0 〜 cards.length - 1 のランダムなインデックスを生成
+    const randomIndex = Math.floor(Math.random() * cards.length);
+
+    // 3. ランダムに選ばれたカードだけに is-active を付与
+    cards[randomIndex].classList.add('is-active');
+});

@@ -63,3 +63,26 @@ body {
   background-color: #3182ce;
 }
 
+/* 演習3：カードグリッドとアクティブ状態 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card {
+  padding: 16px;
+  background-color: #edf2f7;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.card.is-active {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  color: #2b6cb0;
+  box-shadow: 0 0 10px rgba(49, 130, 206, 0.3);
+}

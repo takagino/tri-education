@@ -46,8 +46,10 @@
 - JavaScriptに標準で備わっている数学用ツール **`Math` オブジェクト** の基本（`Math.random()`、`Math.floor()` など）を理解できる。
 - 実務頻出の計算式 **`Math.floor(Math.random() * N)`** を使いこなし、指定した範囲のランダムな整数を自在に生成できる。
 - 前週学んだ **「配列」と「ランダム整数」を組み合わせ**、おみくじやバナーのように配列の中からランダムにデータを抽出して画面に反映できる。
+- 前週学んだ **`querySelectorAll` と排他制御** を組み合わせ、画面に並んだ複数の要素からランダムに1つだけを選んでアクティブ表示（ハイライト）できる。
 - 決まった回数を繰り返す `for` 文に対し、**「条件を満たす間ずっと繰り返す」`while` 文** の動作原理と使い分けを理解できる。
 - 実務で必ず求められる **「直前に表示されたデータと同じものが連続して出ない重複防止（連続重複の回避）アルゴリズム」** を自力で実装できる。
+- 配列から指定した要素を取り除く **`.splice()`** の基本を理解し、一度選ばれた要素が二度と選ばれない完全重複排除の抽選UIを実装できる。
 - 本日の総合課題として、ボタンを押すたびに背景画像とテキストがランダムに切り替わる **「ランダム背景ヒーローセクション（重複防止機能付き）」** を完成させる。
 
 ---
@@ -102,6 +104,18 @@ VSCodeで本日の学習フォルダ **`06_math_random`** を開き、その中�
       <div id="omikuji-result" class="result-display">運勢を占おう</div>
       <p id="omikuji-message" class="sub-message">ボタンを押すと今日の運勢が表示されます。</p>
       <button type="button" id="omikuji-btn" class="action-btn">おみくじを引く</button>
+    </section>
+
+    <!-- 演習3：ランダム当選カード（querySelectorAll × 排他制御） -->
+    <section class="demo-box">
+      <h2>プレゼント抽選カード</h2>
+      <div class="card-grid">
+        <div class="card">A賞：特選ギフト</div>
+        <div class="card">B賞：カフェチケット</div>
+        <div class="card">C賞：オリジナルステッカー</div>
+        <div class="card">D賞：参加賞クーポン</div>
+      </div>
+      <button type="button" id="draw-card-btn" class="action-btn">当選カードを抽選する</button>
     </section>
   </div>
 </body>
@@ -174,6 +188,30 @@ body {
 
 .action-btn:hover {
   background-color: #3182ce;
+}
+
+/* 演習3：カードグリッドとアクティブ状態 */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card {
+  padding: 16px;
+  background-color: #edf2f7;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.card.is-active {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  color: #2b6cb0;
+  box-shadow: 0 0 10px rgba(49, 130, 206, 0.3);
 }
 ```
 
@@ -402,6 +440,73 @@ omikujiBtn.addEventListener('click', () => {
 
 ---
 
+## 3-2. `querySelectorAll` と組み合わせたランダムハイライト
+
+前週の単元05では、`document.querySelectorAll()` で取得した複数の要素すべてに対して、`for` 文を使って「全員から `.is-active` を外し、選ばれた要素だけに `.is-active` を付ける（排他制御）」というテクニックを学習しました。
+
+この排他制御に `Math.floor(Math.random() * N)` を組み合わせることで、**「並んでいる複数のカードや候補の中から、ランダムに選ばれた1つだけを強調表示するUI（当選演出・ルーレット演出）」** が作れます。
+
+```javascript
+const cards = document.querySelectorAll('.card');
+
+// 1. まず全員から is-active クラスを外す（全員リセット）
+for (let i = 0; i < cards.length; i++) {
+  cards[i].classList.remove('is-active');
+}
+
+// 2. 0 〜 cards.length - 1 のランダムな番号を1つ選ぶ
+const randomIndex = Math.floor(Math.random() * cards.length);
+
+// 3. ランダムに選ばれた1枚だけに is-active クラスを付ける
+cards[randomIndex].classList.add('is-active');
+```
+
+このように、ランダムなインデックス番号は配列から文字列を取り出すためだけでなく、**「複数取得したHTML要素（NodeList）のうち、どの要素をアクティブにするか決める番号」** としても大活躍します。
+
+---
+
+## ⭐︎ 練習：ランダムに1枚のカードをハイライトしよう（querySelectorAll × 排他制御）
+
+「当選カードを抽選する」ボタンを押すと、4枚並んだプレゼントカードの中からランダムに1枚だけが選ばれ、青色の枠線と背景（`.is-active`）で強調表示されるプログラムを作ってみましょう。
+
+### 仕様・要件
+
+1. 画面上の4枚のカード要素（`.card`）を `querySelectorAll` でまとめて取得し、抽選ボタン（`#draw-card-btn`）を取得してください。
+2. ボタンをクリックしたときに以下の処理を実行してください。
+	- 単元05で学んだ `for` 文を使い、すべてのカードから一旦 `.is-active` クラスを削除してリセットする。
+	- `0` から「カードの総数 - 1」までのランダムな整数を1つ生成する。
+	- 生成したインデックス番号に該当するカード要素（`cards[randomIndex]`）だけに、`.is-active` クラスを追加する。
+
+<callout icon="💡" color="gray_bg">
+	**ヒント**
+	- 抽選する前に必ず `for` 文で全員の `.is-active` を消しておかないと、ボタンを押すたびに当選カードがどんどん増えて全員が光ってしまいます。
+	- ランダムな番号を決める計算式は、前週学んだ `cards.length` を使って `Math.floor(Math.random() * cards.length)` と記述します。
+</callout>
+
+- 正解のソースコード（practice01/js/main.js に追記）
+
+```javascript
+const cards = document.querySelectorAll('.card');
+const drawCardBtn = document.getElementById('draw-card-btn');
+
+drawCardBtn.addEventListener('click', () => {
+  // 1. すべてのカードから is-active を削除（リセット）
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('is-active');
+  }
+
+  // 2. 0 〜 cards.length - 1 のランダムなインデックスを生成
+  const randomIndex = Math.floor(Math.random() * cards.length);
+
+  // 3. ランダムに選ばれたカードだけに is-active を付与
+  cards[randomIndex].classList.add('is-active');
+});
+```
+
+ブラウザで「当選カードを抽選する」ボタンを何度かクリックし、4枚のうちランダムに選ばれた1枚だけが青く光って切り替わることを確認してください。
+
+---
+
 # 4. `while` 文とループの応用
 
 ここからの学習では、**「直前と同じ結果が連続して出ないようにする重複防止ロジック」** を構築していきます。
@@ -455,6 +560,14 @@ omikujiBtn.addEventListener('click', () => {
       <blockquote id="quote-text" class="quote-display">ボタンを押してください</blockquote>
       <p id="quote-author" class="quote-author">-</p>
       <button type="button" id="quote-btn" class="action-btn">次の名言を表示</button>
+    </section>
+
+    <!-- 演習3：発表者ルーレット（二度と選ばれない抽選） -->
+    <section class="demo-box">
+      <h2>発表者ルーレット（二度と選ばれない抽選）</h2>
+      <div id="presenter-result" class="result-display">誰が当たるかな</div>
+      <p id="remaining-count" class="sub-message">残りの候補：4人</p>
+      <button type="button" id="presenter-btn" class="action-btn">次の発表者を決める</button>
     </section>
   </div>
 </body>
@@ -510,6 +623,29 @@ body {
 
 .action-btn:hover {
   background-color: #3182ce;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.result-display {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 16px;
+  background-color: #edf2f7;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: #3182ce;
+  text-align: center;
+}
+
+.sub-message {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #718096;
+  text-align: center;
 }
 
 .log-area {
@@ -699,7 +835,7 @@ function getRandomIndex() {
   // 1. まず1回ランダムに引く
   let newIndex = Math.floor(Math.random() * items.length);
 
-  // 2. 直前と同じ番号である間、違う番号が出るまで引き直す！
+  // 2. 直前と同じ番号である間、違う番号が出るまで引き直す
   while (newIndex === lastIndex) {
     newIndex = Math.floor(Math.random() * items.length);
   }
@@ -784,9 +920,137 @@ quoteBtn.addEventListener('click', () => {
 
 ---
 
-# 6. 本日の総合課題
+# 6. 配列から要素を削除する：`.splice()` と完全重複排除
 
-## 6-1. 課題概要：ランダム背景ヒーローセクションの実装
+## 6-1. 配列から指定した位置の要素を取り除く：`配列.splice()`
+
+単元05では、配列の末尾に新しいデータを追加する `.push()` を学習しました。
+反対に、配列の中にある特定のデータを削除したいときに使う代表的な命令が **`配列.splice()`** です。
+
+```javascript
+配列.splice(取り除きたいインデックス, 削除する個数);
+```
+
+例えば、3つの果物が入った配列から、1番目の要素（`'ばなな'`）を1つだけ削除してみます。
+
+```javascript
+const fruits = ['りんご', 'ばなな', 'みかん'];
+
+// インデックス 1 から 1 個だけ削除する
+const removed = fruits.splice(1, 1);
+
+console.log(fruits);  // => ['りんご', 'みかん']（配列が2個に縮む）
+console.log(removed); // => ['ばなな']（取り除かれた要素が配列で返される）
+```
+
+<callout icon="💡" color="gray_bg">
+	**`.splice()` の特徴**
+
+	- 指定したインデックスのデータが配列から完全に切り取られます。
+	- 削除された分、配列の `.length` も自動的に減ります。
+	- 戻り値として「切り取られた要素」が配列の形で返されます（`removed[0]` で取り出せます）。
+</callout>
+
+---
+
+## 6-2. 「二度と選ばれない」完全重複排除の仕組み
+
+先ほどのセクション5で実装した「連続重複防止（直前と同じ値を除外）」は、あくまで **直前と同じものが続けて出ないようにする仕組み** でした。そのため、A → B → A のように、別のデータを挟めば過去に出たものが再び選ばれます。
+
+しかし、実際のWebサイトやアプリでは、**「一度選ばれたデータは二度と選ばれない（箱の中からくじを引いて捨てる）」** という完全重複排除のロジックが必要になる場面があります。
+
+- 授業の発表順ルーレット（一度当たった人は二度と当たらない）
+- プレゼント抽選・ビンゴ大会（一度出た番号は除外される）
+- クイズゲームの出題（同じ問題が重複して出題されない）
+
+この「二度と出ない抽選」は、**`Math.random()` でランダムに選んだインデックスを、その都度 `.splice()` で配列から削除していく** ことで極めてシンプルに実現できます。
+
+```javascript
+// 候補者の配列
+const members = ['佐藤', '鈴木', '高橋', '田中'];
+
+// 1. 現在の要素数（4個）からランダムにインデックスを選ぶ（0〜3）
+const randomIndex = Math.floor(Math.random() * members.length);
+
+// 2. 選ばれた人を配列から切り取って取り出す
+const picked = members.splice(randomIndex, 1)[0];
+console.log(`${picked}さんが選ばれました`);
+
+// 3. 配列の中身は3人に減っているため、次回は残りの3人から選ばれる
+console.log(`残りの候補：${members.length}人`);
+```
+
+ボタンを押すごとに配列の要素が減っていき、最後は `members.length === 0`（空っぽ）になるため、全ての候補者を1回ずつ綺麗に抽選し終えることができます。
+
+---
+
+## ⭐︎ 練習：発表者ルーレットを作ろう（選ばれた人を配列から削除）
+
+「次の発表者を決める」ボタンを押すと、配列に用意された候補者の中からランダムに1人が選ばれ、選ばれた人は配列から削除されて残りの候補人数が減っていくプログラムを作ってみましょう。
+
+### 仕様・要件
+
+1. 画面上の結果表示エリア（`#presenter-result`）、残り人数表示（`#remaining-count`）、ボタン（`#presenter-btn`）を取得してください。
+2. 4名の発表候補者名を入れた配列 `presenters` を定義してください。
+3. 画面の初期表示として、残り人数表示エリアに現在の候補者全員の名前を表示してください（例：`残りの候補：4人（佐藤さん、鈴木さん、高橋さん、田中さん）`）。
+4. ボタンをクリックしたときに以下の処理を実行してください。
+	- もし配列の中身がすでに空（`presenters.length === 0`）なら、ボタンを無効化（`setAttribute('disabled', 'true')`）して処理を中断する。
+	- 現在残っている配列の要素数をもとに、ランダムなインデックス番号を1つ生成する。
+	- `presenters.splice(randomIndex, 1)[0]` で配列から選ばれた人を抜き出す。
+	- 抜き出した発表者名を `#presenter-result` に表示し、残り人数と残りの候補者一覧を更新する。
+	- もし今回の抽選で配列がちょうど空になった場合は、メッセージに「全員の発表順が決まりました。お疲れ様でした。」と案内し、ボタンを無効化する。
+
+<callout icon="💡" color="gray_bg">
+	**ヒント**
+	- 配列の全要素をカンマで繋げて1つの文字列にしたいときは、配列の便利な命令 **`配列.join('、')`** を使うと綺麗に表示できます。
+	- ボタンを押せなくする無効化処理には、単元04で学んだ `presenterBtn.setAttribute('disabled', 'true')` を使用します。
+</callout>
+
+- 正解のソースコード（practice02/js/main.js に追記）
+
+```javascript
+const presenterResult = document.getElementById('presenter-result');
+const remainingCount = document.getElementById('remaining-count');
+const presenterBtn = document.getElementById('presenter-btn');
+
+// 発表候補者の配列
+const presenters = ['佐藤さん', '鈴木さん', '高橋さん', '田中さん'];
+
+// 初期状態の表示
+remainingCount.textContent = `残りの候補：${presenters.length}人（${presenters.join('、')}）`;
+
+presenterBtn.addEventListener('click', () => {
+  // すでに全員選ばれている場合は処理を終了
+  if (presenters.length === 0) {
+    return;
+  }
+
+  // 1. 現在残っている人数の中からランダムなインデックスを生成
+  const randomIndex = Math.floor(Math.random() * presenters.length);
+
+  // 2. 配列から選ばれた人を削除して取り出す
+  const selected = presenters.splice(randomIndex, 1)[0];
+
+  // 3. 画面の表示を更新
+  presenterResult.textContent = selected;
+
+  // 4. 残り人数の判定とメッセージの更新
+  if (presenters.length > 0) {
+    remainingCount.textContent = `残りの候補：${presenters.length}人（${presenters.join('、')}）`;
+  } else {
+    remainingCount.textContent = '全員の発表順が決まりました。お疲れ様でした。';
+    presenterBtn.setAttribute('disabled', 'true');
+  }
+});
+```
+
+ブラウザでボタンを4回クリックしてみてください。毎回異なる人が順番に選ばれて候補から消えていき、4人全員が選ばれた瞬間にボタンが無効化されることを確認してください。
+
+---
+
+# 7. 本日の総合課題
+
+## 7-1. 課題概要：ランダム背景ヒーローセクションの実装
 
 本日の総仕上げとして、Webサイトのトップページでユーザーの目を惹く演出としてよく使われる **「ランダム背景ヒーローセクション（重複防止機能付き）」** を作成します。
 
@@ -794,7 +1058,7 @@ quoteBtn.addEventListener('click', () => {
 
 ---
 
-## 6-2. 演習ファイルの準備
+## 7-2. 演習ファイルの準備
 
 これまでの練習フォルダ（`practice02`）を丸ごと複製し、フォルダ名を **`randomHero`** に変更してください。
 
@@ -954,7 +1218,7 @@ console.log('randomHero ready!');
 
 ---
 
-## 6-3. 仕様・要件
+## 7-3. 仕様・要件
 
 ### 必須要件（基本機能）
 
@@ -990,7 +1254,7 @@ console.log('randomHero ready!');
 
 ---
 
-## 6-4. 解答例と解説
+## 7-4. 解答例と解説
 
 自力で実装に挑戦したあと、以下の解答例を開いてコードを確認してみましょう。
 
@@ -1063,7 +1327,7 @@ updateHero();
 
 ---
 
-## 6-5. 提出方法・期限
+## 7-5. 提出方法・期限
 
 `06_math_random` フォルダ内に **`practice01`**、**`practice02`**、**`randomHero`** の3つのフォルダが揃っていることを確認し、来週の授業開始までにGitHubへ同期（commit & push）してください。
 
