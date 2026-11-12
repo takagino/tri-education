@@ -46,6 +46,29 @@ body {
   background-color: #3182ce;
 }
 
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.result-display {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 16px;
+  background-color: #edf2f7;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  color: #3182ce;
+  text-align: center;
+}
+
+.sub-message {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #718096;
+  text-align: center;
+}
+
 .log-area {
   margin-top: 16px;
   padding: 16px;
@@ -75,4 +98,3 @@ body {
   margin-top: 0;
   margin-bottom: 16px;
 }
-

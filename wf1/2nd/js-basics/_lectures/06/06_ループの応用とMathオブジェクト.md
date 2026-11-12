@@ -745,7 +745,47 @@ console.log('ループ終了');
 
 ---
 
-## ⭐︎ 練習：目標の数字が出るまでサイコロを振り続けるシミュレーター
+## ⭐︎ 練習：while文の基本動作を体験しよう（コンソール演習）
+
+画面の操作（DOM操作）に入る前に、まずはコンソールを使って `while` 文の動作感覚を掴みましょう。
+「サイコロを振って、目的の目（`6`）が出るまで何度も振り続ける」という処理を書いてみます。
+
+### 仕様・要件
+
+1. サイコロの出目を保持する変数 `dice` を用意してください（初期値は `6` 以外の数値、例えば `0`）。
+2. `while` 文を使い、**「出目が 6 ではない間」** 以下の処理を繰り返してください。
+	- `1` から `6` までのランダムな整数を計算し、変数 `dice` に上書き代入する。
+	- コンソールに `出た目: ${dice}` と出力する。
+3. ループが終了した直後に、コンソールに `6が出たので終了しました` と出力してください。
+
+<callout icon="💡" color="gray_bg">
+	**ヒント**
+	- 条件式は「6ではない間」なので、比較演算子を使い `while (dice !== 6)` と記述します。
+	- もし `let dice = 6;` と最初から 6 を入れてしまうと、1回もループが回らずに終わってしまいます。最初からループを回すため、最初は必ず 6 以外の値を入れておきます。
+	- 1から6のランダム整数は、セクション2で学んだ `Math.floor(Math.random() * 6) + 1` です。
+</callout>
+
+- 正解のソースコード（practice02/js/main.js）
+
+```javascript
+// 出目を保存する変数（最初は6以外の適当な数字にしておく）
+let dice = 0;
+
+// 出目が6ではない間、ずっと繰り返す
+while (dice !== 6) {
+  // 1〜6のランダムな目を生成
+  dice = Math.floor(Math.random() * 6) + 1;
+  console.log(`出た目: ${dice}`);
+}
+
+console.log('6が出たので終了しました');
+```
+
+ブラウザをリロード（再読み込み）するたびに、2回で終わることもあれば10回以上続いてから終わることもあり、条件が満たされるまで自動で繰り返される様子がコンソールで確認できます。
+
+---
+
+## ⭐︎ 練習：目標の数字が出るまでおみくじを引き続けるシミュレーター
 
 `while` 文を使って、「大吉（インデックス番号 0）」が出るまで何度もおみくじを引き続け、何回目で大吉が出たかを画面にログ出力する処理を作ってみましょう。
 
@@ -768,7 +808,7 @@ console.log('ループ終了');
 	- ログの改行には `<br>` タグを使用し、最後に `.innerHTML` で流し込みます。
 </callout>
 
-- 正解のソースコード（practice02/js/main.js）
+- 正解のソースコード（practice02/js/main.js に上書き）
 
 ```javascript
 const drawUntilBtn = document.getElementById('draw-until-btn');
@@ -831,8 +871,9 @@ drawUntilBtn.addEventListener('click', () => {
 // 直前の番号を保存しておく変数（初期値は存在しないインデックス -1）
 let lastIndex = -1;
 
-function getRandomIndex() {
-  // 1. まず1回ランダムに引く
+// ボタンがクリックされたときの処理
+btn.addEventListener('click', () => {
+  // 1. まず新しい番号をランダムに引く
   let newIndex = Math.floor(Math.random() * items.length);
 
   // 2. 直前と同じ番号である間、違う番号が出るまで引き直す
@@ -840,11 +881,12 @@ function getRandomIndex() {
     newIndex = Math.floor(Math.random() * items.length);
   }
 
-  // 3. 次回のために、今回の番号を直前の番号として記録
-  lastIndex = newIndex;
+  // 3. 画面の表示を更新する
+  result.textContent = items[newIndex];
 
-  return newIndex;
-}
+  // 4. 次回のために、今回の番号を直前の番号として記録を更新する
+  lastIndex = newIndex;
+});
 ```
 
 「直前と同じである間は、違う値になるまで引き直す」という処理に、まさに `while` 文が最適であることが分かります。
@@ -992,17 +1034,17 @@ console.log(`残りの候補：${members.length}人`);
 
 1. 画面上の結果表示エリア（`#presenter-result`）、残り人数表示（`#remaining-count`）、ボタン（`#presenter-btn`）を取得してください。
 2. 4名の発表候補者名を入れた配列 `presenters` を定義してください。
-3. 画面の初期表示として、残り人数表示エリアに現在の候補者全員の名前を表示してください（例：`残りの候補：4人（佐藤さん、鈴木さん、高橋さん、田中さん）`）。
+3. 画面の初期表示として、残り人数表示エリアに現在の候補者人数を表示してください（例：`残りの候補：4人`）。
 4. ボタンをクリックしたときに以下の処理を実行してください。
-	- もし配列の中身がすでに空（`presenters.length === 0`）なら、ボタンを無効化（`setAttribute('disabled', 'true')`）して処理を中断する。
+	- 配列の中にまだ候補者が残っている（`presenters.length > 0`）場合に処理を実行する。
 	- 現在残っている配列の要素数をもとに、ランダムなインデックス番号を1つ生成する。
 	- `presenters.splice(randomIndex, 1)[0]` で配列から選ばれた人を抜き出す。
-	- 抜き出した発表者名を `#presenter-result` に表示し、残り人数と残りの候補者一覧を更新する。
+	- 抜き出した発表者名を `#presenter-result` に表示し、残り人数を更新する。
 	- もし今回の抽選で配列がちょうど空になった場合は、メッセージに「全員の発表順が決まりました。お疲れ様でした。」と案内し、ボタンを無効化する。
 
 <callout icon="💡" color="gray_bg">
 	**ヒント**
-	- 配列の全要素をカンマで繋げて1つの文字列にしたいときは、配列の便利な命令 **`配列.join('、')`** を使うと綺麗に表示できます。
+	- 残りの候補人数は、単元05で学んだ `presenters.length` で取得できます。
 	- ボタンを押せなくする無効化処理には、単元04で学んだ `presenterBtn.setAttribute('disabled', 'true')` を使用します。
 </callout>
 
@@ -1017,29 +1059,27 @@ const presenterBtn = document.getElementById('presenter-btn');
 const presenters = ['佐藤さん', '鈴木さん', '高橋さん', '田中さん'];
 
 // 初期状態の表示
-remainingCount.textContent = `残りの候補：${presenters.length}人（${presenters.join('、')}）`;
+remainingCount.textContent = `残りの候補：${presenters.length}人`;
 
 presenterBtn.addEventListener('click', () => {
-  // すでに全員選ばれている場合は処理を終了
-  if (presenters.length === 0) {
-    return;
-  }
-
-  // 1. 現在残っている人数の中からランダムなインデックスを生成
-  const randomIndex = Math.floor(Math.random() * presenters.length);
-
-  // 2. 配列から選ばれた人を削除して取り出す
-  const selected = presenters.splice(randomIndex, 1)[0];
-
-  // 3. 画面の表示を更新
-  presenterResult.textContent = selected;
-
-  // 4. 残り人数の判定とメッセージの更新
+  // 候補者が残っている場合のみ抽選を実行
   if (presenters.length > 0) {
-    remainingCount.textContent = `残りの候補：${presenters.length}人（${presenters.join('、')}）`;
-  } else {
-    remainingCount.textContent = '全員の発表順が決まりました。お疲れ様でした。';
-    presenterBtn.setAttribute('disabled', 'true');
+    // 1. 現在残っている人数の中からランダムなインデックスを生成
+    const randomIndex = Math.floor(Math.random() * presenters.length);
+
+    // 2. 配列から選ばれた人を削除して取り出す
+    const selected = presenters.splice(randomIndex, 1)[0];
+
+    // 3. 画面の表示を更新
+    presenterResult.textContent = selected;
+
+    // 4. 残り人数の判定とメッセージの更新
+    if (presenters.length > 0) {
+      remainingCount.textContent = `残りの候補：${presenters.length}人`;
+    } else {
+      remainingCount.textContent = '全員の発表順が決まりました。お疲れ様でした。';
+      presenterBtn.setAttribute('disabled', 'true');
+    }
   }
 });
 ```
@@ -1248,7 +1288,7 @@ console.log('randomHero ready!');
 	**ヒント**
 	- 背景画像のCSSスタイルを変更するには、単元02で学んだ `.style.backgroundImage` を使用します。
 	  値は `url("${imageUrls[newIndex]}")` のように `url(...)` で囲む必要があります。
-	- 初期表示とボタンクリック時で同じ切り替え処理を行います。
+	- ページ読み込み直後の初回ランダム表示と、ボタンクリック時のイベントリスナーの両方に画面更新の処理を記述します。
 	- ネット上のダミー画像には、安定して取得できるUnsplashやPicsumの画像URL（例: `https://images.unsplash.com/...` や `https://picsum.photos/id/.../1200/600`）を活用できます。
 </callout>
 
@@ -1289,11 +1329,17 @@ const locations = [
   'スイス / ベルナー・オーバーラント'
 ];
 
-// 直前に表示したインデックスを保持する変数（初期値は -1）
+// 直前に表示したインデックスを保持する変数
 let lastIndex = -1;
 
-// 3. ランダムに背景とテキストを切り替える処理
-const updateHero = () => {
+// 3. ページを開いた初回にもランダムに表示する
+lastIndex = Math.floor(Math.random() * imageUrls.length);
+heroHeader.style.backgroundImage = `url("${imageUrls[lastIndex]}")`;
+heroTitle.textContent = titles[lastIndex];
+heroLocation.textContent = locations[lastIndex];
+
+// 4. ボタンクリック時の切り替え処理（重複防止付き）
+changeBgBtn.addEventListener('click', () => {
   // 新しいインデックスをランダムに抽選
   let newIndex = Math.floor(Math.random() * imageUrls.length);
 
@@ -1309,20 +1355,14 @@ const updateHero = () => {
 
   // 今回の番号を直前の番号として記録
   lastIndex = newIndex;
-};
-
-// 4. イベント登録と初期実行
-changeBgBtn.addEventListener('click', updateHero);
-
-// ページを開いた初回にもランダムに表示する
-updateHero();
+});
 ```
 
 <callout icon="💡" color="gray_bg">
-	**次回（単元07）への伏線：`updateHero` のような「関数」の力**
+	**次回（単元07）への伏線：同じ処理を1つにまとめる「関数」の登場**
 
-	上記の解答例では、ボタンクリック時とページ初回表示時の両方で同じ処理を実行するため、処理をまとめた変数（関数）`updateHero` を作って呼び出しています。
-	次回の単元07では、この **「関数（Function）」** の詳しい作り方や、引数・戻り値を使った本格的なモジュール化テクニックをじっくり学びます。お楽しみに。
+	今回のコードを見ると、ページ初回表示時とボタンクリック時で、画面の背景やテキストを更新する処理を2回ほぼ同じ形で書いていることに気づいたでしょうか。
+	次回の単元07では、このように重複した処理を1つに部品化していつでも呼び出せる **「関数（Function）」** の仕組みをじっくり学びます。お楽しみに。
 </callout>
 
 ---
