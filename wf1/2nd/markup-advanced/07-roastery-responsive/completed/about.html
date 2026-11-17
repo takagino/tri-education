@@ -40,9 +40,9 @@
     <!-- =================================================================
          Section 1: Roaster's Pickup
          ・[8-1 / 8-2] コンテナクエリ（@container）の実践
-           PC表示時（700px以上）に「広いメイン領域（左）」と「狭いサイド領域（右）」へ分割。
+           PC表示時（700px以上）に「広いメイン領域（.pickup__main）」と「狭いサイド領域（.pickup__side）」へ分割。
            中に入っている .card は全く同じHTML・クラス構造にもかかわらず、
-           親の .card-wrapper の幅（480px以上かどうか）を検知して自律的に「横長 / 縦積み」へ変形します。
+           親の配置用Elementの幅（480px以上かどうか）を検知して自律的に「横長 / 縦積み」へ変形します。
          ================================================================= -->
     <section class="pickup">
       <div class="pickup__inner">
@@ -60,7 +60,7 @@
 
         <div class="pickup__layout">
           <!-- 左カラム：広いメイン領域（PC時は幅480px以上になるため、中の .card が横並びに変形！） -->
-          <div class="pickup__main card-wrapper">
+          <div class="pickup__main">
             <article class="card">
               <div class="card__pic">
                 <img src="./images/pic_pickup01.jpg" alt="季節のブレンド豆 200g" width="560" height="380">
@@ -75,7 +75,7 @@
           </div>
 
           <!-- 右カラム：狭いサイド領域（PC時でも幅480px未満のため、中の .card は縦積みのまま維持！） -->
-          <aside class="pickup__side card-wrapper">
+          <aside class="pickup__side">
             <article class="card">
               <div class="card__pic">
                 <img src="./images/pic_pickup02.jpg" alt="週末テイスティング体験" width="560" height="380">
@@ -94,7 +94,7 @@
 
     <!-- =================================================================
          Section 2: Cafe & Roastery Schedule
-         ・[6-2 パターンA] 横スクロール方式のテーブル（.table-scroll + .schedule-table）
+         ・[6-2 パターンA] 横スクロール方式のテーブル（.schedule__scroll + .schedule__table）
            表の行と列の対応関係を崩さず、スマホでは横スクロールで閲覧可能にする手法。
          ================================================================= -->
     <section class="schedule">
@@ -111,8 +111,8 @@
 
         <p class="schedule__note">※スマートフォンでは表を横にスクロールしてご覧いただけます ⇄</p>
 
-        <div class="table-scroll">
-          <table class="schedule-table">
+        <div class="schedule__scroll">
+          <table class="schedule__table">
             <thead>
               <tr>
                 <th>曜日</th>
@@ -152,7 +152,7 @@
 
     <!-- =================================================================
          Section 3: Shop & Company Profile
-         ・[6-2 パターンB] カード型変形方式のテーブル（.company-table）
+         ・[6-2 パターンB] カード型変形方式のテーブル（.company__table）
            スマホでは th / td を display: block にして縦積みにし、
            700px以上（@include mq(md)）で本来の table-row / table-cell に戻す手法。
          ================================================================= -->
@@ -172,7 +172,7 @@
         </div>
 
         <div class="company__detail">
-          <table class="company-table">
+          <table class="company__table">
             <tbody>
               <tr>
                 <th>店舗・屋号</th>

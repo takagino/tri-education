@@ -661,6 +661,17 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 }
 ```
 
+#### 💡 ユーティリティクラス（`u-*`）とモディファイヤー（`--*`）の使い分け（意味合いの違い）
+
+「見た目や状態を切り替えるなら、BEMのモディファイヤー（例：`br--sp` など）ではダメなの？」と疑問に思うかもしれません。CSS設計において、この2つは明確に役割（意味合い）が異なります。
+
+| 分類 | 命名規則の例 | 意味合い・役割 | 具体例 |
+| --- | --- | --- | --- |
+| **モディファイヤー**<br>（Modifier） | `Block--modifier`<br>`Element--modifier` | **「特定のコンポーネント（部品）に属するバリエーション」**<br>必ずベースとなるBlockやElementとセットで使用し、他の無関係な部品には使い回さない。 | `.btn--accent`（ボタンの色違い）<br>`.intro--center`（見出しの中央揃え版）<br>`.gnav__link--current`（現在地リンク） |
+| **ユーティリティクラス**<br>（Utility） | `u-機能名` | **「どの要素・どの部品にも横断的に使える単機能の便利クラス」**<br>特定のBlockに縛られず、「改行の出し分け」「非表示」「余白の微調整」など1つの機能だけを単独で付与する。 | `.u-show-sp`（SPのみ表示）<br>`.u-hide-sp`（SPのみ非表示） |
+
+`<br>` の表示・非表示は、`.hero` の中でも `.pickup` の中でも、**サイト内のあらゆる場所でパーツの種類を問わず共通して使いたい単機能** です。そのため、特定のBlockに紐づくモディファイヤーではなく、独立した **ユーティリティクラス（先頭に Utility の頭文字 `u-` をつける命名）** として定義するのが実務の定石です。
+
 <aside>
 ⚠️
 
@@ -700,18 +711,20 @@ SCSSファイル（`style.scss` など）を新規作成し、空のファイル
 
 ```html
 <!-- index.html（.concept 内のリード文） -->
-<p class="lead-text">
+<p class="intro__lead">
   私たちは美味しいコーヒーを通じて、<wbr>何気ない日常を<wbr>特別なひとときに変える<wbr>お手伝いをします。
 </p>
 ```
 
 ```scss
-// [6-1 手法③] <wbr> と組み合わせる文節折り返し用クラス
-.lead-text {
-  font-weight: bold;
-  color: $color-main;
-  word-break: keep-all; // 単語の途中で切れるのを防ぐ（<wbr>の位置で改行）
-  overflow-wrap: break-word; // 長い英単語などが枠を突き破るのを防ぐ保険
+// [6-1 手法③] <wbr> と組み合わせる文節折り返し用のElement
+.intro {
+  &__lead {
+    font-weight: bold;
+    color: $color-main;
+    word-break: keep-all; // 単語の途中で切れるのを防ぐ（<wbr>の位置で改行）
+    overflow-wrap: break-word; // 長い英単語などが枠を突き破るのを防ぐ保険
+  }
 }
 ```
 
@@ -748,9 +761,9 @@ p {
 表の構造（行と列の対応関係）をそのまま維持したい場合に最適です。
 
 ```html
-<!-- about.html（営業時間・焙煎スケジュール） -->
-<div class="table-scroll">
-  <table class="schedule-table">
+<!-- about.html（.schedule セクション内の営業時間・焙煎スケジュール） -->
+<div class="schedule__scroll">
+  <table class="schedule__table">
     <thead>
       <tr>
         <th>曜日</th>
@@ -789,38 +802,40 @@ p {
 
 ```scss
 /* --- [6-2 パターンA] 横スクロール方式のテーブル --- */
-.table-scroll {
-  overflow-x: auto; // 横スクロールを可能にする
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: rem(8);
-  background-color: $color-white;
-  border-radius: rem(8);
-}
-
-.schedule-table {
-  width: 100%;
-  min-width: 640px; // スマホでも表が潰れない最小幅を確保！
-  border-collapse: collapse;
-
-  th,
-  td {
-    padding: rem(16) rem(20);
-    border: 1px solid $color-border;
-    white-space: nowrap; // セル内の不自然な改行を防ぐ
-    font-size: rem(14);
-    text-align: left;
+.schedule {
+  &__scroll {
+    overflow-x: auto; // 横スクロールを可能にする
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: rem(8);
+    background-color: $color-white;
+    border-radius: rem(8);
   }
 
-  thead th {
-    background-color: $color-main;
-    color: $color-white;
-    font-weight: bold;
-  }
+  &__table {
+    width: 100%;
+    min-width: 640px; // スマホでも表が潰れない最小幅を確保！
+    border-collapse: collapse;
 
-  tbody th {
-    background-color: $color-bg;
-    color: $color-main;
-    font-weight: bold;
+    th,
+    td {
+      padding: rem(16) rem(20);
+      border: 1px solid $color-border;
+      white-space: nowrap; // セル内の不自然な改行を防ぐ
+      font-size: rem(14);
+      text-align: left;
+    }
+
+    thead th {
+      background-color: $color-main;
+      color: $color-white;
+      font-weight: bold;
+    }
+
+    tbody th {
+      background-color: $color-bg;
+      color: $color-main;
+      font-weight: bold;
+    }
   }
 }
 ```
@@ -841,24 +856,28 @@ p {
 項目数が少なく、縦に並べ替えても意味が通じる表（2列の表）に有効です。
 
 ```html
-<!-- about.html（店舗情報・会社概要） -->
-<table class="company-table">
+<!-- about.html（.company セクション内の店舗・運営会社概要） -->
+<table class="company__table">
   <tbody>
     <tr>
-      <th>店名</th>
-      <td>KOMA ROASTERY（コマ ロースタリー）</td>
+      <th>店舗・屋号</th>
+      <td>KOMA ROASTERY（コマ・ロースタリー）</td>
+    </tr>
+    <tr>
+      <th>運営会社</th>
+      <td>株式会社コマ・コーヒーワークス</td>
     </tr>
     <tr>
       <th>所在地</th>
-      <td>〒450-0002 愛知県名古屋市中村区名駅3-10-15</td>
+      <td>愛知県名古屋市中村区名駅3丁目14-15</td>
     </tr>
     <tr>
-      <th>設立 / 創業</th>
+      <th>設立</th>
       <td>2021年4月1日</td>
     </tr>
     <tr>
       <th>事業内容</th>
-      <td>スペシャリティコーヒー生豆の輸入・自家焙煎・卸売、カフェ運営</td>
+      <td>スペシャリティコーヒー豆の自家焙煎・販売、カフェ運営、バリスタ育成事業</td>
     </tr>
   </tbody>
 </table>
@@ -866,50 +885,52 @@ p {
 
 ```scss
 /* --- [6-2 パターンB] カード型変形方式のテーブル --- */
-.company-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: $color-white;
-  border-top: 1px solid $color-border;
-
-  // モバイル表示（デフォルト）：tableの構造をblockに崩して縦積みにする
-  tr,
-  th,
-  td {
-    display: block;
+.company {
+  &__table {
     width: 100%;
-  }
+    border-collapse: collapse;
+    background-color: $color-white;
+    border-top: 1px solid $color-border;
 
-  th {
-    padding: rem(14) rem(16) rem(6);
-    background-color: $color-bg;
-    color: $color-main;
-    font-weight: bold;
-    text-align: left;
-  }
-
-  td {
-    padding: rem(10) rem(16) rem(16);
-    border-bottom: 1px solid $color-border;
-  }
-
-  // 700px以上：本来の横並びテーブルに戻す
-  @include mq(md) {
-    tr {
-      display: table-row;
-    }
-
+    // モバイル表示（デフォルト）：tableの構造をblockに崩して縦積みにする
+    tr,
     th,
     td {
-      display: table-cell;
-      width: auto;
-      padding: rem(18) rem(24);
-      border-bottom: 1px solid $color-border;
-      vertical-align: middle;
+      display: block;
+      width: 100%;
     }
 
     th {
-      width: rem(200);
+      padding: rem(14) rem(16) rem(6);
+      background-color: $color-bg;
+      color: $color-main;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    td {
+      padding: rem(10) rem(16) rem(16);
+      border-bottom: 1px solid $color-border;
+    }
+
+    // 700px以上：本来の横並びテーブルに戻す
+    @include mq(md) {
+      tr {
+        display: table-row;
+      }
+
+      th,
+      td {
+        display: table-cell;
+        width: auto;
+        padding: rem(18) rem(24);
+        border-bottom: 1px solid $color-border;
+        vertical-align: middle;
+      }
+
+      th {
+        width: rem(200);
+      }
     }
   }
 }
@@ -1086,11 +1107,28 @@ graph TD
 
 現在、コンテナクエリはすべてのモダンブラウザで完全サポートされています。
 
+```html
+<!-- about.html（.pickup セクションの2カラム領域） -->
+<div class="pickup__layout">
+  <!-- 左カラム：広いメイン領域（PC時は幅480px以上になるため、中の .card が横並びに変形！） -->
+  <div class="pickup__main">
+    <article class="card">...</article>
+  </div>
+
+  <!-- 右カラム：狭いサイド領域（PC時でも幅480px未満のため、中の .card は縦積みのまま維持！） -->
+  <aside class="pickup__side">
+    <article class="card">...</article>
+  </aside>
+</div>
+```
+
 ```scss
-// [8-2] 1. 親要素を「コンテナ（横幅の測定対象）」として宣言
-.card-wrapper {
-  container-type: inline-size; // 横幅の変化を監視する
-  container-name: cardContainer; // （省略可能）コンテナに名前をつける
+// [8-2] 1. 親要素（配置用のElement）を「コンテナ（横幅の測定対象）」として宣言
+.pickup {
+  &__main,
+  &__side {
+    container-type: inline-size; // 横幅の変化を監視する
+  }
 }
 
 // [8-2] 2. カードモジュール（デフォルトは1カラム縦積み）
@@ -1102,7 +1140,7 @@ graph TD
   border-radius: rem(12);
   background-color: $color-white;
 
-  // 親コンテナ（.card-wrapper）の横幅が 480px 以上になったら2カラム横並びに変化！
+  // 親コンテナ（.pickup__main など）の横幅が 480px 以上になったら2カラム横並びに変化！
   @container (width >= 480px) {
     grid-template-columns: 2fr 3fr; // 画像（40%）: テキスト（60%）の比率で横並び
     align-items: center;
