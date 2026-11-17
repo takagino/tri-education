@@ -1,0 +1,72 @@
+body {
+  color: #000000;
+  font-size: 0.875rem;
+  font-family: "Helvetica Neue", Arial, "Yu Gothic", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  line-height: 1.7222222222;
+  letter-spacing: 0.05em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: bottom;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.header {
+  padding: 3rem 0;
+}
+.header__inner {
+  max-width: 1000px;
+  width: 83%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+.header__logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.2083333333;
+  letter-spacing: 0.1em;
+}
+
+.g-nav__list {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 2rem;
+}
+.g-nav__list a {
+  font-size: 0.75rem;
+  line-height: 1.1666666667;
+  transition: 0.2s;
+}
+.g-nav__list a:hover {
+  color: #E40065;
+}
+.g-nav__active {
+  color: #E40065;
+}
+
+.footer {
+  padding: 5rem 0;
+  color: #fff;
+  background-color: #2F2F2F;
+}
+.footer__inner {
+  max-width: 1000px;
+  width: 83%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer__copyright {
+  text-align: center;
+}
+.footer__copyright small {
+  font-size: 0.75rem;
+  font-weight: bold;
+}/*# sourceMappingURL=style.css.map */
