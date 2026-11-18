@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 40px 20px;
+  background-color: #f7fafc;
+  color: #2d3748;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.demo-box {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.demo-box h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.status-text {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+
+.btn-group,
+.input-row,
+.size-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-btn,
+.sub-btn,
+.like-btn,
+.size-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.action-btn {
+  background-color: #4299e1;
+  color: #ffffff;
+}
+
+.sub-btn {
+  background-color: #e2e8f0;
+  color: #2d3748;
+}
+
+/* 課題1：いいねボタン */
+.like-btn {
+  background-color: #edf2f7;
+  color: #4a5568;
+  border: 2px solid #cbd5e0;
+}
+
+.like-btn.is-liked {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border-color: #e53e3e;
+}
+
+/* 課題2：会員ランク */
+.point-text {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.rank-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-bottom: 16px;
+  background-color: #feebc8;
+  color: #9c4221;
+}
+
+.rank-badge.is-silver {
+  background-color: #e2e8f0;
+  color: #2d3748;
+}
+
+.rank-badge.is-gold {
+  background-color: #fefcbf;
+  color: #975a16;
+}
+
+/* 課題3・4：入力欄とリスト */
+.text-input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 240px;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  text-align: left;
+}
+
+.item-list li {
+  padding: 8px 12px;
+  background-color: #edf2f7;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+/* 課題5：サイズ選択 */
+.size-btn {
+  background-color: #edf2f7;
+  color: #2d3748;
+  border: 2px solid transparent;
+}
+
+.size-btn.is-active {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  color: #2b6cb0;
+}

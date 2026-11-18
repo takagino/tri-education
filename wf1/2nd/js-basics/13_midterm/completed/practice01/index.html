@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13_中間総合演習（前半）</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>中間総合演習：前半（単元1〜5）</h1>
+
+    <!-- 課題1：いいねボタン＆カウントアップ -->
+    <section class="demo-box">
+      <h2>いいねボタン＆カウント</h2>
+      <p id="like-status" class="status-text">現在のいいね数：0件</p>
+      <button type="button" id="like-btn" class="like-btn">♡ いいねする</button>
+    </section>
+
+    <!-- 課題2：会員ランク判定シミュレーター -->
+    <section class="demo-box">
+      <h2>会員ランク判定（ポイント加算）</h2>
+      <p id="point-display" class="point-text">現在のポイント：0pt</p>
+      <div id="rank-badge" class="rank-badge">ブロンズ会員</div>
+      <div class="btn-group">
+        <button type="button" id="add-point-btn" class="action-btn">+15pt 獲得</button>
+        <button type="button" id="reset-point-btn" class="sub-btn">リセット</button>
+      </div>
+    </section>
+
+    <!-- 課題3：パスワード表示／非表示切り替え -->
+    <section class="demo-box">
+      <h2>パスワード表示切り替え</h2>
+      <div class="input-row">
+        <input type="password" id="password-input" class="text-input" value="secret1234">
+        <button type="button" id="toggle-pw-btn" class="sub-btn">表示する</button>
+      </div>
+    </section>
+
+    <!-- 課題4：持ち物リスト追加（配列・push・for文） -->
+    <section class="demo-box">
+      <h2>旅行の持ち物リスト</h2>
+      <div class="input-row">
+        <input type="text" id="item-input" class="text-input" placeholder="持ち物を入力">
+        <button type="button" id="add-item-btn" class="action-btn">追加</button>
+      </div>
+      <ul id="item-list" class="item-list"></ul>
+    </section>
+
+    <!-- 課題5：サイズ選択ボタン（querySelectorAll・排他制御） -->
+    <section class="demo-box">
+      <h2>Tシャツサイズ選択</h2>
+      <div class="size-group">
+        <button type="button" class="size-btn">S</button>
+        <button type="button" class="size-btn">M</button>
+        <button type="button" class="size-btn">L</button>
+        <button type="button" class="size-btn">XL</button>
+      </div>
+      <p id="size-result" class="status-text">選択中のサイズ：未選択</p>
+    </section>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13_中間総合演習（チャレンジ問題）</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>中間総合演習：チャレンジ問題（5問）</h1>
+
+    <!-- チャレンジ1：パスワード検証＆確認一致チェック -->
+    <section class="demo-box">
+      <h2>パスワード登録チェック（複合条件＆早期リターン）</h2>
+      <div class="form-stack">
+        <input type="password" id="pw-main" class="text-input" placeholder="8文字以上のパスワード">
+        <input type="password" id="pw-confirm" class="text-input" placeholder="確認用パスワード（再入力）">
+      </div>
+      <p id="pw-message" class="status-message">パスワードを入力してチェックしてください</p>
+      <div class="btn-group">
+        <button type="button" id="pw-check-btn" class="action-btn">チェックする</button>
+        <button type="button" id="pw-submit-btn" class="sub-btn" disabled>登録する</button>
+      </div>
+    </section>
+
+    <!-- チャレンジ2：映画館チケット料金計算（複数引数＆割引適用） -->
+    <section class="demo-box">
+      <h2>映画チケット料金シミュレーター</h2>
+      <div class="btn-group">
+        <button type="button" class="ticket-type-btn">一般（1,800円）</button>
+        <button type="button" class="ticket-type-btn">大学生（1,500円）</button>
+        <button type="button" class="ticket-type-btn">高校生以下（1,000円）</button>
+      </div>
+      <div class="ticket-controls">
+        <button type="button" id="late-show-btn" class="toggle-btn">レイトショー割引（20%OFF）：OFF</button>
+        <div class="counter-row">
+          <button type="button" id="ticket-minus" class="sub-btn">−</button>
+          <span id="ticket-count" class="count-num">1</span><span>枚</span>
+          <button type="button" id="ticket-plus" class="sub-btn">＋</button>
+        </div>
+      </div>
+      <p id="ticket-total" class="result-box">合計：1800円</p>
+    </section>
+
+    <!-- チャレンジ3：ビンゴ番号抽選機（配列生成・履歴・リセット） -->
+    <section class="demo-box">
+      <h2>ビンゴ抽選機（1〜15・履歴＆リセット付き）</h2>
+      <p id="bingo-current" class="result-box">-</p>
+      <p id="bingo-remaining" class="sub-text">残り：15個</p>
+      <div class="btn-group">
+        <button type="button" id="bingo-draw-btn" class="action-btn">番号を引く</button>
+        <button type="button" id="bingo-reset-btn" class="sub-btn">リセット</button>
+      </div>
+      <div id="bingo-history" class="ball-list"></div>
+    </section>
+
+    <!-- チャレンジ4：循環ループ付きステップスライダー -->
+    <section class="demo-box">
+      <h2>ループ循環スライドショー</h2>
+      <div class="slide-frame">
+        <img id="slide-image" class="slide-image" src="https://picsum.photos/id/1015/600/280" alt="スライド">
+        <p id="slide-caption" class="slide-caption">スライドタイトル</p>
+      </div>
+      <div class="slider-controls">
+        <button type="button" id="prev-slide-btn" class="sub-btn">前へ</button>
+        <div class="dot-group">
+          <button type="button" class="dot-btn">1</button>
+          <button type="button" class="dot-btn">2</button>
+          <button type="button" class="dot-btn">3</button>
+          <button type="button" class="dot-btn">4</button>
+        </div>
+        <button type="button" id="next-slide-btn" class="sub-btn">次へ</button>
+      </div>
+    </section>
+
+    <!-- チャレンジ5：連続重複なし3連おみくじガチャ -->
+    <section class="demo-box">
+      <h2>3連おみくじガチャ（連続重複防止＆特賞判定）</h2>
+      <button type="button" id="triple-gacha-btn" class="action-btn">3連ガチャを引く</button>
+      <ul id="triple-result-list" class="result-list"></ul>
+      <p id="jackpot-banner" class="jackpot-banner">結果がここに表示されます</p>
+    </section>
+  </div>
+</body>
+</html>

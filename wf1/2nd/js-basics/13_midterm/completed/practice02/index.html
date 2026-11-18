@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>13_中間総合演習（後半）</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>中間総合演習：後半（単元6〜7）</h1>
+
+    <!-- 課題6：今日のランチ抽選（Math.random / Math.floor） -->
+    <section class="demo-box">
+      <h2>今日のランチ抽選</h2>
+      <p id="lunch-result" class="result-box">ボタンを押して決めよう</p>
+      <button type="button" id="lunch-btn" class="action-btn">ランチを決める</button>
+    </section>
+
+    <!-- 課題7：連続重複防止テーマカラー切替（while文） -->
+    <section id="theme-box" class="demo-box theme-box">
+      <h2>背景テーマ切り替え（連続重複なし）</h2>
+      <p id="theme-name" class="status-text">現在のテーマ：標準</p>
+      <button type="button" id="theme-btn" class="sub-btn">テーマを切り替える</button>
+    </section>
+
+    <!-- 課題8：重複なし景品ガチャ（splice） -->
+    <section class="demo-box">
+      <h2>限定景品ガチャ（なくなり次第終了）</h2>
+      <p id="gacha-result" class="result-box">何が当たるかな</p>
+      <p id="gacha-remaining" class="sub-text">残りの景品：4個</p>
+      <button type="button" id="gacha-btn" class="action-btn">ガチャを引く</button>
+    </section>
+
+    <!-- 課題9：割引価格シミュレーター（引数とreturn） -->
+    <section class="demo-box">
+      <h2>セール割引シミュレーター（関数・戻り値）</h2>
+      <p id="discount-result" class="result-box">商品を選択してください</p>
+      <div class="btn-group">
+        <button type="button" id="item-a-btn" class="action-btn">スニーカー（10,000円 / 20%OFF）</button>
+        <button type="button" id="item-b-btn" class="action-btn">ジャケット（15,000円 / 30%OFF）</button>
+      </div>
+    </section>
+
+    <!-- 課題10：商品プレビュー＆詳細モーダル（UI制御の関数化） -->
+    <section class="demo-box">
+      <h2>おすすめガジェット紹介（総合）</h2>
+      <div class="tab-group">
+        <button type="button" class="gadget-btn">ワイヤレスイヤホン</button>
+        <button type="button" class="gadget-btn">スマートウォッチ</button>
+        <button type="button" class="gadget-btn">モバイルバッテリー</button>
+      </div>
+      <div class="gadget-card">
+        <h3 id="gadget-title">商品名</h3>
+        <p id="gadget-price" class="price-text">0円</p>
+        <button type="button" id="open-detail-btn" class="sub-btn">詳細を見る</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- 課題10用：詳細モーダル -->
+  <div id="detail-modal" class="modal-container">
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 id="modal-gadget-title">商品名</h3>
+        <button type="button" id="close-icon-btn" class="close-icon-btn">×</button>
+      </div>
+      <div class="modal-body">
+        <p id="modal-gadget-desc">商品説明</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close-modal-btn" class="sub-btn">閉じる</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

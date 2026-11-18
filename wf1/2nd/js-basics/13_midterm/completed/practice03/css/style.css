@@ -1,0 +1,262 @@
+@charset "UTF-8";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 40px 20px;
+  background-color: #f7fafc;
+  color: #2d3748;
+}
+
+.container {
+  max-width: 620px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.demo-box {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.demo-box h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.2rem;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.action-btn,
+.sub-btn,
+.ticket-type-btn,
+.toggle-btn,
+.dot-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.action-btn {
+  background-color: #4299e1;
+  color: #ffffff;
+}
+
+.action-btn:disabled,
+.sub-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sub-btn {
+  background-color: #e2e8f0;
+  color: #2d3748;
+}
+
+.result-box {
+  padding: 16px;
+  background-color: #edf2f7;
+  border-radius: 6px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #2b6cb0;
+  margin: 12px 0;
+}
+
+.sub-text {
+  color: #718096;
+  margin: 0 0 12px;
+}
+
+/* チャレンジ1：パスワードチェック */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.text-input {
+  width: 100%;
+  max-width: 320px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+.status-message {
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #edf2f7;
+  margin-bottom: 12px;
+}
+
+.status-message.is-error {
+  background-color: #fff5f5;
+  color: #c53030;
+}
+
+.status-message.is-ok {
+  background-color: #f0fff4;
+  color: #276749;
+}
+
+/* チャレンジ2：チケット計算 */
+.ticket-type-btn {
+  background-color: #edf2f7;
+  color: #2d3748;
+  border: 2px solid transparent;
+}
+
+.ticket-type-btn.is-active {
+  background-color: #ebf8ff;
+  border-color: #3182ce;
+  color: #2b6cb0;
+}
+
+.ticket-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+
+.toggle-btn {
+  background-color: #edf2f7;
+  color: #4a5568;
+  border: 2px solid #cbd5e0;
+}
+
+.toggle-btn.is-on {
+  background-color: #fefcbf;
+  border-color: #d69e2e;
+  color: #975a16;
+}
+
+.counter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+}
+
+.count-num {
+  font-size: 1.25rem;
+  min-width: 24px;
+}
+
+/* チャレンジ3：ビンゴ履歴 */
+.ball-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ball {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #3182ce;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* チャレンジ4：スライダー */
+.slide-frame {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.slide-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.slide-caption {
+  margin: 0;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #f7fafc;
+}
+
+.slider-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dot-group {
+  display: flex;
+  gap: 6px;
+}
+
+.dot-btn {
+  padding: 6px 12px;
+  background-color: #edf2f7;
+  color: #2d3748;
+}
+
+.dot-btn.is-active {
+  background-color: #3182ce;
+  color: #ffffff;
+}
+
+/* チャレンジ5：3連ガチャ */
+.result-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-list li {
+  padding: 10px;
+  background-color: #edf2f7;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.jackpot-banner {
+  padding: 12px;
+  border-radius: 4px;
+  background-color: #edf2f7;
+  font-weight: bold;
+  margin: 0;
+}
+
+.jackpot-banner.is-jackpot {
+  background-color: #fefcbf;
+  color: #975a16;
+  border: 2px solid #d69e2e;
+}
