@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_課題：ツアープラン見積もりシミュレーター</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="planner-wrapper">
+        <header class="page-header">
+            <h1>国内プレミアムツアー見積もりシミュレーター</h1>
+            <p>ご希望のツアープランと参加人数を選択してください。</p>
+        </header>
+
+        <main class="planner-card">
+            <!-- ステップ1：プラン選択ボタン -->
+            <section class="step-section">
+                <div class="step-header">
+                    <h2>STEP 1：ツアープランを選ぶ</h2>
+                    <button type="button" id="random-plan-btn" class="random-btn">おまかせ（ランダム）で選ぶ</button>
+                </div>
+                <div class="plan-btn-group">
+                    <button type="button" class="plan-btn">北海道グルメ旅</button>
+                    <button type="button" class="plan-btn">京都・古都めぐり</button>
+                    <button type="button" class="plan-btn">沖縄リゾート滞在</button>
+                </div>
+            </section>
+
+            <!-- 選択中プランのプレビュー表示 -->
+            <section class="plan-preview">
+                <img id="plan-image" class="plan-image" src="https://picsum.photos/id/1018/700/360" alt="プラン画像">
+                <div class="plan-detail">
+                    <h3 id="plan-title">プラン名</h3>
+                    <p class="unit-price-line">1名様あたり（税抜）：<span id="plan-unit-price">0</span>円</p>
+                </div>
+            </section>
+
+            <!-- ステップ2：人数選択と合計金額 -->
+            <section class="step-section estimate-box">
+                <div class="people-control">
+                    <h2>STEP 2：参加人数</h2>
+                    <div class="counter-group">
+                        <button type="button" id="minus-btn" class="counter-btn">−</button>
+                        <span id="people-count" class="people-count">1</span><span class="unit-label">名</span>
+                        <button type="button" id="plus-btn" class="counter-btn">＋</button>
+                    </div>
+                </div>
+
+                <div class="total-display">
+                    <span class="total-label">お支払い合計（税込10%）</span>
+                    <strong class="total-amount"><span id="total-price">0</span>円</strong>
+                </div>
+            </section>
+
+            <div class="submit-area">
+                <button type="button" id="open-confirm-btn" class="confirm-btn">この内容で予約確認へ進む</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- 予約確認モーダル -->
+    <div id="confirm-modal" class="modal-container">
+        <div id="modal-overlay" class="modal-overlay"></div>
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3>ご予約内容の確認</h3>
+                <button type="button" id="close-modal-icon" class="close-icon-btn">×</button>
+            </div>
+            <div class="modal-body">
+                <p>以下の内容でお申し込みを受け付けます。よろしいですか？</p>
+                <dl class="summary-list">
+                    <dt>選択プラン</dt>
+                    <dd id="modal-plan-title">-</dd>
+                    <dt>参加人数</dt>
+                    <dd id="modal-people-count">-</dd>
+                    <dt>合計金額（税込）</dt>
+                    <dd id="modal-total-price" class="highlight-price">-</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="back-btn" class="sub-btn">戻って修正する</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

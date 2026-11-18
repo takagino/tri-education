@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_関数の定義と活用</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>関数の定義と活用（基本演習）</h1>
+
+        <!-- 演習1：引数なしの関数（ショッピングカートの初期化・リセット） -->
+        <section class="demo-box">
+            <h2>ショッピングカート</h2>
+            <p id="cart-display" class="cart-box">読み込み中...</p>
+            <div class="btn-group">
+                <button type="button" id="add-cart-btn" class="action-btn">商品をカートに入れる</button>
+                <button type="button" id="clear-cart-btn" class="sub-btn">カートを空にする</button>
+            </div>
+        </section>
+
+        <!-- 演習2：引数ありの関数（通知バナーの切り替え） -->
+        <section class="demo-box">
+            <h2>通知バナー切り替え（引数の活用）</h2>
+            <div id="alert-banner" class="alert-banner">ボタンを押して通知をテストしてください</div>
+            <div class="btn-group">
+                <button type="button" id="success-btn" class="action-btn">保存完了</button>
+                <button type="button" id="warning-btn" class="action-btn">容量の警告</button>
+                <button type="button" id="error-btn" class="action-btn">通信エラー</button>
+            </div>
+        </section>
+
+        <!-- 演習3：戻り値（return）の活用（税込価格シミュレーター） -->
+        <section class="demo-box">
+            <h2>カフェ注文・税込価格シミュレーター</h2>
+            <p id="price-result" class="result-display">商品を選択してください</p>
+            <div class="btn-group">
+                <button type="button" id="coffee-btn" class="action-btn">ブレンドコーヒー（税抜 500円）</button>
+                <button type="button" id="lunch-btn" class="action-btn">ランチセット（税抜 1,200円）</button>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>

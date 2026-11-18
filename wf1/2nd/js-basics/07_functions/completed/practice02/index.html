@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_UI制御のモジュール化</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/main.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>UI制御のモジュール化（実践演習）</h1>
+
+        <!-- 演習1：モーダルウィンドウの開閉共通化 -->
+        <section class="demo-box">
+            <h2>利用規約モーダル（開閉処理の共通化）</h2>
+            <p class="sub-text">「開く」ボタンで表示し、「×ボタン」「同意ボタン」「背景の黒い部分」のどれをクリックしても閉じられるUIです。</p>
+            <button type="button" id="open-modal-btn" class="action-btn">利用規約を確認する</button>
+        </section>
+
+        <!-- モーダル本体 -->
+        <div id="modal-container" class="modal-container">
+            <div id="modal-overlay" class="modal-overlay"></div>
+            <div class="modal-window">
+                <div class="modal-header">
+                    <h3>サービス利用規約</h3>
+                    <button type="button" id="close-icon-btn" class="close-icon-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>本サービスをご利用いただく前に、必ず以下の規約をお読みください。ユーザーの皆様に安全・快適にご利用いただくためのルールを定めています。</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="agree-close-btn" class="action-btn">内容を確認して閉じる</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 演習2：番号選択＆ランダム対応スポットガイド -->
+        <section class="demo-box">
+            <h2>絶景スポットガイド（表示更新関数の共通化）</h2>
+
+            <div class="spot-card">
+                <img id="spot-image" class="spot-image" src="<https://picsum.photos/id/1015/600/340>" alt="スポット画像">
+                <div class="spot-info">
+                    <h3 id="spot-title">スポット名</h3>
+                    <p id="spot-desc">ここにスポットの説明文が表示されます。</p>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="number-btns">
+                    <button type="button" class="spot-btn">スポット 1</button>
+                    <button type="button" class="spot-btn">スポット 2</button>
+                    <button type="button" class="spot-btn">スポット 3</button>
+                    <button type="button" class="spot-btn">スポット 4</button>
+                </div>
+                <button type="button" id="random-spot-btn" class="sub-btn">ランダムに選ぶ（重複防止）</button>
+            </div>
+        </section>
+    </div>
+</body>
+
+</html>
