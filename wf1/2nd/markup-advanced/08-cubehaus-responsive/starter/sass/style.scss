@@ -113,6 +113,7 @@ p {
 
 .header {
     padding: rem(48) 0;
+    //padding: clamp(rem(24), 4.8vw, rem(48)) 0;
 
     &__inner {
         @include inner();
@@ -124,7 +125,6 @@ p {
 
     &__logo {
         font-size: rem(24);
-        // padding: em(48, 24) 0;
         // font-size: clamp(rem(16), 2.4vw, rem(24));
         font-weight: bold;
         line-height: math.div(29, 24);
