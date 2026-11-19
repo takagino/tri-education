@@ -84,12 +84,12 @@ $breakpoints: (
 
 どれだけデザインが美しく、BEMやSassで綺麗に設計されたWebサイトであっても、**「開くのに何秒もかかる」「ボタンを押しても反応が鈍い」「読み込み中に画面がガタガタ動く」** サイトは、ユーザーに強いストレスを与え、すぐに閉じられてしまいます。
 
-本単元では、現代のフロントエンド開発において必須スキルである **「Webサイトパフォーマンス（表示速度と操作性の最適化）」** の仕組み・計測手法・2026年現在のベストプラクティスを体系的に習得します。
+本単元では、現代のフロントエンド開発において必須スキルである **「Webサイトパフォーマンス（表示速度と操作性の最適化）」** の仕組みと計測手法を学び、**実際に重くて遅いサンプルサイト（`performance`）をLighthouseで計測しながら100点満点へ改善していくハンズオン** を行います。
 
 1. **Webサイトパフォーマンスの基礎とブラウザ描画の仕組み**（直帰率・SEO、クリティカル・レンダリング・パス）
 2. **Core Web Vitals（コアウェブバイタル）の3大指標**（`LCP`, `INP`, `CLS` の意味と合格基準）
 3. **計測ツールの使い方**（PageSpeed Insights, Lighthouse, Chrome DevTools の Networkタブ）
-4. **具体的な4大改善アプローチ**
+4. **具体的な4大改善アプローチ（ハンズオン Step 1〜6）**
    - ① **ファイルサイズを減らす**（次世代画像 WebP/AVIF・リサイズ・圧縮、GIFの動画化、日本語Webフォントのサブセット化、CSS/JSの軽量化）
    - ② **レイアウトシフト（CLS）をゼロにする**（`width`/`height` 属性、`aspect-ratio`、Webフォント最適化）
    - ③ **レンダリング遅延とメインスレッド負荷をなくす**（`defer`、`@import` 廃止、`fetchpriority="high"` と `loading="lazy"`、CSS背景画像の罠と `preload`、YouTubeのファサード化、`IntersectionObserver`）
@@ -97,7 +97,22 @@ $breakpoints: (
 
 ---
 
-## 2-1. Webサイトパフォーマンスとは？
+## 2-1. ハンズオン用サンプルデータの準備
+
+まずはGoogleドライブから **`performance`** フォルダをダウンロードし、普段の授業用フォルダに配置してVS Codeで開いておきましょう。
+
+[HTML+CSS - Google Drive](https://drive.google.com/drive/folders/1TerVbEHQw_gibRX-d6709S3wUu9QeoBk?usp=sharing)
+
+- **ハンズオン作業用フォルダ**：`performance/starter/`（改善前の重いサイト）
+- **完成見本フォルダ**：`performance/completed/`（改善後の高速サイト）
+
+**【見本リンク】**
+- [LUMINA EXHIBITION 2026（改善前：starter）](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/performance/starter/index.html)
+- [LUMINA EXHIBITION 2026（改善後：completed）](https://takagino.github.io/tri-education/wf1/2nd/markup-advanced/performance/completed/index.html)
+
+---
+
+## 2-2. Webサイトパフォーマンスとは？
 
 Webサイトパフォーマンスとは、そのサイトがどれだけ **「速く表示され」**、**「快適に操作できるか」** を測る総合的な品質指標です。
 
@@ -111,7 +126,7 @@ Webサイトパフォーマンスとは、そのサイトがどれだけ **「�
 
 ---
 
-## 2-2. パフォーマンスがもたらす重大な影響
+## 2-3. パフォーマンスがもたらす重大な影響
 
 「たかが1〜2秒の違い」と侮ってはいけません。Webサイトの表示速度は、サイトの成果（売上・問い合わせ・閲覧数）に直結します。
 
@@ -126,7 +141,7 @@ Webサイトパフォーマンスとは、そのサイトがどれだけ **「�
 
 ---
 
-## 2-3. ブラウザが画面を表示する仕組み（クリティカル・レンダリング・パス）
+## 2-4. ブラウザが画面を表示する仕組み（クリティカル・レンダリング・パス）
 
 パフォーマンス改善のテクニックを丸暗記するのではなく、**「ブラウザがHTMLを受け取ってから画面に絵を描くまでの裏側の手順（Critical Rendering Path）」** を知っておくと、なぜ各対策が必要なのかが一発で理解できるようになります。
 
@@ -225,17 +240,31 @@ Chromeデベロッパー・ツールの **「Network（ネットワーク）」�
 
 ---
 
+## 🛠 ハンズオン Step 0：改善前のサイト（`starter/`）を計測してみよう！
+
+実際に改善を始める前に、`performance/starter/index.html` の現状を計測して記録しておきましょう。
+
+1. VS Code で `performance/starter/index.html` を **Live Server** で起動する。
+2. ブラウザのURL（`http://127.0.0.1:5500/...`）をコピーし、Chromeの **シークレットウィンドウ（`Cmd + Shift + N`）** を開いて貼り付ける。
+3. **Networkタブで確認：**
+   - 検証ツールの「Network」タブを開き、「キャッシュを無効化」にチェックを入れて `Cmd + Shift + R`（スーパーリロード）を押す。
+   - 👉 `pic_hero.png`（3.5MB）をはじめとする巨大なPNG画像により、**合計容量が「約 12.6 MB」** にも膨れ上がっていることを確認しよう！
+4. **Lighthouseタブで計測：**
+   - 「Lighthouse」タブ（ナビゲーション / モバイル / パフォーマンス）で **「ページ読み込みを分析」** を実行する。
+   - 👉 改善前の総合スコアと、`LCP`・`TBT`・`CLS` にどのような赤色・オレンジ色の警告が出ているかを確認しよう！
+
+---
+
 ## 3-5. パフォーマンス改善の4大方針
 
-原因が特定できたら、効果の高い以下の4つのアプローチで改善を進めます。
+原因が特定できたら、効果の高い以下の4つのアプローチで順番に改善を進めていきます。
 
-```mermaid
-graph LR
-    GOAL["Webサイト高速化"] --> A1["4. ファイルサイズを減らす<br>(LCP / FCP 改善)"]
-    GOAL --> A2["5. レイアウトシフトを防ぐ<br>(CLS 改善)"]
-    GOAL --> A3["6. レンダリング遅延・負荷軽減<br>(LCP / INP / TBT 改善)"]
-    GOAL --> A4["7. サーバー配信と遷移の高速化<br>(TTFB / 体感速度 改善)"]
-```
+| アプローチ | 改善される主な指標 | 主な施策内容 |
+| --- | --- | --- |
+| **4. ファイルサイズを減らす** | **LCP** / FCP | 画像のWebP・AVIF・SVG化とリサイズ、GIFの動画化、Webフォント軽量化、CSS/JSのMinify |
+| **5. レイアウトシフトを防ぐ** | **CLS** | `<img>` への `width`/`height` 指定、`<iframe>` への `aspect-ratio` 指定、`display=swap` |
+| **6. レンダリング遅延・負荷軽減** | **LCP** / **INP** / **TBT** | JSの `defer` 化、CSS `@import` 廃止、`fetchpriority="high"` と `loading="lazy"`、`IntersectionObserver` |
+| **7. サーバー配信と遷移の高速化** | **TTFB** / 体感速度 | 高速ホスティング・CDNの活用、Speculation Rules API による0秒ページ遷移 |
 
 ---
 
@@ -281,11 +310,9 @@ Webページの総データ容量のうち、**約70%〜85%を占めているの
 ```html
 <picture>
   <!-- 1. AVIF対応ブラウザには最軽量のAVIFを配信 -->
-  <source srcset="./images/pic_roast.avif" type="image/avif">
-  <!-- 2. AVIF非対応ならWebPを配信 -->
-  <source srcset="./images/pic_roast.webp" type="image/webp">
-  <!-- 3. フォールバック兼、alt・サイズ属性の定義 -->
-  <img src="./images/pic_roast.jpg" alt="自家焙煎機でローストされるコーヒー豆" width="560" height="400">
+  <source srcset="./images/pic_hero.avif" type="image/avif">
+  <!-- 2. フォールバック兼、WebPの配信と属性定義 -->
+  <img src="./images/pic_hero.webp" alt="LUMINA EXHIBITION 2026 メインビジュアル" width="1200" height="640">
 </picture>
 ```
 
@@ -294,9 +321,28 @@ Webページの総データ容量のうち、**約70%〜85%を占めているの
 
 **【超重要】表示サイズに合わせたリサイズを忘れずに！**
 
-画面上で「横幅 400px（Retina考慮で最大 800px）」でしか表示しないカード画像に、デジカメやスマホで撮影した **「横幅 4000px × 3000px」の元画像をそのまま読み込ませるのは絶対NG** です。フォーマット変換の前に、必ず必要なピクセル寸法（表示サイズの最大2倍程度）にリサイズしましょう。
+画面上で「横幅 400px（Retina考慮で最大 800px）」でしか表示しないカード画像に、デジカメやスマホで撮影した **「横幅 3000px × 2000px」の元画像をそのまま読み込ませるのは絶対NG** です。フォーマット変換の前に、必ず必要なピクセル寸法（表示サイズの最大2倍程度）にリサイズしましょう。
 
 </aside>
+
+---
+
+## 🛠 ハンズオン Step 1：画像をリサイズ＆WebP・SVG化しよう！
+
+`performance/starter/images/` に入っている合計 **12.6MB** の巨大PNG画像を最適化しましょう。
+
+1. **[サルワカ道具箱：WebP一括変換](https://saruwakakun.com/tools/png-jpeg-to-webp/)** をブラウザで開く。
+2. **メインビジュアルの変換：**
+   - 「画像の最大横幅（縦幅）を指定する」にチェックを入れ、最大サイズを **`1200` px** に設定する。
+   - `starter/images/pic_hero.png`（3000×1600 / 3.5MB）をドロップして **`pic_hero.webp`** をダウンロードし、`starter/images/` に入れる。
+3. **展示カード画像3枚の一括変換：**
+   - 最大サイズを **`600` px** に変更する。
+   - `pic_exhibit01.png`、`pic_exhibit02.png`、`pic_exhibit03.png`（各約3MB）の3枚をまとめてドロップし、変換された **`pic_exhibit01.webp` 〜 `03.webp`** をダウンロードして `starter/images/` に入れる。
+4. **HTMLの画像パスを書き換える（`starter/index.html`）：**
+   - ヘッダーのロゴ画像 `./images/logo.png` を、すでにフォルダ内に入っているSVGファイル **`./images/logo.svg`** に書き換える。
+   - メインビジュアルと展示カード3枚の `src` を、それぞれ `.png` から **`.webp`** に書き換えて保存する。
+5. **Networkタブで確認：**
+   - スーパーリロード（`Cmd + Shift + R`）してNetworkタブの下部を見てみよう。**12.6 MB あった通信量が一気に数十KB（99%以上削減！）** に激減しているはずです！
 
 ---
 
@@ -337,9 +383,9 @@ Webページの総データ容量のうち、**約70%〜85%を占めているの
 もし「見出しで使う特定の文字だけ」をGoogle Fontsで読み込みたい場合、URLの末尾に **`&text=使いたい文字列`** を追加すると、Googleのサーバーがその文字だけを含んだ超軽量なフォントファイル（数KB）を動的に生成して返してくれます！
 
 ```html
-<!-- 「KOMA ROASTERY」と「心地よい空間で、心を満たす一杯を。」の文字だけを抽出してダウンロード（容量90%以上削減！） -->
+<!-- 「LUMINA」と「光と音が交差する、未体験のイマーシブ空間へ。」の文字だけを抽出してダウンロード（容量90%以上削減！） -->
 <link
-  href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700&display=swap&text=KOMAROASTERY心地よい空間で、を満たす一杯。"
+  href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@700&display=swap&text=LUMINA光と音が交差する、未体験のイマーシブ空間へ。"
   rel="stylesheet"
 >
 ```
@@ -373,9 +419,17 @@ Live Sass Compiler の設定（`settings.json`）で、出力フォーマット�
 
 ---
 
+## 🛠 ハンズオン Step 2：Live Sass Compiler の圧縮出力（`compressed`）を試そう！
+
+1. VS Code の設定（`settings.json`）を開き、`liveSassCompile.settings.formats` の `"format"` を `"expanded"` から **`"compressed"`** に変更して保存する。
+2. `performance/starter/sass/style.scss` を開いて **Watch Sass** を起動し、上書き保存（`Cmd + S`）する。
+3. `performance/starter/css/style.css` を開き、改行やコメントがすべて取り除かれて1行に圧縮（Minify）されていることを確認しよう！（※確認できたら、以降のハンズオン中はそのまま `Watch Sass` を動かしておきましょう）
+
+---
+
 # 5. レイアウトシフト（CLS）をゼロにする
 
-ページを読んでいる最中に、後から読み込まれた画像やフォントによって画面が「ガタン！」とズレる現象（レイアウトシフト）を防ぎ、**CLSスコア 0.1以下（理想は 0.00）** を目指します。
+ページを読んでいる最中に、後から読み込まれた画像やフォントによって画面が「ガタン！」とズレる現象（レイアウトシフト）を防ぎ、**CLSスコア 0.1以下（理想は 0.000）** を目指します。
 
 鉄則は、**「後から読み込まれる要素のために、あらかじめ正確な縦横スペースを確保しておくこと」** です。
 
@@ -389,10 +443,10 @@ Live Sass Compiler の設定（`settings.json`）で、出力フォーマット�
 
 ```html
 <!-- ❌ NG：画像が読み込まれるまで高さが分からず、レイアウトシフト（CLS）を起こす -->
-<img src="./images/hero.webp" alt="メインビジュアル">
+<img src="./images/pic_hero.webp" alt="メインビジュアル">
 
-<!-- ⭕️ OK：ブラウザが読み込み前に「1600:900（16:9）」のアスペクト比を認識して場所を確保する！ -->
-<img src="./images/hero.webp" alt="メインビジュアル" width="1600" height="900">
+<!-- ⭕️ OK：ブラウザが読み込み前に「1200:640」のアスペクト比を認識して場所を確保する！ -->
+<img src="./images/pic_hero.webp" alt="メインビジュアル" width="1200" height="640">
 ```
 
 <aside>
@@ -401,7 +455,7 @@ Live Sass Compiler の設定（`settings.json`）で、出力フォーマット�
 **レスポンシブCSS（`max-width: 100%; height: auto;`）と併用して大丈夫？**
 
 **まったく問題ありません（むしろ併用が必須です）！**
-現在のモダンブラウザは、HTMLの `width="1600" height="900"` を見ると、それを「固定ピクセル」としてではなく **「縦横比（アスペクト比 16 : 9）のヒント」** として賢く計算します。
+現在のモダンブラウザは、HTMLの `width="1200" height="640"` を見ると、それを「固定ピクセル」としてではなく **「縦横比（アスペクト比）のヒント」** として賢く計算します。
 そのため、CSS側に `img { max-width: 100%; height: auto; }` が書いてあれば、スマホ画面でも横幅100%にフィットした上で、最初から正確な高さの空き枠を確保してくれます。
 
 - `width` / `height` 属性には **単位（`px`）や `%` は付けず、整数値のみ** を記述します。
@@ -417,7 +471,7 @@ Live Sass Compiler の設定（`settings.json`）で、出力フォーマット�
 
 | パターン | 画像ファイルの実際の寸法 | HTMLに書く `width` / `height` の値 | 考え方のポイント |
 | --- | --- | --- | --- |
-| **① 通常の画像**<br>（等倍書き出し） | `600px × 400px` | **`width="600" height="400"`** | 画像の実寸＝カンプの表示サイズなので、そのままの数値を記述する。 |
+| **① 通常の画像**<br>（等倍書き出し） | `600px × 420px` | **`width="600" height="420"`** | 画像の実寸＝カンプの表示サイズなので、そのままの数値を記述する。 |
 | **② Retina対応画像**<br>（2倍 `@2x` で書き出したロゴや写真） | `400px × 72px`<br>（カンプ上は 200×36） | **`width="200" height="36"`**<br>（※半分の1xサイズを書く） | 実寸の `400` を書くと、CSSで幅を固定していないロゴやアイコンが2倍に巨大化してしまうため、**カンプ上の本来の表示サイズ（1x）** を書く（比率は同じなのでCLSも防げる）。 |
 | **③ `<picture>` でPC/SPで縦横比が変わる場合** | PC用: `1200×520`<br>SP用: `680×560` | `<source>` と `<img>` の**両方にそれぞれのサイズ**を書く（下記コード参照） | 現在のHTML仕様では **`<source>` タグにも `width` / `height` 属性を指定可能**。PCとSPで異なる縦横比の空き枠をそれぞれ正確に確保できる。 |
 
@@ -440,8 +494,9 @@ GoogleマップやYouTubeの埋め込み `<iframe>`、あるいはCMS（WordPres
 <div class="access__map">
   <iframe
     src="https://www.google.com/maps/embed?pb=..."
+    title="会場アクセスマップ"
     width="600"
-    height="450"
+    height="338"
     style="border:0;"
     allowfullscreen=""
     loading="lazy"
@@ -497,6 +552,30 @@ Google Fontsを使用する場合は、`<head>` 内に **`rel="preconnect"`**（
 
 ---
 
+## 🛠 ハンズオン Step 3：`width` / `height` と `aspect-ratio` で CLS（ガタつき）をゼロにしよう！
+
+1. `performance/starter/index.html` を開き、5箇所の `<img>` タグすべてに `width` と `height` 属性を追加する。
+   - ヘッダーのロゴ（`logo.svg`）：**`width="180" height="32"`**
+   - メインビジュアル（`pic_hero.webp`）：**`width="1200" height="640"`**
+   - 展示カード画像3枚（`pic_exhibit01.webp` 〜 `03.webp`）：**`width="600" height="420"`**
+2. `performance/starter/sass/style.scss` の下部にある `.access` 内の `&__map` を以下のように修正する。
+   ```scss
+   &__map {
+     width: 100%;
+     aspect-ratio: 16 / 9; // ← 追加！
+     border-radius: rem(12);
+     overflow: hidden;
+     border: 1px solid $color-border;
+
+     iframe {
+       width: 100%;
+       height: 100%; // ← rem(320) から 100% に変更！
+     }
+   }
+   ```
+
+---
+
 # 6. レンダリング遅延とメインスレッド負荷をなくす（LCP / INP / TBT 改善）
 
 ブラウザがHTMLを上から順番に読み込んで画面を描画する際、重いJavaScriptや画面外の画像が邪魔をして描画が止まってしまう現象（レンダリングブロック）や、操作時のカクつき（INP悪化）を解消します。
@@ -513,7 +592,7 @@ Google Fontsを使用する場合は、`<head>` 内に **`rel="preconnect"`**（
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KOMA ROASTERY</title>
+  <title>LUMINA EXHIBITION 2026</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
   <link rel="stylesheet" href="./css/style.css">
   <!-- ⭕️ defer を付けることで、HTMLの描画を一切止めずに裏で読み込み、HTML解析完了後に実行される！ -->
@@ -539,12 +618,27 @@ CSSの読み込みが遅れると、スタイルが当たっていないHTMLが�
 
 ```css
 /* ❌ NG：CSSファイルの中で @import を使う（直列読み込みになり表示が遅れる） */
-@import url("reset.css");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900");
 ```
 
-`@import` を使うと、ブラウザは「① HTMLを読む ➔ ② メインCSSをダウンロードする ➔ ③ その中に書かれた `@import` を見つけてから初めて別のCSSをダウンロードしに行く」という **数珠つなぎ（直列）の待ち時間** が発生します。
+`@import` を使うと、ブラウザは「① HTMLを読む ➔ ② メインCSSをダウンロードする ➔ ③ その中に書かれた `@import` を見つけてから初めて別のCSSやフォントをダウンロードしに行く」という **数珠つなぎ（直列）の待ち時間** が発生します。
 複数のSCSSファイルをまとめる際は Sass の **`@use`** を使い、外部CSSやWebフォントは必ずHTMLの **`<head>` 内の `<link>` タグ** で並列に読み込ませましょう。
+
+---
+
+## 🛠 ハンズオン Step 4：CSSの `@import` を廃止し、Webフォントを最適化しよう！
+
+1. `performance/starter/sass/style.scss` の7行目にある以下の `@import` を**削除**して保存する。
+   ```scss
+   // ❌ この1行を削除！
+   @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900");
+   ```
+2. `performance/starter/index.html` の `<head>` 内（`destyle.min.css` のすぐ上）に、事前接続（`preconnect`）と使う2ウェイト（`400;700`）＋ `display=swap` に絞った以下の3行を追加する。
+   ```html
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+   ```
 
 ---
 
@@ -558,20 +652,21 @@ CSSの読み込みが遅れると、スタイルが当たっていないHTMLが�
 <!-- ① ファーストビューのメインビジュアル（LCP要素） -->
 <!-- ❗️ loading="lazy" は絶対につけない！ fetchpriority="high" で最優先ダウンロードさせる -->
 <img
-  src="./images/pic_hero_pc.webp"
-  alt="KOMA ROASTERYのカフェ空間"
+  class="hero__img"
+  src="./images/pic_hero.webp"
+  alt="LUMINA EXHIBITION 2026 メインビジュアル"
   width="1200"
-  height="520"
+  height="640"
   fetchpriority="high"
 >
 
 <!-- ② スクロールしないと見えない2画面目以降の画像やGoogleマップ -->
 <!-- ⭕️ loading="lazy" と decoding="async" で遅延読み込みさせる -->
 <img
-  src="./images/pic_menu01.webp"
-  alt="ハンドドリップコーヒー"
-  width="560"
-  height="380"
+  src="./images/pic_exhibit01.webp"
+  alt="01 / PRISM HORIZON"
+  width="600"
+  height="420"
   loading="lazy"
   decoding="async"
 >
@@ -591,6 +686,19 @@ CSSの読み込みが遅れると、スタイルが当たっていないHTMLが�
 これをやると、ブラウザは「画面レイアウトの計算がすべて終わるまでメイン画像の読み込みを開始しない」ため、**LCPスコアが大幅に悪化し、PageSpeed Insightsで赤点（警告）になります。** ファーストビューの画像には絶対に `loading="lazy"` を付けないでください。
 
 </aside>
+
+---
+
+## 🛠 ハンズオン Step 5：`fetchpriority="high"` と `loading="lazy"` を正しく設定しよう！
+
+`performance/starter/index.html` を開いて、画像の読み込み優先度を修正しましょう。
+
+1. **メインビジュアル（`.hero__img`）：**
+   - 誤って付いている **`loading="lazy"` を削除** し、代わりに **`fetchpriority="high"`** を追加する。
+2. **展示カード3枚の画像（`.card__pic img`）：**
+   - 3枚すべてに **`loading="lazy" decoding="async"`** を追加する。
+3. **会場アクセスのGoogleマップ（`.access__map iframe`）：**
+   - `<iframe>` タグに **`loading="lazy"`** を追加する。
 
 ---
 
@@ -682,7 +790,7 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 ```
 
 ### ② アニメーションは `transform` と `opacity` で実装する
-2-3（クリティカル・レンダリング・パス）で学んだ通り、`width`, `height`, `top`, `left`, `margin` をアニメーションさせると、毎フレーム「レイアウトの再計算（Reflow）」が発生して画面がカクつきます。
+2-4（クリティカル・レンダリング・パス）で学んだ通り、`width`, `height`, `top`, `left`, `margin` をアニメーションさせると、毎フレーム「レイアウトの再計算（Reflow）」が発生して画面がカクつきます。
 移動や拡大縮小は **`transform: translate() / scale()`**、フェード表示は **`opacity`** を使うことで、GPU合成のみで滑らかに動作します。
 
 ```scss
@@ -709,6 +817,34 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
   contain-intrinsic-size: auto 600px; // スキップ中の仮の高さ（スクロールバーのガタつき防止）
 }
 ```
+
+---
+
+## 🛠 ハンズオン Step 6：JavaScriptの `defer` 化とスクロール演出の軽量化（最終計測！）
+
+いよいよ最後の仕上げです！TBT（合計ブロッキング時間）を `0ms` に改善しましょう。
+
+1. **`<script>` に `defer` を追加（`starter/index.html`）：**
+   - `<head>` 内の `<script src="./js/main.js"></script>` を **`<script src="./js/main.js" defer></script>`** に変更する。
+2. **`IntersectionObserver` に切り替え（`starter/js/main.js`）：**
+   - `starter/js/main.js` を開き、前半の「❌ 改善前のコード」を削除し、後半の **「⭕️ 改善後のコード（`IntersectionObserver`）」のコメント（`/*` と `*/`）を外して保存** する。
+3. **アニメーションをGPU合成に切り替え（`starter/sass/style.scss`）：**
+   - `.fade-in` のスタイルを、`top: 24px` から **`transform: translateY(24px)`** に書き換えて保存する。
+   ```scss
+   .fade-in {
+     opacity: 0;
+     transform: translateY(24px);
+     transition: opacity 0.6s ease, transform 0.6s ease;
+
+     &.is-visible {
+       opacity: 1;
+       transform: translateY(0);
+     }
+   }
+   ```
+4. **🎉 最終計測（After計測）：**
+   - シークレットウィンドウの **Lighthouse** で再度「ページ読み込みを分析」を実行しよう！
+   - `LCP`, `TBT`, `CLS` のすべての警告が消え、パフォーマンススコアが **98〜100点（オールグリーン）** に跳ね上がったことを確認してください！
 
 ---
 
@@ -745,7 +881,7 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 結果として、ユーザーがクリックを終えた瞬間にはすでに次のページの描画が完了しており、**待ち時間 0.0秒（一瞬）でページが切り替わります。**
 
 ```html
-<!-- HTMLの <head> 内または </body> 直前に貼り付けるだけ！ -->
+<!-- 複数ページあるサイトの <head> 内または </body> 直前に貼り付けるだけ！ -->
 <script type="speculationrules">
   {
     "prerender": [
@@ -790,6 +926,6 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
 1. **現状の計測（Before）：**
    PageSpeed Insights または Chrome の Lighthouse（シークレットウィンドウ）で現在のサイトを計測し、モバイル・デスクトップのスコアとボトルネック項目を確認する。
 2. **改善の実施：**
-   本資料の「8. パフォーマンス改善チェックリスト」に沿って、画像のWebP/AVIF化・リサイズ・圧縮、Webフォントの整理、`width`/`height` 属性の付与、`loading="lazy"` と `fetchpriority="high"` の適切な設定、JavaScriptの `defer` 化、Speculation Rules API の導入などを1つずつ適用する。
+   今日のハンズオン（Step 1〜6）と「8. パフォーマンス改善チェックリスト」に沿って、画像のWebP/AVIF化・リサイズ・圧縮、Webフォントの整理、`width`/`height` 属性の付与、`loading="lazy"` と `fetchpriority="high"` の適切な設定、JavaScriptの `defer` 化、Speculation Rules API の導入などを1つずつ適用する。
 3. **再計測と検証（After）：**
    改善後に再度 Lighthouse で計測し、表示崩れがないか、LCP・INP・CLS・総合スコアがどれだけ向上したかを確認する。
