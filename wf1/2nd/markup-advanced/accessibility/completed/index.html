@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!-- [Step 1] lang="ja" を設定 -->
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- [Step 1] ページの内容が明確にわかる固有のタイトル -->
+  <title>MORI LIBRARY | 森の図書館・コミュニティスペース</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css/destyle.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./js/main.js" defer></script>
+</head>
+<body>
+  <!-- [Step 4] スキップリンク（Tabキーを押した瞬間だけ画面左上に現れる） -->
+  <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
+
+  <header class="header">
+    <div class="header__inner">
+      <h1 class="header__logo">
+        <a href="./index.html">
+          <!-- [Step 2] リンク内の画像なので移動先がわかる alt を設定 -->
+          <img src="./images/logo.svg" alt="MORI LIBRARY ホームへ" width="210" height="36">
+        </a>
+      </h1>
+
+      <!-- [Step 1 & 6] <button type="button"> + aria-label / aria-controls / aria-expanded -->
+      <button
+        type="button"
+        class="hamburger"
+        id="js-hamburger"
+        aria-label="メニューを開く"
+        aria-controls="global-nav"
+        aria-expanded="false"
+      >
+        <span class="hamburger__line" aria-hidden="true"></span>
+      </button>
+
+      <!-- [Step 6] <nav> に aria-label を設定してランドマークを明確化 -->
+      <nav class="gnav" id="global-nav" aria-label="メインメニュー">
+        <ul class="gnav__list">
+          <li class="gnav__item"><a class="gnav__link" href="#events">イベント案内</a></li>
+          <li class="gnav__item"><a class="gnav__link" href="#faq">よくある質問</a></li>
+          <li class="gnav__item"><a class="gnav__link" href="#contact">お問い合わせ</a></li>
+          <li class="gnav__item"><a class="gnav__link" href="#access">アクセス</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- [Step 1 & 4] <main> ランドマーク要素 + スキップリンクの着地点（id + tabindex="-1"） -->
+  <main class="main" id="main-content" tabindex="-1">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__inner">
+        <div class="hero__visual">
+          <!-- [Step 2] 画像の意味が伝わる alt 属性 -->
+          <img
+            src="./images/pic_hero.webp"
+            alt="緑と光に包まれたMORI LIBRARYの閲覧スペース"
+            width="1200"
+            height="520"
+          >
+        </div>
+        <div class="hero__body intro intro--center">
+          <!-- [Step 4 (4-4 ②)] HTMLは自然な表記にし、CSSの text-transform: uppercase; で大文字表示 -->
+          <p class="intro__catch">Welcome to Mori Library</p>
+          <!-- [Step 1] <h1> の次なので見出し階層を飛ばさず <h2> にする -->
+          <h2 class="intro__title">だれでも心地よく過ごせる、ひらかれた図書館へ。</h2>
+          <!-- [Step 2] 装飾目的の区切り画像なので alt="" -->
+          <img class="intro__deco" src="./images/deco_line.svg" alt="" width="120" height="8">
+          <p class="intro__text">
+            本を読む人、調べものをする人、休日に立ち寄る人。すべての利用者が安心して使える空間と情報をお届けします。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events" id="events">
+      <div class="events__inner">
+        <div class="events__info intro intro--center">
+          <p class="intro__catch">Events &amp; Notice</p>
+          <h2 class="intro__title">今月のお知らせ・イベント</h2>
+        </div>
+
+        <!-- [Step 3] 色だけでなくアイコン（⚠）と【重要】テキストを併用 -->
+        <p class="events__alert">
+          <span aria-hidden="true">⚠</span> 【重要】休館日のお知らせ：11月25日（水）は館内点検のため終日休館します。
+        </p>
+
+        <div class="events__list">
+          <article class="events__item card">
+            <div class="card__pic">
+              <img src="./images/pic_event01.webp" alt="土曜日の朗読ワークショップの様子" width="600" height="380">
+            </div>
+            <div class="card__body">
+              <span class="card__tag">Workshop</span>
+              <h3 class="card__title">土曜日の朗読・読書会</h3>
+              <p class="card__text">年齢や経験を問わず参加できるオープンな読書会です。点字絵本や大活字本もご用意しています。</p>
+              <!-- [Step 2] .visually-hidden を併用して飛び先が具体的にわかるリンクテキストに -->
+              <a class="card__link" href="#contact">
+                詳細を見る<span class="visually-hidden">（土曜日の朗読・読書会のお問い合わせへ）</span>
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+
+          <article class="events__item card">
+            <div class="card__pic">
+              <img src="./images/pic_event02.webp" alt="デジタルアーカイブと学習室の紹介" width="600" height="380">
+            </div>
+            <div class="card__body">
+              <span class="card__tag">Archive</span>
+              <h3 class="card__title">デジタルアーカイブ公開（PDF）</h3>
+              <p class="card__text">地域の歴史資料をいつでも閲覧・音声読み上げできる形式で公開しています。</p>
+              <!-- [Step 2] 別タブで開く場合は事前予告を添える -->
+              <a class="card__link" href="./images/logo.svg" target="_blank">
+                資料一覧（PDF / 新しいタブで開きます）
+                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+      <div class="faq__inner">
+        <div class="faq__info intro intro--center">
+          <p class="intro__catch">Faq</p>
+          <h2 class="intro__title">よくある質問</h2>
+        </div>
+
+        <!-- [Step 6] HTML標準の <details> と <summary> により、JSなし・キーボード操作完全対応 -->
+        <div class="faq__list">
+          <details class="faq__item">
+            <summary class="faq__question">車椅子やベビーカーでの入館はできますか？</summary>
+            <p class="faq__answer">はい、全館バリアフリー設計となっており、エレベーターと多目的トイレをご利用いただけます。</p>
+          </details>
+          <details class="faq__item">
+            <summary class="faq__question">大きな文字の本や音声図書は借りられますか？</summary>
+            <p class="faq__answer">はい、1階カウンターにて大活字本・点字図書・デイジー（録音図書）の貸出を行っております。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <div class="contact__info intro intro--center">
+          <p class="intro__catch">Contact</p>
+          <h2 class="intro__title">お問い合わせ・イベント予約</h2>
+        </div>
+
+        <form class="form" action="#" method="post">
+          <div class="form__group">
+            <!-- [Step 5] <label for="..."> と id の紐付け + 必須バッジ + autocomplete -->
+            <label class="form__label" for="user-name">
+              お名前 <span class="form__badge">必須</span>
+            </label>
+            <input
+              class="form__input"
+              type="text"
+              id="user-name"
+              name="name"
+              autocomplete="name"
+              placeholder="例：森田 太郎"
+              required
+            >
+          </div>
+          <div class="form__group">
+            <label class="form__label" for="user-email">
+              メールアドレス <span class="form__badge">必須</span>
+            </label>
+            <input
+              class="form__input"
+              type="email"
+              id="user-email"
+              name="email"
+              autocomplete="email"
+              aria-describedby="email-hint"
+              placeholder="例：info@example.com"
+              required
+            >
+            <p class="form__hint" id="email-hint">※ご返信先のメールアドレスをご入力ください。</p>
+          </div>
+          <button class="btn btn--center" type="submit">送信する</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Access Section -->
+    <section class="access" id="access">
+      <div class="access__inner">
+        <div class="access__info intro">
+          <p class="intro__catch">Access</p>
+          <h2 class="intro__title">交通アクセス</h2>
+          <p class="intro__text">名駅3丁目バス停より徒歩3分。正面玄関にスロープがございます。</p>
+        </div>
+
+        <div class="access__map">
+          <!-- [Step 2] <iframe> に中身を説明する title 属性を設定 -->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.426712491233!2d136.881537!3d35.170915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x600376e794d78b89%3A0x81f7204bf8261663!2z5ZCN5Y-k5bGL6aeF!5e0!3m2!1sja!2sjp!4v1700000000000!5m2!1sja!2sjp"
+            title="Google Map: MORI LIBRARYへのアクセス"
+            width="600"
+            height="338"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copyright"><small>&copy; 2026 MORI LIBRARY</small></p>
+    </div>
+  </footer>
+</body>
+</html>
