@@ -33,7 +33,6 @@ function setup() {
   bullets = new Group();
   bullets.w = 6;
   bullets.h = 16;
-  bullets.collider = 'none';
 
   // 敵グループ
   enemies = new Group();
