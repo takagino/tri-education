@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TTP223B Web Serial Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #1a1a24;
+        }
+    </style>
+    <!-- p5.js と p5.webserial のCDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://unpkg.com/@gohai/p5.webserial@^1/libraries/p5.webserial.js"></script>
+    <script>
+        let port;
+        let connectBtn;
+        let currentAction = "NONE";
+
+        function setup() {
+            createCanvas(windowWidth, windowHeight);
+
+            port = createSerial();
+
+            connectBtn = createButton('Arduinoに接続');
+            connectBtn.position(20, 20);
+            connectBtn.mousePressed(connectBtnClick);
+            connectBtn.style('padding', '8px 16px');
+            connectBtn.style('font-size', '14px');
+            connectBtn.style('cursor', 'pointer');
+        }
+
+        function draw() {
+            background(26, 26, 36);
+
+            // 接続されたらボタンの表示を変更して無効化
+            if (port.opened() && !connectBtn.elt.disabled) {
+                connectBtn.html('接続中...');
+                connectBtn.attribute('disabled', '');
+            }
+
+            // シリアルデータ受信
+            let str = port.readUntil('\n');
+            if (str.length > 0) {
+                currentAction = str.trim();
+            }
+
+            push();
+            translate(width / 2, height / 2);
+
+            // 1. 十字キー（5方向ナビゲーション）の描画
+            drawDpad(0, -30);
+
+            // 2. 独立ボタン（SET / RST）の描画
+            drawActionButtons(0, 130);
+
+            pop();
+
+            // ステータス表示
+            fill(160);
+            noStroke();
+            textSize(15);
+            textAlign(LEFT, BASELINE);
+            textFont('monospace');
+            text(`Current Input: ${currentAction}`, 24, height - 24);
+        }
+
+        // 十字キー描画関数
+        function drawDpad(ox, oy) {
+            push();
+            translate(ox, oy);
+
+            rectMode(CENTER);
+            textAlign(CENTER, CENTER);
+            textSize(12);
+            textStyle(BOLD);
+
+            const size = 64;
+            const offset = 72;
+
+            // 各ボタンの定義 [名前, x, y, ラベル]
+            const buttons = [
+                { key: "UP", x: 0, y: -offset, label: "▲ UP" },
+                { key: "DOWN", x: 0, y: offset, label: "▼ DWN" },
+                { key: "LEFT", x: -offset, y: 0, label: "◀ LET" },
+                { key: "RIGHT", x: offset, y: 0, label: "RHI ▶" },
+                { key: "CENTER", x: 0, y: 0, label: "● MID" }
+            ];
+
+            for (let b of buttons) {
+                let isActive = (currentAction === b.key);
+
+                if (isActive) {
+                    fill(0, 210, 106); // 押下時：鮮やかなグリーン
+                    stroke(90, 255, 159);
+                    strokeWeight(2);
+                } else {
+                    fill(40, 40, 54); // 通常時
+                    stroke(61, 61, 82);
+                    strokeWeight(1.5);
+                }
+
+                rect(b.x, b.y, size, size, 10);
+
+                // テキスト描画
+                noStroke();
+                fill(isActive ? color(11, 41, 22) : color(150));
+                text(b.label, b.x, b.y);
+            }
+
+            pop();
+        }
+
+        // SET / RST ボタン描画関数
+        function drawActionButtons(ox, oy) {
+            push();
+            translate(ox, oy);
+
+            rectMode(CENTER);
+            textAlign(CENTER, CENTER);
+            textSize(12);
+            textStyle(BOLD);
+
+            const buttons = [
+                { key: "SET", x: -55, y: 0, label: "SET" },
+                { key: "RST", x: 55, y: 0, label: "RST" }
+            ];
+
+            for (let b of buttons) {
+                let isActive = (currentAction === b.key);
+
+                if (isActive) {
+                    fill(255, 71, 87); // 押下時：コーラルレッド
+                    stroke(255, 107, 129);
+                    strokeWeight(2);
+                } else {
+                    fill(40, 40, 54);
+                    stroke(61, 61, 82);
+                    strokeWeight(1.5);
+                }
+
+                rect(b.x, b.y, 80, 36, 18);
+
+                noStroke();
+                fill(isActive ? 255 : 150);
+                text(b.label, b.x, b.y);
+            }
+
+            pop();
+        }
+
+        function windowResized() {
+            resizeCanvas(windowWidth, windowHeight);
+        }
+
+        function connectBtnClick() {
+            if (!port.opened()) {
+                port.open('Arduino', 9600);
+            } else {
+                port.close();
+            }
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

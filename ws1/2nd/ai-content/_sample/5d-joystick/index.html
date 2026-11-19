@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>5-Way Nav Module Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #1a1a24;
+            font-family: system-ui, sans-serif;
+            color: #eee;
+            user-select: none;
+        }
+
+        #connectBtn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            background: #3a3a4c;
+            color: #fff;
+            border: 1px solid #555;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #connectBtn:hover {
+            background: #4a4a60;
+        }
+
+        /* D-PAD コンテナ */
+        .controller-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .dpad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 70px);
+            grid-template-rows: repeat(3, 70px);
+            gap: 8px;
+        }
+
+        .btn-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #282836;
+            border-radius: 8px;
+            border: 2px solid #3d3d52;
+            font-weight: bold;
+            font-size: 13px;
+            color: #888;
+            transition: all 0.08s ease-out;
+        }
+
+        /* アクティブ時の発光スタイル */
+        .btn-cell.active {
+            background: #00d26a;
+            color: #0b2916;
+            border-color: #5aff9f;
+            transform: scale(0.94);
+            box-shadow: 0 0 16px rgba(0, 210, 106, 0.5);
+        }
+
+        /* 独立ボタン（SET / RST）のエリア */
+        .action-row {
+            display: flex;
+            gap: 24px;
+        }
+
+        .action-btn {
+            width: 80px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #282836;
+            border: 2px solid #3d3d52;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.08s ease-out;
+        }
+
+        .action-btn.active {
+            background: #ff4757;
+            color: #fff;
+            border-color: #ff6b81;
+            transform: scale(0.94);
+            box-shadow: 0 0 16px rgba(255, 71, 87, 0.5);
+        }
+
+        #status {
+            margin-top: 30px;
+            font-family: monospace;
+            font-size: 15px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="connectBtn">Arduinoに接続</button>
+
+    <div class="controller-layout">
+        <div class="dpad-grid">
+            <div></div>
+            <div class="btn-cell" id="btn-UP">▲ UP</div>
+            <div></div>
+
+            <div class="btn-cell" id="btn-LEFT">◀ LET</div>
+            <div class="btn-cell" id="btn-CENTER">● MID</div>
+            <div class="btn-cell" id="btn-RIGHT">RHI ▶</div>
+
+            <div></div>
+            <div class="btn-cell" id="btn-DOWN">▼ DWN</div>
+            <div></div>
+        </div>
+
+        <div class="action-row">
+            <div class="action-btn" id="btn-SET">SET</div>
+            <div class="action-btn" id="btn-RST">RST</div>
+        </div>
+    </div>
+
+    <div id="status">Active: NONE</div>
+
+    <script>
+        const connectBtn = document.getElementById('connectBtn');
+        const statusText = document.getElementById('status');
+
+        const buttonElements = {
+            UP: document.getElementById('btn-UP'),
+            DOWN: document.getElementById('btn-DOWN'),
+            LEFT: document.getElementById('btn-LEFT'),
+            RIGHT: document.getElementById('btn-RIGHT'),
+            CENTER: document.getElementById('btn-CENTER'),
+            SET: document.getElementById('btn-SET'),
+            RST: document.getElementById('btn-RST')
+        };
+
+        connectBtn.addEventListener('click', async () => {
+            try {
+                const port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+
+                connectBtn.textContent = '接続中';
+                connectBtn.disabled = true;
+
+                const textDecoder = new TextDecoderStream();
+                port.readable.pipeTo(textDecoder.writable);
+                const reader = textDecoder.readable.getReader();
+
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += value;
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop();
+
+                    for (const line of lines) {
+                        handleAction(line.trim());
+                    }
+                }
+            } catch (err) {
+                alert('接続エラー: ' + err.message);
+            }
+        });
+
+        function handleAction(action) {
+            if (!action) return;
+
+            // すべてのボタンのアクティブクラスを解除
+            Object.values(buttonElements).forEach(el => el.classList.remove('active'));
+
+            // 押されたボタンを点灯
+            if (buttonElements[action]) {
+                buttonElements[action].classList.add('active');
+                statusText.textContent = `Active: ${action}`;
+            } else {
+                statusText.textContent = `Active: NONE`;
+            }
+        }
+    </script>
+</body>
+
+</html>

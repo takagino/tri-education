@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Web Serial DOM Test</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            user-select: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 32px;
+            color: #666;
+            transition: all 0.15s ease-out;
+            /* なめらかに変化させる */
+        }
+
+        /* タッチされた時の装飾 */
+        h1.active {
+            font-size: 96px;
+            color: #e63946;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="connectBtn">Arduinoに接続</button>
+    <h1 id="targetText">TOUCH ME</h1>
+
+    <script>
+        const connectBtn = document.getElementById('connectBtn');
+        const targetText = document.getElementById('targetText');
+
+        connectBtn.addEventListener('click', async () => {
+            // ユーザー操作でシリアルポートを選択
+            const port = await navigator.serial.requestPort();
+            await port.open({ baudRate: 9600 });
+
+            connectBtn.textContent = '接続中...';
+            connectBtn.disabled = true;
+
+            // 受信ストリームをテキスト変換して行単位に分解
+            const textDecoder = new TextDecoderStream();
+            port.readable.pipeTo(textDecoder.writable);
+            const reader = textDecoder.readable.getReader();
+
+            let buffer = '';
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+
+                buffer += value;
+                const lines = buffer.split('\n');
+                // 最後の不完全な行はバッファに残す
+                buffer = lines.pop();
+
+                for (const line of lines) {
+                    const val = parseInt(line.trim(), 10);
+                    if (!isNaN(val)) {
+                        updateDOM(val);
+                    }
+                }
+            }
+        });
+
+        // 取得した値に応じてDOMを操作
+        function updateDOM(touchState) {
+            if (touchState === 1) {
+                targetText.classList.add('active');
+                targetText.textContent = 'TOUCHED!';
+            } else {
+                targetText.classList.remove('active');
+                targetText.textContent = 'TOUCH ME';
+            }
+        }
+    </script>
+</body>
+
+</html>

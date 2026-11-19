@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>KY-023 Web Serial Vanilla Test</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #f0f2f5;
+            font-family: sans-serif;
+            user-select: none;
+            transition: background-color 0.15s ease;
+        }
+
+        body.pressed {
+            background-color: #2b2d42;
+        }
+
+        #connectBtn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 10px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #indicator {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #0077b6;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.15s ease;
+        }
+
+        body.pressed #indicator {
+            background-color: #ef233c;
+        }
+
+        #debug {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #666;
+        }
+
+        body.pressed #debug {
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="connectBtn">Arduinoに接続</button>
+    <div id="indicator"></div>
+    <div id="debug">Waiting for connection...</div>
+
+    <script>
+        const connectBtn = document.getElementById('connectBtn');
+        const indicator = document.getElementById('indicator');
+        const debugText = document.getElementById('debug');
+
+        // 描画・目標座標
+        let currentX = window.innerWidth / 2;
+        let currentY = window.innerHeight / 2;
+        let targetX = window.innerWidth / 2;
+        let targetY = window.innerHeight / 2;
+        let isPressed = false;
+
+        // シリアル接続処理
+        connectBtn.addEventListener('click', async () => {
+            try {
+                const port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+
+                connectBtn.textContent = '接続完了';
+                connectBtn.disabled = true;
+
+                const textDecoder = new TextDecoderStream();
+                port.readable.pipeTo(textDecoder.writable);
+                const reader = textDecoder.readable.getReader();
+
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += value;
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop(); // 未完行を保持
+
+                    for (const line of lines) {
+                        parseSensorData(line.trim());
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('接続に失敗しました: ' + err.message);
+            }
+        });
+
+        // カンマ区切りのパース ("rawX,rawY,rawSW")
+        function parseSensorData(line) {
+            if (!line) return;
+            const parts = line.split(',');
+            if (parts.length !== 3) return;
+
+            const rawX = parseInt(parts[0], 10);
+            const rawY = parseInt(parts[1], 10);
+            const rawSW = parseInt(parts[2], 10);
+
+            if (isNaN(rawX) || isNaN(rawY) || isNaN(rawSW)) return;
+
+            // 0〜1023 を画面サイズ（ピクセル）にマッピング
+            targetX = (rawX / 1023) * window.innerWidth;
+            targetY = (rawY / 1023) * window.innerHeight;
+
+            // SWはINPUT_PULLUPのため 0 が「押下」
+            isPressed = (rawSW === 0);
+
+            if (isPressed) {
+                document.body.classList.add('pressed');
+            } else {
+                document.body.classList.remove('pressed');
+            }
+
+            debugText.textContent = `Raw: X=${rawX} Y=${rawY} SW=${rawSW} | Target: (${Math.round(targetX)}, ${Math.round(targetY)})`;
+        }
+
+        // 毎フレームLerp（線形補間）を適用して滑らかに動かす
+        function animate() {
+            // Lerp: V_next = V + (Target - V) * 0.1
+            currentX += (targetX - currentX) * 0.1;
+            currentY += (targetY - currentY) * 0.1;
+
+            indicator.style.left = `${currentX}px`;
+            indicator.style.top = `${currentY}px`;
+
+            requestAnimationFrame(animate);
+        }
+
+        // アニメーションループ開始
+        requestAnimationFrame(animate);
+    </script>
+</body>
+
+</html>

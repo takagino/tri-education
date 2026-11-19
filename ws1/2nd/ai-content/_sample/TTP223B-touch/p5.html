@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TTP223B Web Serial Test</title>
+    <!-- p5.js と p5.webserial のCDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://unpkg.com/@gohai/p5.webserial@^1/libraries/p5.webserial.js"></script>
+    <script>
+        let port;
+        let connectBtn;
+        let touchState = 0;
+
+        function setup() {
+            createCanvas(400, 400);
+
+            // Web Serialの初期化
+            port = createSerial();
+
+            // 接続ボタン
+            connectBtn = createButton('Arduinoに接続');
+            connectBtn.position(10, 10);
+            connectBtn.mousePressed(connectBtnClick);
+        }
+
+        function draw() {
+            background(240);
+
+            // 接続されたらボタンの表示を変更して無効化
+            if (port.opened() && !connectBtn.elt.disabled) {
+                connectBtn.html('接続中...');
+                connectBtn.attribute('disabled', '');
+            }
+
+            // 改行コード（\n）までデータを読み取る
+            let str = port.readUntil('\n');
+            if (str.length > 0) {
+                let val = parseInt(str.trim());
+                if (!isNaN(val)) {
+                    touchState = val; // 0または1を保持
+                }
+            }
+
+            // タッチ状態によってビジュアルを変化
+            noStroke();
+            if (touchState === 1) {
+                fill(255, 70, 70);
+                circle(width / 2, height / 2, 160); // 触れると大きく赤色に
+            } else {
+                fill(180);
+                circle(width / 2, height / 2, 80);  // 離すと小さく灰色に
+            }
+
+            // ステータス表示
+            fill(50);
+            textSize(16);
+            textAlign(LEFT, BASELINE);
+            text(`Touch State: ${touchState}`, 10, height - 20);
+        }
+
+        function connectBtnClick() {
+            if (!port.opened()) {
+                port.open('Arduino', 9600);
+            } else {
+                port.close();
+            }
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

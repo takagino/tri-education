@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TTP223B Web Serial Test</title>
+    <!-- p5.js と p5.webserial のCDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <script src="https://unpkg.com/@gohai/p5.webserial@^1/libraries/p5.webserial.js"></script>
+    <script>
+        let port;
+        let connectBtn;
+
+        let posX = 200;
+        let posY = 200;
+        let isPressed = false;
+
+        function setup() {
+            createCanvas(400, 400);
+
+            port = createSerial();
+
+            connectBtn = createButton('Arduinoに接続');
+            connectBtn.position(10, 10);
+            connectBtn.mousePressed(connectBtnClick);
+        }
+
+        function draw() {
+            background(240);
+
+            // 接続されたらボタンの表示を変更して無効化
+            if (port.opened() && !connectBtn.elt.disabled) {
+                connectBtn.html('接続中...');
+                connectBtn.attribute('disabled', '');
+            }
+
+            // 1行分のデータ（"x,y,sw\n"）を受信
+            let str = port.readUntil('\n');
+            if (str.length > 0) {
+                let values = str.trim().split(',');
+
+                // データが3つ揃っているか確認
+                if (values.length === 3) {
+                    let rawX = parseInt(values[0]);
+                    let rawY = parseInt(values[1]);
+                    let rawSW = parseInt(values[2]);
+
+                    if (!isNaN(rawX) && !isNaN(rawY)) {
+                        // センサー値（0〜1023）をキャンバス座標（0〜400）に変換
+                        let targetX = map(rawX, 0, 1023, 0, width);
+                        let targetY = map(rawY, 0, 1023, 0, height);
+
+                        // Lerp（線形補間）で滑らかに追従
+                        posX = lerp(posX, targetX, 0.1);
+                        posY = lerp(posY, targetY, 0.1);
+                    }
+
+                    // 押し込み判定（INPUT_PULLUPのため 0 が「押下」）
+                    isPressed = (rawSW === 0);
+                }
+            }
+
+            // ボールの描画
+            noStroke();
+            if (isPressed) {
+                fill(230, 50, 50); // 押し込み時：赤
+            } else {
+                fill(50, 120, 240); // 通常時：青
+            }
+            circle(posX, posY, 50);
+
+            // デバッグ情報の表示
+            fill(80);
+            textSize(14);
+            text(`X: ${Math.round(posX)} | Y: ${Math.round(posY)} | Pressed: ${isPressed}`, 10, height - 15);
+        }
+
+        function connectBtnClick() {
+            if (!port.opened()) {
+                port.open('Arduino', 9600);
+            } else {
+                port.close();
+            }
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

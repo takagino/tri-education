@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>KY-037 Sound Visualizer</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: sans-serif;
+            user-select: none;
+        }
+
+        #connectBtn {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            padding: 10px 18px;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        #visualizer {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00f2fe 0%, #4facfe 100%);
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.6);
+            will-change: transform;
+        }
+
+        #debug {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+
+<body>
+
+    <button id="connectBtn">Arduinoに接続</button>
+    <div id="visualizer"></div>
+    <div id="debug">Waiting for connection...</div>
+
+    <script>
+        const connectBtn = document.getElementById('connectBtn');
+        const visualizer = document.getElementById('visualizer');
+        const debugText = document.getElementById('debug');
+
+        let currentVolume = 0;
+        let targetVolume = 0;
+
+        connectBtn.addEventListener('click', async () => {
+            try {
+                const port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+
+                connectBtn.textContent = '接続完了';
+                connectBtn.disabled = true;
+
+                const textDecoder = new TextDecoderStream();
+                port.readable.pipeTo(textDecoder.writable);
+                const reader = textDecoder.readable.getReader();
+
+                let buffer = '';
+
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+
+                    buffer += value;
+                    const lines = buffer.split('\n');
+                    buffer = lines.pop();
+
+                    for (const line of lines) {
+                        const vol = parseInt(line.trim(), 10);
+                        if (!isNaN(vol)) {
+                            // センサー値（0〜500程度を基準）を目標値に反映
+                            targetVolume = vol;
+                            debugText.textContent = `Raw Amplitude: ${vol}`;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('接続エラー: ' + err.message);
+            }
+        });
+
+        function animate() {
+            // Lerpで滑らかに音量減衰を追従
+            currentVolume += (targetVolume - currentVolume) * 0.15;
+
+            // 基準サイズ100pxから、音量に応じてスケールアップ
+            const scale = 1 + (currentVolume / 100);
+            visualizer.style.transform = `scale(${scale})`;
+
+            // 一定以上の音量で発光色を赤寄りに変化
+            if (currentVolume > 150) {
+                visualizer.style.background = 'radial-gradient(circle, #ff0844 0%, #ffb199 100%)';
+                visualizer.style.boxShadow = '0 0 50px rgba(255, 8, 68, 0.8)';
+            } else {
+                visualizer.style.background = 'radial-gradient(circle, #00f2fe 0%, #4facfe 100%)';
+                visualizer.style.boxShadow = '0 0 20px rgba(79, 172, 254, 0.6)';
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    </script>
+</body>
+
+</html>
