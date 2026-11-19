@@ -248,10 +248,53 @@ Chromeデベロッパー・ツールの **「Network（ネットワーク）」�
 2. ブラウザのURL（`http://127.0.0.1:5500/...`）をコピーし、Chromeの **シークレットウィンドウ（`Cmd + Shift + N`）** を開いて貼り付ける。
 3. **Networkタブで確認：**
    - 検証ツールの「Network」タブを開き、「キャッシュを無効化」にチェックを入れて `Cmd + Shift + R`（スーパーリロード）を押す。
-   - 👉 `pic_hero.png`（3.5MB）をはじめとする巨大なPNG画像により、**合計容量が「約 12.6 MB」** にも膨れ上がっていることを確認しよう！
+   - 👉 `pic_hero.png`（3.5MB）をはじめとする巨大なPNG画像により、**合計容量が「約 12.6 MB〜14 MB」** にも膨れ上がっていることを確認しよう！
 4. **Lighthouseタブで計測：**
    - 「Lighthouse」タブ（ナビゲーション / モバイル / パフォーマンス）で **「ページ読み込みを分析」** を実行する。
-   - 👉 改善前の総合スコアと、`LCP`・`TBT`・`CLS` にどのような赤色・オレンジ色の警告が出ているかを確認しよう！
+   - 👉 改善前の総合スコアと、下部に表示される **`INSIGHTS`（インサイト）** および **`DIAGNOSTICS`（診断）** の警告項目を以下の対応表と照らし合わせてみよう！
+
+### 📋 Lighthouse の警告項目とハンズオン解決策の対応早見表
+
+#### ① `INSIGHTS`（インサイト）に表示される項目
+
+| Lighthouse の警告項目（英語 / 日本語） | 原因（`starter` で起きていること） | 解決するステップ |
+| --- | --- | --- |
+| 🔺 **`Improve image delivery`**<br>（画像配信の改善 — `Est savings of 12,761 KiB`） | 3000px超の未圧縮PNG画像4枚（約12.6MB）とPNGロゴをそのまま配信している。 | **【Step 1（4-1）】**<br>画像の一括リサイズ＆**WebP変換**、ロゴの **SVG化** |
+| 🔺 **`Render-blocking requests`**<br>（レンダリングを妨げるリクエスト） | `<head>` 内の `<script src="./js/main.js">` に `defer` がなく、さらにCSS内で `@import` を使っている。 | **【Step 4 & Step 6（6-1 / 6-2）】**<br>・CSSの `@import` を削除し `<link>` 化（Step 4）<br>・`<script>` に **`defer`** を付与（Step 6） |
+| 🔺 **`Font display`**<br>（フォント表示） | Google FontsのURLに `&display=swap` がなく、フォント読込完了まで文字描画が待たされている。 | **【Step 4（5-3）】**<br>Google Fontsに **`&display=swap`** と **`preconnect`** を追加 |
+| 🔺 **`LCP request discovery`**<br>（LCPリクエストの検出） | ファーストビューのメイン画像（`.hero__img`）に誤って **`loading="lazy"`** が付いており、優先度指定もない。 | **【Step 5（6-3）】**<br>メイン画像の `loading="lazy"` を削除し、**`fetchpriority="high"`** を追加 |
+| 🔺 **`Network dependency tree`**<br>（ネットワーク依存関係ツリー） | `HTML` ➔ `style.css` ➔ `@import`（Google Fonts）➔ `フォントファイル` という直列の数珠つなぎ通信が発生している。 | **【Step 4（6-2）】**<br>`style.scss` から `@import` を消し、`<head>` の `<link>` で並列化 |
+| 🟧 **`Use efficient cache lifetimes`** / **`Document request latency`** | Googleマップ（外部サーバー）のリソースやローカルLive Serverの仕様による通知。 | **【Step 5（6-3）】**<br>Googleマップの `<iframe>` に **`loading="lazy"`** を追加して初期通信から除外（※本番サーバーのキャッシュは7-1参照） |
+
+#### ② `DIAGNOSTICS`（診断）に表示される項目
+
+| Lighthouse の警告項目（英語 / 日本語） | 原因（`starter` で起きていること） | 解決するステップ |
+| --- | --- | --- |
+| 🔺 **`Reduce unused CSS`**<br>（使用していないCSSの削減 — `178 KiB`） | Google Fontsで不要な6ウェイト全てを読み込んでいるため未使用の `@font-face` CSSが余っている（＋初回に読み込まれるGoogleマップのCSS）。 | **【Step 4 & Step 5（4-3 / 6-3）】**<br>・フォントを **`wght@400;700` の2ウェイトのみ** に絞る（Step 4）<br>・Googleマップに **`loading="lazy"`** を付与（Step 5） |
+| 🔺 **`Minify CSS`**<br>（CSSの最小化 — `18 KiB`） | `style.css` が改行・コメント付きの `expanded` のまま読み込まれている。 | **【Step 2（4-4）】**<br>Live Sass Compilerで **`style.min.css`（`compressed`）** を出力して読み込む |
+| 🟧 **`Image elements do not have explicit width and height`**<br>（画像要素に明示的な `width` と `height` が指定されていない） | 5箇所の `<img>` すべてに `width` と `height` 属性がなく、CLS（レイアウトシフト）を起こしている。 | **【Step 3（5-1）】**<br>全 `<img>` に **`width` と `height` 属性**（整数値）を記述 |
+| 🟧 **`Avoid enormous network payloads`**<br>（巨大なネットワークペイロードの回避 — `14,221 KiB`） | 未圧縮PNG画像4枚（12.6MB）＋6ウェイト分の日本語フォントで総容量が約14MBになっている。 | **【Step 1 & Step 4（4-1 / 4-3）】**<br>画像のリサイズ＆**WebP化**（Step 1）とフォントのウェイト削減（Step 4） |
+| 🟧 **`Reduce JavaScript execution time`** / **`Minimize main-thread work`** / **`Avoid long main-thread tasks`** | `js/main.js` 内の重い初期化ループ（450msロック）と旧来の `scroll` イベント監視（＋初期読込時のGoogleマップJS）。 | **【Step 5 & Step 6（6-3 / 6-6）】**<br>・`main.js` を **`IntersectionObserver`** に変更（Step 6）<br>・Googleマップに **`loading="lazy"`** を付与（Step 5） |
+
+#### ③ `PASSED AUDITS`（合格している監査項目 — 自分のブログや進級展作品で警告が出たときの対策）
+
+今回の `starter` では最初から合格（緑丸・白丸）になっていますが、自分のブログ（WordPress）や進級展の作品を計測した際によく警告が出る13項目の意味と対策です。
+
+| 監査項目（英語 / 日本語） | 何をチェックしているか（意味） | 警告が出たときの具体的な改善策 |
+| --- | --- | --- |
+| 🟢 **`Layout shift culprits`**<br>（レイアウトシフトの原因） | 読み込み中に画面のガタつき（CLS）を引き起こした具体的な犯人要素の特定。 | 指摘された画像に **`width` / `height` 属性** を付けるか、親要素に **`aspect-ratio` / `min-height`** を指定して事前にスペースを確保する（**5章参照**）。 |
+| 🟢 **`Optimize DOM size`**<br>（DOMサイズの最適化） | 1ページ内のHTMLタグの総数（目安：1,400個以下）や入れ子（ネスト）の深さ（32階層以下）が過剰でないか。 | 不要なラッパー `<div>` の多重ネストを減らし、CSS Grid等でシンプルなHTML構造にする（**2-4参照**）。 |
+| 🟢 **`Duplicated JavaScript`**<br>（重複したJavaScript） | 同じJSライブラリ（例：jQueryのバージョン違いや複数のスライダー系プラグイン）が2重に読み込まれていないか。 | `<head>` や `<footer>` を見直し、重複している `<script>` タグや不要なWordPressプラグインを削除する。 |
+| 🟢 **`Forced reflow`**<br>（強制リフロー / 強制同期レイアウト） | JSでスタイルを変更した直後に `offsetWidth` や `getBoundingClientRect()` 等で座標を毎フレーム読み取り、ブラウザに強制的な再レイアウトを強いていないか。 | `scroll` イベントでの座標計算をやめ、**`IntersectionObserver`** に置き換える（**6-6参照**）。 |
+| ⚪️ **`INP breakdown`**<br>（INPの内訳） | クリックやタップ操作時に発生した遅延の内訳（入力遅延・処理時間・描画遅延）。 | クリックイベント内で重いループ処理や大量のDOM書き換えを行わないようにする。 |
+| 🟢 **`Legacy JavaScript`**<br>（レガシーJavaScript） | モダンブラウザでは標準対応している機能を、古いブラウザ（IE等）向けの巨大な変換コード（Polyfill）付きで配信していないか。 | 古いjQueryプラグインを廃止し、モダンな標準JS（Vanilla JS）や最新版のライブラリに置き換える。 |
+| 🟢 **`Modern HTTP`**<br>（最新のHTTP：HTTP/2・HTTP/3） | サーバーが多重化通信に対応した **HTTP/2 または HTTP/3** でファイルを配信しているか。 | GitHub Pages / Cloudflare / モダンなレンタルサーバーを利用していれば自動で合格になる（**7-1参照**）。 |
+| 🟢 **`Optimize viewport for mobile`**<br>（モバイル向けビューポートの最適化） | `<meta name="viewport" content="width=device-width, initial-scale=1.0">` が設定されており、タップ遅延が解消されているか。 | `<head>` 内に適切な `viewport` メタタグを記述する（前回講義 **05の3-2参照**）。 |
+| 🟢 **`Minify JavaScript`**<br>（JavaScriptの最小化） | JavaScriptファイルの空白・改行・コメントが圧縮（Minify）されているか。 | 外部ライブラリは `.min.js` 版を読み込み、自作の大きなJSファイルはビルドツールやMinifierで圧縮する（**4-4参照**）。 |
+| 🟢 **`Reduce unused JavaScript`**<br>（使用していないJavaScriptの削減） | 読み込んでいるのにそのページで一切実行されていないJSコード（赤色領域）が多くないか。 | 使っていないアニメーションライブラリ・SNSウィジェット・不要なWordPressプラグインを削除するか、YouTube埋め込みをファサード化する（**4-4 / 6-5参照**）。 |
+| ⚪️ **`User Timing marks and measures`**<br>（User Timingのマークと計測） | 開発者が `performance.mark()` 等で独自計測した区間データの表示欄（情報表示のみ・スコアへの影響なし）。 | 特に対策不要（大規模アプリ開発で独自計測を行う際に使用する項目）。 |
+| ⚪️ **`Avoid non-composited animations`**<br>（非合成アニメーションの回避） | CSSアニメーションがGPU合成（コンポジット）されず、`top`, `left`, `width`, `height` 等で毎フレーム再レイアウト・再ペイントを起こしていないか。 | アニメーションさせるプロパティを **`transform`** と **`opacity`** に変更する（**2-4 / 6-6参照**）。 |
+| 🟢 **`Page didn't prevent back/forward cache restoration`**<br>（bfcacheの復元を妨げていない） | ブラウザの「戻る・進む」ボタンを押した際、ページを一瞬で復元する **bfcache（バックフォワードキャッシュ）** が有効に機能しているか。 | JSで非推奨の `window.addEventListener("unload", ...)` を使わないようにする（これを書くとbfcacheが無効化されて「戻る」が遅くなる）。 |
 
 ---
 
@@ -296,7 +339,7 @@ Webページの総データ容量のうち、**約70%〜85%を占めているの
 
 | やりたいこと | おすすめツール | 特徴・メリット |
 | --- | --- | --- |
-| **🥇 複数枚のJPG/PNGを<br>一括でWebPに変換＋リサイズしたい**<br>（一番おすすめ！） | **[サルワカ道具箱：WebP一括変換](https://saruwakakun.com/tools/png-jpeg-to-webp/)** | インストール不要。何十枚もの画像をまとめてドラッグ＆ドロップし、画質調整や最大横幅リサイズまで一括で行ってZIPで一括ダウンロードできる。 |
+| **🥇 複数枚の画像を一括リサイズ＆<br>WebPに一括変換したい**<br>（一番おすすめ！） | **① [サルワカ道具箱：画像を一括リサイズ](https://saruwakakun.com/tools/image-resize/)**<br>**② [サルワカ道具箱：WebP一括変換](https://saruwakakun.com/tools/png-jpeg-to-webp/)** | インストール不要。①で最大横幅を指定して一括リサイズし、②にまとめてドラッグ＆ドロップするだけで一括WebP変換（ZIPダウンロード）が完了する。 |
 | **🥈 元の形式（JPG/PNG/WebP）のまま<br>一括で容量だけ劇的に減らしたい** | **[TinyPNG](https://tinypng.com/)**<br>（または **[あっしゅくま](https://imguma.com/)**） | HTMLの拡張子（`.jpg` / `.png`）を書き換えずに、複数枚まとめて画質を保ったまま50〜80%一括圧縮できる定番Webツール。 |
 | **🥉 PCアプリでフォルダごと<br>WebP / AVIF へ一括変換したい** | **[Crushee](https://crushee.app/)**<br>（Mac / Windows 無料アプリ） | 大量の画像をAVIFやWebPへ一括変換・リサイズできるデスクトップアプリ。進級展などの長期制作で自分のPCに入れておくと便利。 |
 | **💡 1枚ずつ画質の劣化を<br>目視で比較しながら極限まで削りたい** | **[Squoosh](https://squoosh.app/)**<br>（Google公式Webツール） | 1枚ずつ専用。画面中央のスライダーで「変換前とAVIF/WebPの画質・容量差」をリアルタイムに比較できるため、メインビジュアルの微調整に最適。 |
@@ -329,19 +372,20 @@ Webページの総データ容量のうち、**約70%〜85%を占めているの
 
 ## 🛠 ハンズオン Step 1：画像をリサイズ＆WebP・SVG化しよう！
 
-`performance/starter/images/` に入っている合計 **12.6MB** の巨大PNG画像を最適化しましょう。
+`performance/starter/images/` に入っている合計 **12.6MB** の巨大PNG画像を、「① 一括リサイズ ➔ ② WebP一括変換」の2ステップで最適化しましょう。
 
-1. **[サルワカ道具箱：WebP一括変換](https://saruwakakun.com/tools/png-jpeg-to-webp/)** をブラウザで開く。
-2. **メインビジュアルの変換：**
-   - 「画像の最大横幅（縦幅）を指定する」にチェックを入れ、最大サイズを **`1200` px** に設定する。
-   - `starter/images/pic_hero.png`（3000×1600 / 3.5MB）をドロップして **`pic_hero.webp`** をダウンロードし、`starter/images/` に入れる。
-3. **展示カード画像3枚の一括変換：**
-   - 最大サイズを **`600` px** に変更する。
-   - `pic_exhibit01.png`、`pic_exhibit02.png`、`pic_exhibit03.png`（各約3MB）の3枚をまとめてドロップし、変換された **`pic_exhibit01.webp` 〜 `03.webp`** をダウンロードして `starter/images/` に入れる。
-4. **HTMLの画像パスを書き換える（`starter/index.html`）：**
+1. **① 画像を一括リサイズする：**
+   - **[サルワカ道具箱：画像を一括リサイズ](https://saruwakakun.com/tools/image-resize/)** をブラウザで開く。
+   - **メインビジュアル**：「画像の最大幅」に **`1200`** を入力し、`starter/images/pic_hero.png`（3000×1600 / 3.5MB）をドロップして「リサイズする」を押し、ダウンロードする。
+   - **展示カード画像3枚**：「画像をクリア」を押した後、「画像の最大幅」に **`600`** を入力し、`pic_exhibit01.png` 〜 `03.png`（2400×1680 / 各約3MB）の3枚をまとめてドロップして「リサイズする」を押し、「すべてダウンロード（ZIP）」で保存・解凍する。
+2. **② リサイズした4枚をWebPに一括変換する：**
+   - **[サルワカ道具箱：WebP一括変換](https://saruwakakun.com/tools/png-jpeg-to-webp/)** をブラウザで開く。
+   - ①でリサイズした4枚のPNG画像（`pic_hero.png`, `pic_exhibit01.png` 〜 `03.png`）を一度にまとめてドロップする。
+   - 「すべてダウンロード（ZIP）」を押して解凍し、出来上がった4枚のWebP画像（**`pic_hero.webp`**, **`pic_exhibit01.webp` 〜 `03.webp`**）を `starter/images/` フォルダに入れる。
+3. **③ HTMLの画像パスを書き換える（`starter/index.html`）：**
    - ヘッダーのロゴ画像 `./images/logo.png` を、すでにフォルダ内に入っているSVGファイル **`./images/logo.svg`** に書き換える。
    - メインビジュアルと展示カード3枚の `src` を、それぞれ `.png` から **`.webp`** に書き換えて保存する。
-5. **Networkタブで確認：**
+4. **Networkタブで確認：**
    - スーパーリロード（`Cmd + Shift + R`）してNetworkタブの下部を見てみよう。**12.6 MB あった通信量が一気に数十KB（99%以上削減！）** に激減しているはずです！
 
 ---
@@ -397,17 +441,22 @@ Google Fontsの選択画面で `100, 300, 400, 500, 700, 900` と片っ端から
 
 ## 4-4. CSS・JavaScriptの軽量化（Minifyと不要コードの削除）
 
-### ① VS Code「Live Sass Compiler」で自動Minify（圧縮）する
+### ① VS Code「Live Sass Compiler」で自動Minify（`.min.css` 同時出力）する
 私たちがコードを読みやすくするために書いている「改行」「インデント（空白）」「コメント」は、ブラウザがページを描画する上では不要です。
-Live Sass Compiler の設定（`settings.json`）で、出力フォーマットを **`compressed`** に変更すると、コンパイル時に自動的に空白やコメントが除去された軽量なCSSが出力されます。
+Live Sass Compiler の設定（`settings.json`）に **`compressed`（`.min.css`）** の設定を追加すると、コンパイル時に通常の読みやすい `style.css` と同時に、空白やコメントが除去された軽量な **`style.min.css`** も自動出力されるようになります。
 
 ```json
 // VS Code の settings.json
 "liveSassCompile.settings.formats": [
   {
-    "format": "compressed", // expanded から compressed に変更すると自動Minifyされる！
+    "format": "expanded",
     "extensionName": ".css",
-    "savePath": "/css"
+    "savePath": "~/../css"
+  },
+  {
+    "format": "compressed", // expandedからcompressedに変更すると自動Minifyされる
+    "extensionName": ".min.css",
+    "savePath": "~/../css"
   }
 ]
 ```
@@ -419,11 +468,12 @@ Live Sass Compiler の設定（`settings.json`）で、出力フォーマット�
 
 ---
 
-## 🛠 ハンズオン Step 2：Live Sass Compiler の圧縮出力（`compressed`）を試そう！
+## 🛠 ハンズオン Step 2：Live Sass Compiler で `.min.css` を出力して読み込もう！
 
-1. VS Code の設定（`settings.json`）を開き、`liveSassCompile.settings.formats` の `"format"` を `"expanded"` から **`"compressed"`** に変更して保存する。
+1. VS Code の設定（`settings.json`）を開き、`liveSassCompile.settings.formats` に上記の **`"format": "compressed"`（`"extensionName": ".min.css"`）** のブロックを追加して保存する。
 2. `performance/starter/sass/style.scss` を開いて **Watch Sass** を起動し、上書き保存（`Cmd + S`）する。
-3. `performance/starter/css/style.css` を開き、改行やコメントがすべて取り除かれて1行に圧縮（Minify）されていることを確認しよう！（※確認できたら、以降のハンズオン中はそのまま `Watch Sass` を動かしておきましょう）
+3. `performance/starter/css/` フォルダ内に、新しく **`style.min.css`**（改行やコメントが取り除かれて1行に圧縮されたファイル）が生成されたことを確認する。
+4. `performance/starter/index.html` の `<head>` 内で読み込んでいるCSSを `./css/style.css` から **`./css/style.min.css`** に書き換えよう！（※以降のハンズオン中はそのまま `Watch Sass` を動かしておきましょう）
 
 ---
 
@@ -844,7 +894,26 @@ document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
    ```
 4. **🎉 最終計測（After計測）：**
    - シークレットウィンドウの **Lighthouse** で再度「ページ読み込みを分析」を実行しよう！
-   - `LCP`, `TBT`, `CLS` のすべての警告が消え、パフォーマンススコアが **98〜100点（オールグリーン）** に跳ね上がったことを確認してください！
+   - `LCP`, `TBT`, `CLS` の数値が大きく改善され、パフォーマンススコアが **90〜100点（緑色の合格ライン）** に到達したことを確認してください！
+
+### 💡 改善後も残るLighthouseの項目について（気にしなくてOKな項目と発展対策）
+
+Step 6 まで完了しても、Lighthouseの `INSIGHTS` 欄にいくつか項目が残ることがあります。**スコアが90点以上（緑）になっていれば実務上まったく問題ありません** が、「なぜ残っているのか」を把握しておきましょう。
+
+#### ① 構造上・ローカル環境上「気にしなくてOK」な項目
+
+| 項目 | なぜ消えないのか（理由） |
+| --- | --- |
+| 🟧 **`Use efficient cache lifetimes`** / **`Document request latency`** | VS Code の **Live Server（開発用サーバー）はブラウザキャッシュや圧縮配信（Gzip/Brotli）を行わない** ため、ローカル環境で計測する限り必ず表示されます。GitHub Pages や本番レンタルサーバーに公開すれば解消します。 |
+| ⚪️ **`LCP breakdown`** / **`3rd parties`** | 警告（減点）ではなく、**単なる「内訳レポート（情報表示）」** です。白丸（グレー）の項目はエラーではないため消す対象ではありません。 |
+
+#### ② さらに手を加えれば消せる「上級者向け」の項目
+
+| 項目 | 原因と、さらに削りたい場合の発展対策 |
+| --- | --- |
+| 🔺 **`Render-blocking requests`**<br>（CSSのレンダリングブロック） | `<head>` 内の **CSS3本（`destyle.min.css`、Google Fonts、`style.min.css`）** が「画面描画前に読み込まれる必須CSS」として検出されています。<br>・`destyle.min.css` をCDNから読まず、自分のSCSSに統合してCSSを1本に減らす。<br>・Google Fontsの `<link>` を非同期化する（`media="print" onload="this.media='all'"`）か、OS標準フォントのみにする。 |
+| 🔺 **`Network dependency tree`** | `HTML` ➔ `Google FontsのCSS` ➔ `実際のフォントファイル(.woff2)` という2段階の通信ツリーが残っているため表示されます。Webフォントを使わずOS標準フォントのみにすると消えます。 |
+| 🟧 **`Improve image delivery`**<br>（約 11 KiB 程度の微細な提案） | スマホの画面幅（約360〜412px）に対して、`600px` 幅のカード画像などが「表示サイズより少し大きい」と判定されています（わずか十数KB程度のため、実務上は無視して問題ありません）。 |
 
 ---
 
