@@ -15,6 +15,7 @@ const Sensor = {
   // ゲーム側で参照する加工済みパラメータ
   joyX: 0,            // -1.0 (左) 〜 +1.0 (右)
   joyY: 0,            // -1.0 (上) 〜 +1.0 (下)
+  joyBtn: false,      // true: 押されている / false: 離されている
   rawLight: 700,      // 明るさ生値（0〜1023）
   isNight: false,     // true: 夜モード / false: 昼モード
 
@@ -37,6 +38,16 @@ const Sensor = {
       this.isConnected = true;
       console.log('🟢 Arduinoコントローラーに接続しました');
 
+      // 受信ループはバックグラウンドで開始し、connect() 自体はすぐ完了させる
+      this.readLoop(port);
+    } catch (err) {
+      console.error('接続エラーまたは切断されました:', err);
+      this.isConnected = false;
+    }
+  },
+
+  async readLoop(port) {
+    try {
       const textDecoder = new TextDecoderStream();
       port.readable.pipeTo(textDecoder.writable);
       const reader = textDecoder.readable.getReader();
@@ -55,21 +66,22 @@ const Sensor = {
           const trimmed = line.trim();
           if (!trimmed) continue;
 
-          // カンマで分割: "joyX,joyY,light"
+          // カンマで分割: "joyX,joyY,joyBtn,light"
           const parts = trimmed.split(',');
-          if (parts.length >= 3) {
-            const rawX = parseInt(parts[0], 10);
-            const rawY = parseInt(parts[1], 10);
-            const rawL = parseInt(parts[2], 10);
+          if (parts.length >= 4) {
+            const rawX   = parseInt(parts[0], 10);
+            const rawY   = parseInt(parts[1], 10);
+            const rawBtn = parseInt(parts[2], 10);
+            const rawL   = parseInt(parts[3], 10);
 
-            if (!isNaN(rawX) && !isNaN(rawY) && !isNaN(rawL)) {
-              this.updateValues(rawX, rawY, rawL);
+            if (!isNaN(rawX) && !isNaN(rawY) && !isNaN(rawBtn) && !isNaN(rawL)) {
+              this.updateValues(rawX, rawY, rawBtn, rawL);
             }
           }
         }
       }
     } catch (err) {
-      console.error('接続エラーまたは切断されました:', err);
+      console.error('受信中に切断されました:', err);
       this.isConnected = false;
     }
   },
@@ -77,7 +89,7 @@ const Sensor = {
   /**
    * 生データをゲーム操作値へ変換
    */
-  updateValues(rawX, rawY, rawL) {
+  updateValues(rawX, rawY, rawBtn, rawL) {
     // 1. ジョイスティックの加工（中心512を基準に -512〜+511 へ）
     let dx = rawX - 512;
     let dy = rawY - 512;
@@ -90,7 +102,10 @@ const Sensor = {
     this.joyX = Math.max(-1, Math.min(1, dx / (512 - this.deadZone)));
     this.joyY = Math.max(-1, Math.min(1, dy / (512 - this.deadZone)));
 
-    // 2. 明るさセンサーの加工
+    // 2. 押し込みスイッチ状態
+    this.joyBtn = (rawBtn === 1);
+
+    // 3. 明るさセンサーの加工
     this.rawLight = rawL;
     this.isNight = (rawL < this.lightThreshold);
   },

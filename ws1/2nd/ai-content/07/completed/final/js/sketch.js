@@ -117,6 +117,9 @@ function draw() {
     updatePlay();
   } else if (gameState === 'GAMEOVER') {
     drawGameOverScreen();
+    if (Sensor.joyBtn) {
+      startGame();
+    }
   }
 }
 
@@ -314,14 +317,14 @@ function drawGameOverScreen() {
   text(`FINAL SCORE: ${score}`, width / 2, height / 2 + 10);
 
   fill('#f1c40f');
-  textSize(16);
-  text('PRESS [ R ] KEY TO RETRY', width / 2, height / 2 + 60);
+  textSize(15);
+  text('スティック押し込み / [ R ] キー でリトライ', width / 2, height / 2 + 60);
   pop();
 }
 
-function mousePressed() {
+async function mousePressed() {
   if (!Sensor.isConnected) {
-    Sensor.connect();
+    await Sensor.connect();
   }
   if (gameState === 'TITLE') {
     startGame();

@@ -2,47 +2,54 @@
  * 07_controller.ino
  * =================================================================
  * 【機能】
- * ジョイスティック（KY-023: A0, A1）と明るさセンサー（CdS: A2）の
- * アナログ値を読み取り、CSV形式（カンマ区切り1行）でPCへ高速送信します。
+ * ジョイスティック（KY-023: A0, A1, D2）と明るさセンサー（CdS: A2）の
+ * 値を読み取り、CSV形式（カンマ区切り1行）でPCへ高速送信します。
  *
  * 【配線】
  * - Arduino 5V  ── ブレッドボード (+)
  * - Arduino GND ── ブレッドボード (-)
  * - ジョイスティック VRX ── Arduino A0 (左右)
  * - ジョイスティック VRY ── Arduino A1 (上下)
+ * - ジョイスティック SW  ── Arduino D2 (押し込みスイッチ / 改造課題用)
  * - ジョイスティック +5V ── ブレッドボード (+)
  * - ジョイスティック GND ── ブレッドボード (-)
- *   (※SWピンは使用しません)
  * - CdSセル 片足 ── ブレッドボード (+)
  * - CdSセル もう片足 ＆ 10kΩ抵抗の片足 ── Arduino A2
  * - 10kΩ抵抗 もう片足 ── ブレッドボード (-)
  * =================================================================
  */
 
-const int PIN_JOY_X = A0; // ジョイスティック X軸（左右）
-const int PIN_JOY_Y = A1; // ジョイスティック Y軸（上下）
-const int PIN_LIGHT = A2; // 明るさセンサー（CdSセル）
+const int PIN_JOY_X  = A0; // ジョイスティック X軸（左右）
+const int PIN_JOY_Y  = A1; // ジョイスティック Y軸（上下）
+const int PIN_JOY_SW = 2;  // ジョイスティック 押し込みスイッチ（D2）
+const int PIN_LIGHT  = A2; // 明るさセンサー（CdSセル）
 
 void setup() {
   // 転送レート 9600bps でシリアル通信を開始
   Serial.begin(9600);
+
+  // スイッチは内蔵プルアップ抵抗を有効にする（押すとLOWになる）
+  pinMode(PIN_JOY_SW, INPUT_PULLUP);
 }
 
 void loop() {
-  // 1. 各ピンからアナログ値（0〜1023）を読み取る
-  int joyX  = analogRead(PIN_JOY_X);
-  int joyY  = analogRead(PIN_JOY_Y);
-  int light = analogRead(PIN_LIGHT);
+  // 1. 各ピンから値を読み取る
+  int joyX   = analogRead(PIN_JOY_X);
+  int joyY   = analogRead(PIN_JOY_Y);
+  // スイッチは押されたら 1、離されたら 0 に変換して送信
+  int joyBtn = (digitalRead(PIN_JOY_SW) == LOW) ? 1 : 0;
+  int light  = analogRead(PIN_LIGHT);
 
   // 2. カンマ区切り（CSV形式）で1行にまとめて送信
-  // 送信例: "512,508,680\n"
+  // 送信例: "512,508,0,680\n"
   Serial.print(joyX);
   Serial.print(",");
   Serial.print(joyY);
+  Serial.print(",");
+  Serial.print(joyBtn);
   Serial.print(",");
   Serial.println(light);
 
   // 3. 約50fps（1秒間に50回）のペースで送信
   delay(20);
 }
-
