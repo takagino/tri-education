@@ -140,6 +140,23 @@ p {
     }
 }
 
+.item {
+    padding: rem(45);
+    position: relative;
+    background-color: $color-bg;
+    text-align: center;
+
+    &__title {
+        margin-bottom: rem(15);
+        font-size: rem(24);
+        line-height: math.div(29, 24);
+    }
+
+    &__price {
+        margin-bottom: rem(30);
+    }
+}
+
 .btn {
     display: block;
     width: rem(165);
@@ -149,6 +166,12 @@ p {
     line-height: 1;
     text-align: center;
     background-color: $color-bg;
+    transition: .2s;
+
+    &:hover {
+        background-color: $color-text;
+        color: #fff;
+    }
 }
 
 
@@ -162,12 +185,34 @@ p {
 
     &__inner {
         @include inner();
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: space-between;
+        align-items: center;
     }
 
     &__logo {
         font-size: rem(26);
         font-weight: bold;
         line-height: 1;
+    }
+}
+
+.gnav {
+    &__list {
+        display: grid;
+        grid-auto-flow: column;
+        gap: rem(30);
+    }
+
+    a {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__active {
+        text-decoration: underline;
     }
 }
 
@@ -184,6 +229,51 @@ p {
 
     &__item {
         line-height: 1;
+    }
+}
+
+.category {
+    margin-bottom: rem(50);
+
+    &__list {
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: center;
+        gap: rem(30);
+    }
+
+    a {
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__active {
+        text-decoration: underline;
+    }
+}
+
+.footer {
+    padding: rem(80) 0;
+    background-color: $color-text;
+    color: #fff;
+    text-align: center;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__logo {
+        margin-bottom: rem(25);
+        font-size: rem(24);
+        font-weight: bold;
+        line-height: math.div(29, 24)
+    }
+
+    &__copyright {
+        small {
+            font-size: rem(12);
+        }
     }
 }
 
@@ -228,5 +318,47 @@ p {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
         gap: rem(50) pct(60, 1000);
+    }
+}
+
+.products {
+    @include group-section();
+
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
+        gap: rem(50) pct(50, 1000);
+    }
+
+    &__item {
+        position: relative;
+
+        &::after {
+            content: url(../images/icon_cart.png);
+            position: absolute;
+            top: rem(-15);
+            right: rem(15);
+        }
+    }
+
+}
+
+.information {
+    @include group-section();
+
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
     }
 }

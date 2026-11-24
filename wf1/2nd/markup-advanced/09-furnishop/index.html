@@ -13,6 +13,22 @@
             <h1 class="header__logo">
                 <a href="#">furni.shop</a>
             </h1>
+            <nav class="gnav">
+                <ul class="gnav__list">
+                    <li class="gnav__item">
+                        <a href="#" class="gnav__active">Home</a>
+                    </li>
+                    <li class="gnav__item">
+                        <a href="#">About</a>
+                    </li>
+                    <li class="gnav__item">
+                        <a href="#">Features</a>
+                    </li>
+                    <li class="gnav__item">
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <nav class="sns">
             <ul class="sns__list">
@@ -58,7 +74,7 @@
                                 <img src="./images/pic_about01.png" alt="">
                             </div>
                             <div class="post__body">
-                                <h3 class="post__title">Who We Are</h3>
+                                <h3 class="post__title"><a href="#">Who We Are</a></h3>
                                 <div class="post__text">
                                     <p>You get a 2-week free trial to kick the Smarty tries. We want you to.</p>
                                 </div>
@@ -71,7 +87,7 @@
                                 <img src="./images/pic_about02.png" alt="">
                             </div>
                             <div class="post__body">
-                                <h3 class="post__title">What Do We Do</h3>
+                                <h3 class="post__title"><a href="#">What Do We Do</a></h3>
                                 <div class="post__text">
                                     <p>We give you a free course that guides you through the process.</p>
                                 </div>
@@ -84,7 +100,7 @@
                                 <img src="./images/pic_about03.png" alt="">
                             </div>
                             <div class="post__body">
-                                <h3 class="post__title">How Do We Help</h3>
+                                <h3 class="post__title"><a href="#">How Do We Help</a></h3>
                                 <div class="post__text">
                                     <p>Use our multimedia lecturers, videos, and coaching sessions.</p>
                                 </div>
@@ -97,7 +113,7 @@
                                 <img src="./images/pic_about04.png" alt="">
                             </div>
                             <div class="post__body">
-                                <h3 class="post__title">Create success story</h3>
+                                <h3 class="post__title"><a href="#">Create success story</a></h3>
                                 <div class="post__text">
                                     <p>With access to online learning resources anyone can transfrm.</p>
                                 </div>
@@ -108,6 +124,111 @@
                 <a href="#" class="btn">Learn more</a>
             </div>
         </section>
+
+        <section class="products">
+            <div class="products__inner">
+                <h2 class="products__title">Products</h2>
+                <nav class="products__category category">
+                    <ul class="category__list">
+                        <li class="category__item">
+                            <a href="#" class="category__active">All</a>
+                        </li>
+                        <li class="category__item">
+                            <a href="#">Bed</a>
+                        </li>
+                        <li class="category__item">
+                            <a href="#">Sofa</a>
+                        </li>
+                        <li class="category__item">
+                            <a href="#">Chair</a>
+                        </li>
+                        <li class="category__item">
+                            <a href="#">Light</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="products__list">
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Hand Base Lamp</dt>
+                            <dd class="item__price">$35.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products01.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Vintage Chair</dt>
+                            <dd class="item__price">$65.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products02.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Lamp Tool</dt>
+                            <dd class="item__price">$35.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products03.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Stylish Chair</dt>
+                            <dd class="item__price">$45.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products04.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Vintage Chair</dt>
+                            <dd class="item__price">$65.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products05.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                    <a href="#">
+                        <dl class="products__item item">
+                            <dt class="item__title">Stackable Chair</dt>
+                            <dd class="item__price">$87.00</dd>
+                            <dd class="item__pic">
+                                <img src="./images/pic_products06.png" alt="">
+                            </dd>
+                        </dl>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="information">
+            <div class="information__inner">
+                <h2 class="information__title">Information</h2>
+                <a href="#">
+                    <picture class="information__bunner">
+                        <source media="(width >= 740px)" srcset="./images/bnr_sale_pc.png">
+                        <source srcset="./images/bnr_sale_sp.png">
+                        <img src="./images/bnr_sale_sp.png" alt="seasonal sale up to 50% off on selected furniture">
+                    </picture>
+                </a>
+            </div>
+        </section>
     </main>
+
+    <footer class="footer">
+        <div class="footer__inner">
+            <dl class="footer__content">
+                <dt class="footer__logo">furni.shop</dt>
+                <dd class="footer__copyright">
+                    <small>© 2007 TRIDENT INC.</small>
+                </dd>
+            </dl>
+        </div>
+    </footer>
 </body>
 </html>
