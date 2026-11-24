@@ -1,0 +1,234 @@
+@use "sass:math";
+@use "sass:map";
+
+// --- Variables ---
+
+// Colors
+$color-text: #244D4D;
+$color-bg: #F4F4F4;
+
+// Typography
+$font-size-base: 16;
+$font-family-gothic: 'Gill Sans',
+    'Gill Sans MT',
+    Calibri,
+    'Trebuchet MS',
+    sans-serif;
+$font-family-mincho: "Times New Roman", Times, "Hiragino Mincho ProN", "Yu Mincho", "MS PMincho", serif;
+
+// Breakpoints
+$breakpoints: (
+    "sm": 640px,
+    // 大型スマホ〜小型タブレット
+    "md": 740px,
+    // 一般的なタブレット
+    "lg": 1024px,
+    // ノートPC・デスクトップ
+    "xl": 1280px // 大型ディスプレイ
+);
+
+// --- Functions ---
+
+// pxをemに変換
+@function em($px-value, $font-size-self: 16) {
+    @return #{math.div($px-value, $font-size-self)}em;
+}
+
+
+// pxをremに変換
+@function rem($px-value) {
+    @return #{math.div($px-value, $font-size-base)}rem;
+}
+
+// XD/Figmaのトラッキング値をemに変換
+@function ls($xd-value) {
+    @return #{math.div($xd-value, 1000)}em;
+}
+
+// 親要素の幅に対する「%」を自動計算
+@function pct($target-px, $parent-px) {
+    @return math.percentage(math.div($target-px, $parent-px));
+}
+
+// --- Mixins ---
+
+// メディアクエリ（モバイルファースト）
+@mixin mq($breakpoint: md) {
+    $width: map.get($breakpoints, $breakpoint);
+
+    @media (width >=$width) {
+        @content;
+    }
+}
+
+// インナーコンテナ幅の指定
+@mixin inner($mw: 1000px, $w: pct(640, 740)) {
+    max-width: $mw;
+    width: $w;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@mixin title-main() {
+    margin-bottom: rem(25);
+    font-size: rem(48);
+    font-weight: bold;
+    line-height: math.div(58, 48);
+    text-align: center;
+}
+
+@mixin group-section() {
+    margin-bottom: rem(96);
+
+    @include mq() {
+        margin-bottom: rem(120);
+    }
+}
+
+body {
+    color: $color-text;
+    font-size: rem(16);
+    font-family: $font-family-gothic;
+    line-height: math.div(27, 16);
+    letter-spacing: ls(0);
+    min-height: 1000px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: bottom;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+/* module */
+.post {
+    &__inner {
+        display: grid;
+        gap: rem(20);
+
+        @container (width >=400px) {
+            grid-template-columns: 200fr 250fr;
+        }
+    }
+
+    &__pic {
+        img {
+            width: 100%;
+        }
+    }
+
+    &__title {
+        margin-bottom: rem(25);
+        font-size: rem(24);
+        font-weight: bold;
+        line-height: math.div(29, 24);
+    }
+}
+
+.btn {
+    display: block;
+    width: rem(165);
+    margin: rem(60) auto 0;
+    padding: rem(18);
+    border-radius: 10px;
+    line-height: 1;
+    text-align: center;
+    background-color: $color-bg;
+}
+
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: rem(40) 0;
+    background-color: rgba(255, 255, 255, .8);
+
+    &__inner {
+        @include inner();
+    }
+
+    &__logo {
+        font-size: rem(26);
+        font-weight: bold;
+        line-height: 1;
+    }
+}
+
+.sns {
+    position: fixed;
+    bottom: 10%;
+    right: pct(50, 740);
+
+    &__list {
+        display: grid;
+        text-align: center;
+        gap: rem(24);
+    }
+
+    &__item {
+        line-height: 1;
+    }
+}
+
+.hero {
+    @include group-section();
+    padding: rem(250) 0 rem(140);
+    background: url(../images/bg_hero.png) no-repeat center / cover;
+
+    &__inner {
+        @include inner();
+    }
+
+    &__content {
+        max-width: rem(480);
+        padding: rem(65) rem(60);
+        background-color: rgba(255, 255, 255, .6);
+    }
+
+    &__title {
+        @include title-main();
+        text-align: left;
+    }
+}
+
+.about {
+    @include group-section();
+
+    &__inner {
+        @include inner();
+    }
+
+    &__title {
+        @include title-main();
+    }
+
+    &__lead {
+        margin-bottom: rem(50);
+        text-align: center;
+    }
+
+    &__list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
+        gap: rem(50) pct(60, 1000);
+    }
+
+    &__item {
+        container-type: inline-size;
+    }
+}
