@@ -115,6 +115,8 @@ p {
 
 /* module */
 .post {
+    container-type: inline-size;
+
     &__inner {
         display: grid;
         gap: rem(20);
@@ -226,9 +228,5 @@ p {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(rem(300), 1fr));
         gap: rem(50) pct(60, 1000);
-    }
-
-    &__item {
-        container-type: inline-size;
     }
 }

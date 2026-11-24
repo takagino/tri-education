@@ -27,6 +27,9 @@ p {
 }
 
 /* module */
+.post {
+  container-type: inline-size;
+}
 .post__inner {
   display: grid;
   gap: 1.25rem;
@@ -152,7 +155,4 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(18.75rem, 1fr));
   gap: 3.125rem 6%;
-}
-.about__item {
-  container-type: inline-size;
 }/*# sourceMappingURL=style.css.map */
